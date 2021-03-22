@@ -83,7 +83,9 @@ for i in range(10):
     break
 return ans
 ```
-    [1.0, 2.0, -3.4]
+```
+[1.0, 2.0, -3.4]
+```
 
 Shell
 ```shell
@@ -91,6 +93,7 @@ Shell
 ```
 
 ## Table
+
 | Loss | Accuracy |
 | ---- | -------- |
 | 10.4 |  92.45%   |
