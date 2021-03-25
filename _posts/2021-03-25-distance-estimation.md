@@ -62,7 +62,7 @@ The authors propose a *base model* that predicts physical, object-specific dista
 
 ### Base Method
 
-![Base Model Diagram](/images/distance-estimation/base-model.png)
+![Base Model Diagram]({{ site.baseurl }}/images/distance-estimation/base-model.png "Base Model Diagram")
 
 #### Feature Extractor
 
@@ -103,7 +103,7 @@ The authors propose a *base model* that predicts physical, object-specific dista
 
 ### Enhanced Method
 
-![Enhanced Model Diagram](/images/distance-estimation/enhanced-model.png)
+![Enhanced Model Diagram]({{ site.baseurl }}/images/distance-estimation/enhanced-model.png "Enhanced Model Diagram")
 
 Add keypoint regressor to optimize base model by introducing projection constraint for better distance prediction.
 
