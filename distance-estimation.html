@@ -176,6 +176,7 @@ window.onload = wrap_img;
 <p><img src="/images/distance-estimation/base-model.png" alt="Base Model Diagram" /></p>
 
 <h4 id="feature-extractor">Feature Extractor</h4>
+
 <ul>
   <li>Extract feature map for entire RGB image using image feature learning network.</li>
   <li>Use existing architecture (e.g. <code class="language-plaintext highlighter-rouge">vgg16</code>, <code class="language-plaintext highlighter-rouge">resnet50</code>) as feature extractors.</li>
@@ -183,6 +184,7 @@ window.onload = wrap_img;
 </ul>
 
 <h4 id="distance-regressor-and-classifier">Distance Regressor and Classifier</h4>
+
 <ul>
   <li>Feed feature map and object bounding boxes into ROI pooling layer to generate fixed-size feature vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi></mrow><annotation encoding="application/x-tex">\boldsymbol{F_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span> for each object in the image.</li>
   <li>Pass pooled object feature vector into distance regressor for predicted distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">D(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> and object classifier for predicted category label <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</li>
@@ -212,6 +214,7 @@ window.onload = wrap_img;
 </ul>
 
 <h4 id="model-learning-and-inference">Model Learning and Inference</h4>
+
 <ul>
   <li>
     <p>Train feature extractor, distance regressor, and object classifier simultaneously using:</p>
@@ -298,6 +301,7 @@ window.onload = wrap_img;
 </ol>
 
 <h3 id="kitti">KITTI</h3>
+
 <ul>
   <li>Split <code class="language-plaintext highlighter-rouge">KITTI</code> into training (<code class="language-plaintext highlighter-rouge">3,712 RGB images, 23,841 objects</code>) and validation sets (<code class="language-plaintext highlighter-rouge">3,768 RGB images, 25,052 objects</code>) using 1:1 split ratio.</li>
   <li>All <code class="language-plaintext highlighter-rouge">KITTI</code> objects are categorized into 9 classes, i.e. <em>Car, Cyclist, Pedestrian, Misc, Person_sitting, Tram, Truck, Van, DontCare</em>.</li>
@@ -305,6 +309,7 @@ window.onload = wrap_img;
 </ul>
 
 <h3 id="nuscenes-mini">nuScenes mini</h3>
+
 <ul>
   <li>Split <code class="language-plaintext highlighter-rouge">nuScenes mini</code> into training (<code class="language-plaintext highlighter-rouge">200 images, 1,549 objects</code>) and validation sets (<code class="language-plaintext highlighter-rouge">199 images, 1,457 objects</code>).</li>
   <li>All <code class="language-plaintext highlighter-rouge">nuScenes mini</code> objects are categorized into 8 classes, i.e. <em>Car, Bicycle, Pedestrian, Motorcycle, Bus, Trailer, Truck, Construction_vehicle</em>.</li>
