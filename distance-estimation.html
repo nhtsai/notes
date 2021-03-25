@@ -115,13 +115,68 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="learning-object-specific-distance-from-a-monocular-image">Learning Object-Specific Distance From a Monocular Image</h1>
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#learning-object-specific-distance-from-a-monocular-image">Learning Object-Specific Distance From a Monocular Image</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#abstract">Abstract</a></li>
+<li class="toc-entry toc-h2"><a href="#introduction">Introduction</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#related-work">Related Work</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#distance-estimation">Distance Estimation</a></li>
+<li class="toc-entry toc-h3"><a href="#2d-visual-perception">2D Visual Perception</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#methods">Methods</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#base-method">Base Method</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#feature-extractor">Feature Extractor</a></li>
+<li class="toc-entry toc-h4"><a href="#distance-regressor-and-classifier">Distance Regressor and Classifier</a></li>
+<li class="toc-entry toc-h4"><a href="#model-learning-and-inference">Model Learning and Inference</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#enhanced-method">Enhanced Method</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#feature-extractor-1">Feature Extractor</a></li>
+<li class="toc-entry toc-h4"><a href="#keypoint-regressor">Keypoint Regressor</a></li>
+<li class="toc-entry toc-h4"><a href="#distance-regressor-and-classifier-1">Distance Regressor and Classifier</a></li>
+<li class="toc-entry toc-h4"><a href="#network-learning-and-inference">Network Learning and Inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#dataset-construction">Dataset Construction</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#object-distance-ground-truth-generation">Object Distance Ground Truth Generation</a></li>
+<li class="toc-entry toc-h3"><a href="#kitti">KITTI</a></li>
+<li class="toc-entry toc-h3"><a href="#nuscenes-mini">nuScenes mini</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#evaluation">Evaluation</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toc-entry toc-h3"><a href="#compared-approaches">Compared Approaches</a></li>
+<li class="toc-entry toc-h3"><a href="#results-on-kitti">Results on KITTI</a></li>
+<li class="toc-entry toc-h3"><a href="#results-on-nuscenes">Results on nuScenes</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="learning-object-specific-distance-from-a-monocular-image">
+<a class="anchor" href="#learning-object-specific-distance-from-a-monocular-image" aria-hidden="true"><span class="octicon octicon-link"></span></a>Learning Object-Specific Distance From a Monocular Image</h1>
 
-<h2 id="abstract">Abstract</h2>
+<h2 id="abstract">
+<a class="anchor" href="#abstract" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstract</h2>
 
 <p>TODO</p>
 
-<h2 id="introduction">Introduction</h2>
+<h2 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>In computer vision research for self-driving cars, researchers have not recognized the importance of environment perception in favor of more popular tasks, like object classification, detection, and segmentation. Object-specific distance estimation is important for car safety and collision avoidance, and the lack of deep learning applications is likely due to the <em>lack of datasets with distance measures for each object in the scene</em>.</p>
 
@@ -135,7 +190,8 @@ window.onload = wrap_img;
 
 <p>Enhanced model performs better at distance estimation, compared to the traditional IPM algorithm and the support vector regressor, is also more precise than the base model, and is twice as fast during inference than IPM algorithm.</p>
 
-<h3 id="summary">Summary</h3>
+<h3 id="summary">
+<a class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h3>
 
 <ul>
   <li>Base model: use deep learning to predict distance from given objects on RGB image without camera parameter intervention</li>
@@ -143,39 +199,53 @@ window.onload = wrap_img;
   <li>Dataset: extended <code class="language-plaintext highlighter-rouge">KITTI</code> and <code class="language-plaintext highlighter-rouge">nuScenes mini</code> object-specific distance datasets</li>
 </ul>
 
-<h2 id="related-work">Related Work</h2>
+<h2 id="related-work">
+<a class="anchor" href="#related-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Related Work</h2>
 
-<h3 id="distance-estimation">Distance Estimation</h3>
+<h3 id="distance-estimation">
+<a class="anchor" href="#distance-estimation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Distance Estimation</h3>
 
 <ul>
-  <li><strong>Inverse Perspective Mapping (IPM)</strong>: convert a point or a bounding box in the image to the corresponding bird’s-eye view coordinate</li>
-  <li><strong>Support Vector Machine Regressor</strong>: predict object-specific distance given width and height of a bounding box</li>
-  <li><strong>DistNet</strong>: use YOLO for bounding boxes prediction instead of image features learning for distance estimation, the distance regressor studied geometric mapping from bounding box with certain width and height to distance value
+  <li>
+<strong>Inverse Perspective Mapping (IPM)</strong>: convert a point or a bounding box in the image to the corresponding bird’s-eye view coordinate</li>
+  <li>
+<strong>Support Vector Machine Regressor</strong>: predict object-specific distance given width and height of a bounding box</li>
+  <li>
+<strong>DistNet</strong>: use YOLO for bounding boxes prediction instead of image features learning for distance estimation, the distance regressor studied geometric mapping from bounding box with certain width and height to distance value
     <ul>
       <li>In contrast, this paper directly predicts distances from learned image features.</li>
     </ul>
   </li>
-  <li><strong>Marker-based Methods</strong>: use auxiliary information</li>
-  <li><strong>Calibration Patterns</strong>: predict physical distance based on rectangular pattern, where 4 image points are needed to compute camera calibration</li>
+  <li>
+<strong>Marker-based Methods</strong>: use auxiliary information</li>
+  <li>
+<strong>Calibration Patterns</strong>: predict physical distance based on rectangular pattern, where 4 image points are needed to compute camera calibration</li>
 </ul>
 
-<h3 id="2d-visual-perception">2D Visual Perception</h3>
+<h3 id="2d-visual-perception">
+<a class="anchor" href="#2d-visual-perception" aria-hidden="true"><span class="octicon octicon-link"></span></a>2D Visual Perception</h3>
 
 <ul>
-  <li><strong>R-CNNs</strong>: boost accuracy, decrease processing time for object detection, classfiication, dsegmentation</li>
-  <li><strong>SSD and YOLO</strong>: end-to-end frameworks to detect and classify objects in RGB images</li>
-  <li><strong>Monocular Depth Estimation</strong>: predict dense depth maps for given monocular color images</li>
+  <li>
+<strong>R-CNNs</strong>: boost accuracy, decrease processing time for object detection, classfiication, dsegmentation</li>
+  <li>
+<strong>SSD and YOLO</strong>: end-to-end frameworks to detect and classify objects in RGB images</li>
+  <li>
+<strong>Monocular Depth Estimation</strong>: predict dense depth maps for given monocular color images</li>
 </ul>
 
-<h2 id="methods">Methods</h2>
+<h2 id="methods">
+<a class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
 
 <p>The authors propose a <em>base model</em> that predicts physical, object-specific distance from given RGB images and object bounding boxes and an <em>enhanced model</em> with keypoint regressor for improved distance estimation.</p>
 
-<h3 id="base-method">Base Method</h3>
+<h3 id="base-method">
+<a class="anchor" href="#base-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Base Method</h3>
 
-<p><img src="/images/distance-estimation/base-model.png" alt="Base Model Diagram" /></p>
+<p><img src="/images/distance-estimation/base-model.png" alt="Base Model Diagram"></p>
 
-<h4 id="feature-extractor">Feature Extractor</h4>
+<h4 id="feature-extractor">
+<a class="anchor" href="#feature-extractor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Extractor</h4>
 
 <ul>
   <li>Extract feature map for entire RGB image using image feature learning network.</li>
@@ -183,18 +253,22 @@ window.onload = wrap_img;
   <li>Output of last layer is max-pooled and extracted as feature map for input RGB image.</li>
 </ul>
 
-<h4 id="distance-regressor-and-classifier">Distance Regressor and Classifier</h4>
+<h4 id="distance-regressor-and-classifier">
+<a class="anchor" href="#distance-regressor-and-classifier" aria-hidden="true"><span class="octicon octicon-link"></span></a>Distance Regressor and Classifier</h4>
 
 <ul>
   <li>Feed feature map and object bounding boxes into ROI pooling layer to generate fixed-size feature vector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi></mrow><annotation encoding="application/x-tex">\boldsymbol{F_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span> for each object in the image.</li>
   <li>Pass pooled object feature vector into distance regressor for predicted distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">D(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> and object classifier for predicted category label <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</li>
-  <li><strong>Distance Regressor</strong>: 3 fully-connected (FC) layers, <code class="language-plaintext highlighter-rouge">{2048, 512, 1} for vgg16</code> and <code class="language-plaintext highlighter-rouge">{1024, 512, 1} for resnet50</code>.
+  <li>
+<strong>Distance Regressor</strong>: 3 fully-connected (FC) layers, <code class="language-plaintext highlighter-rouge">{2048, 512, 1} for vgg16</code> and <code class="language-plaintext highlighter-rouge">{1024, 512, 1} for resnet50</code>.
     <ul>
       <li>Softplus activation layer applied on output of last FC layer to ensure predicted distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">D(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> is positive.</li>
     </ul>
   </li>
-  <li><strong>Distance Classifier</strong>: A FC layer with <em>(number of categories in dataset)</em> neurons, then softmax function to get predicted category label <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</li>
-  <li><strong>Loss Functions</strong>
+  <li>
+<strong>Distance Classifier</strong>: A FC layer with <em>(number of categories in dataset)</em> neurons, then softmax function to get predicted category label <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C(\boldsymbol{F_i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>.</li>
+  <li>
+<strong>Loss Functions</strong>
     <ul>
       <li>
         <p><em>Regressor Loss</em>:</p>
@@ -206,14 +280,18 @@ window.onload = wrap_img;
 
         <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mrow><mi>c</mi><mi>l</mi><mi>a</mi></mrow></msub><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mtext>cross-entropy</mtext><mrow><mi>L</mi><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><msubsup><mi>y</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup><mo separator="true">,</mo><mi>C</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_{cla}=\frac{1}{N}\sum_{i=1}^{N} \text{cross-entropy}_{L1}(y^{*}_{i},C(\boldsymbol{F_i}))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.106005em;vertical-align:-1.277669em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord text"><span class="mord">cross-entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.23419099999999995em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">L</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7386959999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span>
       </li>
-      <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>: number of objects in the image</li>
-      <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>d</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup></mrow><annotation encoding="application/x-tex">d^{*}_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.953104em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-2.441336em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span></span></span></span>: ground truth distance of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>-th object</li>
-      <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>y</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup></mrow><annotation encoding="application/x-tex">y^{*}_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.94736em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-2.441336em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span></span></span></span>: ground truth category label of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>-th object</li>
+      <li>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>: number of objects in the image</li>
+      <li>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>d</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup></mrow><annotation encoding="application/x-tex">d^{*}_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.953104em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-2.441336em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span></span></span></span>: ground truth distance of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>-th object</li>
+      <li>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>y</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup></mrow><annotation encoding="application/x-tex">y^{*}_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.94736em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-2.441336em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span></span></span></span>: ground truth category label of the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>-th object</li>
     </ul>
   </li>
 </ul>
 
-<h4 id="model-learning-and-inference">Model Learning and Inference</h4>
+<h4 id="model-learning-and-inference">
+<a class="anchor" href="#model-learning-and-inference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Learning and Inference</h4>
 
 <ul>
   <li>
@@ -230,24 +308,28 @@ window.onload = wrap_img;
   <li>After training, base model can predict object-specific distances given RGB images and object bounding boxes as input.</li>
 </ul>
 
-<h3 id="enhanced-method">Enhanced Method</h3>
+<h3 id="enhanced-method">
+<a class="anchor" href="#enhanced-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enhanced Method</h3>
 
-<p><img src="/images/distance-estimation/enhanced-model.png" alt="Enhanced Model Diagram" /></p>
+<p><img src="/images/distance-estimation/enhanced-model.png" alt="Enhanced Model Diagram"></p>
 
 <p>Add keypoint regressor to optimize base model by introducing projection constraint for better distance prediction.</p>
 
-<h4 id="feature-extractor-1">Feature Extractor</h4>
+<h4 id="feature-extractor-1">
+<a class="anchor" href="#feature-extractor-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Extractor</h4>
 
 <ul>
   <li>Same architecture as base model: <code class="language-plaintext highlighter-rouge">vgg16</code> or <code class="language-plaintext highlighter-rouge">resnet50</code> into ROI pooling layer for object specific features <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi></mrow><annotation encoding="application/x-tex">\boldsymbol{F_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83611em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></span>.</li>
 </ul>
 
-<h4 id="keypoint-regressor">Keypoint Regressor</h4>
+<h4 id="keypoint-regressor">
+<a class="anchor" href="#keypoint-regressor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Keypoint Regressor</h4>
 
 <ul>
   <li>Keypoint regressor <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span> learns to predict approximate keypoint position in 3D camera coordinate system.</li>
   <li>Distance regressor predicts <em>Z</em> coordinate, while keypoint regressor predicts <em>(X, Y)</em>.</li>
-  <li><strong>Keypoint Regressor</strong>: 3 fully-connected (FC) layers, <code class="language-plaintext highlighter-rouge">{2048, 512, 1} for vgg16</code> and <code class="language-plaintext highlighter-rouge">{1024, 512, 1} for resnet50</code>.</li>
+  <li>
+<strong>Keypoint Regressor</strong>: 3 fully-connected (FC) layers, <code class="language-plaintext highlighter-rouge">{2048, 512, 1} for vgg16</code> and <code class="language-plaintext highlighter-rouge">{1024, 512, 1} for resnet50</code>.</li>
   <li>Since there is no ground truth of 3D keypoint available, project the generated 3D point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo separator="true">,</mo><mi>Z</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mo stretchy="false">[</mo><mi>K</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>D</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(X,Y,Z)=([K(\boldsymbol{F_i}), D(\boldsymbol{F_i})])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">Z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span> back to image plane using camera projection matrix <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>.</li>
   <li>Compute errors between ground truth 2D keypoint <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>k</mi><mi>i</mi><mo lspace="0em" rspace="0em">∗</mo></msubsup></mrow><annotation encoding="application/x-tex">k^{*}_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.953104em;vertical-align:-0.258664em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-2.441336em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∗</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.258664em;"><span></span></span></span></span></span></span></span></span></span> and projected point <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>⋅</mo><mo stretchy="false">(</mo><mo stretchy="false">[</mo><mi>K</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>D</mi><mo stretchy="false">(</mo><mi><msub><mi mathvariant="bold-italic">F</mi><mi mathvariant="bold-italic">i</mi></msub></mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P\cdot([K(\boldsymbol{F_i}), D(\boldsymbol{F_i})])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mopen">(</span><span class="mord"><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right:0.15972em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33528199999999997em;"><span style="top:-2.5500000000000003em;margin-left:-0.15972em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord boldsymbol mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span>.</li>
   <li>
@@ -261,14 +343,16 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h4 id="distance-regressor-and-classifier-1">Distance Regressor and Classifier</h4>
+<h4 id="distance-regressor-and-classifier-1">
+<a class="anchor" href="#distance-regressor-and-classifier-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Distance Regressor and Classifier</h4>
 
 <ul>
   <li>Same architecture as base model and training losses <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">L_{dist}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mrow><mi>c</mi><mi>l</mi><mi>a</mi></mrow></msub></mrow><annotation encoding="application/x-tex">L_{cla}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>.</li>
   <li>Distance regressor parameters also optimized by projection loss <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>L</mi><mrow><mn>3</mn><mi>D</mi><mi>p</mi><mi>o</mi><mi>i</mi><mi>n</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">L_{3Dpoint}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>.</li>
 </ul>
 
-<h4 id="network-learning-and-inference">Network Learning and Inference</h4>
+<h4 id="network-learning-and-inference">
+<a class="anchor" href="#network-learning-and-inference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Network Learning and Inference</h4>
 
 <ul>
   <li>
@@ -277,20 +361,26 @@ window.onload = wrap_img;
     <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>min</mtext><msub><mi>L</mi><mrow><mi>b</mi><mi>a</mi><mi>s</mi><mi>e</mi></mrow></msub><mo>=</mo><msub><mi>L</mi><mrow><mi>c</mi><mi>l</mi><mi>a</mi></mrow></msub><mo>+</mo><msub><mi>λ</mi><mn>1</mn></msub><msub><mi>L</mi><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow></msub><mo>+</mo><msub><mi>λ</mi><mn>2</mn></msub><msub><mi>L</mi><mrow><mn>3</mn><mi>D</mi><mi>p</mi><mi>o</mi><mi>i</mi><mi>n</mi><mi>t</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\text{min}L_{base}=L_{cla}+\lambda_{1}L_{dist}+\lambda_{2}L_{3Dpoint}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord text"><span class="mord">min</span></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight">o</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span></span>
 
     <ul>
-      <li>Distance loss weight constant: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>d</mi><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>10.0</mn></mrow><annotation encoding="application/x-tex">lambda_{1}=10.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">b</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span></span></span></span></li>
-      <li>Keypoint loss weight constant: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>d</mi><msub><mi>a</mi><mn>2</mn></msub><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">lambda_{2}=0.05</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">b</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">5</span></span></span></span></li>
+      <li>Distance loss weight constant: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>d</mi><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>10.0</mn></mrow><annotation encoding="application/x-tex">lambda_{1}=10.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">b</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span></span></span></span>
+</li>
+      <li>Keypoint loss weight constant: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>a</mi><mi>m</mi><mi>b</mi><mi>d</mi><msub><mi>a</mi><mn>2</mn></msub><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">lambda_{2}=0.05</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">b</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">5</span></span></span></span>
+</li>
     </ul>
   </li>
   <li>Use same <code class="language-plaintext highlighter-rouge">optimizer</code>, <code class="language-plaintext highlighter-rouge">beta</code>, and <code class="language-plaintext highlighter-rouge">learning rate</code> as the base model.</li>
-  <li><em>Training Only</em>: use camera projection matrix <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>, keypoint regressor, and object classifier.</li>
-  <li><em>Testing</em>: Given RGB image and bounding boxes, directly predicts object-specific distances without any camera parameter intervention.</li>
+  <li>
+<em>Training Only</em>: use camera projection matrix <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span></span></span></span>, keypoint regressor, and object classifier.</li>
+  <li>
+<em>Testing</em>: Given RGB image and bounding boxes, directly predicts object-specific distances without any camera parameter intervention.</li>
 </ul>
 
-<h2 id="dataset-construction">Dataset Construction</h2>
+<h2 id="dataset-construction">
+<a class="anchor" href="#dataset-construction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset Construction</h2>
 
 <p><code class="language-plaintext highlighter-rouge">KITTI</code> and <code class="language-plaintext highlighter-rouge">nuScenes mini</code> both provide RGB images, 2D/3D bounding boxes, category labels for objects in the images, and the corresponding velodyne point cloud for each image.</p>
 
-<h3 id="object-distance-ground-truth-generation">Object Distance Ground Truth Generation</h3>
+<h3 id="object-distance-ground-truth-generation">
+<a class="anchor" href="#object-distance-ground-truth-generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object Distance Ground Truth Generation</h3>
 
 <ol>
   <li>Use 3D bounding boxes to segment velodyne point cloud for each object.</li>
@@ -300,7 +390,8 @@ window.onload = wrap_img;
   <li>Append both ground truths to the object detection dataset labels.</li>
 </ol>
 
-<h3 id="kitti">KITTI</h3>
+<h3 id="kitti">
+<a class="anchor" href="#kitti" aria-hidden="true"><span class="octicon octicon-link"></span></a>KITTI</h3>
 
 <ul>
   <li>Split <code class="language-plaintext highlighter-rouge">KITTI</code> into training (<code class="language-plaintext highlighter-rouge">3,712 RGB images, 23,841 objects</code>) and validation sets (<code class="language-plaintext highlighter-rouge">3,768 RGB images, 25,052 objects</code>) using 1:1 split ratio.</li>
@@ -308,7 +399,8 @@ window.onload = wrap_img;
   <li>Generated <code class="language-plaintext highlighter-rouge">KITTI</code> ground truth distances should be between [0, 80] meters.</li>
 </ul>
 
-<h3 id="nuscenes-mini">nuScenes mini</h3>
+<h3 id="nuscenes-mini">
+<a class="anchor" href="#nuscenes-mini" aria-hidden="true"><span class="octicon octicon-link"></span></a>nuScenes mini</h3>
 
 <ul>
   <li>Split <code class="language-plaintext highlighter-rouge">nuScenes mini</code> into training (<code class="language-plaintext highlighter-rouge">200 images, 1,549 objects</code>) and validation sets (<code class="language-plaintext highlighter-rouge">199 images, 1,457 objects</code>).</li>
@@ -316,33 +408,39 @@ window.onload = wrap_img;
   <li>Generated <code class="language-plaintext highlighter-rouge">nuScenes mini</code> ground truth distances should be between [2, 105] meters.</li>
 </ul>
 
-<h2 id="evaluation">Evaluation</h2>
+<h2 id="evaluation">
+<a class="anchor" href="#evaluation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation</h2>
 
-<h3 id="evaluation-metrics">Evaluation Metrics</h3>
-
-<ul>
-  <li></li>
-</ul>
-
-<h3 id="compared-approaches">Compared Approaches</h3>
+<h3 id="evaluation-metrics">
+<a class="anchor" href="#evaluation-metrics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation Metrics</h3>
 
 <ul>
-  <li></li>
+  <li>
 </ul>
 
-<h3 id="results-on-kitti">Results on KITTI</h3>
+<h3 id="compared-approaches">
+<a class="anchor" href="#compared-approaches" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compared Approaches</h3>
 
 <ul>
-  <li></li>
+  <li>
 </ul>
 
-<h3 id="results-on-nuscenes">Results on nuScenes</h3>
+<h3 id="results-on-kitti">
+<a class="anchor" href="#results-on-kitti" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results on KITTI</h3>
 
 <ul>
-  <li></li>
+  <li>
 </ul>
 
-<h2 id="references">References</h2>
+<h3 id="results-on-nuscenes">
+<a class="anchor" href="#results-on-nuscenes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results on nuScenes</h3>
+
+<ul>
+  <li>
+</ul>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
 
   </div><a class="u-url" href="/notes/distance-estimation" hidden></a>
 </article>
