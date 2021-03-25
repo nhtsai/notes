@@ -3,13 +3,12 @@ layout: post
 title: "Learning Object-Specific Distance From a Monocular Image"
 description: "Description."
 author: "Nathan Tsai"
-toc: false
+toc: true
 comments: false
-# image: 
+image: 
 hide: false
 search_exclude: true
 show_tags: false
-# sticky_rank: 1
 categories: [self-driving, distance-estimation]
 permalink: /distance-estimation
 ---
