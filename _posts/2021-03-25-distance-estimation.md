@@ -66,11 +66,13 @@ The authors propose a *base model* that predicts physical, object-specific dista
 ![Base Model Diagram](/images/distance-estimation/base-model.png)
 
 #### Feature Extractor
+
 * Extract feature map for entire RGB image using image feature learning network.
 * Use existing architecture (e.g. `vgg16`, `resnet50`) as feature extractors.
 * Output of last layer is max-pooled and extracted as feature map for input RGB image.
 
 #### Distance Regressor and Classifier
+
 * Feed feature map and object bounding boxes into ROI pooling layer to generate fixed-size feature vector $$\boldsymbol{F_i}$$ for each object in the image.
 * Pass pooled object feature vector into distance regressor for predicted distance $$D(\boldsymbol{F_i})$$ and object classifier for predicted category label $$C(\boldsymbol{F_i})$$.
 * **Distance Regressor**: 3 fully-connected (FC) layers, `{2048, 512, 1} for vgg16` and `{1024, 512, 1} for resnet50`.
@@ -90,6 +92,7 @@ The authors propose a *base model* that predicts physical, object-specific dista
     * $$y^{*}_{i}$$: ground truth category label of the $$i$$-th object
 
 #### Model Learning and Inference
+
 * Train feature extractor, distance regressor, and object classifier simultaneously using:
 
     $$\text{min}L_{base}=L_{cla}+\lambda_{1}L_{dist}$$
@@ -152,11 +155,13 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 1. Append both ground truths to the object detection dataset labels.
 
 ### KITTI
+
 * Split `KITTI` into training (`3,712 RGB images, 23,841 objects`) and validation sets (`3,768 RGB images, 25,052 objects`) using 1:1 split ratio.
 * All `KITTI` objects are categorized into 9 classes, i.e. *Car, Cyclist, Pedestrian, Misc, Person_sitting, Tram, Truck, Van, DontCare*.
 * Generated `KITTI` ground truth distances should be between [0, 80] meters.
 
 ### nuScenes mini
+
 * Split `nuScenes mini` into training (`200 images, 1,549 objects`) and validation sets (`199 images, 1,457 objects`).
 * All `nuScenes mini` objects are categorized into 8 classes, i.e. *Car, Bicycle, Pedestrian, Motorcycle, Bus, Trailer, Truck, Construction_vehicle*.
 * Generated `nuScenes mini` ground truth distances should be between [2, 105] meters.
