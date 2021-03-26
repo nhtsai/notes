@@ -13,7 +13,10 @@ categories: [self-driving, distance-estimation]
 permalink: /distance-estimation
 ---
 
+# 
+
 # Learning Object-Specific Distance From a Monocular Image
+Research paper by Jing Zhu, Yi Fang, Husam Abu-Haimed, Kuo-Chin Lien, Dongdong Fu, Junli Gu [^1].
 
 ## Abstract
 
@@ -44,10 +47,10 @@ Enhanced model performs better at distance estimation, compared to the tradition
 ### Distance Estimation
 
 * **Inverse Perspective Mapping (IPM)**: convert a point or a bounding box in the image to the corresponding bird's-eye view coordinate
-* **Support Vector Machine Regressor**: predict object-specific distance given width and height of a bounding box
+* **Support Vector Regressor**: predict object-specific distance given width and height of a bounding box
 * **DistNet**: use YOLO for bounding boxes prediction instead of image features learning for distance estimation, the distance regressor studied geometric mapping from bounding box with certain width and height to distance value
     * In contrast, this paper directly predicts distances from learned image features.
-* **Marker-based Methods**: use auxiliary information
+* **Marker-based Methods**: use auxiliary information, create segmented markers in the image and estimate distance using the marker area and camera parameters
 * **Calibration Patterns**: predict physical distance based on rectangular pattern, where 4 image points are needed to compute camera calibration
 
 ### 2D Visual Perception
@@ -80,11 +83,15 @@ The authors propose a *base model* that predicts physical, object-specific dista
 * **Loss Functions**
     * *Regressor Loss*:
 
-        $$L_{dist}=\frac{1}{N}\sum_{i=1}^{N} \text{smooth}_{L1}(d^{*}_{i}-D(\boldsymbol{F_i}))$$
+        $$L_{dist}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{1;smooth}}(d^{*}_{i}-D(\boldsymbol{F_i}))$$
+
+        $$L_{\text{1;smooth}} = \begin{cases}|x| & \text{if $|x|>\alpha$;} \\ \frac{1}{|\alpha|}x^2 & \text{if $|x| \leq \alpha$}\end{cases}$$
 
     * *Classifier Loss*:
 
-        $$L_{cla}=\frac{1}{N}\sum_{i=1}^{N} \text{cross-entropy}_{L1}(y^{*}_{i},C(\boldsymbol{F_i}))$$
+        $$L_{cla}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{cross-entropy}}(y^{*}_{i},C(\boldsymbol{F_i}))$$
+
+        $$L_{\text{cross-entropy}}=-\sum_{c=1}^{M} y^{*}_{i} log(C(\boldsymbol{F_i}))$$
 
     * $$N$$: number of objects in the image
     * $$d^{*}_{i}$$: ground truth distance of the $$i$$-th object
@@ -140,6 +147,8 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 * Use same `optimizer`, `beta`, and `learning rate` as the base model.
 * *Training Only*: use camera projection matrix $$P$$, keypoint regressor, and object classifier.
 * *Testing*: Given RGB image and bounding boxes, directly predicts object-specific distances without any camera parameter intervention.
+* Both models trained for `20 epochs` with `batch size of 1` on the training subset, augmented with horizontally-flipped training images.
+* After training, input RGB image with bounding boxes into trained model to get the output of the distance regressor as the estimated object-specific distance in the validation subset.
 
 ## Dataset Construction
 
@@ -149,7 +158,7 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 
 1. Use 3D bounding boxes to segment velodyne point cloud for each object.
 1. Sort the segmented points based on depth values.
-1. Extract the *n*-th depth value as **object-specific ground truth distance**, where $$n=0.1*(number of segmented points)$$ to avoid extracing depth values from noise points.
+1. Extract the *n*-th depth value as **object-specific ground truth distance**, where $$n=0.1*(\text{number of segmented points})$$ to avoid extracing depth values from noise points.
 1. Project velodyne points to corresponding RGB image planes and get their image coordinates as **keypoint ground truth distance**.
 1. Append both ground truths to the object detection dataset labels.
 
@@ -169,19 +178,50 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 
 ### Evaluation Metrics
 
-* 
+Use the same metrics as depth prediction. Let $$d^{*}_{i}$$ and $$d_{i}$$ denote the ground truth distance and the predicted distance, respectively.
+
+* **Threshold**
+
+    $$\%\text{ of } d_i \text{ s.t. max}(d_i/d^{*}_{i},d^{*}_{i}/d_i)=\delta<\text{threshold}$$
+
+* **Absolute Relative Difference**
+
+    $$\text{Abs Rel}=\frac{1}{N}\sum_{i=1}^{N}|d_{i}-d^{*}_{i}|/d^{*}_{i}$$
+
+* **Squared Relative Difference**
+
+    $$\text{Squa Rel}=\frac{1}{N}\sum_{i=1}^{N}\|d_{i}-d^{*}_{i}\|^{2}/d^{*}_{i}$$
+
+* **RMSE (linear)**
+
+    $$\text{RMSE}_{\text{linear}}=\sqrt{\frac{1}{N}\sum_{i=1}^{N}\|d_{i}-d^{*}_{i}\|^{2}}$$
+
+* **RMSE (log)**
+
+    $$\text{RMSE}_{\text{log}}=\sqrt{\frac{1}{N}\sum_{i=1}^{N}\|\log{d_{i}}-\log{d^{*}_{i}}\|^{2}}$$
+
+Note: don't include distances predicted for *DontCare* objects when calculating errors.
 
 ### Compared Approaches
 
-* 
+* **Inverse Perpective Mapping Algorithm (IPM)**: predicts object-specific distance by approximating a transformation matrix between a normal RGB image and its bird's-eye view image using camera parameters
+    * Use IPM from MATLAB's computer vision toolkit to get transformation matrices for RGB images from the validation subset.
+    * Project middle points of the lower edges of the object bounding boxes into bird's-eye view coordinates using the transformation matrices.
+    * Take values along forward direction as estimated distances.
 
-### Results on KITTI
+* **Support Vector Regressor (SVR)**: predicts object-specific distance given width and height of a bounding box
+    * Compute width and height of each bounding box in the training subset.
+    * Train SVR with the ground truth distance.
+    * Input widths and heights of each bounding box in the validation set to get estimated object-specific distances.
 
-* 
+### Results
 
-### Results on nuScenes
-
-* 
+* Both proposed models have much lower relative errors and higher accuracies, compared to IPM and SVR, on `KITTI`.
+* Enhanced model performs the best, implying effectiveness of keypoint regressor and projection constraint, on both `KITTI` and `nuScenes mini`.
 
 ## References
-[^1]: Footnote
+[^1]: J. Zhu, Y. Fang, H. Abu-Haimed, K. Lien, D. Fu, and J. Gu. *Learning Object-Specific Distance from a Monocular Image.* [arXiv:1909.04182](https://arxiv.org/abs/1909.04182), 2019.
+
+[^2]: A. Geiger, P. Lenz, and R. Urtasun. *Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite.* [CVPR, pgs. 3354–3361](http://www.cvlibs.net/publications/Geiger2012CVPR.pdf), 2012.
+
+[^3]: H. Caesar, V. Bankiti, A. H. Lang, S. Vora, V. E. Liong, Q. Xu, A. Krishnan, Y. Pan, G. Baldan and O. Beijbom. *nuScenes: A multimodal dataset for autonomous driving.* [arXiv:1903.11027](https://arxiv.org/abs/1903.11027), 2019.
