@@ -83,17 +83,21 @@ The authors propose a *base model* that predicts physical, object-specific dista
 * **Loss Functions**
     * *Regressor Loss*:
 
-        $$L_{dist}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{1;smooth}}(d^{*}_{i}-D(\boldsymbol{F_i}))$$
+        $$L_{dist}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{1;smooth}}(D(\boldsymbol{F_i}), d^{*}_{i})$$
 
-        $$L_{\text{1;smooth}} = \begin{cases}|x| & \text{if $|x|>\alpha$;} \\ \frac{1}{|\alpha|}x^2 & \text{if $|x| \leq \alpha$}\end{cases}$$
+        $$L_{\text{1;smooth}} = \begin{cases}0.5(x_{i} - y_{i})^2/\beta, & \text{if $|x_{i}-y_{i}|<\beta$} \\ |x_{i}-y_{i}|-0.5*\beta, & \text{otherwise}\end{cases}$$
 
     * *Classifier Loss*:
 
-        $$L_{cla}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{cross-entropy}}(y^{*}_{i},C(\boldsymbol{F_i}))$$
+        $$L_{cla}=\frac{1}{N}\sum_{i=1}^{N} L_{\text{cross-entropy}}(C(\boldsymbol{F_i}), y^{*}_{i})$$
 
-        $$L_{\text{cross-entropy}}=-\sum_{c=1}^{M} y^{*}_{i} log(C(\boldsymbol{F_i}))$$
+        $$L_{\text{cross-entropy}}=-\sum_{i=1}^{M} y^{*}_{i} * log(C(\boldsymbol{F_i}))$$
 
     * $$N$$: number of objects in the image
+    * $$M$$: number of categories
+    * $$\beta$$: smooth loss scaling factor, usually $$1.0$$
+    * $$D(\boldsymbol{F_i})$$: predicted distance
+    * $$C(\boldsymbol{F_i})$$: predicted category label
     * $$d^{*}_{i}$$: ground truth distance of the $$i$$-th object
     * $$y^{*}_{i}$$: ground truth category label of the $$i$$-th object
 
