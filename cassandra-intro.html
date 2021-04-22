@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Apache Cassandra | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introduction to Apache Cassandra" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Coursenotes from DataStax Academy DS101." />
+<meta property="og:description" content="Coursenotes from DataStax Academy DS101." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/cassandra-intro" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/cassandra-intro" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-21T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://nhtsai.github.io/notes/cassandra-intro","@type":"BlogPosting","headline":"Introduction to Apache Cassandra","dateModified":"2021-04-21T00:00:00-05:00","datePublished":"2021-04-21T00:00:00-05:00","author":{"@type":"Person","name":"Nathan Tsai"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/cassandra-intro"},"description":"Coursenotes from DataStax Academy DS101.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to Apache Cassandra</h1><p class="page-description">Coursenotes from DataStax Academy DS101.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-21T00:00:00-05:00" itemprop="datePublished">
+        Apr 21, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#cassandra">cassandra</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#databases">databases</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#introduction-to-apache-cassandra">Introduction to Apache Cassandra</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#video-lecture-from-patrick-mcfadin">Video Lecture from Patrick McFadin</a></li>
+<li class="toc-entry toc-h2"><a href="#relational-overview">Relational Overview</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#can-rdbms-work-for-big-data">Can RDBMS work for big data?</a></li>
+<li class="toc-entry toc-h3"><a href="#failure-of-rdbms">Failure of RDBMS</a></li>
+<li class="toc-entry toc-h3"><a href="#lessons-learned-for-a-new-solution">Lessons Learned for a New Solution</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#cassandra-overview">Cassandra Overview</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#what-is-apache-cassandra">What is Apache Cassandra?</a></li>
+<li class="toc-entry toc-h3"><a href="#hash-ring-analogy">Hash Ring Analogy</a></li>
+<li class="toc-entry toc-h3"><a href="#cap-tradeoffs">CAP Tradeoffs</a></li>
+<li class="toc-entry toc-h3"><a href="#replication">Replication</a></li>
+<li class="toc-entry toc-h3"><a href="#consistency-levels">Consistency Levels</a></li>
+<li class="toc-entry toc-h3"><a href="#multiple-datacenters">Multiple Datacenters</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#cassandra-internals-and-choosing-a-distribution">Cassandra Internals and Choosing a Distribution</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#write-path">Write Path</a></li>
+<li class="toc-entry toc-h3"><a href="#what-is-an-sstable">What is an SSTable?</a></li>
+<li class="toc-entry toc-h3"><a href="#read-path">Read Path</a></li>
+<li class="toc-entry toc-h3"><a href="#open-source-distribution">Open Source Distribution</a></li>
+<li class="toc-entry toc-h3"><a href="#datastax-enterprise-distribution">DataStax Enterprise Distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="introduction-to-apache-cassandra">
+<a class="anchor" href="#introduction-to-apache-cassandra" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction to Apache Cassandra</h1>
+
+<h2 id="video-lecture-from-patrick-mcfadin">
+<a class="anchor" href="#video-lecture-from-patrick-mcfadin" aria-hidden="true"><span class="octicon octicon-link"></span></a>Video Lecture from Patrick McFadin</h2>
+
+<p><a href="https://www.youtube.com/watch?v=d7o6a75sfY0" title="Introduction to Apache Cassandra Video"><img src="https://img.youtube.com/vi/d7o6a75sfY0/0.jpg" alt="Introduction to Apache Cassandra Video"></a></p>
+
+<h2 id="relational-overview">
+<a class="anchor" href="#relational-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relational Overview</h2>
+
+<h3 id="can-rdbms-work-for-big-data">
+<a class="anchor" href="#can-rdbms-work-for-big-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Can RDBMS work for big data?</h3>
+<ul>
+  <li>Replication makes ACID a lie
+    <ul>
+      <li>Given a read-heavy workload, we want to create a replicated slave node from the master node. However, data is replicated asynchronously, which introduces <em>replication lag</em>. This means that if the client reads from the replicated slave node, old data will be returned and results are <strong>not consistent</strong> (ACID fails).</li>
+    </ul>
+  </li>
+  <li>Third Normal Form doesn’t scale
+    <ul>
+      <li>Unpredictable queries</li>
+    </ul>
+  </li>
+  <li>Sharding is a nightmare
+    <ul>
+      <li>Data is split all over the place, no more joins or aggregations.</li>
+      <li>Querying second indexes requires hitting every shard (non-performant), so we are forced to denormalize all things.</li>
+      <li>Keeping shards consistent, adding shards, or changing schemas requires custom scripts.</li>
+    </ul>
+  </li>
+  <li>Low Availability
+    <ul>
+      <li>Who is responsible for Master failovers?
+        <ul>
+          <li>Whether manual or automatic, failovers need to be detected.</li>
+        </ul>
+      </li>
+      <li>Multiple datacenter solutions are messy.</li>
+      <li>Downtime is frequent.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="failure-of-rdbms">
+<a class="anchor" href="#failure-of-rdbms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Failure of RDBMS</h3>
+<ul>
+  <li>Scaling is a mess</li>
+  <li>ACID naive at best (not consistent).</li>
+  <li>Re-sharding is a manual process.</li>
+  <li>Denormalize all 3rd normal form queries for performance.</li>
+  <li>High availability is complicated to achieve, requires additional operational overhead.</li>
+</ul>
+
+<h3 id="lessons-learned-for-a-new-solution">
+<a class="anchor" href="#lessons-learned-for-a-new-solution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lessons Learned for a New Solution</h3>
+<ul>
+  <li>Consistency is not practical –&gt; give up consistency.</li>
+  <li>Manual sharding and rebalancing is hard –&gt; build it into the cluster.</li>
+  <li>Every moving part makes systems more complex –&gt; simplify the architecture, no more master-slave.</li>
+  <li>Scaling up is expensive –&gt; only use commodity hardware, more affordable.</li>
+  <li>Scatter/Gather queries are not good –&gt; denormalize for real-time query performance, always hit 1 machine.</li>
+</ul>
+
+<h2 id="cassandra-overview">
+<a class="anchor" href="#cassandra-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cassandra Overview</h2>
+
+<h3 id="what-is-apache-cassandra">
+<a class="anchor" href="#what-is-apache-cassandra" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is Apache Cassandra?</h3>
+<ul>
+  <li>Fast Distributed Database:</li>
+  <li>High Availability: able to be accessed at all times</li>
+  <li>Linear Scalability: linear scale-up in performance</li>
+  <li>Predictable Performance: can guarantee <a href="https://en.wikipedia.org/wiki/Service-level_agreement">service-level agreements (SLA)</a> with very low latency</li>
+  <li>No <a href="https://en.wikipedia.org/wiki/Single_point_of_failure">single point of failure (SPOF)</a>: can withstand multiple points of failure</li>
+  <li>Multi-Datacenter: can be utilized across multiple datacenters out of the box</li>
+  <li>Commodity Hardware: can be implemented on affordable hardware when vertically scaling</li>
+  <li>Easy to manage operationally: can manage no matter the cluster size</li>
+  <li>Not a drop-in replacement for RDBMS: applications must be designed using Cassandra</li>
+</ul>
+
+<h3 id="hash-ring-analogy">
+<a class="anchor" href="#hash-ring-analogy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hash Ring Analogy</h3>
+<ul>
+  <li>No master/slave/replica sets</li>
+  <li>No config servers, zookeeper</li>
+  <li>Data is partitioned around the ring</li>
+  <li>Data is replicated to replication factor (<code class="language-plaintext highlighter-rouge">RF=N</code>) servers</li>
+  <li>All nodes hold data and can answer queries (both read &amp; write)</li>
+  <li>Location of data on ring is determined by partition key
+    <ul>
+      <li>Partition key is a hash of the primary key.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cap-tradeoffs">
+<a class="anchor" href="#cap-tradeoffs" aria-hidden="true"><span class="octicon octicon-link"></span></a>CAP Tradeoffs</h3>
+<ul>
+  <li>
+<a href="https://en.wikipedia.org/wiki/CAP_theorem">CAP Theorem</a> says that when a network partition failure happens, we can either:
+    <ul>
+      <li>Cancel the operation and thus decrease the availability but ensure consistency</li>
+      <li>Proceed with the operation and thus provide availability but risk inconsistency</li>
+    </ul>
+  </li>
+  <li>Latency between data centers makes consistency impractical, especially considering datacenters across the world.</li>
+  <li><strong>Cassandra chooses availbility and partition tolerance over consistency.</strong></li>
+</ul>
+
+<h3 id="replication">
+<a class="anchor" href="#replication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replication</h3>
+<ul>
+  <li>Data is replicated automatically and asynchronously.</li>
+  <li>Choose total number of servers to replicate data to, <strong>replication factor (RF)</strong>, usually 3.
+    <ul>
+      <li>Set when creating the <strong>keyspace</strong>, a group of Cassandra tables, like schema.</li>
+    </ul>
+  </li>
+  <li>Data is <em>always</em> replicated to each replica.</li>
+  <li>If a machine is down during replication, missing data writes are replayed via <strong>hinted handoff</strong>.</li>
+</ul>
+
+<h3 id="consistency-levels">
+<a class="anchor" href="#consistency-levels" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consistency Levels</h3>
+<ul>
+  <li>Consistency level is set on per query basis, can be configured for read or write.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ALL</code>: all (100%) of replicas must confirm read/write to be considered successful.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">QUORUM</code>: majority (51%) of replicas must confirm read/write to be considered successful.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ONE</code>: only 1 replica needs to confirm read/write to be considered successful, allows for fast read/write successes.</li>
+</ul>
+
+<h3 id="multiple-datacenters">
+<a class="anchor" href="#multiple-datacenters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiple Datacenters</h3>
+<ul>
+  <li>Write to local datacenter (DC) and replicate asynchronously to other datacenters.
+    <ul>
+      <li>Local Consistency Levels: <code class="language-plaintext highlighter-rouge">QUORUM</code> –&gt; <code class="language-plaintext highlighter-rouge">LOCAL QUORUM</code>
+</li>
+    </ul>
+  </li>
+  <li>Replication factor per keyspace per datacenter.
+    <ul>
+      <li>Can configure different RF for each datacenter.</li>
+    </ul>
+  </li>
+  <li>Datacenters can be physical or logical.
+    <ul>
+      <li>Can use one DC as <a href="https://en.wikipedia.org/wiki/Online_transaction_processing">OLTP</a> for fast reads and one virtual DC for <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a> queries.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="cassandra-internals-and-choosing-a-distribution">
+<a class="anchor" href="#cassandra-internals-and-choosing-a-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cassandra Internals and Choosing a Distribution</h2>
+
+<h3 id="write-path">
+<a class="anchor" href="#write-path" aria-hidden="true"><span class="octicon octicon-link"></span></a>Write Path</h3>
+<ul>
+  <li>Writes are written to any node in the cluster, which serves as the <strong>coordinator</strong> for the write request.</li>
+  <li>Writes are written to a <strong>commit log</strong>, an append-only, immutable data structure for durability.</li>
+  <li>Merges the write mutation to the <strong>memtable</strong>, an in-memory representation of the table.</li>
+  <li>Now Cassandra can respond to client about successful write.
+    <ul>
+      <li>This simplicity in write path is why Cassandra is fast.</li>
+      <li>Every write includes a timestamp.</li>
+    </ul>
+  </li>
+  <li>When memory is full, the <strong>memtable</strong> is serialized into an immutable <strong>SSTable</strong> and flushed to disk periodically.</li>
+  <li>New memtable is created in memory.</li>
+  <li>Cassandra never does any updates or deletes in-place.</li>
+  <li>Deletes are a special write case known as <strong>tombstone</strong>, a marker with a timestamp to say that there is no data at that location at that time.</li>
+</ul>
+
+<h3 id="what-is-an-sstable">
+<a class="anchor" href="#what-is-an-sstable" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is an SSTable?</h3>
+<ul>
+  <li>An <strong>SSTable</strong> is an immutable data file for <strong>row storage</strong>.</li>
+  <li>Every write includes a timestamp of when it was written.</li>
+  <li>Partition is spread across multiple SSTables.</li>
+  <li>Same column can be in multiple SSTables.</li>
+  <li>Merged through <strong>compaction</strong>, taking small SSTables and merging them into bigger ones.
+    <ul>
+      <li>
+<strong>Last write wins</strong> means for a row with many changes, only latest timestamp is kept so only the latest version of the row is saved.</li>
+    </ul>
+  </li>
+  <li>Deletes are written as <strong>tombstones</strong>.</li>
+  <li>Easy backups since SSTables can be copied off to another server.</li>
+</ul>
+
+<h3 id="read-path">
+<a class="anchor" href="#read-path" aria-hidden="true"><span class="octicon octicon-link"></span></a>Read Path</h3>
+<ul>
+  <li>Any server/node may be queried, and it acts as the <strong>coordinator</strong>.</li>
+  <li>The coordinator then contacts nodes with the requested key in the read query.</li>
+  <li>On each node, data is pulled from <strong>SSTable(s)</strong> on disk and merged using the latest timestamp, like <strong>compaction</strong>.
+    <ul>
+      <li>The disk type (SSD or hard drive) has a large impact on the speed and performance of Cassandra.</li>
+    </ul>
+  </li>
+  <li>Consistency levels under <code class="language-plaintext highlighter-rouge">ALL</code> performs read repair in the background
+    <ul>
+      <li>Sometimes nodes can disagree about the value of a given piece of data since Cassandra is <em>eventually consistent</em>.</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">read_repair_chance</code> specifies the chance that Cassandra will update/sync information on all other replicas, default is around 10% chance of all reads.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="open-source-distribution">
+<a class="anchor" href="#open-source-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Open Source Distribution</h3>
+<ul>
+  <li>Latest, bleeding edge features, perfect for hacking.</li>
+  <li>File <a href="https://en.wikipedia.org/wiki/Jira_(software)">JIRAs</a> issues and bug reports for support.</li>
+  <li>Support via mailing list &amp; IRC.</li>
+</ul>
+
+<h3 id="datastax-enterprise-distribution">
+<a class="anchor" href="#datastax-enterprise-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>DataStax Enterprise Distribution</h3>
+<ul>
+  <li>Open source Apache Cassandra at its core.</li>
+  <li>Focused on stable releases for enterprise.</li>
+  <li>Integrated Multi-Datacenter Search (for OLTP)</li>
+  <li>Integrated Spark or Hadoop for Analytics (for OLAP).</li>
+  <li>Free Startup Program (&lt; 3MM revenue, &lt; 30M funding).</li>
+  <li>Extended support, additional QA.</li>
+</ul>
+
+  </div><a class="u-url" href="/notes/cassandra-intro" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
