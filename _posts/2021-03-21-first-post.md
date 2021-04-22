@@ -9,7 +9,6 @@ image:
 hide: false
 search_exclude: true
 show_tags: false
-sticky_rank: 1
 categories: [fastpages, markdown]
 permalink: /first-post
 ---
@@ -83,6 +82,7 @@ for i in range(10):
     break
 return ans
 ```
+
 ```
 [1.0, 2.0, -3.4]
 ```
