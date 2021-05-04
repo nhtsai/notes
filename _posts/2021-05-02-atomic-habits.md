@@ -8,7 +8,7 @@ comments: false
 hide: false
 search_exclude: true
 show_tags: false
-categories: [book]
+categories: [books]
 permalink: /atomic-habits
 ---
 
@@ -16,9 +16,9 @@ permalink: /atomic-habits
 
 * Small improvements aren't notable or noticeable but are far more meaningful in the long run.
 
-$$\text{1% improvement everyday} = 1.01^{365} = 37.78$$
+        $$\text{1% improvement everyday} = 1.01^{365} = 37.78$$
 
-$$\text{1% decline everyday} = 0.99^{365} = 0.03$$
+        $$\text{1% decline everyday} = 0.99^{365} = 0.03$$
 
 * "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. Likewise, bad habits can accumulate in many missteps which compound to toxic results.
 * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
