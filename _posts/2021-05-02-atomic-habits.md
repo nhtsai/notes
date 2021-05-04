@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Atomic Habits by James Clear"
+title: "Atomic Habits"
 description: "Book notes on building habits."
 author: "Nathan Tsai"
 toc: false
@@ -12,15 +12,13 @@ categories: [book]
 permalink: /atomic-habits
 ---
 
-# Atomic Habits
-
-## Chapter 1: The Surprising Power of Atomic Habits
+# Chapter 1: The Surprising Power of Atomic Habits
 
 * Small improvements aren't notable or noticeable but are far more meaningful in the long run.
 
-    $$\text{1% improvement everyday} = 1.01^{365} = 37.78$$
+$$\text{1% improvement everyday} = 1.01^{365} = 37.78$$
 
-    $$\text{1% decline everyday} = 0.99^{365} = 0.03$$
+$$\text{1% decline everyday} = 0.99^{365} = 0.03$$
 
 * "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. Likewise, bad habits can accumulate in many missteps which compound to toxic results.
 * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
@@ -28,6 +26,7 @@ permalink: /atomic-habits
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
 
+<br />
 
 | Positive Compounds | Negative Compounds |
 | -- | -- |
@@ -45,6 +44,7 @@ permalink: /atomic-habits
     * "Goals are good for setting a direction, but systems are best for making progress."
     * "You do not rise to the level of your goals. You fall to the level of your systems."
 
+<br />
 
 | Problems with Goals |
 | ------------------- |
@@ -56,4 +56,4 @@ permalink: /atomic-habits
 * An **atomic habit** is a little habit that is part of a larger system, building up to remarkable achievements through compound growth.
 
 
-## Chapter 2
+# Chapter 2

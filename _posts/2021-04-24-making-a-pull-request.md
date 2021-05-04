@@ -77,6 +77,5 @@ git push origin HEAD
 14. Create a pull request if everything looks good.
 
 
-
 ## References
 * [Anthony Explains #004 Video](https://www.youtube.com/watch?v=cysuuUtbC6E)
