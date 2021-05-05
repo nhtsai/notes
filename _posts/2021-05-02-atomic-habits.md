@@ -15,17 +15,14 @@ permalink: /atomic-habits
 # Chapter 1: The Surprising Power of Atomic Habits
 
 * Small improvements aren't notable or noticeable but are far more meaningful in the long run.
-
-        $$\text{1% improvement everyday} = 1.01^{365} = 37.78$$
-
-        $$\text{1% decline everyday} = 0.99^{365} = 0.03$$
+    * A *1% improvement everyday* results in $$1.01^{365} = 37.78$$ change.
+    * A *1% decline everyday* results in $$0.99^{365} = 0.03$$ change.
 
 * "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. Likewise, bad habits can accumulate in many missteps which compound to toxic results.
 * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
 * Focus on the trajectory of habits. 
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
-
 <br />
 
 | Positive Compounds | Negative Compounds |
@@ -43,7 +40,6 @@ permalink: /atomic-habits
 * **Systems** are about the process that lead to **goals**, or the results you want to achieve.
     * "Goals are good for setting a direction, but systems are best for making progress."
     * "You do not rise to the level of your goals. You fall to the level of your systems."
-
 <br />
 
 | Problems with Goals |
@@ -53,7 +49,40 @@ permalink: /atomic-habits
 | **Goals restrict happiness**: We put off happiness until goals are met, rather than falling in love with the process. |
 | **Goals are at-odds with long-term progress**: Commitment to the process continuous improvement determines progress. |
 
+
 * An **atomic habit** is a little habit that is part of a larger system, building up to remarkable achievements through compound growth.
 
+<br />
 
-# Chapter 2
+# Chapter 2: How Your Habits Shape Your Identity
+
+* Changing habits is challenging.
+* "We try to change the wrong thing."
+    * We should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
+
+<br />
+
+|| **Layers of Behavioral Change** ||
+| ------ | ----------- | ------ |
+| **1. Outcomes** | changing your results, setting goals | what you get |
+| **2. Process** | changing your habits and systems  | what you do |
+| **3. Identity** | changing your beliefs, assumptions, and biases | what you believe |
+
+* "Behavior that is incongruent with the self will not last".
+    * You need to change the underlying beliefs that led to past behavior in order to change existing habits.
+    * We should change identities to more easily align with new behaviors and habits.
+* However, we should not be so attached to any specific identity as to prevent further behavioral improvements.
+    * "Progress requires unlearning."
+* Repeated behaviors contribute more evidence supporting a gradual belief in a new identity and self-image.
+
+<br />
+
+| Process of Changing your Identity |
+| :--- |
+| 1. Decide the type of person you want to be. What kind of qualities do they have? |
+| 2. Prove it to yourself with small wins. |
+
+
+* Your habits shape your identity, and your identity shapes your habits, working in a **feedback loop**.
+    * We should let *values*, *principles*, and *identity* drive this loop, rather than results.
+* Building habits is fundamentally about **becoming someone**, changing your beliefs about yourself.
