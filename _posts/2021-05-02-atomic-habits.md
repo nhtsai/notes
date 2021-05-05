@@ -23,7 +23,7 @@ permalink: /atomic-habits
 * Focus on the trajectory of habits. 
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
-<br />
+
 
 | Positive Compounds | Negative Compounds |
 | -- | -- |
@@ -40,7 +40,7 @@ permalink: /atomic-habits
 * **Systems** are about the process that lead to **goals**, or the results you want to achieve.
     * "Goals are good for setting a direction, but systems are best for making progress."
     * "You do not rise to the level of your goals. You fall to the level of your systems."
-<br />
+
 
 | Problems with Goals |
 | ------------------- |
@@ -52,7 +52,6 @@ permalink: /atomic-habits
 
 * An **atomic habit** is a little habit that is part of a larger system, building up to remarkable achievements through compound growth.
 
-<br />
 
 # Chapter 2: How Your Habits Shape Your Identity
 
@@ -60,9 +59,8 @@ permalink: /atomic-habits
 * "We try to change the wrong thing."
     * We should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
 
-<br />
 
-|| **Layers of Behavioral Change** ||
+|| Layers of Behavioral Change ||
 | ------ | ----------- | ------ |
 | **1. Outcomes** | changing your results, setting goals | what you get |
 | **2. Process** | changing your habits and systems  | what you do |
@@ -75,7 +73,6 @@ permalink: /atomic-habits
     * "Progress requires unlearning."
 * Repeated behaviors contribute more evidence supporting a gradual belief in a new identity and self-image.
 
-<br />
 
 | Process of Changing your Identity |
 | :--- |
@@ -86,3 +83,9 @@ permalink: /atomic-habits
 * Your habits shape your identity, and your identity shapes your habits, working in a **feedback loop**.
     * We should let *values*, *principles*, and *identity* drive this loop, rather than results.
 * Building habits is fundamentally about **becoming someone**, changing your beliefs about yourself.
+
+
+# Chapter 3: How to Build Better Habits in 4 Simple Steps
+
+* Edward Thorndike's studies on cat behavior tell us that behaviors that result in favorable outcomes are more repeated than behaviors that result in unfavorable outcomes.
+* A **habit** is a behavior that has been repeated enough times to become automatic.
