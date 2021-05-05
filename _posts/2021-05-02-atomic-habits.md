@@ -18,12 +18,14 @@ permalink: /atomic-habits
     * A *1% improvement everyday* results in $$1.01^{365} = 37.78$$ change.
     * A *1% decline everyday* results in $$0.99^{365} = 0.03$$ change.
 
-* "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. Likewise, bad habits can accumulate in many missteps which compound to toxic results.
+* "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. 
+* Likewise, bad habits can accumulate in many missteps which compound to toxic results.
 * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
 * Focus on the trajectory of habits. 
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
 
+<br />
 
 | Positive Compounds | Negative Compounds |
 | -- | -- |
@@ -41,12 +43,13 @@ permalink: /atomic-habits
     * "Goals are good for setting a direction, but systems are best for making progress."
     * "You do not rise to the level of your goals. You fall to the level of your systems."
 
+<br />
 
 | Problems with Goals |
 | ------------------- |
 | **Winners and losers have the same goals**: The difference in outcomes is due to systems of continuous improvements. |
 | **Achieving a goal is only a momentary change**: Systems tackle the underlying issues rather than temporarily achieving satisfactory results. |
-| **Goals restrict happiness**: We put off happiness until goals are met, rather than falling in love with the process. |
+| **Goals restrict happiness**: You put off happiness until goals are met, rather than falling in love with the process. |
 | **Goals are at-odds with long-term progress**: Commitment to the process continuous improvement determines progress. |
 
 
@@ -57,22 +60,24 @@ permalink: /atomic-habits
 
 * Changing habits is challenging.
 * "We try to change the wrong thing."
-    * We should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
+    * You should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
 
+<br />
 
 || Layers of Behavioral Change ||
 | ------ | ----------- | ------ |
-| **1. Outcomes** | changing your results, setting goals | what you get |
-| **2. Process** | changing your habits and systems  | what you do |
-| **3. Identity** | changing your beliefs, assumptions, and biases | what you believe |
+| **1. Outcomes** | changing your results, setting goals | *what you get* |
+| **2. Process** | changing your habits and systems  | *what you do* |
+| **3. Identity** | changing your beliefs, assumptions, and biases | *what you believe* |
 
 * "Behavior that is incongruent with the self will not last".
     * You need to change the underlying beliefs that led to past behavior in order to change existing habits.
-    * We should change identities to more easily align with new behaviors and habits.
-* However, we should not be so attached to any specific identity as to prevent further behavioral improvements.
+    * You should change identities to more easily align with new behaviors and habits.
+* However, you should not be so attached to any specific identity as to prevent further behavioral improvements.
     * "Progress requires unlearning."
 * Repeated behaviors contribute more evidence supporting a gradual belief in a new identity and self-image.
 
+<br />
 
 | Process of Changing your Identity |
 | :--- |
@@ -81,11 +86,54 @@ permalink: /atomic-habits
 
 
 * Your habits shape your identity, and your identity shapes your habits, working in a **feedback loop**.
-    * We should let *values*, *principles*, and *identity* drive this loop, rather than results.
+    * You should let *values*, *principles*, and *identity* drive this loop, rather than results.
 * Building habits is fundamentally about **becoming someone**, changing your beliefs about yourself.
 
 
 # Chapter 3: How to Build Better Habits in 4 Simple Steps
 
-* Edward Thorndike's studies on cat behavior tell us that behaviors that result in favorable outcomes are more repeated than behaviors that result in unfavorable outcomes.
+* Edward Thorndike's studies on cat behavior shows that behaviors that result in favorable outcomes are more repeated than behaviors that result in unfavorable outcomes.
 * A **habit** is a behavior that has been repeated enough times to become automatic.
+    * Useful actions are reinforced into habits through a "try, fail, learn, try differently" feedback loop.
+* Brain activity decreases as it learns the cues that predict success, applying automatic solutions when the conditions are right.
+    * The conscious mind can only pay attention to one problem at a time.
+    * "Habits reduce cognitive load and free up mental capacity, so you can allocate your attention to other tasks."
+    * Habits free your mind to focus on new challenges, allowing you to solve problems with as minimal energy and effort as possible.
+
+<br />
+
+| : The Four Stages of Habit : ||
+| :------- | ------- |
+| **1. Cue (Problem Phase)**      | Triggers brain to initiate a behavior, predicts a reward. |
+| **2. Craving (Problem Phase)**  | Motivational force or desire to act, linked to a desired change of internal state. |
+| **3. Response (Solution Phase)** | The habit (thought or action) you perform, depends on level of motivation and ability. |
+| **4. Reward (Solution Phase)**   | The end goal of every habit, *satisfies* cravings and *teaches* which actions are worth remembering. |
+
+
+* If behavior is insufficient at any of the four stages, the habit will not be formed.
+* **Habit Loop** is a neurological feedback loop that ultimately allows you to create automatic habits.
+    * "The **cue** *triggers* a **craving**, which *motivates* a **response**, which *provides* a **reward**, which *satisfies* the **craving**, and, ultimately, becomes *associated* with a **cue**."
+    * The **problem phase** (**cue** and **craving**) indicates when something needs to change.
+    * The **solution phase** (**response** and **reward**) indicates when you take action and achieve the desired change.
+
+* The **Four Laws of Behavior Change** is a simple set of rules used to design good habits and eliminate bad ones.
+
+<br />
+
+| Creating a Good Habit |
+| --- |
+| **1st Law (Cue)**: Make it obvious. |
+| **2nd Law (Craving)**: Make it attractive. |
+| **3rd Law (Response)**: Make it easy. |
+| **4th Law (Reward)**: Make it satisfying. |
+
+
+| Breaking a Bad Habit |
+| --- |
+| **Inverse 1st Law (Cue)**: Make it invisible. |
+| **Inverse 2nd Law (Craving)**: Make it unattractive. |
+| **Inverse 3rd Law (Response)**: Make it difficult. |
+| **Inverse 4th Law (Reward)**: Make it unsatisfying. |
+
+
+# Chapter 4
