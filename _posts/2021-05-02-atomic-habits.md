@@ -136,4 +136,19 @@ permalink: /atomic-habits
 | **Inverse 4th Law (Reward)**: Make it unsatisfying. |
 
 
-# Chapter 4
+# Chapter 4: The Man Who Didn't Look Right
+
+* The brain is continuously analyzing information and your surroundings, picking up on important cues to predict certain outcomes subconciously.
+* You don't need to be aware of the cue for a habit to begin.
+    * Habits are formed under the direction of your automatic and nonconscious mind.
+* Habits are hard to change because they are so mindless and automatic.
+* **Pointing-and-Calling** is the safety system of pointing and calling things out loud in order to reduce mistakes by 85%. It is effective because it raises a nonconscious habit to a more conscious level.
+* The **Habits Scorecard** is a similar exercise to maintain awareness of your habits and routines.
+    * For each action in a list of daily habits, you write a "+", "-", or "=" if it's a good, bad, or neutral habit, respectively.
+    * The rating is depending on your situation and your goals. "Good" refers to habits that have net positive outcomes and reinforce your desired identity.
+* The goal is to observe your thoughts and actions without any judgements to notice any nonconscious habits.
+    * Then you can point it out and say out loud the action and its outcome.
+* Behavior change starts with awareness, recognition of habits, and acknoledgement of the cues that trigger them
+
+
+# Chapter 5: The Best Way to Start a New Habit
