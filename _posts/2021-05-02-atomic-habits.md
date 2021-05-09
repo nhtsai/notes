@@ -102,7 +102,7 @@ permalink: /atomic-habits
 
 <br />
 
-| : The Four Stages of Habit : ||
+| The Four Stages of Habit ||
 | :------- | ------- |
 | **1. Cue (Problem Phase)**      | Triggers brain to initiate a behavior, predicts a reward. |
 | **2. Craving (Problem Phase)**  | Motivational force or desire to act, linked to a desired change of internal state. |
@@ -120,20 +120,12 @@ permalink: /atomic-habits
 
 <br />
 
-| Creating a Good Habit |
-| --- |
-| **1st Law (Cue)**: Make it obvious. |
-| **2nd Law (Craving)**: Make it attractive. |
-| **3rd Law (Response)**: Make it easy. |
-| **4th Law (Reward)**: Make it satisfying. |
-
-
-| Breaking a Bad Habit |
-| --- |
-| **Inverse 1st Law (Cue)**: Make it invisible. |
-| **Inverse 2nd Law (Craving)**: Make it unattractive. |
-| **Inverse 3rd Law (Response)**: Make it difficult. |
-| **Inverse 4th Law (Reward)**: Make it unsatisfying. |
+| Creating a Good Habit | Breaking a Bad Habit |
+| --- | --- |
+| **1st Law (Cue)**: Make it obvious. | **Inverse 1st Law (Cue)**: Make it invisible. |
+| **2nd Law (Craving)**: Make it attractive. | **Inverse 2nd Law (Craving)**: Make it unattractive. |
+| **3rd Law (Response)**: Make it easy. | **Inverse 3rd Law (Response)**: Make it difficult. |
+| **4th Law (Reward)**: Make it satisfying. | **Inverse 4th Law (Reward)**: Make it unsatisfying. |
 
 
 # Chapter 4: The Man Who Didn't Look Right
@@ -152,3 +144,54 @@ permalink: /atomic-habits
 
 
 # Chapter 5: The Best Way to Start a New Habit
+
+* An **implementation intention** is a plan made beforehand about when and where to act, detailing how you *intend* to *implement* a habit.
+    * Implementation intentions leverage both time and location cues, in the form: "When situation `X` arises, I will perform response `Y`."
+* People who make a *specific plan* for *when* and *where* they will perform a new habit are *more likely to follow through*.
+    * A lack of clarity, not motivation, is what prevents people from making improvements because it's not always obvious when and where to take action.
+    * Being specific about what you want and how you will achieve it helps you avoid any distractions or obstacles.
+
+<br />
+
+| Implementation Intention ||
+| --- | --- |
+| **Template** | I will [BEHAVIOR] at [TIME] in [LOCATION]. |
+| **Sleeping** | I will sleep for 7 hours at 12AM in my bed. |
+| **Studying** | I will study math for 30 minutes at 6PM in my bedroom. |
+| **Exercise** | I will exercise for 1 hour at 5PM in my local gym. |
+| **Relationship** | I will talk to someone I know for 1 hour at 3PM in my living room. |
+
+
+* The **Diderot Effect** states that obtaining a new possession often creates a spiral of consumption that leads to additional purchases.
+    * Many human behaviors follow this principle, deciding on what to do next based on what you have just done; each action becomes a cue that triggers the next behavior.
+* **Habit Stacking** is a special implementation intention that pairs a new habit with a current habit, rather than a particular time and location.
+
+<br />
+
+| Habit Stacking ||
+| --- | --- |
+| **Template** | After [CURRENT HABIT], I will [NEW HABIT]. |
+| **Sleeping** | After I brush my teeth, I will go to sleep for 7 hours. |
+| **Studying** | After I eat breakfast, I will study for 2 hours. |
+| **Exercise** | After I finish my work, I will exercise for 1 hour. |
+| **Relationship** | After I eat dinner, I will text a friend or family member to catch up. |
+
+
+* Habit Stacking allows you to create larger stacks by chaining small habits together, creating a natural momentum of behaviors.
+    * Habit Stacking allows you to create a set of simple rules that guide your future behavior.
+    * Example Morning Routine Stack:
+        1. After making a cup of coffee, I will meditate for 60 seconds.
+        1. After meditating, I will write my day's to-do list.
+        1. After writing my to-do list, I will immediately begin my first task.
+    * Example Evening Routine Stack:
+        1. After finishing my dinner, I will clean the dirty dishes.
+        1. After cleaning the dishes, I will wipe down the counter.
+        1. After wiping down the counter, I will prepare my coffee mug for tomorrow morning.
+    * You can create a list of your daily habits and a list of daily occurrences to formulate the best layering of your daily habit stack.
+* Habit Stacking works best when the cue if *highly specific* and *immediately actionable*.
+    * It's important to select the right cue to kick things off. It should have the same frequency as your desired habit.
+* The **1st Law of Behavior Change** is *make it obvious*.
+    * **Implementation Intentions** and **Habit Stacking** help create obvious cues for you habits and design a clear plan for when and where to take action.
+
+
+## Chapter 6: Motivation is Overrated; Environment Often Matters More
