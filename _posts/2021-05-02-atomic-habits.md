@@ -153,9 +153,8 @@ permalink: /atomic-habits
 
 <br />
 
-| Implementation Intention ||
+| **Implementation Intention** | I will [BEHAVIOR] at [TIME] in [LOCATION]. |
 | --- | --- |
-| **Template** | I will [BEHAVIOR] at [TIME] in [LOCATION]. |
 | **Sleeping** | I will sleep for 7 hours at 12AM in my bed. |
 | **Studying** | I will study math for 30 minutes at 6PM in my bedroom. |
 | **Exercise** | I will exercise for 1 hour at 5PM in my local gym. |
@@ -168,9 +167,8 @@ permalink: /atomic-habits
 
 <br />
 
-| Habit Stacking ||
+| **Habit Stacking** | After [CURRENT HABIT], I will [NEW HABIT]. |
 | --- | --- |
-| **Template** | After [CURRENT HABIT], I will [NEW HABIT]. |
 | **Sleeping** | After I brush my teeth, I will go to sleep for 7 hours. |
 | **Studying** | After I eat breakfast, I will study for 2 hours. |
 | **Exercise** | After I finish my work, I will exercise for 1 hour. |
@@ -178,7 +176,6 @@ permalink: /atomic-habits
 
 
 * Habit Stacking allows you to create larger stacks by chaining small habits together, creating a natural momentum of behaviors.
-    * Habit Stacking allows you to create a set of simple rules that guide your future behavior.
     * Example Morning Routine Stack:
         1. After making a cup of coffee, I will meditate for 60 seconds.
         1. After meditating, I will write my day's to-do list.
@@ -187,9 +184,9 @@ permalink: /atomic-habits
         1. After finishing my dinner, I will clean the dirty dishes.
         1. After cleaning the dishes, I will wipe down the counter.
         1. After wiping down the counter, I will prepare my coffee mug for tomorrow morning.
-    * You can create a list of your daily habits and a list of daily occurrences to formulate the best layering of your daily habit stack.
 * Habit Stacking works best when the cue if *highly specific* and *immediately actionable*.
     * It's important to select the right cue to kick things off. It should have the same frequency as your desired habit.
+    * You can create a list of your daily habits and a list of daily occurrences to formulate the best layering of your daily habit stack.
 * The **1st Law of Behavior Change** is *make it obvious*.
     * **Implementation Intentions** and **Habit Stacking** help create obvious cues for you habits and design a clear plan for when and where to take action.
 
