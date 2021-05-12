@@ -13,10 +13,8 @@ categories: [self-driving, distance-estimation]
 permalink: /distance-estimation
 ---
 
-# 
-
 # Learning Object-Specific Distance From a Monocular Image
-Research paper by Jing Zhu, Yi Fang, Husam Abu-Haimed, Kuo-Chin Lien, Dongdong Fu, Junli Gu [^1].
+Research paper by Jing Zhu, Yi Fang, Husam Abu-Haimed, Kuo-Chin Lien, Dongdong Fu, and Junli Gu [^1].
 
 ## Abstract
 
@@ -28,11 +26,11 @@ In computer vision research for self-driving cars, researchers have not recogniz
 
 Current self-driving systems predict object distance using the traditional **inverse perspective mapping (IPM) algorithm**. This method first locates a point on the object (usually on the lower edge of the bounding box), then projects the located point onto a bird's-eye view coordinate map using camera parameters, and finally estimates the object distance using the constructed bird's-eye view coordinate map. This simple method can provide reasonable distance estimates for objects close and in front of the camera, but it *performs poorly when objects are located to the sides of the camera or curved roads and when objects are over 40 meters away*.
 
-The authors first sought "to develop an end-to-end learning based approach that directly predicts distances for given objects in the RGB images." *End-to-end* meaning that object detection and distance estimation parameters are trained jointly. The base model extracts features from RGB images, then utilizes region of interest (ROI) pooling to generate a fixed-size feature vector for each object, and feeds the ROI feature vectors into a distance regressor to predict a distance for each object. However, this method was not sufficiently precise for self-driving.
+The authors first sought "to develop an end-to-end learning based approach that directly predicts distances for given objects in the RGB images." *End-to-end* meaning that object detection and distance estimation parameters are trained jointly. The base model extracts features from RGB images, then utilizes region of interest (ROI) pooling to generate a fixed-size feature vector for each object, and feeds the ROI feature vectors into a distance regressor to predict a distance *(Z)* for each object. However, this method was not sufficiently precise for self-driving.
 
-The authors then created an enhanced model with a keypoint regressor to predict *(Z)* of the 3D keypoint coordinates *(X,Y,Z)*. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point and the ground truth keypoint. The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.
+The authors then created an enhanced model with a keypoint regressor to predict *(X,Y)* of the 3D keypoint coordinates *(X,Y,Z)*. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point *(X,Y,Z)* and the ground truth keypoint (X*,Y*,Z*). The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.
 
-The authors construct an extended dataset from the `KITTI object detection dataset` and the `nuScenes mini dataset` by "computing the distance for each object using its corresponding LiDAR point cloud and camera parameters."
+The authors constructed an extended dataset from the `KITTI object detection dataset` and the `nuScenes mini dataset` by "computing the distance for each object using its corresponding LiDAR point cloud and camera parameters."
 
 Enhanced model performs better at distance estimation, compared to the traditional IPM algorithm and the support vector regressor, is also more precise than the base model, and is twice as fast during inference than IPM algorithm.
 
@@ -126,7 +124,7 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 
 * Keypoint regressor $$K$$ learns to predict approximate keypoint position in 3D camera coordinate system.
 * Distance regressor predicts *Z* coordinate, while keypoint regressor predicts *(X, Y)*.
-* **Keypoint Regressor**: 3 fully-connected (FC) layers, `{2048, 512, 1} for vgg16` and `{1024, 512, 1} for resnet50`.
+* **Keypoint Regressor**: 3 fully-connected (FC) layers, `{2048, 512, 2} for vgg16` and `{1024, 512, 2} for resnet50`.
 * Since there is no ground truth of 3D keypoint available, project the generated 3D point $$(X,Y,Z)=([K(\boldsymbol{F_i}), D(\boldsymbol{F_i})])$$ back to image plane using camera projection matrix $$P$$.
 * Compute errors between ground truth 2D keypoint $$k^{*}_{i}$$ and projected point $$P\cdot([K(\boldsymbol{F_i}), D(\boldsymbol{F_i})])$$.
 * *Keypoint Function*
@@ -140,7 +138,7 @@ Add keypoint regressor to optimize base model by introducing projection constrai
 * Same architecture as base model and training losses $$L_{dist}$$ and $$L_{cla}$$.
 * Distance regressor parameters also optimized by projection loss $$L_{3Dpoint}$$.
 
-#### Network Learning and Inference
+#### Model Learning and Inference
 
 * Train feature extractor, keypoint regressor, distance regressor, and object classifier simultaneously using:
 
