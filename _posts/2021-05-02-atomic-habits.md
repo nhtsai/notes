@@ -19,8 +19,8 @@ permalink: /atomic-habits
     * A *1% decline everyday* results in $$0.99^{365} = 0.03$$ change.
 
 * "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. 
-* Likewise, bad habits can accumulate in many missteps which compound to toxic results.
-* "Success is the product of daily habits -- not once-in-a-lifetime transformations."
+    * Likewise, bad habits can accumulate in many missteps which compound to toxic results.
+    * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
 * Focus on the trajectory of habits. 
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
@@ -36,10 +36,10 @@ permalink: /atomic-habits
 
 * "Breakthrough moments are often the result of many previous actions."
 * Habits seem to make no difference until a critical threshold is crossed. This **Valley of Disappointment** is why many people give up on new habits.
-* Compounding is not a linear improvement; the most powerful outcomes are delayed, think exponentially.
+    * Compounding is not a linear improvement; the most powerful outcomes are delayed, think exponentially.
 * Habits need to persist long enough to break through the **Plateau of Latent Potential** in order to make meaningful difference.
-* "Change can take years -- before it happens all at once".
-* **Systems** are about the process that lead to **goals**, or the results you want to achieve.
+    * "Change can take years -- before it happens all at once".
+* **Systems** are about the process that lead to **goals**, the results you want to achieve.
     * "Goals are good for setting a direction, but systems are best for making progress."
     * "You do not rise to the level of your goals. You fall to the level of your systems."
 
@@ -58,8 +58,7 @@ permalink: /atomic-habits
 
 # Chapter 2: How Your Habits Shape Your Identity
 
-* Changing habits is challenging.
-* "We try to change the wrong thing."
+* Changing habits is challenging because you "try to change the wrong thing."
     * You should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
 
 <br />
@@ -102,7 +101,7 @@ permalink: /atomic-habits
 
 <br />
 
-| The Four Stages of Habit ||
+| The Stages of Habit ||
 | :------- | ------- |
 | **1. Cue (Problem Phase)**      | Triggers brain to initiate a behavior, predicts a reward. |
 | **2. Craving (Problem Phase)**  | Motivational force or desire to act, linked to a desired change of internal state. |
@@ -153,7 +152,7 @@ permalink: /atomic-habits
 
 <br />
 
-| **Implementation Intention** | I will [BEHAVIOR] at [TIME] in [LOCATION]. |
+| : Implementation Intention | : I will [BEHAVIOR] at [TIME] in [LOCATION]. |
 | --- | --- |
 | **Sleeping** | I will sleep for 7 hours at 12AM in my bed. |
 | **Studying** | I will study math for 30 minutes at 6PM in my bedroom. |
@@ -167,7 +166,7 @@ permalink: /atomic-habits
 
 <br />
 
-| **Habit Stacking** | After [CURRENT HABIT], I will [NEW HABIT]. |
+| : Habit Stacking | : After [CURRENT HABIT], I will [NEW HABIT]. |
 | --- | --- |
 | **Sleeping** | After I brush my teeth, I will go to sleep for 7 hours. |
 | **Studying** | After I eat breakfast, I will study for 2 hours. |
@@ -192,3 +191,4 @@ permalink: /atomic-habits
 
 
 ## Chapter 6: Motivation is Overrated; Environment Often Matters More
+
