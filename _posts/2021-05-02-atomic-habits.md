@@ -101,8 +101,8 @@ permalink: /atomic-habits
 
 <br />
 
-| The Stages of Habit ||
-| :------- | ------- |
+|| The Stages of Habit |
+| :------- | :------- |
 | **1. Cue (Problem Phase)**      | Triggers brain to initiate a behavior, predicts a reward. |
 | **2. Craving (Problem Phase)**  | Motivational force or desire to act, linked to a desired change of internal state. |
 | **3. Response (Solution Phase)** | The habit (thought or action) you perform, depends on level of motivation and ability. |
@@ -152,8 +152,8 @@ permalink: /atomic-habits
 
 <br />
 
-| : Implementation Intention | : I will [BEHAVIOR] at [TIME] in [LOCATION]. |
-| --- | --- |
+| Implementation Intention | I will [BEHAVIOR] at [TIME] in [LOCATION]. |
+| :--- | :--- |
 | **Sleeping** | I will sleep for 7 hours at 12AM in my bed. |
 | **Studying** | I will study math for 30 minutes at 6PM in my bedroom. |
 | **Exercise** | I will exercise for 1 hour at 5PM in my local gym. |
@@ -166,8 +166,8 @@ permalink: /atomic-habits
 
 <br />
 
-| : Habit Stacking | : After [CURRENT HABIT], I will [NEW HABIT]. |
-| --- | --- |
+| Habit Stacking | After [CURRENT HABIT], I will [NEW HABIT]. |
+| :--- | :--- |
 | **Sleeping** | After I brush my teeth, I will go to sleep for 7 hours. |
 | **Studying** | After I eat breakfast, I will study for 2 hours. |
 | **Exercise** | After I finish my work, I will exercise for 1 hour. |
@@ -192,3 +192,17 @@ permalink: /atomic-habits
 
 ## Chapter 6: Motivation is Overrated; Environment Often Matters More
 
+* Anne Thorndike's studies on environmental design shows that your habits change depending on your environment and the cues in front of you.
+    * "Every habit is context dependent."
+* Kurt Lewin's equation $$B=f(P,E)$$ describes how *Behavior* is a function of the *Person* in their *Environment*.
+* Hawkins Stern's **Suggestion Impulse Buying** describes how customers occasionally buy products due to *presentation* over *desire*.
+* Vision is the most important sensory ability, so small changes in **contexts**, or visual surroundings, can greatly impact your actions.
+
+* Obvious visual cues can trigger behaviors more often and better form habits.
+    * Creating multiple cues can increase the odds of triggering a behavior.
+    * **Environment design** is altering living and work spaces to increase exposure of positive cues and decrease exposure to negative cues.
+
+* Over time, habits will become associated with the entire **context** surrounding the behavior, and the **context** becomes the cue.
+* Habits can be easier to change or form in a *new environment*, rather than building habits in the face of competing cues and old contexts.
+    * Create separate spaces (rooms or activity zones) for different activities. "One space, one use."
+* Habits easily form in stable, predictable environments where everything has a place and a purpose.
