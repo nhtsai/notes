@@ -197,12 +197,21 @@ permalink: /atomic-habits
 * Kurt Lewin's equation $$B=f(P,E)$$ describes how *Behavior* is a function of the *Person* in their *Environment*.
 * Hawkins Stern's **Suggestion Impulse Buying** describes how customers occasionally buy products due to *presentation* over *desire*.
 * Vision is the most important sensory ability, so small changes in **contexts**, or visual surroundings, can greatly impact your actions.
-
 * Obvious visual cues can trigger behaviors more often and better form habits.
     * Creating multiple cues can increase the odds of triggering a behavior.
     * **Environment design** is altering living and work spaces to increase exposure of positive cues and decrease exposure to negative cues.
-
 * Over time, habits will become associated with the entire **context** surrounding the behavior, and the **context** becomes the cue.
 * Habits can be easier to change or form in a *new environment*, rather than building habits in the face of competing cues and old contexts.
     * Create separate spaces (rooms or activity zones) for different activities. "One space, one use."
 * Habits easily form in stable, predictable environments where everything has a place and a purpose.
+
+
+## Chapter 7: The Secret to Self-Control
+
+* The **Vietnam War Studies** showed that soldiers addicted to heroin got rid of their addiction overnight after returning to an environment devoid of the cues triggering heroin abuse.
+    * This finding challenged the conventional association of unhealthy behavior as a moral weakness or lack of discipline.
+* You don't need tremendous willpower and self-control if you don't spend lots of time resisting temptations.
+    * Creating a more disciplined environment is important.
+    * Habits encoded in the brain can arise again once the internalized cues are present.
+* To eliminate a bad habit, exposure to its cues need to be reduced.
+* Self-control is a long-term strategy that works better when the environment is positive.
