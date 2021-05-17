@@ -214,4 +214,4 @@ permalink: /atomic-habits
     * Creating a more disciplined environment is important.
     * Habits encoded in the brain can arise again once the internalized cues are present.
 * To eliminate a bad habit, exposure to its cues need to be reduced.
-* Self-control is a long-term strategy that works better when the environment is positive.
+* Self-control is a short-term strategy that fails often when willpower is needed to resist temptations in a negative environment.
