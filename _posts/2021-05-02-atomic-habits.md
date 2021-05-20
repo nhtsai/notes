@@ -215,3 +215,19 @@ permalink: /atomic-habits
     * Habits encoded in the brain can arise again once the internalized cues are present.
 * To eliminate a bad habit, exposure to its cues need to be reduced.
 * Self-control is a short-term strategy that fails often when willpower is needed to resist temptations in a negative environment.
+
+
+## Chapter 8: How to Make a Habit Irresistible
+
+* Niko Tinbergen's experiments on North American sea birds showed that the brains are preloaded with certain rules that activate stronger than usual when exaggerated cues, or **supernormal stimuli**, are present.
+    * An example of supernormal stimuli is junk food for humans who have developed a craving for salt, sugar, and fat over years of evolution.
+    * Nowadays, this craving is no longer advantageous to our health. 
+* Food science studies how to make food more attractive to consumers
+    * **Orosensation** is how a product feels in your mouth.
+    * **Dynamic contrast** refers to the combination of sensations that can make foods more interesting to eat.
+* The more attractive an opportunity is, the more likely it is to become habit-forming.
+* James Olds and Peter Milner showed how dopamine controls craving and desire.
+    * Habits are dopamine-driven feedback loops.
+    * Dopamine is released both when *anticipating* pleasure("wanting") and *experiencing* pleasure ("liking").
+    * The anticipation of a reward is what motivates action.
+    
