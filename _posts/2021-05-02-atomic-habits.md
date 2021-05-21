@@ -225,9 +225,19 @@ permalink: /atomic-habits
 * Food science studies how to make food more attractive to consumers
     * **Orosensation** is how a product feels in your mouth.
     * **Dynamic contrast** refers to the combination of sensations that can make foods more interesting to eat.
-* The more attractive an opportunity is, the more likely it is to become habit-forming.
+* *The more attractive an opportunity is, the more likely it is to become habit-forming.*
 * James Olds and Peter Milner showed how dopamine controls craving and desire.
     * Habits are dopamine-driven feedback loops.
-    * Dopamine is released both when *anticipating* pleasure("wanting") and *experiencing* pleasure ("liking").
-    * The anticipation of a reward is what motivates action.
-    
+    * Dopamine is released both when *anticipating* pleasure and *experiencing* pleasure.
+    * The anticipation ("wanting") of a reward is what motivates action to fulfillment ("liking") of a reward.
+    * The greater the anticipation, the greater the dopamine spike.
+* **Temptation bundling** makes habits more attractive by linking an action you *want to do* with an action you *need to do*.
+    * Over time, the reward gets associated with the cue, and the habit becomes more attractive.
+* David **Premack's Principle** states that more profitable behaviors will reinforce less probable behaviors.
+    * You become conditioned to do undesirable tasks if it means you also get to do a rewarding task.
+<br />
+
+| Habit Stacking + Temptation Bundling |
+| --- |
+| After [CURRENT HABIT], I will [HABIT I NEED]. |
+| After [HABIT I NEED], I will [HABIT I WANT]. |
