@@ -233,11 +233,22 @@ permalink: /atomic-habits
     * The greater the anticipation, the greater the dopamine spike.
 * **Temptation bundling** makes habits more attractive by linking an action you *want to do* with an action you *need to do*.
     * Over time, the reward gets associated with the cue, and the habit becomes more attractive.
-* David **Premack's Principle** states that more profitable behaviors will reinforce less probable behaviors.
+* **Premack's Principle** states that more profitable behaviors will reinforce less probable behaviors.
     * You become conditioned to do undesirable tasks if it means you also get to do a rewarding task.
+
 <br />
 
 | Habit Stacking + Temptation Bundling |
 | --- |
 | After [CURRENT HABIT], I will [HABIT I NEED]. |
 | After [HABIT I NEED], I will [HABIT I WANT]. |
+
+
+## Chapter 9: The Role of Family and Friends in Shaping Your Habits
+
+* Laszlo Polgar showed how deliberate practice and good habits can overcome innate talent.
+* Humans desire to belong, so earliest habits are imitated and heavily influenced by surrounding culture and family.
+* Humans mainly imitate *the close*, *the many*, and *the powerful*.
+    1. The Close  
+    Proximity greatly impacts behavior. Friends and family provide an invisible peer pressure.
+
