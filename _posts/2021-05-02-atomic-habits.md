@@ -247,8 +247,16 @@ permalink: /atomic-habits
 ## Chapter 9: The Role of Family and Friends in Shaping Your Habits
 
 * Laszlo Polgar showed how deliberate practice and good habits can overcome innate talent.
-* Humans desire to belong, so earliest habits are imitated and heavily influenced by surrounding culture and family.
+* The culture you live in determins which behaviors are attractive to you.
+    * Humans desire to belong, so earliest habits are imitated and heavily influenced by surrounding culture and family.
 * Humans mainly imitate *the close*, *the many*, and *the powerful*.
-    1. The Close  
-    Proximity greatly impacts behavior. Friends and family provide an invisible peer pressure.
+1. The Close (Friends & Family)  
+    * Proximity greatly impacts behavior and habits, and family and friends provide an invisible peer pressure.
+    * Join a culture where your desired behavior is the normal behavior and you already have something in common with the group, transforming your individual goal to a shared goal.  
+2. The Many (The Tribe)  
+    * Solomon Asch showed how the behavior of the many can often override the behavior of the individual.
+    * Humans desire to fit in, so matching the tribe to the behavior makes change very attractive.
+3. The Powerful (Status and Prestige)  
+    * Humans are attracted to behaviors that earn respect, approval, admiration, and status.
+    * Humans are not attracted to behaviors that lower status or are negatively-viewed culturally.
 
