@@ -260,3 +260,21 @@ permalink: /atomic-habits
     * Humans are attracted to behaviors that earn respect, approval, admiration, and status.
     * Humans are not attracted to behaviors that lower status or are negatively-viewed culturally.
 
+
+## Chapter 10: How to Find and Fix the Causes of Your Bad Habits
+
+* Every behavior has a surface level craving and a deeper, underlying motive.
+    * A **craving** is a specific manifestation of a deeper underlying motive.
+
+<br />
+
+| Craving | Underlying Motive |
+| --- | --- |
+| Using Tinder | Find love and reproduce |
+| Browsing Facebook | Connect and bond with others |
+| Posting on Instagram | Win social acceptance and approval |
+| Searching on Google | Reduce uncertainty |
+| Playing video games | Achieve status and prestige |
+
+
+* There are many different ways to address the same underlying motive.
