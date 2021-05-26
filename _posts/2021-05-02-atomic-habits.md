@@ -264,7 +264,8 @@ permalink: /atomic-habits
 ## Chapter 10: How to Find and Fix the Causes of Your Bad Habits
 
 * Every behavior has a surface level craving and a deeper, underlying motive.
-    * A **craving** is a specific manifestation of a deeper underlying motive.
+    * A **craving** is a specific manifestation of a deeper underlying motive, a desire to change your internal state.
+    * A **desire** is the difference between a current state and an ideal future state.
 
 <br />
 
@@ -278,3 +279,10 @@ permalink: /atomic-habits
 
 
 * There are many different ways to address the same underlying motive.
+* Habits are associations between an observed cue and a predicted response, heavily influencing behaviors.
+    * Feelings and emotions transform the cues and predictions into applicable signals.
+    * The cause of habits is the preceding prediction, which leads to a feeling.
+* Reframing habits to highlight their *benefits* (positive) rather than their *drawbacks* (negative) can change your mindset and make a habit more attractive.
+    * A **motivation ritual** refers to the association of habits with something enjoyable, which can then later be used as a cue for motivation.
+    * Eventually the associated habit becomes a cue to something enjoyable.
+* If youcan reprogram your predictions, you can transform a hard habit into an attractive one.
