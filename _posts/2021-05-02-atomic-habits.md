@@ -285,4 +285,10 @@ permalink: /atomic-habits
 * Reframing habits to highlight their *benefits* (positive) rather than their *drawbacks* (negative) can change your mindset and make a habit more attractive.
     * A **motivation ritual** refers to the association of habits with something enjoyable, which can then later be used as a cue for motivation.
     * Eventually the associated habit becomes a cue to something enjoyable.
-* If youcan reprogram your predictions, you can transform a hard habit into an attractive one.
+* If you can reprogram your predictions, you can transform a hard habit into an attractive one.
+
+
+## Chapter 11: Walk Slowly, but Never Backward
+
+* Taking action is better than being in motion.
+    * You want to delay failure, so you avoid taking action.
