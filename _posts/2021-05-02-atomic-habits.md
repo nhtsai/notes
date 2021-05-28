@@ -18,9 +18,9 @@ permalink: /atomic-habits
     * A *1% improvement everyday* results in $$1.01^{365} = 37.78$$ change.
     * A *1% decline everyday* results in $$0.99^{365} = 0.03$$ change.
 
-* "Habits are the compound interest of self improvement". The value of consistent, small changes are only apparent after years. 
+* Habits are the compound interest of self improvement. The value of consistent, small changes are only apparent after years. 
     * Likewise, bad habits can accumulate in many missteps which compound to toxic results.
-    * "Success is the product of daily habits -- not once-in-a-lifetime transformations."
+    * Success is the product of daily habits -- not once-in-a-lifetime transformations.
 * Focus on the trajectory of habits. 
     * Outcomes are a lagging measure of your habits, built up from many small behavioral changes.
 * Time magnifies the margin between success and failure, in which effects are multiplied after a while.
@@ -34,14 +34,14 @@ permalink: /atomic-habits
 | **Relationships**: Small interactions can build a network of strong connections. | **Outrage**: Small aggravations build up to mass outrage. |
 
 
-* "Breakthrough moments are often the result of many previous actions."
+* Breakthrough moments are often the result of many previous actions.
 * Habits seem to make no difference until a critical threshold is crossed. This **Valley of Disappointment** is why many people give up on new habits.
     * Compounding is not a linear improvement; the most powerful outcomes are delayed, think exponentially.
 * Habits need to persist long enough to break through the **Plateau of Latent Potential** in order to make meaningful difference.
-    * "Change can take years -- before it happens all at once".
+    * Change can take years -- before it happens all at once.
 * **Systems** are about the process that lead to **goals**, the results you want to achieve.
-    * "Goals are good for setting a direction, but systems are best for making progress."
-    * "You do not rise to the level of your goals. You fall to the level of your systems."
+    * Goals are good for setting a direction, but systems are best for making progress.
+    * You do not rise to the level of your goals. You fall to the level of your systems.
 
 <br />
 
@@ -58,7 +58,7 @@ permalink: /atomic-habits
 
 # Chapter 2: How Your Habits Shape Your Identity
 
-* Changing habits is challenging because you "try to change the wrong thing."
+* Changing habits is challenging because you try to change the wrong thing.
     * You should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
 
 <br />
@@ -69,11 +69,11 @@ permalink: /atomic-habits
 | **2. Process** | changing your habits and systems  | *what you do* |
 | **3. Identity** | changing your beliefs, assumptions, and biases | *what you believe* |
 
-* "Behavior that is incongruent with the self will not last".
+* Behavior that is incongruent with the self will not last.
     * You need to change the underlying beliefs that led to past behavior in order to change existing habits.
     * You should change identities to more easily align with new behaviors and habits.
 * However, you should not be so attached to any specific identity as to prevent further behavioral improvements.
-    * "Progress requires unlearning."
+    * Progress requires unlearning.
 * Repeated behaviors contribute more evidence supporting a gradual belief in a new identity and self-image.
 
 <br />
@@ -93,10 +93,10 @@ permalink: /atomic-habits
 
 * Edward Thorndike's studies on cat behavior shows that behaviors that result in favorable outcomes are more repeated than behaviors that result in unfavorable outcomes.
 * A **habit** is a behavior that has been repeated enough times to become automatic.
-    * Useful actions are reinforced into habits through a "try, fail, learn, try differently" feedback loop.
+    * Useful actions are reinforced into habits through a *try, fail, learn, try differently* feedback loop.
 * Brain activity decreases as it learns the cues that predict success, applying automatic solutions when the conditions are right.
     * The conscious mind can only pay attention to one problem at a time.
-    * "Habits reduce cognitive load and free up mental capacity, so you can allocate your attention to other tasks."
+    * Habits reduce cognitive load and free up mental capacity, so you can allocate your attention to other tasks.
     * Habits free your mind to focus on new challenges, allowing you to solve problems with as minimal energy and effort as possible.
 
 <br />
@@ -111,7 +111,7 @@ permalink: /atomic-habits
 
 * If behavior is insufficient at any of the four stages, the habit will not be formed.
 * **Habit Loop** is a neurological feedback loop that ultimately allows you to create automatic habits.
-    * "The **cue** *triggers* a **craving**, which *motivates* a **response**, which *provides* a **reward**, which *satisfies* the **craving**, and, ultimately, becomes *associated* with a **cue**."
+    * The **cue** *triggers* a **craving**, which *motivates* a **response**, which *provides* a **reward**, which *satisfies* the **craving**, and, ultimately, becomes *associated* with a **cue**.
     * The **problem phase** (**cue** and **craving**) indicates when something needs to change.
     * The **solution phase** (**response** and **reward**) indicates when you take action and achieve the desired change.
 
@@ -202,7 +202,7 @@ permalink: /atomic-habits
     * **Environment design** is altering living and work spaces to increase exposure of positive cues and decrease exposure to negative cues.
 * Over time, habits will become associated with the entire **context** surrounding the behavior, and the **context** becomes the cue.
 * Habits can be easier to change or form in a *new environment*, rather than building habits in the face of competing cues and old contexts.
-    * Create separate spaces (rooms or activity zones) for different activities. "One space, one use."
+    * Create separate spaces (rooms or activity zones) for different activities. *One space, one use.*
 * Habits easily form in stable, predictable environments where everything has a place and a purpose.
 
 
@@ -290,5 +290,17 @@ permalink: /atomic-habits
 
 ## Chapter 11: Walk Slowly, but Never Backward
 
-* Taking action is better than being in motion.
+* Taking action is better than being in motion, *practice over planning*.
     * You want to delay failure, so you avoid taking action.
+    * It's better to take action and iteratively improve your results.
+    * Preparation or planning can become a form of procrastination.
+    * The key is to start with *repetition, not perfection*.
+* **Habit formation** is the process by which a behavior becomes progressively more automatic through repetition.
+    * **Long-term Potentiation** refers to the strengthening of connections between neurons in the brain based on recent patterns of activity.
+    * **Hebb's Law** is "Neurons that fire together wire together."
+* Repetition is a form of change. To build a habit, you need to practice it.
+    * Repeating a habit leads to physical changes in the brain, different adaptations for different kinds of tasks.
+    * Active practice and iteration is more effective than passive learning and theorizing.
+    * **Automaticity** is the ability to perform a behavior without thinking about each step, which occurs when the nonconscious mind takes over after crossing **the habit line**.
+* **Learning curves** plot automaticity vs. time spent, revealing that *habits form based on frequency, not time.*
+    * This means the amount of time you have been performing a habit is less important than *the number of times you have performed the habit successfully*.
