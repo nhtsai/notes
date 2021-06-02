@@ -304,3 +304,12 @@ permalink: /atomic-habits
     * **Automaticity** is the ability to perform a behavior without thinking about each step, which occurs when the nonconscious mind takes over after crossing **the habit line**.
 * **Learning curves** plot automaticity vs. time spent, revealing that *habits form based on frequency, not time.*
     * This means the amount of time you have been performing a habit is less important than *the number of times you have performed the habit successfully*.
+
+
+## Chapter 12: The Law of Least Effort
+
+* It is human nature to follow the **Law of Least Effort**, which states that when deciding between two similar options, the option that requires less work is more attractive.
+    * The most value for the least effort is more attractive.
+    * The most common behaviors are extremely convenient and require little effort.
+* Habits are obstacles to desired outcomes.
+    * If good habits can be made more convenient, then they are more likely performed.
