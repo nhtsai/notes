@@ -309,7 +309,10 @@ permalink: /atomic-habits
 ## Chapter 12: The Law of Least Effort
 
 * It is human nature to follow the **Law of Least Effort**, which states that when deciding between two similar options, the option that requires less work is more attractive.
-    * The most value for the least effort is more attractive.
-    * The most common behaviors are extremely convenient and require little effort.
+    * The most value for the least effort is most attractive.
+    * The most common behaviors are extremely convenient and require little effort, e.g. checking social media or watching TV.
 * Habits are obstacles to desired outcomes.
     * If good habits can be made more convenient, then they are more likely performed.
+    * The idea is to make it as easy as possible in the moment to do things that payoff in the long run.
+* One way to reduce friction is **environment design**, making cues more obvious and optimizing for convenient actions.
+    * **Addition by subtraction**, or **lean production**, is the strategy of relentlessly eliminating points of friction that waste time or energy and optimizing to achieve more with less effort.
