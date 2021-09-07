@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      23 min read
+      28 min read
     
 </span></p>
 
@@ -155,24 +155,29 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#subqueries">Subqueries</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#window-functions">Window Functions</a></li>
-<li class="toc-entry toc-h3"><a href="#views">Views</a></li>
+<li class="toc-entry toc-h3"><a href="#select-into">SELECT INTO</a></li>
 <li class="toc-entry toc-h3"><a href="#update">UPDATE</a></li>
 <li class="toc-entry toc-h3"><a href="#delete">DELETE</a></li>
 <li class="toc-entry toc-h3"><a href="#insert-into">INSERT INTO</a></li>
+<li class="toc-entry toc-h3"><a href="#insert-into-select">INSERT INTO SELECT</a></li>
+<li class="toc-entry toc-h3"><a href="#common-table-expressions-cte">Common Table Expressions (CTE)</a></li>
+<li class="toc-entry toc-h3"><a href="#stored-procedures">Stored Procedures</a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h2"><a href="#sql-database">SQL Database</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#create-database">CREATE DATABASE</a></li>
-<li class="toc-entry toc-h3"><a href="#alter-database">ALTER DATABASE</a></li>
-<li class="toc-entry toc-h3"><a href="#create-table">CREATE TABLE</a></li>
-<li class="toc-entry toc-h3"><a href="#alter-table">ALTER TABLE</a></li>
-<li class="toc-entry toc-h3"><a href="#drop-table">DROP TABLE</a></li>
-<li class="toc-entry toc-h3"><a href="#create-index">CREATE INDEX</a></li>
-<li class="toc-entry toc-h3"><a href="#drop-index">DROP INDEX</a></li>
+<li class="toc-entry toc-h3"><a href="#drop-database">DROP DATABASE</a></li>
+<li class="toc-entry toc-h3"><a href="#backup-database">BACKUP DATABASE</a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h2"><a href="#section">Section</a></li>
+<li class="toc-entry toc-h2"><a href="#sql-table">SQL Table</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#sql-constraints">SQL Constraints</a></li>
+<li class="toc-entry toc-h3"><a href="#sql-index">SQL Index</a></li>
+<li class="toc-entry toc-h3"><a href="#views">Views</a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#references">References</a></li>
 </ul>
 </li>
@@ -180,8 +185,8 @@ window.onload = wrap_img;
 <a class="anchor" href="#sql-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Overview</h1>
 <ul>
   <li><a href="https://mode.com/sql-tutorial/">Mode SQL</a></li>
-  <li><a href="">Select Star SQL</a></li>
-  <li><a href="">W3 Schools SQL</a></li>
+  <li><a href="https://selectstarsql.com/">Select Star SQL</a></li>
+  <li><a href="https://www.w3schools.com/sql/default.asp">W3 Schools SQL</a></li>
   <li><a href="https://www.youtube.com/watch?v=Ww71knvhQ-s">Window Functions Video</a></li>
 </ul>
 
@@ -415,6 +420,21 @@ window.onload = wrap_img;
       <td>
 <code class="language-plaintext highlighter-rouge">WHERE col NOT LIKE '%n%'</code> <br> <code class="language-plaintext highlighter-rouge">WHERE col NOT BETWEEN 2 AND 3</code>
 </td>
+    </tr>
+    <tr>
+      <td>Match on any values meeting condition</td>
+      <td><code class="language-plaintext highlighter-rouge">ANY</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE id = ANY(SELECT id FROM users WHERE score = 10)</code></td>
+    </tr>
+    <tr>
+      <td>Match on all values meeting condition</td>
+      <td><code class="language-plaintext highlighter-rouge">ALL</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE id != ALL(SELECT id FROM users WHERE score &lt; 90)</code></td>
+    </tr>
+    <tr>
+      <td>Exists if subquery returns 1+ rows</td>
+      <td><code class="language-plaintext highlighter-rouge">EXISTS</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE EXISTS (SELECT id FROM users WHERE age &lt; 18)</code></td>
     </tr>
   </tbody>
 </table>
@@ -1153,7 +1173,7 @@ window.onload = wrap_img;
     </tr>
     <tr>
       <td>Boolean</td>
-      <td>BOOLEAN</td>
+      <td><code class="language-plaintext highlighter-rouge">BOOLEAN</code></td>
     </tr>
   </tbody>
 </table>
@@ -1275,7 +1295,7 @@ window.onload = wrap_img;
   <li>
 <code class="language-plaintext highlighter-rouge">STRPOS(str, substr)</code>: get position of substring in string, case-sensitive</li>
   <li>
-<code class="language-plaintext highlighter-rouge">SUBSTR(str, start_idx, n)</code>: get n-length substring starting at index of strin</li>
+<code class="language-plaintext highlighter-rouge">SUBSTR(str, start_idx, n)</code>: get n-length substring starting at index of string</li>
   <li>
 <code class="language-plaintext highlighter-rouge">CONCAT(str, str, ...)</code>: concatenate strings</li>
   <li>
@@ -2058,11 +2078,50 @@ window.onload = wrap_img;
         </tr>
       </tbody>
     </table>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Example of removing null rows using subquery</span>
+  <span class="k">SELECT</span> <span class="n">sub</span><span class="p">.</span><span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">location</span><span class="p">,</span>
+             <span class="n">duration</span> <span class="o">-</span> <span class="n">LAG</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="k">AS</span> <span class="n">difference</span>
+      <span class="k">FROM</span> <span class="n">rides</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">difference</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Window Aliases
+    <ul>
+      <li>can name and re-use same window for several queries</li>
+      <li>should always come after the <code class="language-plaintext highlighter-rouge">WHERE</code> clause</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">location</span><span class="p">,</span>
+         <span class="n">duration</span><span class="p">,</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="n">quartile</span><span class="p">,</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="n">percentile</span>
+  <span class="k">FROM</span> <span class="n">rides</span>
+  <span class="n">WINDOW</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="c1">-- window alias</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">location</span><span class="p">,</span> <span class="n">duration</span>
+</code></pre></div>    </div>
   </li>
 </ul>
 
-<h3 id="views">
-<a class="anchor" href="#views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views</h3>
+<h3 id="select-into">
+<a class="anchor" href="#select-into" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT INTO</h3>
+<ul>
+  <li>
+    <p>Copies data from one table into a new table (in external database)</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">INTO</span> <span class="n">adults</span> <span class="k">IN</span> <span class="s1">'backup.db'</span> <span class="c1">-- optional: [IN external_db]</span>
+  <span class="k">FROM</span> <span class="n">users</span>
+  <span class="k">WHERE</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
 
 <h3 id="update">
 <a class="anchor" href="#update" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE</h3>
@@ -2102,53 +2161,326 @@ window.onload = wrap_img;
   </li>
 </ul>
 
+<h3 id="insert-into-select">
+<a class="anchor" href="#insert-into-select" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSERT INTO SELECT</h3>
+<ul>
+  <li>Copies data from one table and inserts it into another table</li>
+  <li>
+    <p>data types in source and destination tables must match</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">all_profits</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">current_profits</span>
+  <span class="k">WHERE</span> <span class="n">company</span> <span class="o">=</span> <span class="s1">'Apple'</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="common-table-expressions-cte">
+<a class="anchor" href="#common-table-expressions-cte" aria-hidden="true"><span class="octicon octicon-link"></span></a>Common Table Expressions (CTE)</h3>
+<ul>
+  <li>A temporary named result set that can be referenced within <code class="language-plaintext highlighter-rouge">SELECT</code>, <code class="language-plaintext highlighter-rouge">INSERT</code>, <code class="language-plaintext highlighter-rouge">UPDATE</code>, or <code class="language-plaintext highlighter-rouge">DELETE</code> statements, also used in a <code class="language-plaintext highlighter-rouge">CREATE</code> to create a view</li>
+  <li>
+    <p>Advantage over subqueries: CTEs can be use multiple times in a query</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Find average grades for every senior student</span>
+  <span class="k">WITH</span> <span class="n">cte_student_grades</span> <span class="p">(</span><span class="n">student</span><span class="p">,</span> <span class="n">class_year</span><span class="p">,</span> <span class="n">avg_grade</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="k">SELECT</span> 
+          <span class="n">S</span><span class="p">.</span><span class="n">first_name</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="n">S</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span>
+          <span class="nb">YEAR</span><span class="p">(</span><span class="n">S</span><span class="p">.</span><span class="n">graduation_date</span><span class="p">),</span>
+          <span class="k">AVG</span><span class="p">(</span><span class="n">E</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span>
+      <span class="k">FROM</span> <span class="n">students</span> <span class="n">S</span>
+      <span class="k">JOIN</span> <span class="n">exams</span> <span class="n">E</span>
+      <span class="k">ON</span> <span class="n">S</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">E</span><span class="p">.</span><span class="n">student_id</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">first_name</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="n">last_name</span><span class="p">,</span> <span class="nb">YEAR</span><span class="p">(</span><span class="n">graduation_date</span><span class="p">)</span>
+  <span class="p">)</span>
+  <span class="c1">-- use CTE in a SELECT statement</span>
+  <span class="k">SELECT</span> <span class="n">student</span><span class="p">,</span> <span class="n">avg_grade</span><span class="p">,</span> <span class="s1">'Senior'</span> <span class="k">AS</span> <span class="n">class_level</span>
+  <span class="k">FROM</span> <span class="n">cte_student_grades</span>
+  <span class="k">WHERE</span> <span class="n">class_year</span> <span class="o">=</span> <span class="mi">2021</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Use to perform multi-level aggregations, e.g. average minimum grade <code class="language-plaintext highlighter-rouge">AVG(MIN(grade))</code>
+    <ul>
+      <li>SQL does not allow subqueries or aggregate functions inside an aggregate function</li>
+      <li>SO you have to do <code class="language-plaintext highlighter-rouge">MIN(grade)</code> first in a CTE, then do <code class="language-plaintext highlighter-rouge">AVG(min_grade)</code>
+</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Find average min and average max exam grades across all subjects</span>
+  <span class="k">WITH</span> <span class="n">min_max_grade</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="k">SELECT</span>  <span class="n">SU</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+              <span class="n">SU</span><span class="p">.</span><span class="n">subject_name</span><span class="p">,</span>
+              <span class="k">MIN</span><span class="p">(</span><span class="n">E</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">min_grade</span><span class="p">,</span>
+              <span class="k">MAX</span><span class="p">(</span><span class="n">E</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_grade</span>
+      <span class="k">FROM</span> <span class="n">subjects</span> <span class="n">SU</span>
+      <span class="k">JOIN</span> <span class="n">exams</span> <span class="n">E</span>
+      <span class="k">ON</span> <span class="n">SU</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">E</span><span class="p">.</span><span class="n">subject_id</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">SU</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">SU</span><span class="p">.</span><span class="n">subject_name</span>
+  <span class="p">)</span>
+
+  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">min_grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_min_grade</span><span class="p">,</span>
+         <span class="k">AVG</span><span class="p">(</span><span class="n">max_grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_max_grade</span>
+  <span class="k">FROM</span> <span class="n">min_max_grade</span><span class="p">;</span> <span class="c1">-- use CTE in a query</span>
+
+  <span class="c1">-- Alternatively, subqueries are not as readable, reusable,</span>
+  <span class="c1">-- and opposite in terms of thought process (AVG -&gt; MIN/MAX)</span>
+  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">min_grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_min_grade</span><span class="p">,</span>
+         <span class="k">AVG</span><span class="p">(</span><span class="n">max_grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_max_grade</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">SU</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+             <span class="n">SU</span><span class="p">.</span><span class="n">subject_name</span><span class="p">,</span>
+             <span class="k">MIN</span><span class="p">(</span><span class="n">E</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">min_grade</span>
+             <span class="k">MAX</span><span class="p">(</span><span class="n">E</span><span class="p">.</span><span class="n">grade</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_grade</span>
+      <span class="k">FROM</span> <span class="n">subjects</span> <span class="n">SU</span>
+      <span class="k">JOIN</span> <span class="n">exams</span> <span class="n">E</span>
+      <span class="k">ON</span> <span class="n">SU</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">E</span><span class="p">.</span><span class="n">subject_id</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+  <span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="stored-procedures">
+<a class="anchor" href="#stored-procedures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stored Procedures</h3>
+<ul>
+  <li>
+    <p>A prepared SQL code that can be saved and reused, like a function</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Storing procedure</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">SelectAllUsers</span>
+  <span class="k">AS</span>
+      <span class="k">SELECT</span> <span class="o">*</span>
+      <span class="k">FROM</span> <span class="n">Users</span>
+  <span class="k">GO</span>
+
+  <span class="c1">-- Executing procedure</span>
+  <span class="k">EXEC</span> <span class="n">SelectAllUsers</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>A procedure can take in parameters</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Storing procedure</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">SelectAllUsers</span> <span class="o">@</span><span class="n">City</span> <span class="n">nvarchar</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="o">@</span><span class="n">MinAge</span> <span class="nb">Int</span>
+  <span class="k">AS</span>
+      <span class="k">SELECT</span> <span class="o">*</span>
+      <span class="k">FROM</span> <span class="n">Users</span>
+      <span class="k">WHERE</span> <span class="n">city</span> <span class="o">=</span> <span class="o">@</span><span class="n">City</span> <span class="k">AND</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="o">@</span><span class="n">MinAge</span>
+  <span class="k">GO</span>
+
+  <span class="c1">-- Executing procedure</span>
+  <span class="k">EXEC</span> <span class="n">SelectAllUsers</span> <span class="o">@</span><span class="n">City</span> <span class="o">=</span> <span class="s1">'Los Angeles'</span><span class="p">,</span> <span class="o">@</span><span class="n">MinAge</span> <span class="o">=</span> <span class="mi">18</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
 <h2 id="sql-database">
 <a class="anchor" href="#sql-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Database</h2>
 
 <h3 id="create-database">
 <a class="anchor" href="#create-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE DATABASE</h3>
 <ul>
-  <li>Creates a new database</li>
+  <li>Creates a new database: <code class="language-plaintext highlighter-rouge">CREATE DATABASE testDB</code>
+</li>
 </ul>
 
-<h3 id="alter-database">
-<a class="anchor" href="#alter-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>ALTER DATABASE</h3>
+<h3 id="drop-database">
+<a class="anchor" href="#drop-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>DROP DATABASE</h3>
 <ul>
-  <li>Modifies a database</li>
+  <li>Drop an existing database: <code class="language-plaintext highlighter-rouge">DROP DATABASE testDB</code>
+</li>
 </ul>
 
-<h3 id="create-table">
-<a class="anchor" href="#create-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE TABLE</h3>
+<h3 id="backup-database">
+<a class="anchor" href="#backup-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>BACKUP DATABASE</h3>
 <ul>
-  <li>Creates a new table</li>
+  <li>
+    <p>Create full backup of existing database</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="n">BACKUP</span> <span class="k">DATABASE</span> <span class="n">testDB</span>
+  <span class="k">TO</span> <span class="n">DISK</span> <span class="o">=</span> <span class="s1">'D:</span><span class="se">\b</span><span class="s1">ackups</span><span class="se">\l</span><span class="s1">atest_backup.bak'</span>
+  <span class="k">WITH</span> <span class="n">DIFFERENTIAL</span> <span class="c1">-- include to only back up changes since last full backup</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<h3 id="alter-table">
-<a class="anchor" href="#alter-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>ALTER TABLE</h3>
+<h2 id="sql-table">
+<a class="anchor" href="#sql-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Table</h2>
+
 <ul>
-  <li>Modifies a table</li>
+  <li>
+    <p>Creating a table</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Create new table</span>
+  <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">Users</span> <span class="p">(</span>
+      <span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+      <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+      <span class="n">city</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+      <span class="n">age</span> <span class="nb">int</span><span class="p">,</span>
+      <span class="n">is_loyal</span> <span class="nb">boolean</span>
+  <span class="p">)</span>
+
+  <span class="c1">-- Create new table from another table</span>
+  <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">NYC_Users</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">city</span><span class="p">,</span> <span class="n">age</span>
+  <span class="k">FROM</span> <span class="n">Users</span>
+  <span class="k">WHERE</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">'New York City'</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<h3 id="drop-table">
-<a class="anchor" href="#drop-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>DROP TABLE</h3>
+<h3 id="sql-constraints">
+<a class="anchor" href="#sql-constraints" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Constraints</h3>
 <ul>
-  <li>Deletes a table</li>
+  <li>Specifies rules for the data in the table</li>
 </ul>
 
-<h3 id="create-index">
-<a class="anchor" href="#create-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE INDEX</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Constraint</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">NOT NULL</code></td>
+      <td>column cannot have null values</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">UNIQUE</code></td>
+      <td>column has all different values</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">PRIMARY KEY</code></td>
+      <td>column is <code class="language-plaintext highlighter-rouge">NOT NULL</code> and <code class="language-plaintext highlighter-rouge">UNIQUE</code>, serves as row id</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FOREIGN KEY</code></td>
+      <td>prevents actions that would destroy links between tables</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">CHECK</code></td>
+      <td>ensures column values specify a specific condition</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">DEFAULT</code></td>
+      <td>set default value for column if no value specified</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">CREATE INDEX</code></td>
+      <td>used to quickly create and retrieve data from database</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">AUTO_INCREMENT</code></td>
+      <td>starting from 1, increments by 1 every time row inserted</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```sql
+-- Create table with various constraints
+CREATE TABLE Users (
+    id int NOT NULL AUTO_INCREMENT,
+    dept_id int NOT NULL,
+    full_name varchar(255) NOT NULL,
+    email varchar(255) UNIQUE,
+    age int,
+    city varchar(255) DEFAULT 'Seattle',
+    CHECK (age &gt;= 18),
+    PRIMARY KEY (id),
+    FOREIGN KEY (dept_id)
+)
+```
+</code></pre></div></div>
+
 <ul>
-  <li>Creates an index (search key)</li>
+  <li>
+    <p>Alter or add, delete, modify columns or various constraints of a table</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Add column</span>
+  <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">Users</span>
+  <span class="k">ADD</span> <span class="n">email</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span>
+
+  <span class="c1">-- Drop column</span>
+  <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">Users</span>
+  <span class="k">DROP</span> <span class="k">column</span> <span class="n">is_loyal</span>
+
+  <span class="c1">-- Change datatype</span>
+  <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">Users</span>
+  <span class="k">MODIFY</span> <span class="k">COLUMN</span> <span class="n">city</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Remove a table</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Delete a table</span>
+  <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">Users</span>
+
+  <span class="c1">-- Truncate: delete data inside but not table itself</span>
+  <span class="k">TRUNCATE</span> <span class="k">TABLE</span> <span class="n">Users</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<h3 id="drop-index">
-<a class="anchor" href="#drop-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>DROP INDEX</h3>
+<h3 id="sql-index">
+<a class="anchor" href="#sql-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Index</h3>
 <ul>
-  <li>Deletes an index</li>
+  <li>
+    <p>An index is used to retrieve data more quickly, not seen by users</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Create index</span>
+  <span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">idx_name</span>
+  <span class="k">ON</span> <span class="n">Users</span> <span class="p">(</span><span class="n">last_name</span><span class="p">)</span>
+    
+  <span class="c1">-- Create unique index</span>
+  <span class="k">CREATE</span> <span class="k">UNIQUE</span> <span class="k">INDEX</span> <span class="n">idx_name</span> 
+  <span class="k">ON</span> <span class="n">Users</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span>
+
+  <span class="c1">-- Drop index</span>
+  <span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">idx_name</span> <span class="k">ON</span> <span class="n">Users</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
-<h2 id="section">
-<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Section</h2>
+<h3 id="views">
+<a class="anchor" href="#views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views</h3>
+<ul>
+  <li>
+    <p>A virtual table based on the result-set of an SQL statement</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Create the view</span>
+  <span class="k">CREATE</span> <span class="k">VIEW</span> <span class="p">[</span><span class="n">Luxury</span> <span class="n">Products</span><span class="p">]</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">product_name</span><span class="p">,</span> <span class="n">price</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">WHERE</span> <span class="n">price</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">)</span>
+
+  <span class="c1">-- Query the view</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="p">[</span><span class="n">Luxury</span> <span class="n">Products</span><span class="p">]</span>
+
+
+  <span class="c1">-- Update the view</span>
+  <span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">VIEW</span> <span class="p">[</span><span class="n">Luxury</span> <span class="n">Products</span><span class="p">]</span> <span class="k">AS</span>
+  <span class="k">SELECT</span> <span class="n">product_name</span><span class="p">,</span> <span class="n">price</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">WHERE</span> <span class="n">price</span> <span class="o">&gt;</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">)</span>
+
+  <span class="c1">-- Drop the View</span>
+  <span class="k">DROP</span> <span class="k">VIEW</span> <span class="p">[</span><span class="n">Luxury</span> <span class="n">Products</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
 
 <h2 id="references">
 <a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
