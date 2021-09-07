@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>SQL Overview | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="SQL Overview" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes on Structured Query Language." />
+<meta property="og:description" content="Notes on Structured Query Language." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/sql-overview" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/sql-overview" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-06T00:00:00-05:00","url":"https://nhtsai.github.io/notes/sql-overview","@type":"BlogPosting","headline":"SQL Overview","dateModified":"2021-09-06T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/sql-overview"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on Structured Query Language.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SQL Overview</h1><p class="page-description">Notes on Structured Query Language.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-06T00:00:00-05:00" itemprop="datePublished">
+        Sep 6, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#sql">sql</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#mysql">mysql</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#postgresql">postgresql</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#sql-overview">SQL Overview</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#sql">SQL</a></li>
+<li class="toc-entry toc-h2"><a href="#rdbms">RDBMS</a></li>
+<li class="toc-entry toc-h2"><a href="#sql-syntax">SQL Syntax</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#select">SELECT</a></li>
+<li class="toc-entry toc-h3"><a href="#from">FROM</a></li>
+<li class="toc-entry toc-h3"><a href="#where">WHERE</a></li>
+<li class="toc-entry toc-h3"><a href="#order-by">ORDER BY</a></li>
+<li class="toc-entry toc-h3"><a href="#aggregate-functions">Aggregate Functions</a></li>
+<li class="toc-entry toc-h3"><a href="#as-aliasing">AS (Aliasing)</a></li>
+<li class="toc-entry toc-h3"><a href="#group-by">GROUP BY</a></li>
+<li class="toc-entry toc-h3"><a href="#having">HAVING</a></li>
+<li class="toc-entry toc-h3"><a href="#case-when">CASE WHEN</a></li>
+<li class="toc-entry toc-h3"><a href="#distinct">DISTINCT</a></li>
+<li class="toc-entry toc-h3"><a href="#joins">Joins</a></li>
+<li class="toc-entry toc-h3"><a href="#joininner-join">JOIN/INNER JOIN</a></li>
+<li class="toc-entry toc-h3"><a href="#left-joinleft-outer-join">LEFT JOIN/LEFT OUTER JOIN</a></li>
+<li class="toc-entry toc-h3"><a href="#right-joinright-outer-join">RIGHT JOIN/RIGHT OUTER JOIN</a></li>
+<li class="toc-entry toc-h3"><a href="#full-outer-join">FULL OUTER JOIN</a></li>
+<li class="toc-entry toc-h3"><a href="#self-joins">Self Joins</a></li>
+<li class="toc-entry toc-h3"><a href="#joins-with-conditions">Joins with Conditions</a></li>
+<li class="toc-entry toc-h3"><a href="#union">UNION</a></li>
+<li class="toc-entry toc-h3"><a href="#update">UPDATE</a></li>
+<li class="toc-entry toc-h3"><a href="#delete">DELETE</a></li>
+<li class="toc-entry toc-h3"><a href="#insert-into">INSERT INTO</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#sql-database">SQL Database</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#create-database">CREATE DATABASE</a></li>
+<li class="toc-entry toc-h3"><a href="#alter-database">ALTER DATABASE</a></li>
+<li class="toc-entry toc-h3"><a href="#create-table">CREATE TABLE</a></li>
+<li class="toc-entry toc-h3"><a href="#alter-table">ALTER TABLE</a></li>
+<li class="toc-entry toc-h3"><a href="#drop-table">DROP TABLE</a></li>
+<li class="toc-entry toc-h3"><a href="#create-index">CREATE INDEX</a></li>
+<li class="toc-entry toc-h3"><a href="#drop-index">DROP INDEX</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#section">Section</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="sql-overview">
+<a class="anchor" href="#sql-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Overview</h1>
+<ul>
+  <li><a href="">Mode SQL</a></li>
+  <li><a href="">Select Star SQL</a></li>
+  <li><a href="">W3 Schools</a></li>
+</ul>
+
+<h2 id="sql">
+<a class="anchor" href="#sql" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL</h2>
+<ul>
+  <li>
+<strong>SQL</strong>, or Structured Query Language, is a <a href="https://en.wikipedia.org/wiki/Declarative_programming">declarative language</a> used to access and manipulate databases.</li>
+  <li>SQL can execute queries, retrieve data, insert records, update records, and delete records.</li>
+  <li>SQL can create new databases, tables, stored procedures, views.</li>
+  <li>SQL can set permissions on tables, procedures, and views.</li>
+</ul>
+
+<h2 id="rdbms">
+<a class="anchor" href="#rdbms" aria-hidden="true"><span class="octicon octicon-link"></span></a>RDBMS</h2>
+<ul>
+  <li>
+<strong>RDBMS</strong>, or Relational Database Management System, is the basis for SQL and all modern database systems (MS SQL Server, MySQL, etc.).</li>
+  <li>A <strong>database</strong> is an organized collection of data tables.</li>
+  <li>A <strong>schema</strong> is an overview of all tables in a database.</li>
+  <li>A <strong>table</strong> is a collection of related data entries, formatted in columns and rows.
+    <ul>
+      <li>Every table is broken up into smaller entities called <strong>fields</strong>.</li>
+      <li>Reference a table using <code class="language-plaintext highlighter-rouge">database.table</code>.</li>
+    </ul>
+  </li>
+  <li>A <strong>field</strong> is a table column (vertical entity) designed to maintain specific information about every record in the table.</li>
+  <li>A <strong>record</strong> is a table row (horizontal entity) that holds specific information about each individual entry that exists in a table.</li>
+</ul>
+
+<h2 id="sql-syntax">
+<a class="anchor" href="#sql-syntax" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Syntax</h2>
+<ul>
+  <li>SQL keywords are not case-sensitive.</li>
+  <li>Semicolons separate each SQL statement, often used to execute more than one statement in the same query call.</li>
+  <li>Use double-quotes for column names.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">-- comment</code> for single line comments, <code class="language-plaintext highlighter-rouge">/* comment */</code> for multi-line comments</li>
+</ul>
+
+<h3 id="select">
+<a class="anchor" href="#select" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT</h3>
+<ul>
+  <li>
+    <p>Extracts data from a database</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Selecting all columns and rows</span>
+  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="from">
+<a class="anchor" href="#from" aria-hidden="true"><span class="octicon octicon-link"></span></a>FROM</h3>
+<ul>
+  <li>
+    <p>Denotes the database and table to query</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Selecting all rows of col1</span>
+  <span class="k">SELECT</span> <span class="n">col1</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="where">
+<a class="anchor" href="#where" aria-hidden="true"><span class="octicon octicon-link"></span></a>WHERE</h3>
+<ul>
+  <li>
+    <p>Filters the data retrieved from the database based on a specified condition</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Filtering for rows where col1 is positive</span>
+  <span class="k">SELECT</span> <span class="n">col1</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">WHERE</span> <span class="n">col1</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Comparison Operators</th>
+      <th>Symbol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Equal To</td>
+      <td>=</td>
+    </tr>
+    <tr>
+      <td>Not Equal To</td>
+      <td>&lt;&gt;, !=</td>
+    </tr>
+    <tr>
+      <td>Greater Than</td>
+      <td>&gt;</td>
+    </tr>
+    <tr>
+      <td>Greater Than or Equal To</td>
+      <td>&gt;=</td>
+    </tr>
+    <tr>
+      <td>Less Than</td>
+      <td>&lt;</td>
+    </tr>
+    <tr>
+      <td>Less Than or Equal To</td>
+      <td>&lt;=</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Arithmetic Operators</th>
+      <th>Symbol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Addition</td>
+      <td>+</td>
+    </tr>
+    <tr>
+      <td>Subtraction</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Multiplication</td>
+      <td>*</td>
+    </tr>
+    <tr>
+      <td>Division</td>
+      <td>/</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Use operators to compare across columns in the same row.
+    <ul>
+      <li>Need aggregate functions to compare across rows.</li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Logical Operators</th>
+      <th>Symbol</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Match similar values</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">LIKE</code>, <br> <code class="language-plaintext highlighter-rouge">%</code> is a multiple wildcard character, <br> <code class="language-plaintext highlighter-rouge">_</code> is an individual wildcard character</td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col LIKE 'n%'</code></td>
+    </tr>
+    <tr>
+      <td>Match similar values, case insensitive</td>
+      <td><code class="language-plaintext highlighter-rouge">ILIKE</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col LIKE 'n%'</code></td>
+    </tr>
+    <tr>
+      <td>Match on list of values, or query result</td>
+      <td><code class="language-plaintext highlighter-rouge">IN</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col IN (1, 2, 3)</code></td>
+    </tr>
+    <tr>
+      <td>Match on a range, inclusive</td>
+      <td><code class="language-plaintext highlighter-rouge">BETWEEN ... AND ...</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col BETWEEN 5 AND 10</code></td>
+    </tr>
+    <tr>
+      <td>Match null values</td>
+      <td><code class="language-plaintext highlighter-rouge">IS NULL</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col IS NULL</code></td>
+    </tr>
+    <tr>
+      <td>Match non-null values</td>
+      <td><code class="language-plaintext highlighter-rouge">IS NOT NULL</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col IS NOT NULL</code></td>
+    </tr>
+    <tr>
+      <td>Match on 2 conditions</td>
+      <td><code class="language-plaintext highlighter-rouge">AND</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col &gt;= 1 AND col &lt;= 2</code></td>
+    </tr>
+    <tr>
+      <td>Match on either of 2 conditions</td>
+      <td><code class="language-plaintext highlighter-rouge">OR</code></td>
+      <td><code class="language-plaintext highlighter-rouge">WHERE col = 1 OR (col = 2 AND col = 3)</code></td>
+    </tr>
+    <tr>
+      <td>Match on not a condition</td>
+      <td><code class="language-plaintext highlighter-rouge">NOT</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">WHERE col NOT LIKE '%n%'</code> <br> <code class="language-plaintext highlighter-rouge">WHERE col NOT BETWEEN 2 AND 3</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="order-by">
+<a class="anchor" href="#order-by" aria-hidden="true"><span class="octicon octicon-link"></span></a>ORDER BY</h3>
+<ul>
+  <li>Sorts data based on 1+ columns</li>
+  <li>Ascending sort by default, use <code class="language-plaintext highlighter-rouge">DESC</code> for descending sort</li>
+  <li>
+    <p>Can also use #s in place of column names, corresponding to (1-indexed) order of columns in <code class="language-plaintext highlighter-rouge">SELECT</code></p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Ordering using column names</span>
+  <span class="k">SELECT</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">col1</span> <span class="k">DESC</span><span class="p">,</span> <span class="n">col2</span>
+
+  <span class="c1">-- Ordering using column numbers</span>
+  <span class="k">SELECT</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">1</span> <span class="k">DESC</span><span class="p">,</span> <span class="mi">2</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="aggregate-functions">
+<a class="anchor" href="#aggregate-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Aggregate Functions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aggregation</th>
+      <th>Command</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Gets count of all non-null values</td>
+      <td><code class="language-plaintext highlighter-rouge">COUNT</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SELECT COUNT(col1)</code></td>
+    </tr>
+    <tr>
+      <td>Gets sum of all values, null values are 0</td>
+      <td><code class="language-plaintext highlighter-rouge">SUM</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SELECT SUM(col1)</code></td>
+    </tr>
+    <tr>
+      <td>Gets average of all values, null values are 0</td>
+      <td><code class="language-plaintext highlighter-rouge">AVG</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SELECT AVG(col1)</code></td>
+    </tr>
+    <tr>
+      <td>Gets minimum of all values</td>
+      <td><code class="language-plaintext highlighter-rouge">MIN</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SELECT MIN(col1)</code></td>
+    </tr>
+    <tr>
+      <td>Gets maximum of all values</td>
+      <td><code class="language-plaintext highlighter-rouge">MAX</code></td>
+      <td><code class="language-plaintext highlighter-rouge">SELECT MAX(col1)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="as-aliasing">
+<a class="anchor" href="#as-aliasing" aria-hidden="true"><span class="octicon octicon-link"></span></a>AS (Aliasing)</h3>
+<ul>
+  <li>
+    <p>Renames a table or column</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">col1</span> <span class="k">AS</span> <span class="nv">"Sales"</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span> <span class="k">AS</span> <span class="n">T</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="group-by">
+<a class="anchor" href="#group-by" aria-hidden="true"><span class="octicon octicon-link"></span></a>GROUP BY</h3>
+<ul>
+  <li>Aggregates across smaller groupings instead of the whole table</li>
+  <li>Required for non-aggregated columns when performing aggregation</li>
+  <li>Can also reference columns by 1-indexed order in <code class="language-plaintext highlighter-rouge">SELECT</code>
+</li>
+  <li>
+    <p>Order of column names in grouping does not matter</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">C</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span>
+
+  <span class="c1">-- Equivalent query</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">C</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="having">
+<a class="anchor" href="#having" aria-hidden="true"><span class="octicon octicon-link"></span></a>HAVING</h3>
+<ul>
+  <li>Filters the result of aggregate columns</li>
+  <li>
+    <p>Like <code class="language-plaintext highlighter-rouge">WHERE</code> but for aggregated columns</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">A</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>    <span class="c1">-- max aggregation</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">WHERE</span> <span class="n">A</span> <span class="o">&gt;=</span> <span class="mi">4</span>        <span class="c1">-- filter before aggregation</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">A</span>          <span class="c1">-- group by non-aggregated cols</span>
+  <span class="k">HAVING</span> <span class="k">MAX</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span>  <span class="c1">-- filter after aggregation</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">2</span> <span class="k">DESC</span>     <span class="c1">-- descending sort by MAX(B)</span>
+  <span class="k">LIMIT</span> <span class="mi">100</span>           <span class="c1">-- return only first 100 rows</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="case-when">
+<a class="anchor" href="#case-when" aria-hidden="true"><span class="octicon octicon-link"></span></a>CASE WHEN</h3>
+<ul>
+  <li>Used to handle if/else logic</li>
+  <li>Always goes in the <code class="language-plaintext highlighter-rouge">SELECT</code> clause</li>
+  <li>
+    <p>Default value is <code class="language-plaintext highlighter-rouge">NULL</code> if no <code class="language-plaintext highlighter-rouge">ELSE</code> clause</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">CASE</span>
+          <span class="k">WHEN</span> <span class="n">condition</span> <span class="k">THEN</span> <span class="n">value</span>
+          <span class="k">WHEN</span> <span class="n">condition</span> <span class="k">THEN</span> <span class="n">value</span>
+          <span class="k">ELSE</span> <span class="n">value</span> <span class="c1">-- optional, default is NULL</span>
+      <span class="k">END</span> <span class="k">AS</span> <span class="n">col_name</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Use with aggregate functions to create different aggregation groups
+    <ul>
+      <li>can use <code class="language-plaintext highlighter-rouge">CASE WHEN</code> alias in <code class="language-plaintext highlighter-rouge">GROUP BY</code> or copy and paste the whole <code class="language-plaintext highlighter-rouge">CASE WHEN</code>
+</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- vertical table example</span>
+  <span class="k">SELECT</span> <span class="k">CASE</span> <span class="c1">-- processes all c values into 5 groups</span>
+          <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span> <span class="k">THEN</span> <span class="s1">'Freshman'</span>
+          <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span> <span class="k">THEN</span> <span class="s1">'Sophomore'</span>
+          <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">3</span> <span class="k">THEN</span> <span class="s1">'Junior'</span>
+          <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">4</span> <span class="k">THEN</span> <span class="s1">'Senior'</span>
+      <span class="k">ELSE</span> <span class="s1">'None'</span>
+      <span class="k">END</span> <span class="k">AS</span> <span class="n">grade</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">grade</span>  <span class="c1">-- groups by grade</span>
+
+  <span class="c1">-- horizontal table example</span>
+  <span class="k">SELECT</span> 
+      <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">fr_count</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">so_count</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">3</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">jr_count</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">4</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sr_count</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="distinct">
+<a class="anchor" href="#distinct" aria-hidden="true"><span class="octicon octicon-link"></span></a>DISTINCT</h3>
+<ul>
+  <li>Selects unique values of 1+ columns</li>
+  <li>Only need to include <code class="language-plaintext highlighter-rouge">DISTINCT</code> once</li>
+  <li>
+    <p>Slow performance, especially in aggregations</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="nb">year</span><span class="p">,</span> <span class="k">month</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+
+  <span class="c1">-- use with aggregate</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="k">month</span><span class="p">)</span> <span class="k">AS</span> <span class="n">unique_months</span>
+  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="joins">
+<a class="anchor" href="#joins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Joins</h3>
+<ul>
+  <li>Uses common identifiers to join related tables
+    <ul>
+      <li>Rows without matching common identifiers will default to <code class="language-plaintext highlighter-rouge">NULL</code>
+</li>
+    </ul>
+  </li>
+  <li>Use aliases for tables when joining
+    <ul>
+      <li>Aliases distinguish identical column names when joining two tables</li>
+    </ul>
+  </li>
+  <li>Can use aliases in <code class="language-plaintext highlighter-rouge">SELECT</code> clause, like <code class="language-plaintext highlighter-rouge">SELECT alias.col_name</code>
+</li>
+</ul>
+
+<h3 id="joininner-join">
+<a class="anchor" href="#joininner-join" aria-hidden="true"><span class="octicon octicon-link"></span></a>JOIN/INNER JOIN</h3>
+<ul>
+  <li>Joins two tables, returns only matched rows from both tables</li>
+  <li>
+    <p>Unmatched rows are not included</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Keeps matched rows</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span> 
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">col</span><span class="o">=</span><span class="n">B</span><span class="p">.</span><span class="n">col</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="left-joinleft-outer-join">
+<a class="anchor" href="#left-joinleft-outer-join" aria-hidden="true"><span class="octicon octicon-link"></span></a>LEFT JOIN/LEFT OUTER JOIN</h3>
+<ul>
+  <li>
+    <p>Joins two tables, returns matched rows and unmatched rows from left table.</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Keeps all A rows and matched B rows</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span> 
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">col</span><span class="o">=</span><span class="n">B</span><span class="p">.</span><span class="n">col</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="right-joinright-outer-join">
+<a class="anchor" href="#right-joinright-outer-join" aria-hidden="true"><span class="octicon octicon-link"></span></a>RIGHT JOIN/RIGHT OUTER JOIN</h3>
+<ul>
+  <li>Joins two tables, returns matched rows and unmatched rows from right table.</li>
+  <li>
+    <p>Usually use flip the table order and use <code class="language-plaintext highlighter-rouge">LEFT JOIN</code>.</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Keeps match A rows and all B rows</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span> 
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">col</span><span class="o">=</span><span class="n">B</span><span class="p">.</span><span class="n">col</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="full-outer-join">
+<a class="anchor" href="#full-outer-join" aria-hidden="true"><span class="octicon octicon-link"></span></a>FULL OUTER JOIN</h3>
+<ul>
+  <li>Joins two tables, returns all matched and unmatched rows.</li>
+  <li>
+    <p>Commonly used in aggregations to find overlap between two tables</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Keeps all matched/unmatched rows</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">col2</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span> 
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">col</span><span class="o">=</span><span class="n">B</span><span class="p">.</span><span class="n">col</span>
+
+  <span class="c1">-- Example</span>
+  <span class="k">SELECT</span>
+      <span class="k">COUNT</span><span class="p">(</span>
+          <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">AND</span> <span class="n">B</span><span class="p">.</span><span class="n">b</span> <span class="k">IS</span> <span class="k">NULL</span>
+          <span class="k">THEN</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">-- must use A.a otherwise NULL and COUNT will be 0</span>
+          <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span>
+      <span class="p">)</span> <span class="k">AS</span> <span class="n">A_only</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span>
+          <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">AND</span> <span class="n">B</span><span class="p">.</span><span class="n">b</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
+          <span class="k">THEN</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="c1">-- can keep either A.a or B.b</span>
+          <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span>
+      <span class="p">)</span> <span class="k">AS</span> <span class="k">both</span><span class="p">,</span>
+      <span class="k">COUNT</span><span class="p">(</span>
+          <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="k">IS</span> <span class="k">NULL</span> <span class="k">AND</span> <span class="n">B</span><span class="p">.</span><span class="n">b</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
+          <span class="k">THEN</span> <span class="n">B</span><span class="p">.</span><span class="n">b</span> <span class="c1">-- must use B.b otherwise NULL and COUNT will be 0</span>
+          <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span>
+      <span class="p">)</span> <span class="k">AS</span> <span class="n">B_only</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">b</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="self-joins">
+<a class="anchor" href="#self-joins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Self Joins</h3>
+
+<h3 id="joins-with-conditions">
+<a class="anchor" href="#joins-with-conditions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Joins with Conditions</h3>
+<ul>
+  <li>
+    <p>Can put conditions either in the <code class="language-plaintext highlighter-rouge">WHERE</code> or <code class="language-plaintext highlighter-rouge">ON</code> clauses</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Finds rows that fit the condition rather</span>
+  <span class="c1">-- than joining all rows then filtering</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">AND</span> <span class="n">A</span><span class="p">.</span><span class="nb">year</span> <span class="o">&gt;</span> <span class="n">B</span><span class="p">.</span><span class="nb">year</span> <span class="o">+</span> <span class="mi">5</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Conditioning <code class="language-plaintext highlighter-rouge">WHERE</code> vs. <code class="language-plaintext highlighter-rouge">ON</code> clauses
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">WHERE</code> joins all rows that match, then filters the rows based on that condition
+        <ul>
+          <li>May be less efficient when joining large tables</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">ON</code> only joins rows that match the conditions listed</li>
+      <li>For <code class="language-plaintext highlighter-rouge">INNER JOIN</code>s, the two methods effectively produce the <em>same results</em> because unmatched (NULL) rows are discarded.</li>
+      <li>For <code class="language-plaintext highlighter-rouge">OUTER JOIN</code>s, this is a slight difference.</li>
+    </ul>
+  </li>
+  <li>Example
+    <ul>
+      <li>Tables</li>
+    </ul>
+
+    <p><strong>documents</strong>
+  | id | name |
+  | – | —- |
+  | 1  | doc1 |
+  | 2  | doc2 |
+  | 3  | doc3 |
+  | 4  | doc4 |
+  | 5  | doc5 |</p>
+
+    <p><strong>downloads</strong>
+  | id | doc_id | user |
+  | – | —— | —- |
+  | 1 | 1 | sandeep |
+  | 2 | 1 | simi |
+  | 3 | 2 | sandeep |
+  | 4 | 2 | reya |
+  | 5 | 3 | simi |</p>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">WHERE</code> conditioning vs. <code class="language-plaintext highlighter-rouge">ON</code> conditioning</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">documents</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">downloads</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">FROM</span> <span class="n">documents</span>
+  <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">downloads</span>
+  <span class="k">ON</span> <span class="n">documents</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">downloads</span><span class="p">.</span><span class="n">doc_id</span>
+  <span class="k">WHERE</span> <span class="k">user</span><span class="o">=</span><span class="s1">'sandeep'</span>            <span class="c1">-- WHERE condition</span>
+
+  <span class="k">SELECT</span> <span class="n">documents</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">downloads</span><span class="p">.</span><span class="n">id</span>
+  <span class="k">FROM</span> <span class="n">documents</span>
+  <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">downloads</span>
+  <span class="k">ON</span> <span class="n">documents</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">downloads</span><span class="p">.</span><span class="n">doc_id</span>
+  <span class="k">AND</span> <span class="k">user</span><span class="o">=</span><span class="s1">'sandeep'</span>              <span class="c1">-- ON condition</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning
+        <ul>
+          <li>Matches every row using key, filters <strong>after the join</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>documents.id</th>
+          <th>name</th>
+          <th>downloads.id</th>
+          <th>doc_id</th>
+          <th>user</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>doc1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>doc1</td>
+          <td>2</td>
+          <td>1</td>
+          <td>simi</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>doc2</td>
+          <td>3</td>
+          <td>2</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>doc2</td>
+          <td>4</td>
+          <td>2</td>
+          <td>reya</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>doc3</td>
+          <td>5</td>
+          <td>3</td>
+          <td>simi</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>doc4</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>doc5</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">ON</code> conditioning
+        <ul>
+          <li>Does not match rows that are not <code class="language-plaintext highlighter-rouge">user='sandeep'</code>, filters one table <strong>before the join</strong>.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>documents.id</th>
+          <th>name</th>
+          <th>downloads.id</th>
+          <th>doc_id</th>
+          <th>user</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>doc1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>doc2</td>
+          <td>3</td>
+          <td>2</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>doc3</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>doc4</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>doc5</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>Result of <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>downloads.id</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>doc1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>doc2</td>
+          <td>3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>Result of <code class="language-plaintext highlighter-rouge">ON</code> conditioning</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>downloads.id</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>doc1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>doc2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>doc3</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>doc3</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>doc4</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>doc5</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>Because the <code class="language-plaintext highlighter-rouge">WHERE</code> condition filters after the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, THE <code class="language-plaintext highlighter-rouge">NULL</code> rows of the <code class="language-plaintext highlighter-rouge">user</code> column are removed. You can see that because the <code class="language-plaintext highlighter-rouge">ON</code> condition filters before the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, the <code class="language-plaintext highlighter-rouge">NULL</code> rows are kept in the final result.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="union">
+<a class="anchor" href="#union" aria-hidden="true"><span class="octicon octicon-link"></span></a>UNION</h3>
+<ul>
+  <li>Stacks two tables vertically</li>
+  <li>Only appends <code class="language-plaintext highlighter-rouge">DISTINCT</code> values, identical rows are dropped</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">UNION ALL</code> to append all values, including identical rows</li>
+  <li>Can write 2 <code class="language-plaintext highlighter-rouge">SELECT</code> queries, and put the results on top of each other to create one table
+    <ul>
+      <li>Result set’s column names usually same as first <code class="language-plaintext highlighter-rouge">SELECT</code> clause</li>
+    </ul>
+  </li>
+  <li>Every <code class="language-plaintext highlighter-rouge">SELECT</code> statement within <code class="language-plaintext highlighter-rouge">UNION</code> must have same number of columns
+    <ul>
+      <li>The columns must have similar data types</li>
+      <li>The columns in every <code class="language-plaintext highlighter-rouge">SELECT</code> statement must also be in the same order</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- UNION Example</span>
+  <span class="k">SELECT</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span> <span class="k">FROM</span> <span class="n">Customers</span>
+  <span class="k">WHERE</span> <span class="n">Country</span><span class="o">=</span><span class="s1">'Germany'</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span> <span class="k">FROM</span> <span class="n">Suppliers</span>
+  <span class="k">WHERE</span> <span class="n">Country</span><span class="o">=</span><span class="s1">'Germany'</span>
+
+  <span class="c1">-- Union Example</span>
+  <span class="k">SELECT</span> <span class="s1">'Customer'</span> <span class="k">AS</span> <span class="k">Type</span><span class="p">,</span> <span class="n">ContactName</span><span class="p">,</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span>
+  <span class="k">FROM</span> <span class="n">Customers</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="s1">'Supplier'</span><span class="p">,</span> <span class="n">ContactName</span><span class="p">,</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span>
+  <span class="k">FROM</span> <span class="n">Suppliers</span><span class="p">;</span>
+
+  <span class="c1">-- UNION ALL Example</span>
+  <span class="k">SELECT</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span> <span class="k">FROM</span> <span class="n">Customers</span>
+  <span class="k">WHERE</span> <span class="n">Country</span><span class="o">=</span><span class="s1">'Germany'</span>
+  <span class="k">UNION</span>
+  <span class="k">SELECT</span> <span class="n">City</span><span class="p">,</span> <span class="n">Country</span> <span class="k">FROM</span> <span class="n">Suppliers</span>
+  <span class="k">WHERE</span> <span class="n">Country</span><span class="o">=</span><span class="s1">'Germany'</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">City</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="update">
+<a class="anchor" href="#update" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE</h3>
+<ul>
+  <li>Updates data in a database</li>
+</ul>
+
+<h3 id="delete">
+<a class="anchor" href="#delete" aria-hidden="true"><span class="octicon octicon-link"></span></a>DELETE</h3>
+<ul>
+  <li>Deletes data in a database</li>
+</ul>
+
+<h3 id="insert-into">
+<a class="anchor" href="#insert-into" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSERT INTO</h3>
+<ul>
+  <li>Inserts new data into a database</li>
+</ul>
+
+<h2 id="sql-database">
+<a class="anchor" href="#sql-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Database</h2>
+
+<h3 id="create-database">
+<a class="anchor" href="#create-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE DATABASE</h3>
+<ul>
+  <li>Creates a new database</li>
+</ul>
+
+<h3 id="alter-database">
+<a class="anchor" href="#alter-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>ALTER DATABASE</h3>
+<ul>
+  <li>Modifies a database</li>
+</ul>
+
+<h3 id="create-table">
+<a class="anchor" href="#create-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE TABLE</h3>
+<ul>
+  <li>Creates a new table</li>
+</ul>
+
+<h3 id="alter-table">
+<a class="anchor" href="#alter-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>ALTER TABLE</h3>
+<ul>
+  <li>Modifies a table</li>
+</ul>
+
+<h3 id="drop-table">
+<a class="anchor" href="#drop-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>DROP TABLE</h3>
+<ul>
+  <li>Deletes a table</li>
+</ul>
+
+<h3 id="create-index">
+<a class="anchor" href="#create-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>CREATE INDEX</h3>
+<ul>
+  <li>Creates an index (search key)</li>
+</ul>
+
+<h3 id="drop-index">
+<a class="anchor" href="#drop-index" aria-hidden="true"><span class="octicon octicon-link"></span></a>DROP INDEX</h3>
+<ul>
+  <li>Deletes an index</li>
+</ul>
+
+<h2 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Section</h2>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/sql-overview" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
