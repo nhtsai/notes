@@ -9,15 +9,15 @@
 <meta property="og:title" content="Learning Object-Specific Distance From a Monocular Image" />
 <meta name="author" content="Nathan Tsai" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Description." />
-<meta property="og:description" content="Description." />
+<meta name="description" content="Notes on distance estimation model by Zhu et al." />
+<meta property="og:description" content="Notes on distance estimation model by Zhu et al." />
 <link rel="canonical" href="https://nhtsai.github.io/notes/distance-estimation" />
 <meta property="og:url" content="https://nhtsai.github.io/notes/distance-estimation" />
 <meta property="og:site_name" content="notes" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-03-26T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2021-03-26T00:00:00-05:00","url":"https://nhtsai.github.io/notes/distance-estimation","@type":"BlogPosting","headline":"Learning Object-Specific Distance From a Monocular Image","dateModified":"2021-03-26T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/distance-estimation"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Description.","@context":"https://schema.org"}</script>
+{"datePublished":"2021-03-26T00:00:00-05:00","url":"https://nhtsai.github.io/notes/distance-estimation","@type":"BlogPosting","headline":"Learning Object-Specific Distance From a Monocular Image","dateModified":"2021-03-26T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/distance-estimation"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on distance estimation model by Zhu et al.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -88,7 +88,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Learning Object-Specific Distance From a Monocular Image</h1><p class="page-description">Description.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-26T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Learning Object-Specific Distance From a Monocular Image</h1><p class="page-description">Notes on distance estimation model by Zhu et al.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-26T00:00:00-05:00" itemprop="datePublished">
         Mar 26, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -184,7 +184,7 @@ window.onload = wrap_img;
 
 <p>The authors first sought “to develop an end-to-end learning based approach that directly predicts distances for given objects in the RGB images.” <em>End-to-end</em> meaning that object detection and distance estimation parameters are trained jointly. The base model extracts features from RGB images, then utilizes region of interest (ROI) pooling to generate a fixed-size feature vector for each object, and feeds the ROI feature vectors into a distance regressor to predict a distance <em>(Z)</em> for each object. However, this method was not sufficiently precise for self-driving.</p>
 
-<p>The authors then created an enhanced model with a keypoint regressor to predict <em>(X,Y)</em> of the 3D keypoint coordinates <em>(X,Y,Z)</em>. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point <em>(X,Y,Z)</em> and the ground truth keypoint (X<em>,Y</em>,Z*). The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.</p>
+<p>The authors then created an enhanced model with a keypoint regressor to predict <em>(X,Y)</em> of the 3D keypoint coordinates <em>(X,Y,Z)</em>. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point <em>(X,Y,Z)</em> and the ground truth keypoint (X*,Y*,Z*). The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.</p>
 
 <p>The authors constructed an extended dataset from the <code class="language-plaintext highlighter-rouge">KITTI object detection dataset</code> and the <code class="language-plaintext highlighter-rouge">nuScenes mini dataset</code> by “computing the distance for each object using its corresponding LiDAR point cloud and camera parameters.”</p>
 
