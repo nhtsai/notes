@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      10 min read
+      23 min read
     
 </span></p>
 
@@ -126,6 +126,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#sql-syntax">SQL Syntax</a>
 <ul>
 <li class="toc-entry toc-h3"><a href="#select">SELECT</a></li>
+<li class="toc-entry toc-h3"><a href="#select-toplimit">SELECT TOP/LIMIT</a></li>
 <li class="toc-entry toc-h3"><a href="#from">FROM</a></li>
 <li class="toc-entry toc-h3"><a href="#where">WHERE</a></li>
 <li class="toc-entry toc-h3"><a href="#order-by">ORDER BY</a></li>
@@ -140,9 +141,21 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#left-joinleft-outer-join">LEFT JOIN/LEFT OUTER JOIN</a></li>
 <li class="toc-entry toc-h3"><a href="#right-joinright-outer-join">RIGHT JOIN/RIGHT OUTER JOIN</a></li>
 <li class="toc-entry toc-h3"><a href="#full-outer-join">FULL OUTER JOIN</a></li>
-<li class="toc-entry toc-h3"><a href="#self-joins">Self Joins</a></li>
 <li class="toc-entry toc-h3"><a href="#joins-with-conditions">Joins with Conditions</a></li>
+<li class="toc-entry toc-h3"><a href="#joins-with-multiple-foreign-keys">Joins with Multiple Foreign Keys</a></li>
+<li class="toc-entry toc-h3"><a href="#self-joins">Self Joins</a></li>
 <li class="toc-entry toc-h3"><a href="#union">UNION</a></li>
+<li class="toc-entry toc-h3"><a href="#data-types">Data Types</a></li>
+<li class="toc-entry toc-h3"><a href="#cast">CAST</a></li>
+<li class="toc-entry toc-h3"><a href="#dates">Dates</a></li>
+<li class="toc-entry toc-h3"><a href="#null-functions">Null Functions</a></li>
+<li class="toc-entry toc-h3"><a href="#string-functions">String Functions</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#subqueries">Subqueries</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#window-functions">Window Functions</a></li>
+<li class="toc-entry toc-h3"><a href="#views">Views</a></li>
 <li class="toc-entry toc-h3"><a href="#update">UPDATE</a></li>
 <li class="toc-entry toc-h3"><a href="#delete">DELETE</a></li>
 <li class="toc-entry toc-h3"><a href="#insert-into">INSERT INTO</a></li>
@@ -166,9 +179,10 @@ window.onload = wrap_img;
 </ul><h1 id="sql-overview">
 <a class="anchor" href="#sql-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>SQL Overview</h1>
 <ul>
-  <li><a href="">Mode SQL</a></li>
+  <li><a href="https://mode.com/sql-tutorial/">Mode SQL</a></li>
   <li><a href="">Select Star SQL</a></li>
-  <li><a href="">W3 Schools</a></li>
+  <li><a href="">W3 Schools SQL</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Ww71knvhQ-s">Window Functions Video</a></li>
 </ul>
 
 <h2 id="sql">
@@ -203,20 +217,45 @@ window.onload = wrap_img;
 <ul>
   <li>SQL keywords are not case-sensitive.</li>
   <li>Semicolons separate each SQL statement, often used to execute more than one statement in the same query call.</li>
-  <li>Use double-quotes for column names.</li>
   <li>Use <code class="language-plaintext highlighter-rouge">-- comment</code> for single line comments, <code class="language-plaintext highlighter-rouge">/* comment */</code> for multi-line comments</li>
 </ul>
 
 <h3 id="select">
 <a class="anchor" href="#select" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT</h3>
 <ul>
+  <li>Extracts data from a database</li>
   <li>
-    <p>Extracts data from a database</p>
+    <p>Use double-quotes for column names if column name is a keyword.</p>
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Selecting all columns and rows</span>
   <span class="k">SELECT</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+
+  <span class="c1">-- Using double quotes for column name (since max is a keyword)</span>
+  <span class="k">SELECT</span> <span class="nv">"Max"</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="select-toplimit">
+<a class="anchor" href="#select-toplimit" aria-hidden="true"><span class="octicon octicon-link"></span></a>SELECT TOP/LIMIT</h3>
+<ul>
+  <li>Specify the number of records to return</li>
+  <li>
+    <p>Use <code class="language-plaintext highlighter-rouge">LIMIT</code> for MySQL, other databases have different ones</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- SQL Server/MS Access</span>
+  <span class="k">SELECT</span> <span class="n">TOP</span> <span class="mi">10</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+
+  <span class="c1">-- MySQL/PostgreSQL</span>
+  <span class="k">SELECT</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+  <span class="k">LIMIT</span> <span class="mi">10</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">col1</span> <span class="k">DESC</span> <span class="c1">-- use ORDER BY to get meaningful row order</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -230,7 +269,7 @@ window.onload = wrap_img;
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Selecting all rows of col1</span>
   <span class="k">SELECT</span> <span class="n">col1</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -244,7 +283,7 @@ window.onload = wrap_img;
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Filtering for rows where col1 is positive</span>
   <span class="k">SELECT</span> <span class="n">col1</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
   <span class="k">WHERE</span> <span class="n">col1</span> <span class="o">&gt;</span> <span class="mi">0</span>
 </code></pre></div>    </div>
   </li>
@@ -332,7 +371,7 @@ window.onload = wrap_img;
     <tr>
       <td>Match similar values</td>
       <td>
-<code class="language-plaintext highlighter-rouge">LIKE</code>, <br> <code class="language-plaintext highlighter-rouge">%</code> is a multiple wildcard character, <br> <code class="language-plaintext highlighter-rouge">_</code> is an individual wildcard character</td>
+<code class="language-plaintext highlighter-rouge">LIKE</code>, <br> <code class="language-plaintext highlighter-rouge">%</code> is a multiple wildcard character, <br> <code class="language-plaintext highlighter-rouge">_</code> is an individual wildcard character, <br> <code class="language-plaintext highlighter-rouge">[ab]</code> is any single character, <br> <code class="language-plaintext highlighter-rouge">[^ab]</code> is any single character not in brackets, <br> <code class="language-plaintext highlighter-rouge">[a-b]</code> is any single character in a range of characters</td>
       <td><code class="language-plaintext highlighter-rouge">WHERE col LIKE 'n%'</code></td>
     </tr>
     <tr>
@@ -391,12 +430,12 @@ window.onload = wrap_img;
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Ordering using column names</span>
   <span class="k">SELECT</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">col1</span> <span class="k">DESC</span><span class="p">,</span> <span class="n">col2</span>
 
   <span class="c1">-- Ordering using column numbers</span>
   <span class="k">SELECT</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table_name</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">1</span> <span class="k">DESC</span><span class="p">,</span> <span class="mi">2</span>
 </code></pre></div>    </div>
   </li>
@@ -450,7 +489,7 @@ window.onload = wrap_img;
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">col1</span> <span class="k">AS</span> <span class="nv">"Sales"</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span> <span class="k">AS</span> <span class="n">T</span>
+  <span class="k">FROM</span> <span class="k">table_name</span> <span class="k">AS</span> <span class="n">T</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -487,7 +526,7 @@ window.onload = wrap_img;
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">A</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>    <span class="c1">-- max aggregation</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
   <span class="k">WHERE</span> <span class="n">A</span> <span class="o">&gt;=</span> <span class="mi">4</span>        <span class="c1">-- filter before aggregation</span>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">A</span>          <span class="c1">-- group by non-aggregated cols</span>
   <span class="k">HAVING</span> <span class="k">MAX</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span>  <span class="c1">-- filter after aggregation</span>
@@ -511,7 +550,7 @@ window.onload = wrap_img;
           <span class="k">WHEN</span> <span class="n">condition</span> <span class="k">THEN</span> <span class="n">value</span>
           <span class="k">ELSE</span> <span class="n">value</span> <span class="c1">-- optional, default is NULL</span>
       <span class="k">END</span> <span class="k">AS</span> <span class="n">col_name</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
   </li>
   <li>Use with aggregate functions to create different aggregation groups
@@ -530,7 +569,7 @@ window.onload = wrap_img;
       <span class="k">ELSE</span> <span class="s1">'None'</span>
       <span class="k">END</span> <span class="k">AS</span> <span class="n">grade</span><span class="p">,</span>
       <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">AS</span> <span class="k">count</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">grade</span>  <span class="c1">-- groups by grade</span>
 
   <span class="c1">-- horizontal table example</span>
@@ -539,7 +578,7 @@ window.onload = wrap_img;
       <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">2</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">so_count</span><span class="p">,</span>
       <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">3</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">jr_count</span><span class="p">,</span>
       <span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">col</span><span class="o">=</span><span class="mi">4</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="k">NULL</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sr_count</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -554,11 +593,11 @@ window.onload = wrap_img;
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="nb">year</span><span class="p">,</span> <span class="k">month</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
 
   <span class="c1">-- use with aggregate</span>
   <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="k">month</span><span class="p">)</span> <span class="k">AS</span> <span class="n">unique_months</span>
-  <span class="k">FROM</span> <span class="n">db</span><span class="p">.</span><span class="k">table</span>
+  <span class="k">FROM</span> <span class="k">table</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -669,9 +708,6 @@ window.onload = wrap_img;
   </li>
 </ul>
 
-<h3 id="self-joins">
-<a class="anchor" href="#self-joins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Self Joins</h3>
-
 <h3 id="joins-with-conditions">
 <a class="anchor" href="#joins-with-conditions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Joins with Conditions</h3>
 <ul>
@@ -704,31 +740,83 @@ window.onload = wrap_img;
   </li>
   <li>Example
     <ul>
-      <li>Tables</li>
+      <li>documents table</li>
     </ul>
 
-    <p><strong>documents</strong>
-  | id | name |
-  | – | —- |
-  | 1  | doc1 |
-  | 2  | doc2 |
-  | 3  | doc3 |
-  | 4  | doc4 |
-  | 5  | doc5 |</p>
-
-    <p><strong>downloads</strong>
-  | id | doc_id | user |
-  | – | —— | —- |
-  | 1 | 1 | sandeep |
-  | 2 | 1 | simi |
-  | 3 | 2 | sandeep |
-  | 4 | 2 | reya |
-  | 5 | 3 | simi |</p>
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>doc1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>doc2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>doc3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>doc4</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>doc5</td>
+        </tr>
+      </tbody>
+    </table>
 
     <ul>
-      <li>
-<code class="language-plaintext highlighter-rouge">WHERE</code> conditioning vs. <code class="language-plaintext highlighter-rouge">ON</code> conditioning</li>
+      <li>downloads table</li>
     </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>doc_id</th>
+          <th>user</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>1</td>
+          <td>simi</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>2</td>
+          <td>sandeep</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>2</td>
+          <td>reya</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>3</td>
+          <td>simi</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">WHERE</code> conditioning vs. <code class="language-plaintext highlighter-rouge">ON</code> conditioning</p>
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">documents</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">downloads</span><span class="p">.</span><span class="n">id</span>
@@ -743,13 +831,10 @@ window.onload = wrap_img;
   <span class="k">ON</span> <span class="n">documents</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">downloads</span><span class="p">.</span><span class="n">doc_id</span>
   <span class="k">AND</span> <span class="k">user</span><span class="o">=</span><span class="s1">'sandeep'</span>              <span class="c1">-- ON condition</span>
 </code></pre></div>    </div>
-
+  </li>
+  <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning
     <ul>
-      <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning
-        <ul>
-          <li>Matches every row using key, filters <strong>after the join</strong>.</li>
-        </ul>
-      </li>
+      <li>Matches every row using key, filters <strong>after the join</strong>.</li>
     </ul>
 
     <table>
@@ -814,13 +899,10 @@ window.onload = wrap_img;
         </tr>
       </tbody>
     </table>
-
+  </li>
+  <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">ON</code> conditioning
     <ul>
-      <li>Intermediate <code class="language-plaintext highlighter-rouge">JOIN</code> table for <code class="language-plaintext highlighter-rouge">ON</code> conditioning
-        <ul>
-          <li>Does not match rows that are not <code class="language-plaintext highlighter-rouge">user='sandeep'</code>, filters one table <strong>before the join</strong>.</li>
-        </ul>
-      </li>
+      <li>Does not match rows that are not <code class="language-plaintext highlighter-rouge">user='sandeep'</code>, filters one table <strong>before the join</strong>.</li>
     </ul>
 
     <table>
@@ -871,10 +953,9 @@ window.onload = wrap_img;
         </tr>
       </tbody>
     </table>
-
-    <ul>
-      <li>Result of <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning</li>
-    </ul>
+  </li>
+  <li>
+    <p>Result of <code class="language-plaintext highlighter-rouge">WHERE</code> conditioning</p>
 
     <table>
       <thead>
@@ -894,10 +975,9 @@ window.onload = wrap_img;
         </tr>
       </tbody>
     </table>
-
-    <ul>
-      <li>Result of <code class="language-plaintext highlighter-rouge">ON</code> conditioning</li>
-    </ul>
+  </li>
+  <li>
+    <p>Result of <code class="language-plaintext highlighter-rouge">ON</code> conditioning</p>
 
     <table>
       <thead>
@@ -933,10 +1013,69 @@ window.onload = wrap_img;
         </tr>
       </tbody>
     </table>
-
+  </li>
+  <li>Because the <code class="language-plaintext highlighter-rouge">WHERE</code> condition filters after the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, THE <code class="language-plaintext highlighter-rouge">NULL</code> rows of the <code class="language-plaintext highlighter-rouge">user</code> column are removed. You can see that because the <code class="language-plaintext highlighter-rouge">ON</code> condition filters before the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, the <code class="language-plaintext highlighter-rouge">NULL</code> rows are kept in the final result.</li>
+  <li>For <code class="language-plaintext highlighter-rouge">INNER JOIN</code>s, put join conditions in the <code class="language-plaintext highlighter-rouge">ON</code> clause and put where conditions in the <code class="language-plaintext highlighter-rouge">WHERE</code> clause.</li>
+  <li>For <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>s, put join conditions in the <code class="language-plaintext highlighter-rouge">ON</code> clause and put <em>where conditions that reference the right table</em> in the <code class="language-plaintext highlighter-rouge">ON</code> clause also.
     <ul>
-      <li>Because the <code class="language-plaintext highlighter-rouge">WHERE</code> condition filters after the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, THE <code class="language-plaintext highlighter-rouge">NULL</code> rows of the <code class="language-plaintext highlighter-rouge">user</code> column are removed. You can see that because the <code class="language-plaintext highlighter-rouge">ON</code> condition filters before the <code class="language-plaintext highlighter-rouge">LEFT OUTER JOIN</code>, the <code class="language-plaintext highlighter-rouge">NULL</code> rows are kept in the final result.</li>
+      <li>Referencing the <em>right table</em> after the <code class="language-plaintext highlighter-rouge">LEFT JOIN</code> in the <code class="language-plaintext highlighter-rouge">WHERE</code> clause converts the <code class="language-plaintext highlighter-rouge">LEFT JOIN</code> into an <code class="language-plaintext highlighter-rouge">INNER JOIN</code>.</li>
+      <li>Exception: reference the <em>right table</em> in the <code class="language-plaintext highlighter-rouge">WHERE</code> clause when looking for records not in the table, e.g. <code class="language-plaintext highlighter-rouge">WHERE t2.id IS NULL</code>.</li>
+      <li>Think of conditions in the <code class="language-plaintext highlighter-rouge">ON</code> clause as “right table <code class="language-plaintext highlighter-rouge">WHERE</code> clause filters” that are applied <em>prior to joining</em>.</li>
     </ul>
+  </li>
+</ul>
+
+<h3 id="joins-with-multiple-foreign-keys">
+<a class="anchor" href="#joins-with-multiple-foreign-keys" aria-hidden="true"><span class="octicon octicon-link"></span></a>Joins with Multiple Foreign Keys</h3>
+<ul>
+  <li>Accuracy of joining is improved</li>
+  <li>Performances: SQL uses indexes to speed up queries
+    <ul>
+      <li>Using multiple join keys can speed up performance for large datasets</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="n">col1</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">col1</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table2</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span> <span class="k">AND</span> <span class="n">A</span><span class="p">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">col</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="self-joins">
+<a class="anchor" href="#self-joins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Self Joins</h3>
+<ul>
+  <li>Joins a table with itself</li>
+  <li>
+    <p>Self joins can help compare different records of the same table</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- WHERE: Find pairs from the same city</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">A</span><span class="p">.</span><span class="n">city</span>
+  <span class="k">FROM</span> <span class="n">users</span> <span class="n">A</span><span class="p">,</span> <span class="n">users</span> <span class="n">B</span>
+  <span class="k">WHERE</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">&lt;&gt;</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span>      <span class="c1">-- avoid matching users to themselves</span>
+  <span class="k">AND</span> <span class="n">A</span><span class="p">.</span><span class="n">city</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="n">city</span>     <span class="c1">-- find pairs from the same city</span>
+
+  <span class="c1">-- ON: Find all pairs</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table1</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span> <span class="c1">-- prevents identical pairs, e.g. (5, 5)</span>
+
+  <span class="c1">-- ON: Find all unique pairs</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table1</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span> <span class="c1">-- prevents identical pairs and permutations, e.g. (1, 5) but not (5, 1)</span>
+
+  <span class="c1">-- ON: Find unique pairs of duplicates</span>
+  <span class="k">SELECT</span> <span class="n">A</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">table1</span> <span class="n">A</span>
+  <span class="k">JOIN</span> <span class="n">table1</span> <span class="n">B</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span> <span class="o">&lt;</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span>      <span class="c1">-- gets different pairs</span>
+  <span class="k">AND</span> <span class="n">A</span><span class="p">.</span><span class="k">last</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="k">last</span> <span class="c1">-- with the same value, eg. different people with same last name</span>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -983,10 +1122,960 @@ window.onload = wrap_img;
   </li>
 </ul>
 
+<h3 id="data-types">
+<a class="anchor" href="#data-types" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Types</h3>
+<ul>
+  <li>Differences vary across various versions of SQL</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Imported As</th>
+      <th>Stored As</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>String</td>
+      <td><code class="language-plaintext highlighter-rouge">VARCHAR(1024)</code></td>
+    </tr>
+    <tr>
+      <td>Date/Time</td>
+      <td>
+<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">DATETIME</code>, <code class="language-plaintext highlighter-rouge">TIMESTAMP</code>, <code class="language-plaintext highlighter-rouge">INTERVAL</code>, <code class="language-plaintext highlighter-rouge">YEAR</code>
+</td>
+    </tr>
+    <tr>
+      <td>Number</td>
+      <td>Exact: <code class="language-plaintext highlighter-rouge">INTEGER</code>, <code class="language-plaintext highlighter-rouge">SMALLINT</code>, <code class="language-plaintext highlighter-rouge">DECIMAL</code>, <code class="language-plaintext highlighter-rouge">NUMERIC</code> <br> Approx: <code class="language-plaintext highlighter-rouge">FLOAT</code>, <code class="language-plaintext highlighter-rouge">REAL</code>, <code class="language-plaintext highlighter-rouge">DOUBLE PRECISION</code>
+</td>
+    </tr>
+    <tr>
+      <td>Boolean</td>
+      <td>BOOLEAN</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="cast">
+<a class="anchor" href="#cast" aria-hidden="true"><span class="octicon octicon-link"></span></a>CAST</h3>
+<ul>
+  <li>In MySQL, changes data type of a column</li>
+  <li>
+    <p>In PostgreSQL, can also use <code class="language-plaintext highlighter-rouge">expression::type</code> casting syntax</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">CAST</span><span class="p">(</span><span class="n">col</span> <span class="k">AS</span> <span class="nb">Integer</span><span class="p">)</span> <span class="k">AS</span> <span class="n">int_col</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+  <span class="k">WHERE</span> <span class="k">CAST</span><span class="p">(</span><span class="n">col</span> <span class="k">AS</span> <span class="nb">Integer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="dates">
+<a class="anchor" href="#dates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dates</h3>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">DATETIME</code>, <code class="language-plaintext highlighter-rouge">TIMESTAMP</code> are date types used in SQL versions</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">YYYY-MM-DD</code> is used for easy ordering, identical orders for dates and strings</li>
+  <li>Date ranges are stored as <code class="language-plaintext highlighter-rouge">INTERVAL</code>
+    <ul>
+      <li>Intervals are defined in English terms, e.g. 10 seconds, 5 days, or 2 months</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Using intervals</span>
+  <span class="k">SELECT</span> <span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="k">table_name</span><span class="p">.</span><span class="nb">date</span> <span class="k">AS</span> <span class="nb">Timestamp</span><span class="p">)</span> <span class="o">+</span> <span class="n">INTERVAL</span> <span class="s1">'1 week'</span><span class="p">)</span> <span class="k">AS</span> <span class="n">week_after</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">EXTRACT(field FROM date_col)</code>: helps deconstruct dates
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">field</code> includes: <code class="language-plaintext highlighter-rouge">YEAR</code>, <code class="language-plaintext highlighter-rouge">MONTH</code>, <code class="language-plaintext highlighter-rouge">DAY</code>, <code class="language-plaintext highlighter-rouge">HOUR</code>, <code class="language-plaintext highlighter-rouge">SECOND</code>, <code class="language-plaintext highlighter-rouge">DECADE</code>, <code class="language-plaintext highlighter-rouge">DOW</code> (day of week)</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="nb">YEAR</span> <span class="k">FROM</span> <span class="n">date_col</span><span class="p">)</span> <span class="k">AS</span> <span class="nb">year</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DATE_TRUNC(field, date_col)</code>: rounds date to a specified precision
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">field</code> includes: <code class="language-plaintext highlighter-rouge">YEAR</code>, <code class="language-plaintext highlighter-rouge">MONTH</code>, <code class="language-plaintext highlighter-rouge">DAY</code>, <code class="language-plaintext highlighter-rouge">HOUR</code>, <code class="language-plaintext highlighter-rouge">SECOND</code>, <code class="language-plaintext highlighter-rouge">DECADE</code>
+</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">DATE_TRUNC</span><span class="p">(</span><span class="k">DAY</span><span class="p">,</span> <span class="n">date_col</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rounded_day</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+  <li>System Datetime Variables
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">CURRENT_DATE()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">CURRENT_TIME()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">CURRENT_TIMESTAMP()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">LOCALTIME()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">LOCALTIMESTAMP()</code></li>
+      <li><code class="language-plaintext highlighter-rouge">NOW()</code></li>
+      <li>To any above, can add <code class="language-plaintext highlighter-rouge">AT TIME ZONE timezone_code</code> to convert to a different timezone.</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">NOW</span><span class="p">()</span>
+
+  <span class="k">SELECT</span> <span class="k">CURRENT_DATE</span><span class="p">()</span> <span class="k">AT</span> <span class="nb">TIME</span> <span class="k">ZONE</span> <span class="s1">'PST'</span> <span class="k">AS</span> <span class="n">current_date_pst</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="null-functions">
+<a class="anchor" href="#null-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Null Functions</h3>
+<ul>
+  <li>Functions vary by SQL version</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">IFNULL(col, value)</code>: returns default value if expression is null</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">COALESCE(col, value)</code>: returns default value if expression is null</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">price</span> <span class="o">*</span> <span class="p">(</span><span class="n">inventory</span> <span class="o">+</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">ordered</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="string-functions">
+<a class="anchor" href="#string-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>String Functions</h3>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">LEFT(str, n)</code>: get n characters from left end of string</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">RIGHT(str, n)</code>: get n characters from right end of string</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">TRIM(type chars FROM str)</code>: trim characters from string
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">TRIM(both '()' FROM col1)</code>: trim from both ends</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">TRIM(leading '()' FROM col1)</code>: trim from front</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">TRIM(trailing '()' FROM col1)</code>: trim from back</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">POSITION(substr IN str)</code>: get position of substring in string, case-sensitive</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">STRPOS(str, substr)</code>: get position of substring in string, case-sensitive</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">SUBSTR(str, start_idx, n)</code>: get n-length substring starting at index of strin</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">CONCAT(str, str, ...)</code>: concatenate strings</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">str || str || ...</code>: concatenate strings</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">UPPER(str)</code>: convert string to upper case</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">LOWER(str)</code>: convert string to lower case</li>
+</ul>
+
+<h2 id="subqueries">
+<a class="anchor" href="#subqueries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subqueries</h2>
+<ul>
+  <li>Subqueries are nested/inner queries to perform operations in multiple steps</li>
+  <li>
+    <p>Subqueries are required to have aliases</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">sub</span><span class="p">.</span><span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="o">*</span>
+      <span class="k">FROM</span> <span class="n">students</span>
+      <span class="k">WHERE</span> <span class="n">grade</span> <span class="o">&gt;</span> <span class="mi">80</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">class_level</span> <span class="o">=</span> <span class="s1">'Senior'</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Example: How many incidents happen, on average, on Fridays in December?</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Count # of incidents that happen on each day.</span>
+  <span class="c1">-- Average # of daily incidents over each day of week (5: Friday) in month (December).</span>
+  <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span> <span class="k">FROM</span> <span class="n">sub</span><span class="p">.</span><span class="n">incident_date</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">"Month"</span><span class="p">,</span>
+         <span class="n">sub</span><span class="p">.</span><span class="n">day_of_week</span><span class="p">,</span>
+         <span class="k">AVG</span><span class="p">(</span><span class="n">sub</span><span class="p">.</span><span class="n">daily_incidents</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="n">DOW</span> <span class="k">FROM</span> <span class="n">incident_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">day_of_week</span><span class="p">,</span>
+             <span class="n">incident_date</span><span class="p">,</span>
+             <span class="k">COUNT</span><span class="p">(</span><span class="n">incident_id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">incidents</span>
+      <span class="k">FROM</span> <span class="n">log_table</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">day_of_week</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">AND</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span> <span class="k">FROM</span> <span class="n">sub</span><span class="p">.</span><span class="n">incident_date</span><span class="p">)</span> <span class="o">=</span> <span class="mi">12</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Example: How many incidents happen for each category, averaged over all months?</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Count # of incidents per category that happen on each month</span>
+  <span class="c1">-- Average # of incidents per category over all months</span>
+  <span class="k">SELECT</span> <span class="n">sub</span><span class="p">.</span><span class="n">category</span><span class="p">,</span>
+         <span class="k">AVG</span><span class="p">(</span><span class="n">sub</span><span class="p">.</span><span class="n">incidents</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_incidents_per_month</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">MONTH</span> <span class="k">FROM</span> <span class="n">incident_date</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">"month"</span><span class="p">,</span>
+          <span class="n">category</span><span class="p">,</span>
+          <span class="k">COUNT</span><span class="p">(</span><span class="n">incident_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">incidents</span>
+      <span class="k">FROM</span> <span class="n">log_table</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Subqueries in Conditional Logic
+    <ul>
+      <li>
+        <p>Don’t use aliases for subqueries in conditional statements</p>
+      </li>
+      <li>
+        <p>Example: get all products that have min price</p>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">WHERE</span> <span class="n">price</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">)</span> <span class="c1">-- subquery returns single cell</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: get the products in the top 5 prices</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">WHERE</span> <span class="n">price</span> <span class="k">IN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">price</span>
+      <span class="k">FROM</span> <span class="n">products</span>
+      <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">price</span> <span class="k">DESC</span>
+      <span class="k">LIMIT</span> <span class="mi">5</span>
+  <span class="p">)</span> <span class="c1">-- subquery returns multiple cells (of one column)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Joining Subqueries
+    <ul>
+      <li>Using filtering in the <code class="language-plaintext highlighter-rouge">ON</code> clause can handle cases when subquery returns one or multiple rows</li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">ON</code> filtering is the same as <code class="language-plaintext highlighter-rouge">WHERE</code> filtering for <code class="language-plaintext highlighter-rouge">INNER JOINS</code></p>
+      </li>
+      <li>Example: get the products in the top 5 prices</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">JOIN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">price</span>
+      <span class="k">FROM</span> <span class="n">products</span>
+      <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">price</span> <span class="k">DESC</span>
+      <span class="k">LIMIT</span> <span class="mi">5</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">ON</span> <span class="n">products</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">sub</span><span class="p">.</span><span class="n">price</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Joining Subqueries with Aggregation Functions</p>
+
+    <ul>
+      <li>Example: <a href="http://sqlfiddle.com/#!9/06d2bf/3/0">Find the products from the top 3 categories with the least counts.</a>
+</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- subquery returns top 3 categories with least product counts</span>
+  <span class="c1">-- query selects all products in the specified 3 categories</span>
+  <span class="c1">-- result set is ordered by count and descending price</span>
+  <span class="c1">-- (products with same category have same counts)</span>
+  <span class="k">SELECT</span> <span class="n">products</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">sub</span><span class="p">.</span><span class="k">c</span> <span class="k">AS</span> <span class="n">counts</span>
+  <span class="k">FROM</span> <span class="n">products</span>
+  <span class="k">JOIN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">category</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="k">c</span>
+      <span class="k">FROM</span> <span class="n">products</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">category</span>
+      <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">c</span>
+      <span class="k">LIMIT</span> <span class="mi">3</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">ON</span> <span class="n">products</span><span class="p">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">sub</span><span class="p">.</span><span class="n">category</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sub</span><span class="p">.</span><span class="k">c</span><span class="p">,</span> <span class="n">products</span><span class="p">.</span><span class="n">price</span> <span class="k">DESC</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Unlike using <code class="language-plaintext highlighter-rouge">WHERE col IN (subquery)</code>, <code class="language-plaintext highlighter-rouge">JOIN (subquery) ON table.col=sub.col</code> allows  aggregated values to be passed into the outer query because an <code class="language-plaintext highlighter-rouge">IN</code> clause is limited to one set of values.
+        <ul>
+          <li>Additionally, MySQL does not allow <code class="language-plaintext highlighter-rouge">LIMIT</code> in subqueries in the <code class="language-plaintext highlighter-rouge">WHERE</code> clause.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Using Subqueries to Improve Performance
+    <ul>
+      <li>Inefficient: <code class="language-plaintext highlighter-rouge">FULL JOIN</code> creates a huge intermediate join table</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Get counts of A and B entities per month</span>
+  <span class="k">SELECT</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="k">month</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="k">month</span><span class="p">)</span> <span class="k">AS</span> <span class="k">month</span><span class="p">,</span> <span class="c1">-- fill null values of outer join</span>
+         <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">A</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">count_A</span><span class="p">,</span>
+         <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">B</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">count_B</span>
+  <span class="k">FROM</span> <span class="n">A</span>
+  <span class="k">FULL</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">B</span> <span class="c1">-- creates a large intermediate join table</span>
+  <span class="k">ON</span> <span class="n">A</span><span class="p">.</span><span class="k">month</span> <span class="o">=</span> <span class="n">B</span><span class="p">.</span><span class="k">month</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>Intermediate Join Table</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>A.id</th>
+              <th>A.month</th>
+              <th>B.month</th>
+              <th>B.id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>A</td>
+              <td>A</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>A</td>
+              <td>A</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>B</td>
+              <td>B</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>B</td>
+              <td>B</td>
+              <td>7</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>C</td>
+              <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+              <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+            </tr>
+            <tr>
+              <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+              <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+              <td>D</td>
+              <td>8</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <p>Result</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>month</th>
+              <th>count_A</th>
+              <th>count_B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>1</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>2</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>1</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <p>Optimized: Use subqueries to divide the problem into smaller tables before joining</p>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Get counts of A and B entities per month</span>
+  <span class="c1">-- Pre-aggregate counts in A and B separately before joining </span>
+  <span class="k">SELECT</span> <span class="n">COALESCE</span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="k">month</span><span class="p">,</span> <span class="n">B</span><span class="p">.</span><span class="k">month</span><span class="p">)</span> <span class="k">as</span> <span class="k">month</span><span class="p">,</span>
+         <span class="n">subA</span><span class="p">.</span><span class="n">count_A</span><span class="p">,</span>
+         <span class="n">subB</span><span class="p">.</span><span class="n">count_B</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">month</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">count_A</span>
+      <span class="k">FROM</span> <span class="n">A</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+  <span class="p">)</span> <span class="n">subA</span>
+  <span class="k">FULL</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">month</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">count_B</span>
+      <span class="k">FROM</span> <span class="n">B</span>
+      <span class="k">GROUP</span> <span class="k">BY</span> <span class="mi">1</span>
+  <span class="p">)</span> <span class="n">subB</span>
+  <span class="k">ON</span> <span class="n">subA</span><span class="p">.</span><span class="k">month</span> <span class="o">=</span> <span class="n">subB</span><span class="p">.</span><span class="k">month</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>Intermediate Join Tables</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>month</th>
+              <th>count_A</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table>
+          <thead>
+            <tr>
+              <th>month</th>
+              <th>count_B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>
+        <p>Result</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>month</th>
+              <th>count_A</th>
+              <th>count_B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>1</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>2</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>1</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>0</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+  </li>
+  <li>The two methods get the same result, but the join using subqueries is faster because operating on smaller intermediate join tables is more efficient.
+    <ul>
+      <li>Method 1 joins both tables then gets counts for A and B per month.</li>
+      <li>Method 2 gets counts for A and B per month separately, then joins the results together.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="window-functions">
+<a class="anchor" href="#window-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Window Functions</h3>
+<ul>
+  <li>A <strong>window</strong> is a group of related rows that are somehow related the current row, e.g. all rows with same month or same city</li>
+  <li>A <strong>window function</strong> performs calculation across a window,
+    <ul>
+      <li>Unlike aggregation functions, window functions don’t group rows into a single output row
+        <ul>
+          <li>No need to group by non-aggregated rows</li>
+        </ul>
+      </li>
+      <li>Window functions are able to access more than just the current row of query result</li>
+      <li>A <strong>window function</strong> takes in a column/row and a window of related rows that includes the row</li>
+    </ul>
+  </li>
+  <li>Aggregation functions can serve as window functions
+    <ul>
+      <li>Inside <code class="language-plaintext highlighter-rouge">OVER()</code>, use <code class="language-plaintext highlighter-rouge">ORDER BY</code> to sort the window by a column</li>
+      <li>Cannot use <code class="language-plaintext highlighter-rouge">GROUP BY</code> with window functions</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">SUM</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(...)</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(...)</span>
+  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(...)</span>
+
+  <span class="c1">-- Example: Get a running total</span>
+  <span class="c1">-- Using SUM as a window function</span>
+  <span class="c1">-- ORDER BY to calculate chronologically</span>
+  <span class="k">SELECT</span> <span class="n">duration</span><span class="p">,</span>
+         <span class="k">SUM</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_time</span><span class="p">)</span> <span class="k">AS</span> <span class="n">running_total</span>
+  <span class="k">FROM</span> <span class="n">rides</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Window Result
+        <ul>
+          <li>Durations are summed and ordered by start_time to create a running total</li>
+          <li>Without <code class="language-plaintext highlighter-rouge">ORDER BY</code>, each value would be sum of all seconds in its partition</li>
+        </ul>
+      </li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>duration</th>
+          <th>running_total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>12</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Apply window function over individual groups
+    <ul>
+      <li>Inside <code class="language-plaintext highlighter-rouge">OVER()</code>, use <code class="language-plaintext highlighter-rouge">PARTITION BY</code> to specify how the window function builds the window
+        <ul>
+          <li>Each partition will be treated as one window, upon which the function will be applied</li>
+        </ul>
+      </li>
+      <li>Without <code class="language-plaintext highlighter-rouge">PARTITION BY</code>, the whole table will be treated as one window</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- using aggregation, cannot get individual information from all employees</span>
+  <span class="k">SELECT</span> <span class="n">dept_name</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_salary</span>
+  <span class="k">FROM</span> <span class="n">employees</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">dept_name</span>
+
+  <span class="c1">-- better to use window function</span>
+  <span class="c1">-- PARTITION BY specifies how to group rows to form a window</span>
+  <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+         <span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_salary</span>
+  <span class="k">FROM</span> <span class="n">employees</span> <span class="n">E</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>The aggregation will return each department and the max salary of that department, without any other employee data.</li>
+      <li>The window function will return every employee data with the max salary of the department that employee works in
+        <ul>
+          <li>The window function duplicates the department’s max salary to every row</li>
+          <li>Without <code class="language-plaintext highlighter-rouge">PARTITION BY</code>, the max salary of all departments will be duplicated for every row</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ROW_NUMBER()</code>: window function that returns number of row</p>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">RANK()</code>: window function that ranks values
+    <ul>
+      <li>Like <code class="language-plaintext highlighter-rouge">ROW_NUMBER()</code> but gives same values when tied, e.g. 1, 2, 2, 4, 4, 4, 7</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">DENSE_RANK()</code>: window function that ranks values without skipping numbers
+    <ul>
+      <li>Like <code class="language-plaintext highlighter-rouge">RANK()</code> but does not skip values, e.g. 1, 2, 2, 3, 3, 3, 4</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">team</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span>
+         <span class="n">ROW_NUMBER</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
+         <span class="n">RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
+         <span class="n">DENSE_RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Score</th>
+          <th><code class="language-plaintext highlighter-rouge">ROW_NUMBER()</code></th>
+          <th><code class="language-plaintext highlighter-rouge">RANK()</code></th>
+          <th><code class="language-plaintext highlighter-rouge">DENSE_RANK()</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A</td>
+          <td>30</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>40</td>
+          <td>2</td>
+          <td>2</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>40</td>
+          <td>3</td>
+          <td>2</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>55</td>
+          <td>4</td>
+          <td>4</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>20</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>20</td>
+          <td>2</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>35</td>
+          <td>3</td>
+          <td>3</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>20</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Fetch the top 3 employees in each department by salary</span>
+  <span class="c1">-- Using ROW_NUMBER() may miss out on other employees tied for top 3 salary values</span>
+  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+             <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_num</span>
+      <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">salary_num</span> <span class="o">&lt;</span> <span class="mi">4</span>
+
+  <span class="c1">-- Fetch the top employees in each department</span>
+  <span class="c1">-- who earn the top 3 salaries in their department</span>
+  <span class="c1">-- Returns every employee earning one of the top 3 salaries in their department</span>
+  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+             <span class="n">RANK</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_rank</span>
+      <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
+  <span class="p">)</span> <span class="n">sub</span>
+  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">salary_rank</span> <span class="o">&lt;</span> <span class="mi">4</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">NTILE(n)</code>: window function that determines which bucket row falls in
+    <ul>
+      <li>e.g. use n = 4 for quartile, or n = 100 for percentile</li>
+      <li>For small partition rows with less rows than tiles, the tiles will resemble a numerical ranking</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- get quartile and percentile of student scores for each class</span>
+  <span class="k">SELECT</span> <span class="k">class</span><span class="p">,</span>
+         <span class="n">score</span><span class="p">,</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">quartile</span><span class="p">,</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">percentile</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">LAG(col, n)</code>: window function that creates a column that pulls from the previous n rows of col
+    <ul>
+      <li>First n rows of column will be <code class="language-plaintext highlighter-rouge">NULL</code> because no previous rows to pull from</li>
+      <li>Some versions of SQL allow default values, i.e. <code class="language-plaintext highlighter-rouge">LAG(col, n, default)</code>, to fill in <code class="language-plaintext highlighter-rouge">NULL</code> values</li>
+    </ul>
+  </li>
+  <li>
+<code class="language-plaintext highlighter-rouge">LEAD(col, n)</code>: window function that creates a column that pulls from next n rows of col
+    <ul>
+      <li>Last n rows of column will be <code class="language-plaintext highlighter-rouge">NULL</code> because no previous rows to pull from</li>
+      <li>Some versions of SQL allow default values, i.e. <code class="language-plaintext highlighter-rouge">LEAD(col, n, default)</code>, to fill in <code class="language-plaintext highlighter-rouge">NULL</code> values</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Example of lag and lead score, partitioned on team</span>
+  <span class="k">SELECT</span> <span class="n">team</span><span class="p">,</span>
+         <span class="n">score</span><span class="p">,</span>
+         <span class="n">LAG</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lag_score</span><span class="p">,</span>
+         <span class="n">LEAD</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lead_score</span>
+  <span class="k">FROM</span> <span class="k">table_name</span>
+</code></pre></div>    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>team</th>
+          <th>score</th>
+          <th>lag_score</th>
+          <th>lead_score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A</td>
+          <td>20</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>30</td>
+          <td>20</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>40</td>
+          <td>30</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>30</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+          <td>60</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>60</td>
+          <td>30</td>
+          <td>70</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>70</td>
+          <td>50</td>
+          <td>75</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>75</td>
+          <td>70</td>
+          <td><code class="language-plaintext highlighter-rouge">NULL</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Show if the salary of an employee is higher, lower, or equal to the previous employee.</span>
+  <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+         <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">prev_emp_salary</span><span class="p">,</span>
+         <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&gt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">THEN</span> <span class="s1">'Higher'</span>
+         <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&lt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">THEN</span> <span class="s1">'Lower'</span>
+         <span class="k">ELSE</span> <span class="s1">'Equal'</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">salary_range</span>
+  <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
+</code></pre></div>    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>dept_name</th>
+          <th>salary</th>
+          <th>prev_emp_salary</th>
+          <th>salary_range</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Anna</td>
+          <td>Admin</td>
+          <td>4000</td>
+          <td>0</td>
+          <td>Higher</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Bert</td>
+          <td>Admin</td>
+          <td>5000</td>
+          <td>4000</td>
+          <td>Higher</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Dirk</td>
+          <td>Admin</td>
+          <td>3000</td>
+          <td>5000</td>
+          <td>Lower</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Cris</td>
+          <td>Admin</td>
+          <td>6000</td>
+          <td>3000</td>
+          <td>Higher</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Kurt</td>
+          <td>Finance</td>
+          <td>4000</td>
+          <td>0</td>
+          <td>Higher</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Fred</td>
+          <td>Finance</td>
+          <td>5000</td>
+          <td>4000</td>
+          <td>Higher</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Paul</td>
+          <td>Finance</td>
+          <td>5000</td>
+          <td>5000</td>
+          <td>Equal</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Evan</td>
+          <td>Finance</td>
+          <td>2000</td>
+          <td>5000</td>
+          <td>Lower</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h3 id="views">
+<a class="anchor" href="#views" aria-hidden="true"><span class="octicon octicon-link"></span></a>Views</h3>
+
 <h3 id="update">
 <a class="anchor" href="#update" aria-hidden="true"><span class="octicon octicon-link"></span></a>UPDATE</h3>
 <ul>
-  <li>Updates data in a database</li>
+  <li>
+    <p>Modifies existing records in a table</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">UPDATE</span> <span class="k">table_name</span>
+  <span class="k">SET</span> <span class="n">col1</span> <span class="o">=</span> <span class="n">val1</span><span class="p">,</span> <span class="n">col2</span> <span class="o">=</span> <span class="n">val2</span><span class="p">,</span> <span class="p">...</span>
+  <span class="k">WHERE</span> <span class="n">condition</span> <span class="c1">-- without WHERE clause, all rows will be updated</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
 <h3 id="delete">
@@ -998,7 +2087,19 @@ window.onload = wrap_img;
 <h3 id="insert-into">
 <a class="anchor" href="#insert-into" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSERT INTO</h3>
 <ul>
-  <li>Inserts new data into a database</li>
+  <li>
+    <p>Inserts new data into a database</p>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- specifying which columns, values to insert</span>
+  <span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">table_name</span> <span class="p">(</span><span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="n">col3</span><span class="p">,</span> <span class="p">...)</span>
+  <span class="k">VALUES</span> <span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">val3</span><span class="p">,</span> <span class="p">...)</span>
+
+  <span class="c1">-- don't need to specify if adding all columns</span>
+  <span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">table_name</span>
+  <span class="k">VALUES</span> <span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">val3</span><span class="p">,</span> <span class="n">val4</span><span class="p">,</span> <span class="n">val5</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
 <h2 id="sql-database">
