@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Learning Object-Specific Distance From a Monocular Image"
-description: "Description."
+description: "Notes on distance estimation model by Zhu et al."
 author: "Nathan Tsai"
 toc: true
 comments: false
 image: 
 hide: false
-search_exclude: true
+search_exclude: false
 show_tags: false
 categories: [self-driving, distance-estimation]
 permalink: /distance-estimation
@@ -28,7 +28,7 @@ Current self-driving systems predict object distance using the traditional **inv
 
 The authors first sought "to develop an end-to-end learning based approach that directly predicts distances for given objects in the RGB images." *End-to-end* meaning that object detection and distance estimation parameters are trained jointly. The base model extracts features from RGB images, then utilizes region of interest (ROI) pooling to generate a fixed-size feature vector for each object, and feeds the ROI feature vectors into a distance regressor to predict a distance *(Z)* for each object. However, this method was not sufficiently precise for self-driving.
 
-The authors then created an enhanced model with a keypoint regressor to predict *(X,Y)* of the 3D keypoint coordinates *(X,Y,Z)*. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point *(X,Y,Z)* and the ground truth keypoint (X*,Y*,Z*). The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.
+The authors then created an enhanced model with a keypoint regressor to predict *(X,Y)* of the 3D keypoint coordinates *(X,Y,Z)*. Leveraging the camera projection matrix, the authors defined a projection loss between the projected 3D point *(X,Y,Z)* and the ground truth keypoint (X\*,Y\*,Z\*). The keypoint regressor and projection loss are used for training only. During inference, the trained model takes in an image with bounding boxes and outputs the object-specific distance, without any camera parameters invervention.
 
 The authors constructed an extended dataset from the `KITTI object detection dataset` and the `nuScenes mini dataset` by "computing the distance for each object using its corresponding LiDAR point cloud and camera parameters."
 
