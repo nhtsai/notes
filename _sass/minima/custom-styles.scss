@@ -1,6 +1,6 @@
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-@import "minima/fastpages-styles";   
+@import "minima/fastpages-styles";
 
 
 
@@ -8,4 +8,22 @@
 /*----- ADD YOUR STYLES BELOW -------*/
 
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
-// @import "minima/fastpages-dracula-highlight"; 
+// @import "minima/fastpages-dracula-highlight";
+
+table {
+    max-width: 80%;
+    font-size: 16px;
+    margin-top: 3%;
+}
+
+code.language-plaintext.highligher-rouge {
+    font-size: 0.8em;
+}
+
+pre.highlight {
+    max-width: 100%;
+}
+
+div.highlight {
+    max-width: 80%;
+}
