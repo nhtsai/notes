@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>System Design Overview | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="System Design Overview" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes on System Design." />
+<meta property="og:description" content="Notes on System Design." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/system-design-overview" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/system-design-overview" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-05T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-05T00:00:00-05:00","url":"https://nhtsai.github.io/notes/system-design-overview","@type":"BlogPosting","headline":"System Design Overview","dateModified":"2021-09-05T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/system-design-overview"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on System Design.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">System Design Overview</h1><p class="page-description">Notes on System Design.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-05T00:00:00-05:00" itemprop="datePublished">
+        Sep 5, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      15 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#system-design">system-design</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#system-design">System Design</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#scalability">Scalability</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#clones">Clones</a></li>
+<li class="toc-entry toc-h3"><a href="#databases">Databases</a></li>
+<li class="toc-entry toc-h3"><a href="#cache">Cache</a></li>
+<li class="toc-entry toc-h3"><a href="#asynchronism">Asynchronism</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#performance-vs-scalability">Performance vs Scalability</a></li>
+<li class="toc-entry toc-h2"><a href="#latency-vs-throughput">Latency vs Throughput</a></li>
+<li class="toc-entry toc-h2"><a href="#availability-vs-consistency">Availability vs Consistency</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#cap-theorem">CAP Theorem</a></li>
+<li class="toc-entry toc-h3"><a href="#consistency-and-partition-tolerance-cp">Consistency and Partition Tolerance (CP)</a></li>
+<li class="toc-entry toc-h3"><a href="#availability-and-partition-tolerance-ap">Availability and Partition Tolerance (AP)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#consistency-patterns">Consistency Patterns</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#weak-consistency">Weak Consistency</a></li>
+<li class="toc-entry toc-h3"><a href="#eventual-consistency">Eventual Consistency</a></li>
+<li class="toc-entry toc-h3"><a href="#strong-consistency">Strong Consistency</a></li>
+<li class="toc-entry toc-h3"><a href="#transactions">Transactions</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#availability-patterns">Availability Patterns</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#fail-over">Fail-Over</a></li>
+<li class="toc-entry toc-h3"><a href="#replication">Replication</a></li>
+<li class="toc-entry toc-h3"><a href="#availability-in-numbers">Availability in Numbers</a></li>
+<li class="toc-entry toc-h3"><a href="#availability-in-sequence">Availability in Sequence</a></li>
+<li class="toc-entry toc-h3"><a href="#availability-in-parallel">Availability in Parallel</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#domain-name-system-dns">Domain Name System (DNS)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#dns-traffic-routing-methods">DNS Traffic Routing Methods</a></li>
+<li class="toc-entry toc-h3"><a href="#disadvantages-of-dns">Disadvantages of DNS</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#content-delivery-network-cdn">Content Delivery Network (CDN)</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#push-cdns">Push CDNs</a></li>
+<li class="toc-entry toc-h3"><a href="#pull-cdns">Pull CDNs</a></li>
+<li class="toc-entry toc-h3"><a href="#disadvantages-of-cdns">Disadvantages of CDNs</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#load-balancer">Load Balancer</a></li>
+<li class="toc-entry toc-h2"><a href="#reverse-proxy">Reverse Proxy</a></li>
+<li class="toc-entry toc-h2"><a href="#load-balancer-vs-reverse-proxy">Load Balancer vs Reverse Proxy</a></li>
+<li class="toc-entry toc-h2"><a href="#application-layer">Application Layer</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#microservices">Microservices</a></li>
+<li class="toc-entry toc-h3"><a href="#service-discovery">Service Discovery</a></li>
+<li class="toc-entry toc-h3"><a href="#disadvantages">Disadvantages</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#database">Database</a></li>
+<li class="toc-entry toc-h2"><a href="#cache-1">Cache</a></li>
+<li class="toc-entry toc-h2"><a href="#asynchronism-1">Asynchronism</a></li>
+<li class="toc-entry toc-h2"><a href="#communication">Communication</a></li>
+<li class="toc-entry toc-h2"><a href="#security">Security</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="system-design">
+<a class="anchor" href="#system-design" aria-hidden="true"><span class="octicon octicon-link"></span></a>System Design</h1>
+
+<h2 id="scalability">
+<a class="anchor" href="#scalability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scalability</h2>
+<ul>
+  <li><a href="https://www.lecloud.net/tagged/scalability/chrono">Scalability for Dummies</a></li>
+  <li><a href="https://www.allthingsdistributed.com/2006/03/a_word_on_scalability.html">A Word on Scalability</a></li>
+</ul>
+
+<h3 id="clones">
+<a class="anchor" href="#clones" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clones</h3>
+<ul>
+  <li>Load balancers evenly distribute user requests to public web servers.</li>
+  <li>
+<strong>Rule #1</strong>: Every server contains exactly the same codebase and does not store any user-related data, like sessions or profile pictures, on local disc or memory.</li>
+  <li>Sessions need to stored in a centralized data store that is accessible by all application servers.
+    <ul>
+      <li>The data store can be an external database or an external persistent cache (e.g. Redis), which will have better performance than an external database.</li>
+      <li>External means data store is somewhere in or near the data center of application servers, does not reside on application servers themselves.</li>
+    </ul>
+  </li>
+  <li>Deployment ensures that a code change is sent to all servers without an outdated server still serving old code.</li>
+  <li>Clones are instances of an machine image based upon a “super-clone” that is created from one of your servers.
+    <ul>
+      <li>Just do an initial deployment of your latest code to a new clone and everything is ready.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="databases">
+<a class="anchor" href="#databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Databases</h3>
+<ul>
+  <li>Using cloning, you can now horizontally scale across multiple servers to handle lots of requests.</li>
+  <li>But one day, your application slows and breaks due to the MySQL database.</li>
+  <li>Path 1: Keep MySQL
+    <ul>
+      <li>Apply active-passive replication strategy on the database.</li>
+      <li>Upgrade server components like RAM.</li>
+      <li>Consider sharding, denormalization, SQL tuning, etc.</li>
+      <li>Eventually the upkeep will become too expensive.</li>
+    </ul>
+  </li>
+  <li>Path 2: NoSQL
+    <ul>
+      <li>Denormalize right from the beginning.</li>
+      <li>Remove joins from any database query.</li>
+      <li>Use MySQL as a NoSQL database or switch to MongoDB.</li>
+      <li>If database requests still get too slow, consider a cache.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="cache">
+<a class="anchor" href="#cache" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cache</h3>
+<ul>
+  <li>An in-memory cache (e.g. Memcached, Redis) is a simple key-value store that resides between the application and data storage.</li>
+  <li>The application should try to read from the cache first before hitting the database because the cache is lightning fast.
+    <ul>
+      <li>The cache holds every dataset in RAM and handles requests as fast as possible.</li>
+    </ul>
+  </li>
+  <li>Cached Database Queries
+    <ul>
+      <li>Whenevery a query on the database is run, store the result dataset in a cache.</li>
+      <li>Use a hashed version of query as cache key.</li>
+      <li>Expiration is a large issue.
+        <ul>
+          <li>All cached results that include piece a data needed to be deleted when that piece of data changes.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Cached Objects
+    <ul>
+      <li>See the data as an object or class.
+        <ul>
+          <li>Let the class assemble the dataset from the database.</li>
+          <li>Store the complete instance of the class or assembled dataset into the cache.</li>
+        </ul>
+      </li>
+      <li>Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.
+If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.</li>
+      <li>This makes it easy to delete the object when a piece of data changes.</li>
+      <li>This makes asynchronous processing possible.
+        <ul>
+          <li>Servers query the database to assemble the data in the class.</li>
+          <li>The application just serves the latest cached object and never touches the database.</li>
+        </ul>
+      </li>
+      <li>Example Objects: user sessions, fully rendered blog articles, activity streams, user-friend relationships
+        <ul>
+          <li>The blog object has multiple methods that query the database for data.</li>
+          <li>Instead of caching the result of these separate database calls, cache the entire blog object.</li>
+          <li>When something changes, the blog object queries the database for updated data.</li>
+          <li>The application only has to serve the latest cached blog post instead of querying the database.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="asynchronism">
+<a class="anchor" href="#asynchronism" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asynchronism</h3>
+<ul>
+  <li>Asynchronously doing work in advance and serving finished work with low request time.
+    <ul>
+      <li>Used to turn dynamic content into static content.
+        <ul>
+          <li>Think pre-rendering pages into static HTML files to be served quicker.</li>
+          <li>The rendering can be scripted to run every hour by a cronjob.</li>
+          <li>This pre-computing process helps make web applications scalable and performant</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Referring unforseen, immediate requests to an asynchronous service.
+    <ul>
+      <li>Upon receiving a computing intensive task, the job is added to the job queue.</li>
+      <li>The job is then sent to an asynchronous server to be processed in the background.</li>
+      <li>The results are returned once the server is done processing.</li>
+    </ul>
+  </li>
+  <li>Basic idea: Have a queue of tasks or jobs that a worker can process.
+    <ul>
+      <li>Backends become scalable and frontends become responsive.</li>
+      <li>Tools to implement async processing: RabbitMQ</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="performance-vs-scalability">
+<a class="anchor" href="#performance-vs-scalability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Performance vs Scalability</h2>
+<ul>
+  <li>A service is <strong>scalable</strong> if it results in increased <strong>performance</strong> in a manner proportional to resources added.
+    <ul>
+      <li>E.g. adding another server to handle requests speeds up the website response time</li>
+    </ul>
+  </li>
+  <li>If the system is slow for a single user, there is a <strong>performance</strong> problem.</li>
+  <li>
+    <p>If the system is fast for a single user but slow under heavy load, there is a <strong>scalability</strong> problem.</p>
+  </li>
+  <li>An always-on service is <strong>scalable</strong> if adding resources to facilitate <strong>redundancy</strong> does not result in loss of <strong>performance</strong>.
+    <ul>
+      <li>E.g. adding multiple copies of a database for redundancy does not decrease the query response time</li>
+    </ul>
+  </li>
+  <li>Scalability requires applications be <strong>designed</strong> with scaling in mind.</li>
+  <li>Scalability also has to handle <strong>heterogeneity</strong>.
+    <ul>
+      <li>As new resources (hardware, software) come online, some nodes will be able to process faster or store more data than other nodes in a system.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="latency-vs-throughput">
+<a class="anchor" href="#latency-vs-throughput" aria-hidden="true"><span class="octicon octicon-link"></span></a>Latency vs Throughput</h2>
+<ul>
+  <li>
+<strong>Latency</strong> is the time to perform some action or to produce some result.</li>
+  <li>
+<strong>Throughput</strong> is the number of such actions or results per unit of time.</li>
+  <li>Generally, you should aim for <strong>maximal throughup</strong> with <strong>acceptable latency</strong>.</li>
+</ul>
+
+<h2 id="availability-vs-consistency">
+<a class="anchor" href="#availability-vs-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability vs Consistency</h2>
+<h3 id="cap-theorem">
+<a class="anchor" href="#cap-theorem" aria-hidden="true"><span class="octicon octicon-link"></span></a>CAP Theorem</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* In a distributed system, you can only support 2 guarantees:
+    * **Consistency**: every read receives most recent write or an error
+    * **Availability**: every request receives a response, without guarantee that it contains the most recent version of the data
+    * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline
+* Networks aren't reliable, so *partition tolerance needs to be supported*.
+* You need to make a *software tradeoff between consistency and availability*.
+</code></pre></div></div>
+
+<h3 id="consistency-and-partition-tolerance-cp">
+<a class="anchor" href="#consistency-and-partition-tolerance-cp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consistency and Partition Tolerance (CP)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* System is consistent across servers and can handle network failures, but responses to requests are not always available.
+* Waiting for a response from the partitioned node might result in a timeout error.
+* Good choice if **atomic reads and writes** are required.
+    * **Atomic** refers to performing operations one at a time.
+</code></pre></div></div>
+
+<h3 id="availability-and-partition-tolerance-ap">
+<a class="anchor" href="#availability-and-partition-tolerance-ap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability and Partition Tolerance (AP)</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.
+* Responses return the most readily available version of the data on any node, which might be outdated.
+* Writes might take some time to propagate when the partition/failure is resolved.
+* Good choice if **eventual consistency** is needed or when the system needs to continue working despite external errors.
+</code></pre></div></div>
+
+<h2 id="consistency-patterns">
+<a class="anchor" href="#consistency-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consistency Patterns</h2>
+<ul>
+  <li>With multiple copies of the same data (<strong>redundancy</strong>), how do we synchronize them across nodes (<strong>consistency</strong>) to provide all users the same view of the data?
+    <ul>
+      <li>The <strong>CAP Theorem</strong> need to respond to every read with the most recent write or an error to be <strong>consistent</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="weak-consistency">
+<a class="anchor" href="#weak-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Weak Consistency</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *may or may not* see it, and a best effort approach is taken.
+* Weak consistency works well for real-time use cases, such as VoIP, video chat, and realtime multiplayer video games.
+    * If you briefly lose reception during a phone call, you don't really care or hear what was lost during connection loss.
+* Weak consistency is used in systems like memcached, where the result might or might not be there.
+</code></pre></div></div>
+
+<h3 id="eventual-consistency">
+<a class="anchor" href="#eventual-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Eventual Consistency</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *will eventually* see it, typically within milliseconds.
+* Data is **replicated asynchronously**.
+* Eventual consistency works well in highly available systems.
+* Eventual consistency is used in systems like DNS and email.
+</code></pre></div></div>
+
+<h3 id="strong-consistency">
+<a class="anchor" href="#strong-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strong Consistency</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *will* see it.
+* Data is **replicated synchronously**.
+* Strong Consistency works well in systems that need transactions.
+* Strong consistency is used in systems like file systems and relational database management systems (RDBMSes).
+</code></pre></div></div>
+
+<h3 id="transactions">
+<a class="anchor" href="#transactions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transactions</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* An extended form of consistency across multiple operations.
+* E.g. transfering money from account A to account B
+    * Operation 1: subtract from A
+    * Operation 2: add to B
+    * What if something happens in between operations?
+        * E.g. Another transaction A or B, machine crashes
+    * You want some kind of guarantee that the invariants will be maintained.
+        * Money subtracted from A will go back to A.
+        * Money created will eventually be added to B.
+* Transactions are useful because...
+    * Correctness
+    * Consistency
+    * Enforce invariants
+    * ACID: atomic, consistent, isolated, durable
+</code></pre></div></div>
+
+<h2 id="availability-patterns">
+<a class="anchor" href="#availability-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability Patterns</h2>
+<h3 id="fail-over">
+<a class="anchor" href="#fail-over" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fail-Over</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Active-Passive
+    * Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.
+    * If a heartbeat is interrupted, the passive server takes over the active server's IP address and resumes service to maintain availability.
+    * Downtime duration is determined by whether passive servier is already running in 'hot' standby or starting from 'cold' standby. 
+* Active-Active
+    * Both servers are managing traffic, spreading load between them
+    * If servers are public-facing, DNS needs to know about public IPs of both servers.
+    * If servers are private-facing, application logic needs to know about both servers.
+* Disadvantages
+    * More hardware and additional complexity
+    * Potential for loss of data if active system fails before any newly written data can be replicated to the passive
+</code></pre></div></div>
+
+<h3 id="replication">
+<a class="anchor" href="#replication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replication</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Master-Slave
+    * One master node handles all writes, which are then replicated onto multiple slave nodes.
+* Master-Master
+    * Both master nodes handle all write requests, spreading load between them. The changes are then replicated onto multiple slave nodes.
+</code></pre></div></div>
+
+<h3 id="availability-in-numbers">
+<a class="anchor" href="#availability-in-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Numbers</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* **Uptime** or **downtime** is the percentage of time the service is available/not available.
+* Availability is generally measured in 9s, by which a service with 99.99% availability is described as having "four 9s".
+
+    | Acceptable Downtime Duration | 99.9% Availability | 99.99% Availability |
+    | -------- | ---: | ---: |
+    | Downtime per year  | 8h 45m 57.0s | 52m 35.7s |
+    | Downtime per month | 43m 49.7s | 4m 23.0s |
+    | Downtime per week  | 10m 04.8s | 1m 05.0s |
+    | Downtime per day   | 1m 26.4s | 08.6s |
+</code></pre></div></div>
+
+<h3 id="availability-in-sequence">
+<a class="anchor" href="#availability-in-sequence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Sequence</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Overall availability *decreases* when two components with &lt; 100% availability are in **sequence**.
+* $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})$$
+* If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.
+</code></pre></div></div>
+
+<h3 id="availability-in-parallel">
+<a class="anchor" href="#availability-in-parallel" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Parallel</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Overall availability *increases* when two componenets with &lt; 100% availabiilty are in **parallel**.
+* $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))$$
+* If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.
+</code></pre></div></div>
+
+<h2 id="domain-name-system-dns">
+<a class="anchor" href="#domain-name-system-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Name System (DNS)</h2>
+<ul>
+  <li>A <strong>Domain Name System (DNS)</strong> translates a domain name, e.g. <code class="language-plaintext highlighter-rouge">www.example.com</code>, to an IP address, e.g. <code class="language-plaintext highlighter-rouge">8.8.8.8</code>.
+    <ul>
+      <li>DNS is hierarchical, with a few authoritative servers at the top level.</li>
+      <li>Your router or ISP provides information about which DNS server(s) to contact when doing a lookup.</li>
+      <li>Lower level DNS servers cache mappings, which could become stale due to DNS propagation delays.</li>
+      <li>DNS results can also be cached by your browser or OS for a certain period of time, determined by the <strong>time to live (TTL)</strong>.</li>
+    </ul>
+  </li>
+  <li>A <strong>Name Server (NS) Record</strong> specifieds the DNS servers for your domain/subdomain.</li>
+  <li>A <strong>Mail Exchange (MX) Record</strong> specifies the mail servers for accepting messages.</li>
+  <li>An <strong>Address (A) Record</strong> points a name to an IP address.</li>
+  <li>A <strong>Canonical Name (CNAME)</strong> points a name to another name or to an A Record, e.g. pointing <code class="language-plaintext highlighter-rouge">example.com</code> to <code class="language-plaintext highlighter-rouge">www.example.com</code>.</li>
+  <li>Services that provide managed DNS services include: CloudFlare, Route 53, etc.</li>
+</ul>
+
+<h3 id="dns-traffic-routing-methods">
+<a class="anchor" href="#dns-traffic-routing-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>DNS Traffic Routing Methods</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* **Round Robin**
+    * Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request
+    * May not result in a perfectly-balanced load distribution
+
+* **Weighted Round Robin**
+    * Each server machine is assigned a performance value, or weight, relative to the other servers in the pool, usually in an automated benchmark testing.
+        * This weight determines how many more or fewer requests are sent to that server, compared to other servers in the pool.
+    * The result is a more even or equal load distribution.
+        * Prevents traffic from going to servers under maintenance.
+        * Weights can help load balance between varying cluster sizes.
+        * A/B Testing
+
+* **Latency-Based**
+    * Create latency records between servers in multiple regions.
+    * When a request arrives, the DNS queries the NS, which looks at the most recent latency data.
+    * The load balancer with the lowest latency is the one chosen to serve the user.
+
+* **Geolocation-Based**:
+    * Choosing servers to serve traffic based on the geographic location of users.
+        * E.g. routing all European traffic to a European load balancer
+    * Can localize content and restrict content distribution based on region.
+    * Can load balance predicatably so each user location is consistently routed to the same endpoint.
+</code></pre></div></div>
+
+<h3 id="disadvantages-of-dns">
+<a class="anchor" href="#disadvantages-of-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages of DNS</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Accessing a DNS server introduces a slight delay, which can be mitigated by caching.
+* DNS server management is complex and generally managed by governments, ISPs, and large companies.
+* DNS services are susceptible to **Distributed Denial of Service (DDoS)** attacks, which prevent users from accessing websites without knowing Twitter's IP address(es).
+</code></pre></div></div>
+
+<h2 id="content-delivery-network-cdn">
+<a class="anchor" href="#content-delivery-network-cdn" aria-hidden="true"><span class="octicon octicon-link"></span></a>Content Delivery Network (CDN)</h2>
+<ul>
+  <li>A <strong>Content Delivery Network (CDN)</strong> is a globally distributed network of proxy servers, serving content from locations closer to the user.
+    <ul>
+      <li>Generally, static files (e.g. HTML, CSS, JS, photos, videos) are served from CDNs.
+        <ul>
+          <li>Some CDNs like AWS CloudFront supports serving dynamic content.</li>
+        </ul>
+      </li>
+      <li>The website’s DNS resolution tells clients which CDN server to contact.</li>
+    </ul>
+  </li>
+  <li>Advantages
+    <ul>
+      <li>Improved performance because users receive content from data centers close to them.</li>
+      <li>Reduced load because your servers do not have to serve requests that the CDN fulfills.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="push-cdns">
+<a class="anchor" href="#push-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Push CDNs</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Receive new content whenever changes occur on your server.
+    * Content is only uploaded when it is new or changed, minimizing traffic but maximizing storage.
+    * You take full responsibility for providing content, uploading directly to the CDN, and rewriting URLs to point to the CDN.
+* You can configure when content expires and when it is updated using TTLs.
+* Push CDNs work well for sites with small amounts of traffic or content that isn't often updated.
+    * Content is pushed to the CDNs when needed, instead of being re-pulled at regular intervals.
+    * For lots of updates, pushing content to the Push CDN places load on the server.
+    * For heavy traffic, the Push CDN's cached content may not be sufficient and will place more load on the server to push content to the Push CDN.
+</code></pre></div></div>
+
+<h3 id="pull-cdns">
+<a class="anchor" href="#pull-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pull CDNs</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Grabs new content from your server when the first user requests the content.
+    * You take full responsibility for providing content and rewriting URLs to point to the CDN.
+    * This results in slower requests until content is cached on the CDN, as users need to pull from the server upon the first request.
+* A **time to live (TTL)** determines the life of the cached content, which you do not typically have control of.
+* Pull CDNs minimizing storage space on the CDN, but can create redundant traffic if files expire and are pulled before they have actually changed.
+* Pull CDNs work well for sites with heavy traffic because the traffic spread out more evenly with only recently-requested content remaining on the CDN.
+    * Older requested content is expired by the TTL, making space for new content.
+    * For lots of updates, the Pull CDN is able to pull and cache the updated content when requested or old content is expired.
+    * For heavy traffic, the Pull CDN can serve the most requested, cached content, only pulling from the server when for less requested content.
+</code></pre></div></div>
+
+<h3 id="disadvantages-of-cdns">
+<a class="anchor" href="#disadvantages-of-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages of CDNs</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* CDN costs could be significant depending on traffic, although this should be compared against additional costs of not using a CDN.
+* Cached content might be stale if it is updated before the TTL expires it to be updated.
+* CDNs require changing URLs for static content to point to the CDN, e.g. directing `facebook.com` to `cdn-images.fb.com`.
+</code></pre></div></div>
+
+<h2 id="load-balancer">
+<a class="anchor" href="#load-balancer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load Balancer</h2>
+<ul>
+  <li>
+</ul>
+
+<h2 id="reverse-proxy">
+<a class="anchor" href="#reverse-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reverse Proxy</h2>
+<ul>
+  <li>Advantages
+    <ul>
+      <li>
+      <li>
+    </ul>
+  </li>
+  <li>Disadvantages</li>
+</ul>
+
+<h2 id="load-balancer-vs-reverse-proxy">
+<a class="anchor" href="#load-balancer-vs-reverse-proxy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load Balancer vs Reverse Proxy</h2>
+
+<h2 id="application-layer">
+<a class="anchor" href="#application-layer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Application Layer</h2>
+<h3 id="microservices">
+<a class="anchor" href="#microservices" aria-hidden="true"><span class="octicon octicon-link"></span></a>Microservices</h3>
+
+<h3 id="service-discovery">
+<a class="anchor" href="#service-discovery" aria-hidden="true"><span class="octicon octicon-link"></span></a>Service Discovery</h3>
+
+<h3 id="disadvantages">
+<a class="anchor" href="#disadvantages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages</h3>
+
+<h2 id="database">
+<a class="anchor" href="#database" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database</h2>
+
+<ul>
+  <li>
+<strong>SQL/Relational Database Management System (RDBMS)</strong>
+    <ul>
+      <li><strong>ACID</strong></li>
+      <li><strong>Master-Slave Replication</strong></li>
+      <li><strong>Master-Master Replication</strong></li>
+      <li>
+        <p><strong>Disadvantages of Replication</strong></p>
+      </li>
+      <li>
+        <p><strong>Federation</strong></p>
+      </li>
+      <li>
+        <p><strong>Sharding</strong></p>
+      </li>
+      <li>
+        <p><strong>Denormalization</strong></p>
+      </li>
+      <li><strong>SQL Tuning</strong></li>
+    </ul>
+  </li>
+  <li>
+<strong>NoSQL</strong>
+    <ul>
+      <li><strong>BASE</strong></li>
+      <li><strong>Key-Value Store</strong></li>
+      <li><strong>Document Store</strong></li>
+      <li><strong>Wide-Column Store</strong></li>
+      <li><strong>Graph Database</strong></li>
+    </ul>
+  </li>
+  <li><strong>SQL vs NoSQL</strong></li>
+</ul>
+
+<h2 id="cache-1">
+<a class="anchor" href="#cache-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cache</h2>
+
+<ul>
+  <li>
+    <p><strong>Client Caching</strong></p>
+  </li>
+  <li>
+    <p><strong>CDN Caching</strong></p>
+  </li>
+  <li>
+    <p><strong>Web Server Caching</strong></p>
+  </li>
+  <li>
+<strong>Database Caching</strong>
+    <ul>
+      <li><strong>Query Caching</strong></li>
+      <li><strong>Object Caching</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Application Caching</strong></p>
+  </li>
+  <li>
+<strong>Updating Cache</strong>
+    <ul>
+      <li><strong>Cache-Aside</strong></li>
+      <li><strong>Write-Through</strong></li>
+      <li><strong>Write-Behind/Write-Back</strong></li>
+      <li><strong>Refresh-Ahead</strong></li>
+    </ul>
+  </li>
+  <li><strong>Cache Disadvantages</strong></li>
+</ul>
+
+<h2 id="asynchronism-1">
+<a class="anchor" href="#asynchronism-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asynchronism</h2>
+<ul>
+  <li><strong>Message Queues</strong></li>
+  <li><strong>Task Queues</strong></li>
+  <li><strong>Back Pressure</strong></li>
+  <li><strong>Aynchronism Disadvantages</strong></li>
+</ul>
+
+<h2 id="communication">
+<a class="anchor" href="#communication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Communication</h2>
+<ul>
+  <li><strong>Hypertext Transfer Protocol (HTTP)</strong></li>
+  <li><strong>Transmission Control Protocol (TCP)</strong></li>
+  <li><strong>User Datagram Protocol (UDP)</strong></li>
+  <li><strong>Remote Procedure Call (RPC)</strong></li>
+  <li><strong>Representational State Transfer (REST)</strong></li>
+  <li><strong>RPC vs REST Calls</strong></li>
+</ul>
+
+<h2 id="security">
+<a class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h2>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/system-design-overview" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
