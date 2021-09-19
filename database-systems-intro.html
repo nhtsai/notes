@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Database Systems | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introduction to Database Systems" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Course notes from CMU 15-445, Fall 2019." />
+<meta property="og:description" content="Course notes from CMU 15-445, Fall 2019." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/database-systems-intro" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/database-systems-intro" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-10T00:00:00-05:00","url":"https://nhtsai.github.io/notes/database-systems-intro","@type":"BlogPosting","headline":"Introduction to Database Systems","dateModified":"2021-09-10T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/database-systems-intro"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes from CMU 15-445, Fall 2019.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to Database Systems</h1><p class="page-description">Course notes from CMU 15-445, Fall 2019.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-10T00:00:00-05:00" itemprop="datePublished">
+        Sep 10, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#course-notes">course-notes</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#databases">databases</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#distributed-systems">distributed-systems</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#cmu-15-445-introduction-to-database-systems-fall-2019">CMU 15-445: Introduction to Database Systems, Fall 2019</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#course-resources">Course Resources</a></li>
+<li class="toc-entry toc-h2"><a href="#1-relational-model--relational-algebra">1. Relational Model &amp; Relational Algebra</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#lecture-summary">Lecture Summary</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#2-advanced-sql">2. Advanced SQL</a></li>
+<li class="toc-entry toc-h2"><a href="#3-database-storage-i">3. Database Storage I</a></li>
+<li class="toc-entry toc-h2"><a href="#4-database-storage-ii">4. Database Storage II</a></li>
+<li class="toc-entry toc-h2"><a href="#5-buffer-pools--memory-management">5. Buffer Pools &amp; Memory Management</a></li>
+<li class="toc-entry toc-h2"><a href="#6-hash-tables">6. Hash Tables</a></li>
+<li class="toc-entry toc-h2"><a href="#7-tree-indexes-i">7. Tree Indexes I</a></li>
+<li class="toc-entry toc-h2"><a href="#8-tree-indexes-ii">8. Tree Indexes II</a></li>
+<li class="toc-entry toc-h2"><a href="#9-multi-threaded-index-concurrency-control">9. Multi-Threaded Index Concurrency Control</a></li>
+<li class="toc-entry toc-h2"><a href="#10-sorting--aggregations">10. Sorting &amp; Aggregations</a></li>
+<li class="toc-entry toc-h2"><a href="#11-join-algorithms">11. Join Algorithms</a></li>
+<li class="toc-entry toc-h2"><a href="#12-query-execution-i">12. Query Execution I</a></li>
+<li class="toc-entry toc-h2"><a href="#13-query-execution-ii">13. Query Execution II</a></li>
+<li class="toc-entry toc-h2"><a href="#14-query-planning--optimization-i">14. Query Planning &amp; Optimization I</a></li>
+<li class="toc-entry toc-h2"><a href="#15-query-planning--optimization-ii">15. Query Planning &amp; Optimization II</a></li>
+<li class="toc-entry toc-h2"><a href="#16-concurrency-control-theory">16. Concurrency Control Theory</a></li>
+<li class="toc-entry toc-h2"><a href="#17-two-phase-locking-concurrency-control">17. Two-Phase Locking Concurrency Control</a></li>
+<li class="toc-entry toc-h2"><a href="#18-timestamp-ordering-concurrency-control">18. Timestamp Ordering Concurrency Control</a></li>
+<li class="toc-entry toc-h2"><a href="#19-multi-version-concurrency-control">19. Multi-Version Concurrency Control</a></li>
+<li class="toc-entry toc-h2"><a href="#20-database-logging-schemes">20. Database Logging Schemes</a></li>
+<li class="toc-entry toc-h2"><a href="#21-aries-database-recovery">21. ARIES Database Recovery</a></li>
+<li class="toc-entry toc-h2"><a href="#22-introduction-to-distributed-databases">22. Introduction to Distributed Databases</a></li>
+<li class="toc-entry toc-h2"><a href="#23-distributed-oltp-databases">23. Distributed OLTP Databases</a></li>
+<li class="toc-entry toc-h2"><a href="#24-distributed-olap-databases">24. Distributed OLAP Databases</a></li>
+<li class="toc-entry toc-h2"><a href="#25-shasank-chavan-oracle-in-memory-databases">25. Shasank Chavan (Oracle In-Memory Databases)</a></li>
+<li class="toc-entry toc-h2"><a href="#26-systems-potpourri">26. Systems Potpourri</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="cmu-15-445-introduction-to-database-systems-fall-2019">
+<a class="anchor" href="#cmu-15-445-introduction-to-database-systems-fall-2019" aria-hidden="true"><span class="octicon octicon-link"></span></a>CMU 15-445: Introduction to Database Systems, Fall 2019</h1>
+
+<h2 id="course-resources">
+<a class="anchor" href="#course-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Course Resources</h2>
+<ul>
+  <li>Professor Andy Pavlo</li>
+  <li><a href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi">Course Lectures</a></li>
+  <li><a href="https://15445.courses.cs.cmu.edu/fall2019/">Course Website</a></li>
+  <li><a href="https://15445.courses.cs.cmu.edu/fall2019/syllabus.html">Course Syllabus</a></li>
+  <li>Course Textbook: Database System Concepts, 6 or 7 ed. by Silberschatz, Korth &amp; Sudarshan</li>
+  <li>Course focuses on design and implementation of disk-oriented database management systems.</li>
+  <li>Topics: Relational Databases, Storage, Execution, Concurrency Control, Recovery, Distributed Databases, Potpourri</li>
+</ul>
+
+<h2 id="1-relational-model--relational-algebra">
+<a class="anchor" href="#1-relational-model--relational-algebra" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Relational Model &amp; Relational Algebra</h2>
+
+<h3 id="lecture-summary">
+<a class="anchor" href="#lecture-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf">Lecture Summary</a>
+</h3>
+
+<ul>
+  <li>
+<strong>Database</strong>: organized collection of inter-related data that models some aspect of the real-world.
+    <ul>
+      <li>Databases are the core component of most computer applications.</li>
+      <li>E.g. a digital music store database that keeps track of artists and albums needs to store artist biographies and albums those artists released.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Flat File</strong> Strawman: simplest database stored as CSV files that we manage in our own code.
+    <ul>
+      <li>Use a separate file per entity, e.g. one file for artists and one file for albums</li>
+      <li>The application parses each file to read/update records.</li>
+      <li>E.g. <code class="language-plaintext highlighter-rouge">Artist(name, year, country)</code> and <code class="language-plaintext highlighter-rouge">Album(name, artist, year)</code>
+</li>
+      <li>If we wanted to get the year Ice Cube went solo, we could iterate through every line in the artists file and get year of row where name is Ice Cube.</li>
+    </ul>
+  </li>
+  <li>Issues with Flat Files
+    <ul>
+      <li>Data Integrity
+        <ul>
+          <li>How do we ensure that the artist is same for each album entry, i.e. no typos or artist changes name?</li>
+          <li>How do we ensure the album year is a valid number and not an invalid string?</li>
+          <li>How do we store an album with multiple artists, i.e. check if parsed artist is single or multile?</li>
+        </ul>
+      </li>
+      <li>Implementation
+        <ul>
+          <li>How do you find a particular record?</li>
+          <li>What if we want to use a new application with the same database, i.e. connecting logic between two languages?</li>
+          <li>What if two threads try to write to the same file at the same time, e.g. overwriting data?</li>
+        </ul>
+      </li>
+      <li>Durability
+        <ul>
+          <li>What if the machine crashes during updating a record?</li>
+          <li>What if we want to replicate database on multiple databases for high availability?</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Database Management System (DBMS)</strong>: software that allows applications to store and analyze information in a database
+    <ul>
+      <li>Allows definition, creation, querying, update, and administration of databases that can be used with multiple applications.</li>
+      <li>Handles all the complex underlying logic for applications.</li>
+      <li>Focus on databases on disk, but there are other databases, e.g. in-memory.</li>
+    </ul>
+  </li>
+  <li>Early DBMSs
+    <ul>
+      <li>Issues
+        <ul>
+          <li>Database applications were difficult to build and 
+  maintain</li>
+          <li>Tight coupling between logical and physical layers</li>
+          <li>Need to know what queries applications needed before deploying the database</li>
+        </ul>
+      </li>
+      <li>Early 50s, mathematician Ted Codd (Edgar F. Codd) of IBM noticed people spent lots of time rewriting database applications, i.e. adjusting APIs depending on storing data as tree or hash table.
+        <ul>
+          <li>Ted proposed the <strong>relational data model</strong> in <em>A Relational Model of Data for Large Shared Data Banks</em> in 1970.</li>
+        </ul>
+      </li>
+      <li>The <strong>relational data model</strong> database abtraction to avoid maintainence.
+        <ul>
+          <li>Store database in simple data structures, i.e. as relations aka tables.</li>
+          <li>Access data through high-level language, i.e. write code describing desired result aka declarative code instead of procedural code.
+            <ul>
+              <li>Software has to create query plan to get desired result, similar to compilers creating machine code from high-level languages.</li>
+            </ul>
+          </li>
+          <li>Physical storage left up to implementation, e.g.data on disk or in-memory, storing relations as trees or hash tables, etc.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Data Model</strong>: collection of concepts for describing the data in a database.
+    <ul>
+      <li>
+<strong>Schema</strong>: description of a particular collection of data, using a given data model.</li>
+      <li>Relational data model is most common.
+        <ul>
+          <li>The “best data model” because “9 times out of 10 that’s probably what you need.”</li>
+          <li>Can be used to model anything!</li>
+        </ul>
+      </li>
+      <li>NoSQL Systems
+        <ul>
+          <li>Key/Value data model</li>
+          <li>Graph data model</li>
+          <li>Document data model</li>
+          <li>Column-Family data model</li>
+        </ul>
+      </li>
+      <li>Array/Matrix data model
+        <ul>
+          <li>used in machine learning</li>
+        </ul>
+      </li>
+      <li>Hierarchical or Network data models are obsolete/rare.</li>
+    </ul>
+  </li>
+  <li>Relational Model
+    <ul>
+      <li>
+<strong>Structure</strong>: definition of relations and their contents</li>
+      <li>
+<strong>Integrity</strong>: ensure database’s contents satisfy constraints</li>
+      <li>
+<strong>Manipulation</strong>: how to access and modify a database’s contents</li>
+      <li>
+<strong>Relation (Table)</strong>: unordered set that contains relationship of attributes that represent entities
+        <ul>
+          <li>
+<strong>N-ary relation</strong>: a table with N columns</li>
+        </ul>
+      </li>
+      <li>
+<strong>Tuple (Record)</strong>: set of attribute values (aka its <strong>domain</strong>) for an instance of an entity in the relation
+        <ul>
+          <li>Values are normally atomic/scalar (no arrays or strings), originally. Now, anything can be stored.</li>
+          <li>The special value <code class="language-plaintext highlighter-rouge">NULL</code>, aka value is unknown, is a member of every domain.
+            <ul>
+              <li>How <code class="language-plaintext highlighter-rouge">NULL</code> values are stored is implementation-specific.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>Primary Key</strong>: attribute or set of attributes that can uniquely identify a single tuple, usually as an id field.
+        <ul>
+          <li>Some DBMSs automatically create an internal primary key if not defined, e.g. <code class="language-plaintext highlighter-rouge">SEQUENCE</code> in SQL 2003 or <code class="language-plaintext highlighter-rouge">AUTO_INCREMENT</code> in MySQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Foreign Key</strong>: specifies that an attribute from one relation has to map to a tuple in another relation, usually as an id of a tuple in another relation.
+        <ul>
+          <li>Can have another table with foreign keys relating Artist IDs to Album IDs to store albums with many artists.</li>
+          <li>DBMSs can also check IDs exists when inserting as foreign keys.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Data Manipulation Languages (DML)</strong>: how to store and retrieve information from a database
+    <ul>
+      <li>
+<strong>Procedural</strong>: the query specifies the high-level strategy the DBMS should use to find the desired result.
+        <ul>
+          <li>E.g. relational algebra</li>
+        </ul>
+      </li>
+      <li>
+<strong>Non-Procedural/Declarative</strong>: the query specifies only what data is wanted and not how to find it, so the DBMS needs to come up with a strategy.
+        <ul>
+          <li>E.g. relational calculus</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Relational Algebra</strong>: procedural language proposed by Ted Codd for querying relational data models.
+    <ul>
+      <li>Fundamental operations, based on set algebra, to retrieve and manipulate tuples in a relation.</li>
+      <li>Each operator takes one or more relations as its inputs and outputs a new relation</li>
+      <li>
+<strong>Select</strong> $(\sigma)$ : choose a subset of tuples from a relation that satisfies a selection predicate.
+        <ul>
+          <li>Predicate is a filter to only select tuples that satisfy its requirement.</li>
+          <li>Can combine multiple predicates using conjunctions or disjunctions</li>
+          <li>Syntax: $\sigma _{\text{predicate}}(R)$</li>
+          <li>Example: $\sigma _{\text{a_id=’a2’}}(R)$</li>
+          <li>Select corresponds to <code class="language-plaintext highlighter-rouge">WHERE</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Projection</strong> $(\Pi)$ : generate a relation with tuples that contains only the specified attributes.
+        <ul>
+          <li>Can rearrange attributes’ ordering</li>
+          <li>Can manipulate the values</li>
+          <li>Syntax: $\Pi _{\text{attributes}}(R)$</li>
+          <li>Example: $\Pi _{b_id - 100, a_id}(\sigma _{\text{a_id=’a2’}}(R))$</li>
+          <li>Projection corresponds to <code class="language-plaintext highlighter-rouge">SELECT</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Union</strong> $(\cup)$ : generate a relation that contains all tuples that appear in either only one or both input relations.
+        <ul>
+          <li>Relations must have same attributes with same types.</li>
+          <li>Syntax: $R \cup S$</li>
+          <li>Example: $R \cup S$</li>
+          <li>Union corresponds to <code class="language-plaintext highlighter-rouge">UNION ALL</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Intersection</strong> $(\cap)$ : generate a relation that contains only the tuples that appear in both of the input relations.
+        <ul>
+          <li>Relations must have same attributes with same types.</li>
+          <li>Syntax: $R \cap S$</li>
+          <li>Example: $R \cap S$</li>
+          <li>Intersection corresponds to <code class="language-plaintext highlighter-rouge">INTERSECT</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Difference</strong> $(-)$ : generate a relation that contains only the tuples that appear in first and not the second of input relations.
+        <ul>
+          <li>Relations must have same attributes with same types.</li>
+          <li>Syntax: $R - S$</li>
+          <li>Example: $R - S$</li>
+          <li>Difference corresponds to <code class="language-plaintext highlighter-rouge">EXCEPT</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Product</strong> $(\times)$ : generate a relation that contains all possible combinations of tuples from the input relations.
+        <ul>
+          <li>Syntax: $R \times S$</li>
+          <li>Example: $R \times S$</li>
+          <li>Product corresponds to <code class="language-plaintext highlighter-rouge">CROSS JOIN</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Join</strong> $(\bowtie)$ : generate a relation that contains all tuples that are a combination of two tuples (one from each input relation) with a common value(s) for one or more attributes.
+        <ul>
+          <li>Syntax: $R \bowtie S$</li>
+          <li>Example: $R \bowtie S$</li>
+          <li>Join corresponds to <code class="language-plaintext highlighter-rouge">NATURAL JOIN</code> in SQL.</li>
+        </ul>
+      </li>
+      <li>Other operators developed over the years.
+        <ul>
+          <li>Rename $(\rho)$</li>
+          <li>Assignment $(R \leftarrow S)$</li>
+          <li>Duplicate elimination $(\delta)$</li>
+          <li>Aggregation $(\gamma)$</li>
+          <li>Sorting $(\tau)$</li>
+          <li>Division $(R \div S)$</li>
+        </ul>
+      </li>
+      <li>Relational algebra defines the high-level steps of how to compute a query, instead of only stating the desired result.
+        <ul>
+          <li>E.g. $\sigma _{b_id=102}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{b_id=102}(S))$</li>
+          <li>The first query natural joins R and S, then performs a filter after.</li>
+          <li>The second query filters S, then natural joins the output relation to R.</li>
+          <li>The queries look similar, but the efficiency could differ greatly if S and R have a billion tuples and only one tuple in S has <code class="language-plaintext highlighter-rouge">b_id=102</code>. The first query joins two huge relations, but the second one can find the one tuple where <code class="language-plaintext highlighter-rouge">b_id=102</code> before joining.</li>
+        </ul>
+      </li>
+      <li>A better approach is to <em>state the high-level answer that you want the DBMS to compute</em>.
+        <ul>
+          <li>E.g. Retrieve the joined tuples from R and S where <code class="language-plaintext highlighter-rouge">b_id</code> equals 102.</li>
+          <li>If relations change in sizes, there no need to change the application code manually.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Queries
+    <ul>
+      <li>The relational model is independent of any query language implementation.</li>
+      <li>
+<strong>SQL</strong> is the <em>de facto</em> standard.</li>
+      <li>The DBMS will take the high-level query and generate the underlying execution plan to produce the desired result.</li>
+      <li>The DBMS will adapt and improve itself without us having to change the application.</li>
+    </ul>
+  </li>
+  <li>Conclusion
+    <ul>
+      <li>Databases are ubiquitous, important, and everywhere.</li>
+      <li>Relational algebra defines the primitives for processing queries on a relational database.
+        <ul>
+          <li>Will come up again in query optimization and query execution.</li>
+        </ul>
+      </li>
+      <li>
+<em>IMPORTANT</em>: The original 9 of the 36 Chambers are the RZA, the GZA, Inspectah Deck, Ghostface Killah, Masta Killa, U-God, Method Man, Ol’ Dirty Bastard, and Raekwon. Cappadonna was an original member of the clan but was in jail at the time, thus could not be on the 36 Chambers.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-advanced-sql">
+<a class="anchor" href="#2-advanced-sql" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Advanced SQL</h2>
+
+<h2 id="3-database-storage-i">
+<a class="anchor" href="#3-database-storage-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Database Storage I</h2>
+
+<h2 id="4-database-storage-ii">
+<a class="anchor" href="#4-database-storage-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Database Storage II</h2>
+
+<h2 id="5-buffer-pools--memory-management">
+<a class="anchor" href="#5-buffer-pools--memory-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Buffer Pools &amp; Memory Management</h2>
+
+<h2 id="6-hash-tables">
+<a class="anchor" href="#6-hash-tables" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Hash Tables</h2>
+
+<h2 id="7-tree-indexes-i">
+<a class="anchor" href="#7-tree-indexes-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. Tree Indexes I</h2>
+
+<h2 id="8-tree-indexes-ii">
+<a class="anchor" href="#8-tree-indexes-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>8. Tree Indexes II</h2>
+
+<h2 id="9-multi-threaded-index-concurrency-control">
+<a class="anchor" href="#9-multi-threaded-index-concurrency-control" aria-hidden="true"><span class="octicon octicon-link"></span></a>9. Multi-Threaded Index Concurrency Control</h2>
+
+<h2 id="10-sorting--aggregations">
+<a class="anchor" href="#10-sorting--aggregations" aria-hidden="true"><span class="octicon octicon-link"></span></a>10. Sorting &amp; Aggregations</h2>
+
+<h2 id="11-join-algorithms">
+<a class="anchor" href="#11-join-algorithms" aria-hidden="true"><span class="octicon octicon-link"></span></a>11. Join Algorithms</h2>
+
+<h2 id="12-query-execution-i">
+<a class="anchor" href="#12-query-execution-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>12. Query Execution I</h2>
+
+<h2 id="13-query-execution-ii">
+<a class="anchor" href="#13-query-execution-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>13. Query Execution II</h2>
+
+<h2 id="14-query-planning--optimization-i">
+<a class="anchor" href="#14-query-planning--optimization-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>14. Query Planning &amp; Optimization I</h2>
+
+<h2 id="15-query-planning--optimization-ii">
+<a class="anchor" href="#15-query-planning--optimization-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>15. Query Planning &amp; Optimization II</h2>
+
+<h2 id="16-concurrency-control-theory">
+<a class="anchor" href="#16-concurrency-control-theory" aria-hidden="true"><span class="octicon octicon-link"></span></a>16. Concurrency Control Theory</h2>
+
+<h2 id="17-two-phase-locking-concurrency-control">
+<a class="anchor" href="#17-two-phase-locking-concurrency-control" aria-hidden="true"><span class="octicon octicon-link"></span></a>17. Two-Phase Locking Concurrency Control</h2>
+
+<h2 id="18-timestamp-ordering-concurrency-control">
+<a class="anchor" href="#18-timestamp-ordering-concurrency-control" aria-hidden="true"><span class="octicon octicon-link"></span></a>18. Timestamp Ordering Concurrency Control</h2>
+
+<h2 id="19-multi-version-concurrency-control">
+<a class="anchor" href="#19-multi-version-concurrency-control" aria-hidden="true"><span class="octicon octicon-link"></span></a>19. Multi-Version Concurrency Control</h2>
+
+<h2 id="20-database-logging-schemes">
+<a class="anchor" href="#20-database-logging-schemes" aria-hidden="true"><span class="octicon octicon-link"></span></a>20. Database Logging Schemes</h2>
+
+<h2 id="21-aries-database-recovery">
+<a class="anchor" href="#21-aries-database-recovery" aria-hidden="true"><span class="octicon octicon-link"></span></a>21. ARIES Database Recovery</h2>
+
+<h2 id="22-introduction-to-distributed-databases">
+<a class="anchor" href="#22-introduction-to-distributed-databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>22. Introduction to Distributed Databases</h2>
+
+<h2 id="23-distributed-oltp-databases">
+<a class="anchor" href="#23-distributed-oltp-databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>23. Distributed OLTP Databases</h2>
+
+<h2 id="24-distributed-olap-databases">
+<a class="anchor" href="#24-distributed-olap-databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>24. Distributed OLAP Databases</h2>
+
+<h2 id="25-shasank-chavan-oracle-in-memory-databases">
+<a class="anchor" href="#25-shasank-chavan-oracle-in-memory-databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>25. Shasank Chavan (Oracle In-Memory Databases)</h2>
+
+<h2 id="26-systems-potpourri">
+<a class="anchor" href="#26-systems-potpourri" aria-hidden="true"><span class="octicon octicon-link"></span></a>26. Systems Potpourri</h2>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/database-systems-intro" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
