@@ -122,11 +122,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h1"><a href="#cmu-15-445-introduction-to-database-systems-fall-2019">CMU 15-445: Introduction to Database Systems, Fall 2019</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#course-resources">Course Resources</a></li>
-<li class="toc-entry toc-h2"><a href="#1-relational-model--relational-algebra">1. Relational Model &amp; Relational Algebra</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#lecture-summary">Lecture Summary</a></li>
-</ul>
-</li>
+<li class="toc-entry toc-h2"><a href="#1-relational-model--relational-algebra">1. Relational Model &amp; Relational Algebra</a></li>
 <li class="toc-entry toc-h2"><a href="#2-advanced-sql">2. Advanced SQL</a></li>
 <li class="toc-entry toc-h2"><a href="#3-database-storage-i">3. Database Storage I</a></li>
 <li class="toc-entry toc-h2"><a href="#4-database-storage-ii">4. Database Storage II</a></li>
@@ -172,12 +168,10 @@ window.onload = wrap_img;
 
 <h2 id="1-relational-model--relational-algebra">
 <a class="anchor" href="#1-relational-model--relational-algebra" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Relational Model &amp; Relational Algebra</h2>
-
-<h3 id="lecture-summary">
-<a class="anchor" href="#lecture-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf">Lecture Summary</a>
-</h3>
-
 <ul>
+  <li>
+    <p><a href="https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf"><strong>Lecture Summary</strong></a></p>
+  </li>
   <li>
 <strong>Database</strong>: organized collection of inter-related data that models some aspect of the real-world.
     <ul>
@@ -351,7 +345,7 @@ window.onload = wrap_img;
           <li>Predicate is a filter to only select tuples that satisfy its requirement.</li>
           <li>Can combine multiple predicates using conjunctions or disjunctions</li>
           <li>Syntax: $\sigma _{\text{predicate}}(R)$</li>
-          <li>Example: $\sigma _{\text{a_id=’a2’}}(R)$</li>
+          <li>Example: $\sigma _{\text{a\textunderscore id=’a2’}}(R)$</li>
           <li>Select corresponds to <code class="language-plaintext highlighter-rouge">WHERE</code> in SQL.</li>
         </ul>
       </li>
@@ -361,7 +355,7 @@ window.onload = wrap_img;
           <li>Can rearrange attributes’ ordering</li>
           <li>Can manipulate the values</li>
           <li>Syntax: $\Pi _{\text{attributes}}(R)$</li>
-          <li>Example: $\Pi _{b_id - 100, a_id}(\sigma _{\text{a_id=’a2’}}(R))$</li>
+          <li>Example: $\Pi _{\text{b\textunderscore id - 100, a\textunderscore id}}(\sigma _{\text{a\textunderscore id=’a2’}}(R))$</li>
           <li>Projection corresponds to <code class="language-plaintext highlighter-rouge">SELECT</code> in SQL.</li>
         </ul>
       </li>
@@ -420,7 +414,7 @@ window.onload = wrap_img;
       </li>
       <li>Relational algebra defines the high-level steps of how to compute a query, instead of only stating the desired result.
         <ul>
-          <li>E.g. $\sigma _{b_id=102}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{b_id=102}(S))$</li>
+          <li>E.g. $\sigma _{\text{b\textunderscore id=102}}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{\text{b\textunderscore id=102}}(S))$</li>
           <li>The first query natural joins R and S, then performs a filter after.</li>
           <li>The second query filters S, then natural joins the output relation to R.</li>
           <li>The queries look similar, but the efficiency could differ greatly if S and R have a billion tuples and only one tuple in S has <code class="language-plaintext highlighter-rouge">b_id=102</code>. The first query joins two huge relations, but the second one can find the one tuple where <code class="language-plaintext highlighter-rouge">b_id=102</code> before joining.</li>
