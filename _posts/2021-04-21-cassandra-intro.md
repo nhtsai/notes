@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "Introduction to Apache Cassandra"
-description: "Coursenotes from DataStax Academy DS101."
+description: "Course notes from DataStax Academy DS101."
 author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [coursenotes, cassandra, databases]
+categories: [course-notes, cassandra, database-systems]
 permalink: /cassandra-intro
 ---
 
