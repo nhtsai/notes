@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      15 min read
+      14 min read
     
 </span></p>
 
@@ -261,8 +261,11 @@ window.onload = wrap_img;
           <li>Store the complete instance of the class or assembled dataset into the cache.</li>
         </ul>
       </li>
-      <li>Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.
-If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.</li>
+      <li>Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.</li>
+    </ul>
+  </li>
+  <li>If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.
+    <ul>
       <li>This makes it easy to delete the object when a piece of data changes.</li>
       <li>This makes asynchronous processing possible.
         <ul>
@@ -350,29 +353,42 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 <a class="anchor" href="#availability-vs-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability vs Consistency</h2>
 <h3 id="cap-theorem">
 <a class="anchor" href="#cap-theorem" aria-hidden="true"><span class="octicon octicon-link"></span></a>CAP Theorem</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* In a distributed system, you can only support 2 guarantees:
-    * **Consistency**: every read receives most recent write or an error
-    * **Availability**: every request receives a response, without guarantee that it contains the most recent version of the data
-    * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline
-* Networks aren't reliable, so *partition tolerance needs to be supported*.
-* You need to make a *software tradeoff between consistency and availability*.
-</code></pre></div></div>
+<ul>
+  <li>In a distributed system, you can only support 2 guarantees:
+    <ul>
+      <li>
+<strong>Consistency</strong>: every read receives most recent write or an error</li>
+      <li>
+<strong>Availability</strong>: every request receives a response, without guarantee that it contains the most recent version of the data</li>
+      <li>
+<strong>Partition Tolerance</strong>: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline</li>
+    </ul>
+  </li>
+  <li>Networks aren’t reliable, so <em>partition tolerance needs to be supported</em>.</li>
+  <li>You need to make a <em>software tradeoff between consistency and availability</em>.</li>
+</ul>
 
 <h3 id="consistency-and-partition-tolerance-cp">
 <a class="anchor" href="#consistency-and-partition-tolerance-cp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consistency and Partition Tolerance (CP)</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* System is consistent across servers and can handle network failures, but responses to requests are not always available.
-* Waiting for a response from the partitioned node might result in a timeout error.
-* Good choice if **atomic reads and writes** are required.
-    * **Atomic** refers to performing operations one at a time.
-</code></pre></div></div>
+<ul>
+  <li>System is consistent across servers and can handle network failures, but responses to requests are not always available.</li>
+  <li>Waiting for a response from the partitioned node might result in a timeout error.</li>
+  <li>Good choice if <strong>atomic reads and writes</strong> are required.
+    <ul>
+      <li>
+<strong>Atomic</strong> refers to performing operations one at a time.</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="availability-and-partition-tolerance-ap">
 <a class="anchor" href="#availability-and-partition-tolerance-ap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability and Partition Tolerance (AP)</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.
-* Responses return the most readily available version of the data on any node, which might be outdated.
-* Writes might take some time to propagate when the partition/failure is resolved.
-* Good choice if **eventual consistency** is needed or when the system needs to continue working despite external errors.
-</code></pre></div></div>
+<ul>
+  <li>System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.</li>
+  <li>Responses return the most readily available version of the data on any node, which might be outdated.</li>
+  <li>Writes might take some time to propagate when the partition/failure is resolved.</li>
+  <li>Good choice if <strong>eventual consistency</strong> is needed or when the system needs to continue working despite external errors.</li>
+</ul>
 
 <h2 id="consistency-patterns">
 <a class="anchor" href="#consistency-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Consistency Patterns</h2>
@@ -386,97 +402,168 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 
 <h3 id="weak-consistency">
 <a class="anchor" href="#weak-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Weak Consistency</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *may or may not* see it, and a best effort approach is taken.
-* Weak consistency works well for real-time use cases, such as VoIP, video chat, and realtime multiplayer video games.
-    * If you briefly lose reception during a phone call, you don't really care or hear what was lost during connection loss.
-* Weak consistency is used in systems like memcached, where the result might or might not be there.
-</code></pre></div></div>
+<ul>
+  <li>After a write, reads <em>may or may not</em> see it, and a best effort approach is taken.</li>
+  <li>Weak consistency works well for real-time use cases, such as VoIP, video chat, and realtime multiplayer video games.
+    <ul>
+      <li>If you briefly lose reception during a phone call, you don’t really care or hear what was lost during connection loss.</li>
+    </ul>
+  </li>
+  <li>Weak consistency is used in systems like memcached, where the result might or might not be there.</li>
+</ul>
 
 <h3 id="eventual-consistency">
 <a class="anchor" href="#eventual-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Eventual Consistency</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *will eventually* see it, typically within milliseconds.
-* Data is **replicated asynchronously**.
-* Eventual consistency works well in highly available systems.
-* Eventual consistency is used in systems like DNS and email.
-</code></pre></div></div>
+<ul>
+  <li>After a write, reads <em>will eventually</em> see it, typically within milliseconds.</li>
+  <li>Data is <strong>replicated asynchronously</strong>.</li>
+  <li>Eventual consistency works well in highly available systems.</li>
+  <li>Eventual consistency is used in systems like DNS and email.</li>
+</ul>
 
 <h3 id="strong-consistency">
 <a class="anchor" href="#strong-consistency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Strong Consistency</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* After a write, reads *will* see it.
-* Data is **replicated synchronously**.
-* Strong Consistency works well in systems that need transactions.
-* Strong consistency is used in systems like file systems and relational database management systems (RDBMSes).
-</code></pre></div></div>
+<ul>
+  <li>After a write, reads <em>will</em> see it.</li>
+  <li>Data is <strong>replicated synchronously</strong>.</li>
+  <li>Strong Consistency works well in systems that need transactions.</li>
+  <li>Strong consistency is used in systems like file systems and relational database management systems (RDBMSes).</li>
+</ul>
 
 <h3 id="transactions">
 <a class="anchor" href="#transactions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transactions</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* An extended form of consistency across multiple operations.
-* E.g. transfering money from account A to account B
-    * Operation 1: subtract from A
-    * Operation 2: add to B
-    * What if something happens in between operations?
-        * E.g. Another transaction A or B, machine crashes
-    * You want some kind of guarantee that the invariants will be maintained.
-        * Money subtracted from A will go back to A.
-        * Money created will eventually be added to B.
-* Transactions are useful because...
-    * Correctness
-    * Consistency
-    * Enforce invariants
-    * ACID: atomic, consistent, isolated, durable
-</code></pre></div></div>
+<ul>
+  <li>An extended form of consistency across multiple operations.</li>
+  <li>E.g. transfering money from account A to account B
+    <ul>
+      <li>Operation 1: subtract from A</li>
+      <li>Operation 2: add to B</li>
+      <li>What if something happens in between operations?
+        <ul>
+          <li>E.g. Another transaction A or B, machine crashes</li>
+        </ul>
+      </li>
+      <li>You want some kind of guarantee that the invariants will be maintained.
+        <ul>
+          <li>Money subtracted from A will go back to A.</li>
+          <li>Money created will eventually be added to B.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Transactions are useful because…
+    <ul>
+      <li>Correctness</li>
+      <li>Consistency</li>
+      <li>Enforce invariants</li>
+      <li>ACID: atomic, consistent, isolated, durable</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="availability-patterns">
 <a class="anchor" href="#availability-patterns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability Patterns</h2>
 <h3 id="fail-over">
 <a class="anchor" href="#fail-over" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fail-Over</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Active-Passive
-    * Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.
-    * If a heartbeat is interrupted, the passive server takes over the active server's IP address and resumes service to maintain availability.
-    * Downtime duration is determined by whether passive servier is already running in 'hot' standby or starting from 'cold' standby. 
-* Active-Active
-    * Both servers are managing traffic, spreading load between them
-    * If servers are public-facing, DNS needs to know about public IPs of both servers.
-    * If servers are private-facing, application logic needs to know about both servers.
-* Disadvantages
-    * More hardware and additional complexity
-    * Potential for loss of data if active system fails before any newly written data can be replicated to the passive
-</code></pre></div></div>
+<ul>
+  <li>Active-Passive
+    <ul>
+      <li>Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.</li>
+      <li>If a heartbeat is interrupted, the passive server takes over the active server’s IP address and resumes service to maintain availability.</li>
+      <li>Downtime duration is determined by whether passive servier is already running in ‘hot’ standby or starting from ‘cold’ standby.</li>
+    </ul>
+  </li>
+  <li>Active-Active
+    <ul>
+      <li>Both servers are managing traffic, spreading load between them</li>
+      <li>If servers are public-facing, DNS needs to know about public IPs of both servers.</li>
+      <li>If servers are private-facing, application logic needs to know about both servers.</li>
+    </ul>
+  </li>
+  <li>Disadvantages
+    <ul>
+      <li>More hardware and additional complexity</li>
+      <li>Potential for loss of data if active system fails before any newly written data can be replicated to the passive</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="replication">
 <a class="anchor" href="#replication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replication</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Master-Slave
-    * One master node handles all writes, which are then replicated onto multiple slave nodes.
-* Master-Master
-    * Both master nodes handle all write requests, spreading load between them. The changes are then replicated onto multiple slave nodes.
-</code></pre></div></div>
+<ul>
+  <li>Master-Slave
+    <ul>
+      <li>One master node handles all writes, which are then replicated onto multiple slave nodes.</li>
+    </ul>
+  </li>
+  <li>Master-Master
+    <ul>
+      <li>Both master nodes handle all write requests, spreading load between them. The changes are then replicated onto multiple slave nodes.</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="availability-in-numbers">
 <a class="anchor" href="#availability-in-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Numbers</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* **Uptime** or **downtime** is the percentage of time the service is available/not available.
-* Availability is generally measured in 9s, by which a service with 99.99% availability is described as having "four 9s".
+<ul>
+  <li>
+<strong>Uptime</strong> or <strong>downtime</strong> is the percentage of time the service is available/not available.</li>
+  <li>
+    <p>Availability is generally measured in 9s, by which a service with 99.99% availability is described as having “four 9s”.</p>
 
-    | Acceptable Downtime Duration | 99.9% Availability | 99.99% Availability |
-    | -------- | ---: | ---: |
-    | Downtime per year  | 8h 45m 57.0s | 52m 35.7s |
-    | Downtime per month | 43m 49.7s | 4m 23.0s |
-    | Downtime per week  | 10m 04.8s | 1m 05.0s |
-    | Downtime per day   | 1m 26.4s | 08.6s |
-</code></pre></div></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Acceptable Downtime Duration</th>
+          <th style="text-align: right">99.9% Availability</th>
+          <th style="text-align: right">99.99% Availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Downtime per year</td>
+          <td style="text-align: right">8h 45m 57.0s</td>
+          <td style="text-align: right">52m 35.7s</td>
+        </tr>
+        <tr>
+          <td>Downtime per month</td>
+          <td style="text-align: right">43m 49.7s</td>
+          <td style="text-align: right">4m 23.0s</td>
+        </tr>
+        <tr>
+          <td>Downtime per week</td>
+          <td style="text-align: right">10m 04.8s</td>
+          <td style="text-align: right">1m 05.0s</td>
+        </tr>
+        <tr>
+          <td>Downtime per day</td>
+          <td style="text-align: right">1m 26.4s</td>
+          <td style="text-align: right">08.6s</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
 
 <h3 id="availability-in-sequence">
 <a class="anchor" href="#availability-in-sequence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Sequence</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Overall availability *decreases* when two components with &lt; 100% availability are in **sequence**.
-* $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})$$
-* If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.
-</code></pre></div></div>
+<ul>
+  <li>Overall availability <em>decreases</em> when two components with &lt; 100% availability are in <strong>sequence</strong>.</li>
+  <li>
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo>∗</mo><mtext>Availabiilty</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availabiilty</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span></span></span></span></span>
+  </li>
+  <li>If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.</li>
+</ul>
 
 <h3 id="availability-in-parallel">
 <a class="anchor" href="#availability-in-parallel" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Parallel</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Overall availability *increases* when two componenets with &lt; 100% availabiilty are in **parallel**.
-* $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))$$
-* If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.
-</code></pre></div></div>
+<ul>
+  <li>Overall availability <em>increases</em> when two componenets with &lt; 100% availabiilty are in <strong>parallel</strong>.</li>
+  <li>
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>∗</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availabiilty</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availabiilty</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span>
+  </li>
+  <li>If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.</li>
+</ul>
 
 <h2 id="domain-name-system-dns">
 <a class="anchor" href="#domain-name-system-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Name System (DNS)</h2>
@@ -498,36 +585,60 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 
 <h3 id="dns-traffic-routing-methods">
 <a class="anchor" href="#dns-traffic-routing-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>DNS Traffic Routing Methods</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* **Round Robin**
-    * Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request
-    * May not result in a perfectly-balanced load distribution
-
-* **Weighted Round Robin**
-    * Each server machine is assigned a performance value, or weight, relative to the other servers in the pool, usually in an automated benchmark testing.
-        * This weight determines how many more or fewer requests are sent to that server, compared to other servers in the pool.
-    * The result is a more even or equal load distribution.
-        * Prevents traffic from going to servers under maintenance.
-        * Weights can help load balance between varying cluster sizes.
-        * A/B Testing
-
-* **Latency-Based**
-    * Create latency records between servers in multiple regions.
-    * When a request arrives, the DNS queries the NS, which looks at the most recent latency data.
-    * The load balancer with the lowest latency is the one chosen to serve the user.
-
-* **Geolocation-Based**:
-    * Choosing servers to serve traffic based on the geographic location of users.
-        * E.g. routing all European traffic to a European load balancer
-    * Can localize content and restrict content distribution based on region.
-    * Can load balance predicatably so each user location is consistently routed to the same endpoint.
-</code></pre></div></div>
+<ul>
+  <li>
+<strong>Round Robin</strong>
+    <ul>
+      <li>Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request</li>
+      <li>May not result in a perfectly-balanced load distribution</li>
+    </ul>
+  </li>
+  <li>
+<strong>Weighted Round Robin</strong>
+    <ul>
+      <li>Each server machine is assigned a performance value, or weight, relative to the other servers in the pool, usually in an automated benchmark testing.
+        <ul>
+          <li>This weight determines how many more or fewer requests are sent to that server, compared to other servers in the pool.</li>
+        </ul>
+      </li>
+      <li>The result is a more even or equal load distribution.
+        <ul>
+          <li>Prevents traffic from going to servers under maintenance.</li>
+          <li>Weights can help load balance between varying cluster sizes.</li>
+          <li>A/B Testing</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Latency-Based</strong>
+    <ul>
+      <li>Create latency records between servers in multiple regions.</li>
+      <li>When a request arrives, the DNS queries the NS, which looks at the most recent latency data.</li>
+      <li>The load balancer with the lowest latency is the one chosen to serve the user.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Geolocation-Based</strong>:
+    <ul>
+      <li>Choosing servers to serve traffic based on the geographic location of users.
+        <ul>
+          <li>E.g. routing all European traffic to a European load balancer</li>
+        </ul>
+      </li>
+      <li>Can localize content and restrict content distribution based on region.</li>
+      <li>Can load balance predicatably so each user location is consistently routed to the same endpoint.</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="disadvantages-of-dns">
 <a class="anchor" href="#disadvantages-of-dns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages of DNS</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Accessing a DNS server introduces a slight delay, which can be mitigated by caching.
-* DNS server management is complex and generally managed by governments, ISPs, and large companies.
-* DNS services are susceptible to **Distributed Denial of Service (DDoS)** attacks, which prevent users from accessing websites without knowing Twitter's IP address(es).
-</code></pre></div></div>
+<ul>
+  <li>Accessing a DNS server introduces a slight delay, which can be mitigated by caching.</li>
+  <li>DNS server management is complex and generally managed by governments, ISPs, and large companies.</li>
+  <li>DNS services are susceptible to <strong>Distributed Denial of Service (DDoS)</strong> attacks, which prevent users from accessing websites without knowing Twitter’s IP address(es).</li>
+</ul>
 
 <h2 id="content-delivery-network-cdn">
 <a class="anchor" href="#content-delivery-network-cdn" aria-hidden="true"><span class="octicon octicon-link"></span></a>Content Delivery Network (CDN)</h2>
@@ -552,35 +663,50 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 
 <h3 id="push-cdns">
 <a class="anchor" href="#push-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Push CDNs</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Receive new content whenever changes occur on your server.
-    * Content is only uploaded when it is new or changed, minimizing traffic but maximizing storage.
-    * You take full responsibility for providing content, uploading directly to the CDN, and rewriting URLs to point to the CDN.
-* You can configure when content expires and when it is updated using TTLs.
-* Push CDNs work well for sites with small amounts of traffic or content that isn't often updated.
-    * Content is pushed to the CDNs when needed, instead of being re-pulled at regular intervals.
-    * For lots of updates, pushing content to the Push CDN places load on the server.
-    * For heavy traffic, the Push CDN's cached content may not be sufficient and will place more load on the server to push content to the Push CDN.
-</code></pre></div></div>
+<ul>
+  <li>Receive new content whenever changes occur on your server.
+    <ul>
+      <li>Content is only uploaded when it is new or changed, minimizing traffic but maximizing storage.</li>
+      <li>You take full responsibility for providing content, uploading directly to the CDN, and rewriting URLs to point to the CDN.</li>
+    </ul>
+  </li>
+  <li>You can configure when content expires and when it is updated using TTLs.</li>
+  <li>Push CDNs work well for sites with small amounts of traffic or content that isn’t often updated.
+    <ul>
+      <li>Content is pushed to the CDNs when needed, instead of being re-pulled at regular intervals.</li>
+      <li>For lots of updates, pushing content to the Push CDN places load on the server.</li>
+      <li>For heavy traffic, the Push CDN’s cached content may not be sufficient and will place more load on the server to push content to the Push CDN.</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="pull-cdns">
 <a class="anchor" href="#pull-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pull CDNs</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* Grabs new content from your server when the first user requests the content.
-    * You take full responsibility for providing content and rewriting URLs to point to the CDN.
-    * This results in slower requests until content is cached on the CDN, as users need to pull from the server upon the first request.
-* A **time to live (TTL)** determines the life of the cached content, which you do not typically have control of.
-* Pull CDNs minimizing storage space on the CDN, but can create redundant traffic if files expire and are pulled before they have actually changed.
-* Pull CDNs work well for sites with heavy traffic because the traffic spread out more evenly with only recently-requested content remaining on the CDN.
-    * Older requested content is expired by the TTL, making space for new content.
-    * For lots of updates, the Pull CDN is able to pull and cache the updated content when requested or old content is expired.
-    * For heavy traffic, the Pull CDN can serve the most requested, cached content, only pulling from the server when for less requested content.
-</code></pre></div></div>
+<ul>
+  <li>Grabs new content from your server when the first user requests the content.
+    <ul>
+      <li>You take full responsibility for providing content and rewriting URLs to point to the CDN.</li>
+      <li>This results in slower requests until content is cached on the CDN, as users need to pull from the server upon the first request.</li>
+    </ul>
+  </li>
+  <li>A <strong>time to live (TTL)</strong> determines the life of the cached content, which you do not typically have control of.</li>
+  <li>Pull CDNs minimizing storage space on the CDN, but can create redundant traffic if files expire and are pulled before they have actually changed.</li>
+  <li>Pull CDNs work well for sites with heavy traffic because the traffic spread out more evenly with only recently-requested content remaining on the CDN.
+    <ul>
+      <li>Older requested content is expired by the TTL, making space for new content.</li>
+      <li>For lots of updates, the Pull CDN is able to pull and cache the updated content when requested or old content is expired.</li>
+      <li>For heavy traffic, the Pull CDN can serve the most requested, cached content, only pulling from the server when for less requested content.</li>
+    </ul>
+  </li>
+</ul>
 
 <h3 id="disadvantages-of-cdns">
 <a class="anchor" href="#disadvantages-of-cdns" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages of CDNs</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* CDN costs could be significant depending on traffic, although this should be compared against additional costs of not using a CDN.
-* Cached content might be stale if it is updated before the TTL expires it to be updated.
-* CDNs require changing URLs for static content to point to the CDN, e.g. directing `facebook.com` to `cdn-images.fb.com`.
-</code></pre></div></div>
+<ul>
+  <li>CDN costs could be significant depending on traffic, although this should be compared against additional costs of not using a CDN.</li>
+  <li>Cached content might be stale if it is updated before the TTL expires it to be updated.</li>
+  <li>CDNs require changing URLs for static content to point to the CDN, e.g. directing <code class="language-plaintext highlighter-rouge">facebook.com</code> to <code class="language-plaintext highlighter-rouge">cdn-images.fb.com</code>.</li>
+</ul>
 
 <h2 id="load-balancer">
 <a class="anchor" href="#load-balancer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load Balancer</h2>
