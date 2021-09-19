@@ -24,8 +24,7 @@ permalink: /database-systems-intro
 * Topics: Relational Databases, Storage, Execution, Concurrency Control, Recovery, Distributed Databases, Potpourri
 
 ## 1. Relational Model & Relational Algebra
-
-### [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf)
+* [**Lecture Summary**](https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf)
 
 * **Database**: organized collection of inter-related data that models some aspect of the real-world.
     * Databases are the core component of most computer applications.
@@ -112,13 +111,13 @@ permalink: /database-systems-intro
         * Predicate is a filter to only select tuples that satisfy its requirement.
         * Can combine multiple predicates using conjunctions or disjunctions
         * Syntax: $\sigma _{\text{predicate}}(R)$
-        * Example: $\sigma _{\text{a\_id='a2'}}(R)$
+        * Example: $\sigma _{\text{a\textunderscore id='a2'}}(R)$
         * Select corresponds to `WHERE` in SQL.
     * **Projection** $(\Pi)$ : generate a relation with tuples that contains only the specified attributes.
         * Can rearrange attributes' ordering
         * Can manipulate the values
         * Syntax: $\Pi _{\text{attributes}}(R)$
-        * Example: $\Pi _{b\_id - 100, a\_id}(\sigma _{\text{a\_id='a2'}}(R))$
+        * Example: $\Pi _{\text{b\textunderscore id - 100, a\textunderscore id}}(\sigma _{\text{a\textunderscore id='a2'}}(R))$
         * Projection corresponds to `SELECT` in SQL.
     * **Union** $(\cup)$ : generate a relation that contains all tuples that appear in either only one or both input relations.
         * Relations must have same attributes with same types.
@@ -151,7 +150,7 @@ permalink: /database-systems-intro
         * Sorting $(\tau)$
         * Division $(R \div S)$ 
     * Relational algebra defines the high-level steps of how to compute a query, instead of only stating the desired result.
-        * E.g. $\sigma _{b\_id=102}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{b\_id=102}(S))$
+        * E.g. $\sigma _{\text{b\textunderscore id=102}}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{\text{b\textunderscore id=102}}(S))$
         * The first query natural joins R and S, then performs a filter after.
         * The second query filters S, then natural joins the output relation to R.
         * The queries look similar, but the efficiency could differ greatly if S and R have a billion tuples and only one tuple in S has `b_id=102`. The first query joins two huge relations, but the second one can find the one tuple where `b_id=102` before joining.
