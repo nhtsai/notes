@@ -12,10 +12,7 @@ categories: [web-server]
 permalink: /web-server
 ---
 
-# Title
-* https://ruslanspivak.com/lsbaws-part1/
-* https://joaoventura.net/blog/2017/python-webserver/
-
+# Web Servers
 
 ## Introduction
 * A webserver is a networking server that waits for a client to send a request and generates a response to send back to the client.
@@ -116,4 +113,5 @@ permalink: /web-server
     ```
 
 ## References
-[^1]: Footnote
+* [Let's Build a Web Server](https://ruslanspivak.com/lsbaws-part1/)
+* [Python Webserver](https://joaoventura.net/blog/2017/python-webserver/)
