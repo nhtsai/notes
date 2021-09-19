@@ -57,7 +57,7 @@ permalink: /system-design-overview
         * Let the class assemble the dataset from the database.
         * Store the complete instance of the class or assembled dataset into the cache.
     * Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.
-If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.
+* If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.
     * This makes it easy to delete the object when a piece of data changes.
     * This makes asynchronous processing possible.
         * Servers query the database to assemble the data in the class.
@@ -102,103 +102,103 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 
 ## Availability vs Consistency
 ### CAP Theorem
-    * In a distributed system, you can only support 2 guarantees:
-        * **Consistency**: every read receives most recent write or an error
-        * **Availability**: every request receives a response, without guarantee that it contains the most recent version of the data
-        * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline
-    * Networks aren't reliable, so *partition tolerance needs to be supported*.
-    * You need to make a *software tradeoff between consistency and availability*.
+* In a distributed system, you can only support 2 guarantees:
+    * **Consistency**: every read receives most recent write or an error
+    * **Availability**: every request receives a response, without guarantee that it contains the most recent version of the data
+    * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline
+* Networks aren't reliable, so *partition tolerance needs to be supported*.
+* You need to make a *software tradeoff between consistency and availability*.
 
 ### Consistency and Partition Tolerance (CP)
-    * System is consistent across servers and can handle network failures, but responses to requests are not always available.
-    * Waiting for a response from the partitioned node might result in a timeout error.
-    * Good choice if **atomic reads and writes** are required.
-        * **Atomic** refers to performing operations one at a time.
+* System is consistent across servers and can handle network failures, but responses to requests are not always available.
+* Waiting for a response from the partitioned node might result in a timeout error.
+* Good choice if **atomic reads and writes** are required.
+    * **Atomic** refers to performing operations one at a time.
 
 ### Availability and Partition Tolerance (AP)
-    * System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.
-    * Responses return the most readily available version of the data on any node, which might be outdated.
-    * Writes might take some time to propagate when the partition/failure is resolved.
-    * Good choice if **eventual consistency** is needed or when the system needs to continue working despite external errors.
+* System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.
+* Responses return the most readily available version of the data on any node, which might be outdated.
+* Writes might take some time to propagate when the partition/failure is resolved.
+* Good choice if **eventual consistency** is needed or when the system needs to continue working despite external errors.
 
 ## Consistency Patterns
 * With multiple copies of the same data (**redundancy**), how do we synchronize them across nodes (**consistency**) to provide all users the same view of the data?
     * The **CAP Theorem** need to respond to every read with the most recent write or an error to be **consistent**.
 
 ### Weak Consistency
-    * After a write, reads *may or may not* see it, and a best effort approach is taken.
-    * Weak consistency works well for real-time use cases, such as VoIP, video chat, and realtime multiplayer video games.
-        * If you briefly lose reception during a phone call, you don't really care or hear what was lost during connection loss.
-    * Weak consistency is used in systems like memcached, where the result might or might not be there.
+* After a write, reads *may or may not* see it, and a best effort approach is taken.
+* Weak consistency works well for real-time use cases, such as VoIP, video chat, and realtime multiplayer video games.
+    * If you briefly lose reception during a phone call, you don't really care or hear what was lost during connection loss.
+* Weak consistency is used in systems like memcached, where the result might or might not be there.
 
 ### Eventual Consistency
-    * After a write, reads *will eventually* see it, typically within milliseconds.
-    * Data is **replicated asynchronously**.
-    * Eventual consistency works well in highly available systems.
-    * Eventual consistency is used in systems like DNS and email.
+* After a write, reads *will eventually* see it, typically within milliseconds.
+* Data is **replicated asynchronously**.
+* Eventual consistency works well in highly available systems.
+* Eventual consistency is used in systems like DNS and email.
 
 ### Strong Consistency
-    * After a write, reads *will* see it.
-    * Data is **replicated synchronously**.
-    * Strong Consistency works well in systems that need transactions.
-    * Strong consistency is used in systems like file systems and relational database management systems (RDBMSes).
+* After a write, reads *will* see it.
+* Data is **replicated synchronously**.
+* Strong Consistency works well in systems that need transactions.
+* Strong consistency is used in systems like file systems and relational database management systems (RDBMSes).
 
 ### Transactions
-    * An extended form of consistency across multiple operations.
-    * E.g. transfering money from account A to account B
-        * Operation 1: subtract from A
-        * Operation 2: add to B
-        * What if something happens in between operations?
-            * E.g. Another transaction A or B, machine crashes
-        * You want some kind of guarantee that the invariants will be maintained.
-            * Money subtracted from A will go back to A.
-            * Money created will eventually be added to B.
-    * Transactions are useful because...
-        * Correctness
-        * Consistency
-        * Enforce invariants
-        * ACID: atomic, consistent, isolated, durable
+* An extended form of consistency across multiple operations.
+* E.g. transfering money from account A to account B
+    * Operation 1: subtract from A
+    * Operation 2: add to B
+    * What if something happens in between operations?
+        * E.g. Another transaction A or B, machine crashes
+    * You want some kind of guarantee that the invariants will be maintained.
+        * Money subtracted from A will go back to A.
+        * Money created will eventually be added to B.
+* Transactions are useful because...
+    * Correctness
+    * Consistency
+    * Enforce invariants
+    * ACID: atomic, consistent, isolated, durable
 
 ## Availability Patterns
 ### Fail-Over
-    * Active-Passive
-        * Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.
-        * If a heartbeat is interrupted, the passive server takes over the active server's IP address and resumes service to maintain availability.
-        * Downtime duration is determined by whether passive servier is already running in 'hot' standby or starting from 'cold' standby. 
-    * Active-Active
-        * Both servers are managing traffic, spreading load between them
-        * If servers are public-facing, DNS needs to know about public IPs of both servers.
-        * If servers are private-facing, application logic needs to know about both servers.
-    * Disadvantages
-        * More hardware and additional complexity
-        * Potential for loss of data if active system fails before any newly written data can be replicated to the passive
+* Active-Passive
+    * Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.
+    * If a heartbeat is interrupted, the passive server takes over the active server's IP address and resumes service to maintain availability.
+    * Downtime duration is determined by whether passive servier is already running in 'hot' standby or starting from 'cold' standby. 
+* Active-Active
+    * Both servers are managing traffic, spreading load between them
+    * If servers are public-facing, DNS needs to know about public IPs of both servers.
+    * If servers are private-facing, application logic needs to know about both servers.
+* Disadvantages
+    * More hardware and additional complexity
+    * Potential for loss of data if active system fails before any newly written data can be replicated to the passive
 
 ### Replication
-    * Master-Slave
-        * One master node handles all writes, which are then replicated onto multiple slave nodes.
-    * Master-Master
-        * Both master nodes handle all write requests, spreading load between them. The changes are then replicated onto multiple slave nodes.
+* Master-Slave
+    * One master node handles all writes, which are then replicated onto multiple slave nodes.
+* Master-Master
+    * Both master nodes handle all write requests, spreading load between them. The changes are then replicated onto multiple slave nodes.
 
 ### Availability in Numbers
-    * **Uptime** or **downtime** is the percentage of time the service is available/not available.
-    * Availability is generally measured in 9s, by which a service with 99.99% availability is described as having "four 9s".
+* **Uptime** or **downtime** is the percentage of time the service is available/not available.
+* Availability is generally measured in 9s, by which a service with 99.99% availability is described as having "four 9s".
 
-        | Acceptable Downtime Duration | 99.9% Availability | 99.99% Availability |
-        | -------- | ---: | ---: |
-        | Downtime per year  | 8h 45m 57.0s | 52m 35.7s |
-        | Downtime per month | 43m 49.7s | 4m 23.0s |
-        | Downtime per week  | 10m 04.8s | 1m 05.0s |
-        | Downtime per day   | 1m 26.4s | 08.6s |
+    | Acceptable Downtime Duration | 99.9% Availability | 99.99% Availability |
+    | -------- | ---: | ---: |
+    | Downtime per year  | 8h 45m 57.0s | 52m 35.7s |
+    | Downtime per month | 43m 49.7s | 4m 23.0s |
+    | Downtime per week  | 10m 04.8s | 1m 05.0s |
+    | Downtime per day   | 1m 26.4s | 08.6s |
 
 ### Availability in Sequence
-    * Overall availability *decreases* when two components with < 100% availability are in **sequence**.
-    * $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})$$
-    * If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.
+* Overall availability *decreases* when two components with < 100% availability are in **sequence**.
+* $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})$$
+* If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.
 
 ### Availability in Parallel
-    * Overall availability *increases* when two componenets with < 100% availabiilty are in **parallel**.
-    * $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))$$
-    * If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.
+* Overall availability *increases* when two componenets with < 100% availabiilty are in **parallel**.
+* $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))$$
+* If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.
 
 ## Domain Name System (DNS)
 * A **Domain Name System (DNS)** translates a domain name, e.g. `www.example.com`, to an IP address, e.g. `8.8.8.8`.
@@ -213,33 +213,33 @@ If this ID is not present in the cache, load the data from DB, translate it and 
 * Services that provide managed DNS services include: CloudFlare, Route 53, etc.
 
 ### DNS Traffic Routing Methods
-    * **Round Robin**
-        * Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request
-        * May not result in a perfectly-balanced load distribution
+* **Round Robin**
+    * Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request
+    * May not result in a perfectly-balanced load distribution
 
-    * **Weighted Round Robin**
-        * Each server machine is assigned a performance value, or weight, relative to the other servers in the pool, usually in an automated benchmark testing.
-            * This weight determines how many more or fewer requests are sent to that server, compared to other servers in the pool.
-        * The result is a more even or equal load distribution.
-            * Prevents traffic from going to servers under maintenance.
-            * Weights can help load balance between varying cluster sizes.
-            * A/B Testing
+* **Weighted Round Robin**
+    * Each server machine is assigned a performance value, or weight, relative to the other servers in the pool, usually in an automated benchmark testing.
+        * This weight determines how many more or fewer requests are sent to that server, compared to other servers in the pool.
+    * The result is a more even or equal load distribution.
+        * Prevents traffic from going to servers under maintenance.
+        * Weights can help load balance between varying cluster sizes.
+        * A/B Testing
 
-    * **Latency-Based**
-        * Create latency records between servers in multiple regions.
-        * When a request arrives, the DNS queries the NS, which looks at the most recent latency data.
-        * The load balancer with the lowest latency is the one chosen to serve the user.
+* **Latency-Based**
+    * Create latency records between servers in multiple regions.
+    * When a request arrives, the DNS queries the NS, which looks at the most recent latency data.
+    * The load balancer with the lowest latency is the one chosen to serve the user.
 
-    * **Geolocation-Based**:
-        * Choosing servers to serve traffic based on the geographic location of users.
-            * E.g. routing all European traffic to a European load balancer
-        * Can localize content and restrict content distribution based on region.
-        * Can load balance predicatably so each user location is consistently routed to the same endpoint.
+* **Geolocation-Based**:
+    * Choosing servers to serve traffic based on the geographic location of users.
+        * E.g. routing all European traffic to a European load balancer
+    * Can localize content and restrict content distribution based on region.
+    * Can load balance predicatably so each user location is consistently routed to the same endpoint.
 
 ### Disadvantages of DNS
-    * Accessing a DNS server introduces a slight delay, which can be mitigated by caching.
-    * DNS server management is complex and generally managed by governments, ISPs, and large companies.
-    * DNS services are susceptible to **Distributed Denial of Service (DDoS)** attacks, which prevent users from accessing websites without knowing Twitter's IP address(es).
+* Accessing a DNS server introduces a slight delay, which can be mitigated by caching.
+* DNS server management is complex and generally managed by governments, ISPs, and large companies.
+* DNS services are susceptible to **Distributed Denial of Service (DDoS)** attacks, which prevent users from accessing websites without knowing Twitter's IP address(es).
 
 ## Content Delivery Network (CDN)
 * A **Content Delivery Network (CDN)** is a globally distributed network of proxy servers, serving content from locations closer to the user.
@@ -251,30 +251,30 @@ If this ID is not present in the cache, load the data from DB, translate it and 
     * Reduced load because your servers do not have to serve requests that the CDN fulfills.
 
 ### Push CDNs
-    * Receive new content whenever changes occur on your server.
-        * Content is only uploaded when it is new or changed, minimizing traffic but maximizing storage.
-        * You take full responsibility for providing content, uploading directly to the CDN, and rewriting URLs to point to the CDN.
-    * You can configure when content expires and when it is updated using TTLs.
-    * Push CDNs work well for sites with small amounts of traffic or content that isn't often updated.
-        * Content is pushed to the CDNs when needed, instead of being re-pulled at regular intervals.
-        * For lots of updates, pushing content to the Push CDN places load on the server.
-        * For heavy traffic, the Push CDN's cached content may not be sufficient and will place more load on the server to push content to the Push CDN.
+* Receive new content whenever changes occur on your server.
+    * Content is only uploaded when it is new or changed, minimizing traffic but maximizing storage.
+    * You take full responsibility for providing content, uploading directly to the CDN, and rewriting URLs to point to the CDN.
+* You can configure when content expires and when it is updated using TTLs.
+* Push CDNs work well for sites with small amounts of traffic or content that isn't often updated.
+    * Content is pushed to the CDNs when needed, instead of being re-pulled at regular intervals.
+    * For lots of updates, pushing content to the Push CDN places load on the server.
+    * For heavy traffic, the Push CDN's cached content may not be sufficient and will place more load on the server to push content to the Push CDN.
 
 ### Pull CDNs
-    * Grabs new content from your server when the first user requests the content.
-        * You take full responsibility for providing content and rewriting URLs to point to the CDN.
-        * This results in slower requests until content is cached on the CDN, as users need to pull from the server upon the first request.
-    * A **time to live (TTL)** determines the life of the cached content, which you do not typically have control of.
-    * Pull CDNs minimizing storage space on the CDN, but can create redundant traffic if files expire and are pulled before they have actually changed.
-    * Pull CDNs work well for sites with heavy traffic because the traffic spread out more evenly with only recently-requested content remaining on the CDN.
-        * Older requested content is expired by the TTL, making space for new content.
-        * For lots of updates, the Pull CDN is able to pull and cache the updated content when requested or old content is expired.
-        * For heavy traffic, the Pull CDN can serve the most requested, cached content, only pulling from the server when for less requested content.
+* Grabs new content from your server when the first user requests the content.
+    * You take full responsibility for providing content and rewriting URLs to point to the CDN.
+    * This results in slower requests until content is cached on the CDN, as users need to pull from the server upon the first request.
+* A **time to live (TTL)** determines the life of the cached content, which you do not typically have control of.
+* Pull CDNs minimizing storage space on the CDN, but can create redundant traffic if files expire and are pulled before they have actually changed.
+* Pull CDNs work well for sites with heavy traffic because the traffic spread out more evenly with only recently-requested content remaining on the CDN.
+    * Older requested content is expired by the TTL, making space for new content.
+    * For lots of updates, the Pull CDN is able to pull and cache the updated content when requested or old content is expired.
+    * For heavy traffic, the Pull CDN can serve the most requested, cached content, only pulling from the server when for less requested content.
 
 ### Disadvantages of CDNs
-    * CDN costs could be significant depending on traffic, although this should be compared against additional costs of not using a CDN.
-    * Cached content might be stale if it is updated before the TTL expires it to be updated.
-    * CDNs require changing URLs for static content to point to the CDN, e.g. directing `facebook.com` to `cdn-images.fb.com`.
+* CDN costs could be significant depending on traffic, although this should be compared against additional costs of not using a CDN.
+* Cached content might be stale if it is updated before the TTL expires it to be updated.
+* CDNs require changing URLs for static content to point to the CDN, e.g. directing `facebook.com` to `cdn-images.fb.com`.
 
 ## Load Balancer
 * 
