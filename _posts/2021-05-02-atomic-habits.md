@@ -6,9 +6,9 @@ author: "Nathan Tsai"
 toc: false
 comments: false
 hide: false
-search_exclude: true
-show_tags: false
-categories: [books]
+search_exclude: false
+show_tags: true
+categories: [book-notes]
 permalink: /atomic-habits
 ---
 

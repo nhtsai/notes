@@ -1,9 +1,15 @@
 ---
-toc: true
 layout: post
-description: A minimal example of using markdown with fastpages.
-categories: [markdown]
 title: An Example Markdown Post
+description: A minimal example of using markdown with fastpages.
+author: Nathan Tsai
+toc: true
+comments: false
+hide: true
+search_exclude: true
+show_tags: true
+categories: [markdown]
+permalink: /test-markdown
 ---
 # Example Markdown Post
 
@@ -96,7 +102,7 @@ key: value
 
 
 ## Footnotes
-
+This[^1]
 
 
 [^1]: This is the footnote.

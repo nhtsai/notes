@@ -5,11 +5,9 @@ description: "Notes on System Design."
 author: "Nathan Tsai"
 toc: true
 comments: false
-# image: 
 hide: false
 search_exclude: false
-show_tags: false
-# sticky_rank: 1
+show_tags: true
 categories: [system-design]
 permalink: /system-design-overview
 ---

@@ -6,17 +6,17 @@ author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false
-search_exclude: true
-show_tags: false
-categories: [cassandra, databases]
+search_exclude: false
+show_tags: true
+categories: [coursenotes, cassandra, databases]
 permalink: /cassandra-intro
 ---
 
 # Introduction to Apache Cassandra
 
-## Video Lecture from Patrick McFadin
+## Supplemental Video Lecture
 
-[![Introduction to Apache Cassandra Video](https://img.youtube.com/vi/d7o6a75sfY0/0.jpg)](https://www.youtube.com/watch?v=d7o6a75sfY0 "Introduction to Apache Cassandra Video")
+[![Introduction to Apache Cassandra Video by Patrick McFadin](https://img.youtube.com/vi/d7o6a75sfY0/0.jpg)](https://www.youtube.com/watch?v=d7o6a75sfY0 "Introduction to Apache Cassandra Video")
 
 ## Relational Overview
 

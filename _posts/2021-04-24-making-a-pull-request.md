@@ -6,8 +6,8 @@ author: "Nathan Tsai"
 toc: false
 comments: false
 hide: false
-search_exclude: true
-show_tags: false
+search_exclude: false
+show_tags: true
 categories: [git]
 permalink: /making-a-pull-request
 ---

@@ -5,11 +5,10 @@ description: "Notes on distance estimation model by Zhu et al."
 author: "Nathan Tsai"
 toc: true
 comments: false
-image: 
 hide: false
 search_exclude: false
-show_tags: false
-categories: [self-driving, distance-estimation]
+show_tags: true
+categories: [research-paper, machine-learning, computer-vision]
 permalink: /distance-estimation
 ---
 
