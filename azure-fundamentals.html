@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Azure Fundamentals | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Azure Fundamentals" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Course notes on ExamPro’s AZ-900 certification course." />
+<meta property="og:description" content="Course notes on ExamPro’s AZ-900 certification course." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/azure-fundamentals" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/azure-fundamentals" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-19T00:00:00-05:00","url":"https://nhtsai.github.io/notes/azure-fundamentals","@type":"BlogPosting","headline":"Azure Fundamentals","dateModified":"2021-09-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/azure-fundamentals"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes on ExamPro’s AZ-900 certification course.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Azure Fundamentals</h1><p class="page-description">Course notes on ExamPro's AZ-900 certification course.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-19T00:00:00-05:00" itemprop="datePublished">
+        Sep 19, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      23 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#cloud">cloud</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#azure">azure</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#az-900-microsoft-azure-fundamentals-certification-course">AZ-900: Microsoft Azure Fundamentals Certification Course</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#cloud-concepts">Cloud Concepts</a></li>
+<li class="toc-entry toc-h2"><a href="#microsoft-azure">Microsoft Azure</a></li>
+<li class="toc-entry toc-h2"><a href="#evolution-of-computing">Evolution of Computing</a></li>
+<li class="toc-entry toc-h2"><a href="#global-infrastructure">Global Infrastructure</a></li>
+<li class="toc-entry toc-h2"><a href="#azure-services-overview">Azure Services Overview</a></li>
+<li class="toc-entry toc-h2"><a href="#management-tools">Management Tools</a></li>
+<li class="toc-entry toc-h2"><a href="#security">Security</a></li>
+<li class="toc-entry toc-h2"><a href="#billing-and-pricing">Billing and Pricing</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="az-900-microsoft-azure-fundamentals-certification-course">
+<a class="anchor" href="#az-900-microsoft-azure-fundamentals-certification-course" aria-hidden="true"><span class="octicon octicon-link"></span></a>AZ-900: Microsoft Azure Fundamentals Certification Course</h1>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=NKEFWyqJ5XA">Course Video</a></li>
+  <li>Content Outline
+    <ul>
+      <li>15-25%: Cloud Concepts</li>
+      <li>30-35%: Azure Core Services</li>
+      <li>25-30%: Security, Privacy, Compliance, and Trust</li>
+      <li>20-25%: Pricing and Support</li>
+    </ul>
+  </li>
+  <li>Need to get around 700/1000 or 70% to pass.</li>
+  <li>Exam has 40-60 questions, can get 12-18 questions wrong.</li>
+  <li>Question types: multiple choice, multiple answer, drag and drop, hot area (multiple drop-down menus)</li>
+  <li>Exam time is 60 min, seat time is 90 min.</li>
+  <li>Valid for 24 months/2 years before re-certification.</li>
+</ul>
+
+<h2 id="cloud-concepts">
+<a class="anchor" href="#cloud-concepts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cloud Concepts</h2>
+
+<ul>
+  <li>
+<strong>Cloud Computing</strong>: practice of using a network of remote servers hosted on Internet to store, manage, and process data, rather than a local server or a personal computer
+    <ul>
+      <li>On-Premise: you own the server, manage the infrastructure, own all the risk</li>
+      <li>Cloud Providers: servers are owned and managed by other parties</li>
+    </ul>
+  </li>
+  <li>
+<strong>Dedicated Servers</strong>: one physical machine dedicated to a single business
+    <ul>
+      <li>Runs a single website or application</li>
+      <li>Very expensive, high maintenance, high security</li>
+    </ul>
+  </li>
+  <li>
+<strong>Virtual Private Server</strong>: one physical machine dedicated to a single business
+    <ul>
+      <li>virtualized into sub-machines to run multiple websites or applications</li>
+    </ul>
+  </li>
+  <li>
+<strong>Shared Hosting</strong>: one physical machine shared by hundreds of businesses
+    <ul>
+      <li>relies on most tenants under-utilizing their resources</li>
+      <li>very cheap, very limited</li>
+    </ul>
+  </li>
+  <li>
+<strong>Cloud Hosting</strong>: multiple physical machines that act as one system
+    <ul>
+      <li>abstracted into multiple cloud services</li>
+      <li>flexible, scalable, secure, cost-effective, high configurability</li>
+    </ul>
+  </li>
+  <li>Most Common <strong>Infrastructure as a Service (IaaS)</strong> Cloud Services
+    <ul>
+      <li>Compute: a virtual machine that can run applications, programs, and code</li>
+      <li>Storage: a virtual hard-drive that can store files</li>
+      <li>Networking: a virtual network that can define internet connections or network isolations</li>
+      <li>Databases: a virtual database for storing reporting data or general purpose application use</li>
+    </ul>
+  </li>
+  <li>Benefits of Cloud Computing
+    <ul>
+      <li>Cost Effective: pay for what you consume, no upfront cost</li>
+      <li>Global: launch workloads anywhere in the world</li>
+      <li>Secure: cloud services can be secure by default, handled by provider</li>
+      <li>Reliable: data backup, disaster recover, replication, fault tolerance</li>
+      <li>Scalable: adapt resources and services based on demand</li>
+      <li>Elastic: automate scaling</li>
+      <li>Current: underlying software is upgraded by provider</li>
+    </ul>
+  </li>
+  <li>Types of Cloud Computing
+    <ul>
+      <li>Software as a Service (SaaS): product that is run and managed by a service provider, for consumers
+        <ul>
+          <li>Salesforce, Gmail, Office 365, other software in the cloud</li>
+        </ul>
+      </li>
+      <li>Platform as a Service (PaaS): focus on deployment and management of your apps, for developers
+        <ul>
+          <li>AWS Elastic Beanstalk, Heroku, Google App Engine</li>
+        </ul>
+      </li>
+      <li>Infrastructure as a Service (IaaS): cloud IT, provides access to networking features, computers, and data storage space, for administrators
+        <ul>
+          <li>Microsoft Azure, AWS, Oracle Cloud</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Types of Cloud Computing Responsibilities
+    <ul>
+      <li><strong>Customer is responsible</strong></li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>On-Premise</th>
+          <th>IaaS</th>
+          <th>PaaS</th>
+          <th>SaaS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Applications</strong></td>
+          <td><strong>Applications</strong></td>
+          <td>
+<strong>**Applications</strong>**</td>
+          <td>Applications</td>
+        </tr>
+        <tr>
+          <td><strong>Data</strong></td>
+          <td><strong>Data</strong></td>
+          <td><strong>Data</strong></td>
+          <td>Data</td>
+        </tr>
+        <tr>
+          <td><strong>Runtime</strong></td>
+          <td><strong>Runtime</strong></td>
+          <td>Runtime</td>
+          <td>Runtime</td>
+        </tr>
+        <tr>
+          <td><strong>Middleware</strong></td>
+          <td><strong>Middleware</strong></td>
+          <td>Middleware</td>
+          <td>Middleware</td>
+        </tr>
+        <tr>
+          <td><strong>OS</strong></td>
+          <td><strong>OS</strong></td>
+          <td>OS</td>
+          <td>OS</td>
+        </tr>
+        <tr>
+          <td><strong>Virtualization</strong></td>
+          <td>Virtualization</td>
+          <td>Virtualization</td>
+          <td>Virtualization</td>
+        </tr>
+        <tr>
+          <td><strong>Servers</strong></td>
+          <td>Servers</td>
+          <td>Servers</td>
+          <td>Servers</td>
+        </tr>
+        <tr>
+          <td><strong>Storage</strong></td>
+          <td>Storage</td>
+          <td>Storage</td>
+          <td>Storage</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>For on-premise, customer is responsible for everything!</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="microsoft-azure">
+<a class="anchor" href="#microsoft-azure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Microsoft Azure</h2>
+<ul>
+  <li>Tech company based in Redmond, Washington that makes software, devices, cloud services, search engines.
+    <ul>
+      <li>Most known for Windows Operating System</li>
+    </ul>
+  </li>
+  <li>Azure is the <strong>cloud service provider (CSP)</strong> from Microsoft
+    <ul>
+      <li>Means “bright blue color of the cloudless sky”</li>
+    </ul>
+  </li>
+  <li>
+    <p>Azure Deployment Models</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th> </th>
+          <th>Cost</th>
+          <th>Security</th>
+          <th>Configuration</th>
+          <th>Technical Knowledge</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Public Cloud</td>
+          <td>everything built on cloud provider, cloud native</td>
+          <td>most cost-effective</td>
+          <td>security controls by default, may not meet your security requirements</td>
+          <td>configuration limited by provider</td>
+          <td>no in-depth knowledge needed</td>
+        </tr>
+        <tr>
+          <td>Private Cloud</td>
+          <td>everything built on company’s data centers, on-premise</td>
+          <td>most-expensive</td>
+          <td>no security guarantee, can meet your security requirements</td>
+          <td>configurable anyway</td>
+          <td>in-depth knowledge needed to configure private infrastructure</td>
+        </tr>
+        <tr>
+          <td>Hybrid Cloud</td>
+          <td>using both on-premise and cloud-native from cloud service provider</td>
+          <td>depends on cloud usage</td>
+          <td>need to secure, can meet your security requirements</td>
+          <td>best of both words</td>
+          <td>in-depth knowledge needed to configure private infrastructure and of cloud services</td>
+        </tr>
+        <tr>
+          <td>Cross Cloud</td>
+          <td>using multiple cloud providers, multi-cloud</td>
+          <td>security controls spread across providers</td>
+          <td>configurations limited across providers</td>
+          <td>in-depth knowledge needed of multiple cloud providers</td>
+          <td> </td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>Total Cost of Ownership (TCO)
+    <ul>
+      <li>On-premise (CAPEX): software license fees, implementation, configuration, training, physical security, hardware, IT personnel, maintenance</li>
+      <li>Azure/Cloud (OPEX): subscription fees, implementation, configuration, training</li>
+      <li>Usually save 75% by moving to cloud services</li>
+    </ul>
+  </li>
+  <li>Capital vs. Operational Expenditure
+    <ul>
+      <li>
+<strong>Capital Expenditure (CAPEX)</strong>: spending money upfront on physical infrastructure, deduct that expense from tax bill over time, on-premise business model
+        <ul>
+          <li>Server costs</li>
+          <li>Storage costs</li>
+          <li>Network costs</li>
+          <li>Backup and Archive costs</li>
+          <li>Disaster recovery costs</li>
+          <li>Data center costs</li>
+          <li>Technical personnel costs</li>
+          <li>Need to guess upfront what you plan to spend</li>
+        </ul>
+      </li>
+      <li>
+<strong>Operational Expenditure (OPEX)</strong>: physical costs are shifted to cloud service provider, customer handles non-physical costs
+        <ul>
+          <li>Software lease and customization costs</li>
+          <li>Cloud training costs</li>
+          <li>Cloud support costs</li>
+          <li>Cloud metric billing costs (compute, storage)</li>
+          <li>Can try a product or service without investing in equipment</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Availability</strong>: ability to ensure service remains available
+    <ul>
+      <li>
+<strong>High Availability</strong>: ensure no single point of failure and/or ensure a certain level of performance</li>
+      <li>Having multiple data centers in multiple <strong>availability zones (AZs)</strong> ensures availability</li>
+      <li>
+<strong>Load Balancer</strong>: evenly distributes traffic to multiple servers in a data center, rerouting traffic in case of server failure</li>
+      <li>Azure Load Balancer</li>
+    </ul>
+  </li>
+  <li>
+<strong>Scalability</strong>: ability to grow rapidly or unimpeded
+    <ul>
+      <li>
+<strong>High Scalability</strong>: increase capacity based on increased demand of traffic, memory, and compute power</li>
+      <li>
+<strong>Vertical Scaling</strong>: upgrading a single machine, scaling up</li>
+      <li>
+<strong>Horizontal Scaling</strong>: adding additional servers of the same size, scaling out</li>
+    </ul>
+  </li>
+  <li>
+<strong>Elasticity</strong>: ability to shrink and grow to meet demand
+    <ul>
+      <li>
+<strong>High Elasticity</strong>: automatically change capacity based on current demand of traffic, memory, and compute power</li>
+      <li>Use <em>horizontal scaling</em> to scale in or scale out machines</li>
+      <li>Generally, high elasticity is hard to accomplish with vertical scaling</li>
+      <li>Azure VM Scale Sets, SQL Server Stretch Database</li>
+    </ul>
+  </li>
+  <li>
+<strong>Fault Tolerance</strong>: ability to prevent or handle failures</li>
+  <li>
+<strong>Disaster Recovery</strong>: ability to recover from failures, high durability
+    <ul>
+      <li>
+<strong>High Durability</strong>: ability to recover from a disaster and prevent loss of data</li>
+      <li>Backup archives, restoring backups, backup functionality, ensure live data is not corrupt</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="evolution-of-computing">
+<a class="anchor" href="#evolution-of-computing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evolution of Computing</h2>
+<ul>
+  <li>
+<strong>Dedicated</strong>: physical server wholly utilized by a single customer
+    <ul>
+      <li>Need to guess total capacity needed when buying a server, might be underutilized</li>
+      <li>Upgrading is slow and expensive</li>
+      <li>Limited by operating system</li>
+      <li>Multiple apps can fight over shared resources</li>
+      <li>Guaranteed security, privacy, and full utility of underlying resources</li>
+    </ul>
+  </li>
+  <li>
+<strong>Virtual Machines (VMs)</strong>: multiple virtual machines run on one machine
+    <ul>
+      <li>
+<strong>Hypervisor</strong>: software layer to run virtual machines</li>
+      <li>Physical server is shared by multiple customers</li>
+      <li>Need to guess total capacity, might be underutilized, pay for a fraction of the server</li>
+      <li>Limited by guest operating system</li>
+      <li>Multiple apps can fight over shared resources if run on a single VM</li>
+    </ul>
+  </li>
+  <li>
+<strong>Containers</strong>: multiple containers run on one virtual machine
+    <ul>
+      <li>
+<strong>Docker Daemon</strong>: software layer that lets you run multiple containers</li>
+      <li>Can maximize capacity used by application to be more cost-effective</li>
+      <li>Containers share same underlying OS, but each container can run a different OS for more flexibility</li>
+      <li>Multiple apps can run side by side in containers without fighting over shared resources</li>
+    </ul>
+  </li>
+  <li>
+<strong>Functions</strong>: managed VMs running managed containers, apps divided up into functions, <em>serverless compute</em>
+    <ul>
+      <li>Upload code and choose amount of memory and duration, only responsibility for code</li>
+      <li>Very cost-effective, only pay for code execution time, VMs only execute when needed</li>
+      <li>
+<strong>Cold Starts</strong>: overhead time needed to start a server affects execution time</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="global-infrastructure">
+<a class="anchor" href="#global-infrastructure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Global Infrastructure</h2>
+<ul>
+  <li>
+<strong>Region</strong>: grouping of multiple data centers, or availability zones</li>
+  <li>
+<strong>Geography</strong>: discrete market of 2+ regions that preserves <em>data residency and compliance boundaries</em>
+    <ul>
+      <li>United States, US Government, Canada, Brazil, Mexico</li>
+      <li>Used to guarantee data will remain within a country’s boundaries</li>
+    </ul>
+  </li>
+  <li>
+<strong>Paired Regions</strong>: each region is paired with another region 300 miles away
+    <ul>
+      <li>only one region is updated a a time to ensure no outages, also used for disaster recovery</li>
+      <li>Azure Geo-Redundant Storage: replicates data to a secondary region automatically, ensuring data is durable even in the event that the primary region isn’t recoverable.</li>
+    </ul>
+  </li>
+  <li>Not all Azure cloud services are available in every region.</li>
+  <li>
+<strong>Recommended Region</strong>: a region that provides the broadest range of service capabilities and is designed to support availability zones now or in the future</li>
+  <li>
+<strong>Alternate Region</strong>: a region that extends Azure’s footprint within a data residency boundary where a recommended region also exists, not designed to support availability regions.</li>
+  <li>
+<strong>General Availability (GA)</strong>: when a service is considered ready to be used publicly by everyone</li>
+  <li>Azure Cloud services are grouped into 3 categories by when services are available
+    <ul>
+      <li>Foundational: available immediately or within 12 months in recommended and alternate regions</li>
+      <li>Mainstream: available immediately or within 12 months in recommended regions, available in alternate regions based on customer demand</li>
+      <li>Specialized: available in recommended or alternate regions based on customer demand</li>
+    </ul>
+  </li>
+  <li>
+<strong>Special Regions</strong>: regions to meet compliance or legal reason
+    <ul>
+      <li>US Government</li>
+      <li>Chinese Government via partnership with 21Vianet for data centers</li>
+    </ul>
+  </li>
+  <li>
+<strong>Availability Zones (AZs)</strong>: physical location made up of 1+ data centers
+    <ul>
+      <li>
+<strong>Data Center</strong>: secured building that contains hundreds of thousands of computers</li>
+      <li><em>A region will generally contain 3 AZs</em></li>
+      <li>Data centers within a region are isolated from each other but will be close enough for low-latency</li>
+      <li>Common practice to run workloads in 3 AZs to ensures high availability</li>
+    </ul>
+  </li>
+  <li>AZ Supported Regions: not every region has support for availability zones, i.e. Alternate or Other
+    <ul>
+      <li>Recommended regions have at least 3 AZs</li>
+    </ul>
+  </li>
+  <li>Fault and Update Domains
+    <ul>
+      <li>An AZ in an Azure region is a combination of a fault domain and an update domain</li>
+      <li>
+<strong>Fault Domain</strong>: logical grouping of hardware to avoid a single point of failure within an AZ
+        <ul>
+          <li>Group of VMs that share a common power source and network switch</li>
+          <li>If part of data center fails, other servers won’t be taken down.</li>
+        </ul>
+      </li>
+      <li>
+<strong>Update Domain</strong>: ensure resources don’t go offline when underlying hardware and software is updated</li>
+    </ul>
+  </li>
+  <li>
+<strong>Availability Set</strong>: logical grouping that ensures VMs are in different fault and update domains to avoid downtime
+    <ul>
+      <li>Each VM in an availability set is assigned a fault domain and an update domain.</li>
+      <li>Fault Domain e.g. server rack</li>
+      <li>Update Domain e.g. a group of specific servers across racks</li>
+      <li>Higher number of domains means more isolated VMs.
+        <ul>
+          <li>Update domain must be 1 when fault domain is 1.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="azure-services-overview">
+<a class="anchor" href="#azure-services-overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Azure Services Overview</h2>
+
+<ul>
+  <li>Computing Services
+    <ul>
+      <li>
+<strong>Azure Virtual Machines</strong>: Windows or Linux VMs, most common type of compute
+        <ul>
+          <li>You choose OS, Memory, CPU, and Storage, share hardware with other customers</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Container Instances</strong>: run containerized apps on Azure without provisioning servers or VMs, Docker as a Service</li>
+      <li>
+<strong>Azure Kubernetes Service (AKS)</strong>: easy to deploy, manage, and scale containerized applications, Kubernetes (K8) as a Service</li>
+      <li>
+<strong>Azure Service Fabric</strong>: distributed systems platform for easy to package, deploy, and manage scalable and reliable microservices, Tier-1 Enterprise Containers as a Service</li>
+      <li>
+<strong>Azure Functions</strong>: event-driven, serverless compute (functions) run code without provisioning or managing servers, pay for compute time, Functions as a Service</li>
+      <li>
+<strong>Azure Batch</strong>: Plans, schedules, and executes batch compute workloads across running 100+ jobs in parallel, can use Spot VMs to save money (using low-priority VMs to save money)</li>
+    </ul>
+  </li>
+  <li>Storage Services
+    <ul>
+      <li>
+<strong>Azure Blob Storage</strong>: store very large files and large amounts of unstructured files, pay for what you store, unlimited storage, no-resizing volumes, filesystem protocols, Object Serverless Storage</li>
+      <li>
+<strong>Azure Disk Storage</strong>: a virtual SSD or HDD volume, encryption by default, attached to VMs</li>
+      <li>
+<strong>Azure File Storage:</strong> shared volume that you can access and manage like a file server</li>
+      <li>
+<strong>Azure Queue Storage</strong>: data store for queueing and reliably delivering messages between applications, Messaging Queue</li>
+      <li>
+<strong>Azure Table Storage</strong>: Wide-column NoSQL database that hosts unstructured data independent of any schema</li>
+      <li>
+<strong>Azure Databox (Heavy)</strong>: rugged briefcase computer and storage designed to move TB or PB data, ship data in a physical device</li>
+      <li>
+<strong>Azure Archive Storage</strong>: long-term cold storage for when you need to hold onto files for years</li>
+      <li>
+<strong>Azure Data Lake Storage</strong>: centralized repository to store structured and unstructured data at any scale</li>
+    </ul>
+  </li>
+  <li>Database Services
+    <ul>
+      <li>
+<strong>Azure Cosmos DB</strong>: fully managed NoSQL database designed for scale with 99.999% availability</li>
+      <li>
+<strong>Azure SQL DB</strong>: fully managed MS SQL database with auto-scale, integral intelligence, and robust security</li>
+      <li>
+<strong>Azure Database</strong>: fully managed and scalable MySQL, PostgreSQL, MariaDB database with high availability and security</li>
+      <li>
+<strong>SQL Server on VMs</strong>: host enterprise SQL Server apps in cloud, convert MS SQL on-premise to Azure Cloud</li>
+      <li>
+<strong>Azure Synapse Analytics</strong>: fully managed data warehouse with integral security at every level of scale at no extra cost</li>
+      <li>
+<strong>Azure Database Migration Service</strong>: migrates databases to cloud with no application code changes</li>
+      <li>
+<strong>Azure Cache for Redis</strong>: caches frequently used and static data to reduce data and application latency</li>
+      <li>
+<strong>Azure Table Storage</strong>: wide-column NoSQL database that hosts unstructured data independent of any schema</li>
+    </ul>
+  </li>
+  <li>Application Integration Services
+    <ul>
+      <li>
+<strong>Azure Notifications Hub</strong>: send push notifications to any platform from any backend, <em>Pub/Sub</em>
+</li>
+      <li>
+<strong>Azure API Apps</strong>: quickly build and consume APIs in the cloud, <em>API Gateway to Azure Services</em>
+</li>
+      <li>
+<strong>Azure Service Bus</strong>: reliable cloud messaging as a service and simple hybrid integration</li>
+      <li>
+<strong>Azure Stream Analytics</strong>: serverless <em>real-time analytics</em>, from cloud to edge</li>
+      <li>
+<strong>Azure Logic Apps</strong>: schedule, automate, and orchestrate tasks, business processes, and workflows, integrate with Enterprise SaaS and Enterprise applications</li>
+      <li>
+<strong>Azure API Management</strong>: hybrid, multi-cloud management platform for for APIs across all environments, put in front of existing APIs for additional functionality</li>
+      <li>
+<strong>Azure Queue Storage</strong>: data store for queueing and reliably delivering messages between applications, <em>Messaging Queue</em>
+</li>
+    </ul>
+  </li>
+  <li>Developer and Mobile Tools
+    <ul>
+      <li>
+<strong>Azure SignalR Service</strong>: easily add real-time web functionality to applications, <em>Real-Time Messaging</em>, like Pusher for Azure</li>
+      <li>
+<strong>Azure App Service</strong>: easy to use service for deploying and scaling web applications, like Heroku for Azure</li>
+      <li>
+<strong>Visual Studio</strong>: IDE designed for creating powerful, scalable applications for Azure</li>
+      <li>
+<strong>Xamarin</strong>: create powerful and scalable native mobile apps with .NET and Azure, <em>Mobile-App Framework</em>
+</li>
+    </ul>
+  </li>
+  <li>DevOps Services
+    <ul>
+      <li>
+<strong>Azure Boards</strong>: proven agile tools to plan, track, and discuss work across teams, <em>Kanban Boards or Github Projects</em>
+</li>
+      <li>
+<strong>Azure Pipelines</strong>: build, test, and deploy with <em>CI/CD</em> that works with any language, platform, and cloud</li>
+      <li>
+<strong>Azure Repos</strong>: unlimited, cloud-hosted, private <em>Git repos</em> to collaborate and build code with pull requests and advanced file management</li>
+      <li>
+<strong>Azure Test Plans</strong>: test and ship with confidence using <em>manual and exploratory testing tools</em>
+</li>
+      <li>
+<strong>Azure Artifacts</strong>: create, host, and share packages with your team, add artifacts to CI/CD pipelines</li>
+      <li>
+<strong>Azure DevTest Labs</strong>: fast, easy, and lean dev-test environments</li>
+      <li>
+<strong>Azure Resource Manager (ARM)</strong>: programmatically create Azure resources via JSON template
+        <ul>
+          <li>
+<strong>Infrastructure as Code (IaC)</strong>: process of managing and provisioning data centers through scripts, rather than physical hardware configuration or interactive configuration tools</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Quickstart Templates</strong>: library of pre-made ARM templates to quickly launch new projects, use scripts to quickly set up a project
+        <ul>
+          <li>E.g. Deploy a Django App, Deploy Ubuntu VM with Docker Engine, Web App on Linux with PostgreSQL, etc.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Cloud-Native Networking Services
+    <ul>
+      <li>
+<strong>Azure DNS</strong>: ultra-fast DNS responses and ultra-high domain availability</li>
+      <li>
+<strong>Azure Virtual Network (vNet)</strong>: logically isolated section of Azure network where you launch your Azure resources, choose <em>range of IP addresses using CIDR Range</em>
+        <ul>
+          <li>Create a virtual network within an Azure network with public and private subnets</li>
+          <li>CIDR Range of 10.0.0.0/16 = 65,536 IP Addresses
+            <ul>
+              <li>lower number (/16) means more IP addresses</li>
+            </ul>
+          </li>
+          <li>
+<strong>Subnets</strong>: logical partition of IP network, breaking up vNet IP range into smaller CIDR ranges, i.e. subnet CIDR Range 10.0.0.0/24 = 256 IP Addresses
+            <ul>
+              <li>
+<strong>Public Subnet</strong>: can reach the internet, e.g. web app</li>
+              <li>
+<strong>Private Subnet</strong>: cannot reach internet, e.g. database</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Load Balancer</strong>: OSI Level 4 (Transport, lower-level) load balancer</li>
+      <li>
+<strong>Azure Application Gateway</strong>: OSI Level 7 (HTTP, app-level) load balancer, can apply Web Application Firewall service</li>
+      <li>
+<strong>Networking Security Groups</strong>: virtual firewall at subnet level to secure ports</li>
+    </ul>
+  </li>
+  <li>Enterprise/Hybrid Networking Services
+    <ul>
+      <li>
+<strong>Azure Front Door</strong>: scalable, secure entry point for fast delivery of global applications</li>
+      <li>
+<strong>Azure Express Route</strong>: connection between on-premise to Azure Cloud, 50 MB/s to 10 GB/s</li>
+      <li>
+<strong>Virtual WAN</strong>: networking service that brings networking, security, and routing functionalities together to provide single operational interface</li>
+      <li>
+<strong>Azure Connection</strong>: VPN connection securely connecting two Azure local networks via IPSec</li>
+      <li>
+<strong>Virtual Network Gateway</strong>: site-to-site VPN connection between Azure virtual network and local network.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Azure Traffic Manager</strong>: operates at DNS layer to direct incoming DNS requests based on routing method of your choice, i.e. weighted, performance, priority, geographic, multivalue, subnet
+    <ul>
+      <li>Route traffic to servers geographically near to reduce latency</li>
+      <li>Fail-over to redundant systems in case primary systems failure</li>
+      <li>Route to random VM to simulate A/B testing</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Azure DNS</strong>: host domain names on Azure, create DNS Zones, manage DNS records</p>
+  </li>
+  <li>
+<strong>Azure Load Balancer</strong>: evenly distribute incoming network traffic across a group of backend resources or servers, operates on OSI Layer 4 (Transport), does not understand HTTP requests
+    <ul>
+      <li>Public Load Balancer: routes incoming traffic from internet to public-facing servers (Public IPs)</li>
+      <li>Private Load Balancer: routes incoming traffic from internet to private-facing servers (Private IPs)</li>
+    </ul>
+  </li>
+  <li>
+<strong>Scale Sets</strong>: group identical VMs and automatically increase or decrease amount of servers based on:
+    <ul>
+      <li>change in CPU, memory, disk, network performance</li>
+      <li>on a predefined schedule</li>
+      <li>used for <em>Elasticity</em>
+</li>
+    </ul>
+  </li>
+  <li>IoT Services
+    <ul>
+      <li>
+<strong>Internet of Things (IoT)</strong>: network of internet connected objects able to collect and exchange data</li>
+      <li>
+<strong>IoT Central</strong>: connects IoT devices to cloud</li>
+      <li>
+<strong>IoT Hub</strong>: secure and reliable communication between IoT app and managed devices</li>
+      <li>
+<strong>IoT Edge</strong>: fully managed IoT Hub service, data processing and analysis nearest the IoT devices
+        <ul>
+          <li>
+<strong>Edge Computing</strong>: offload compute from cloud to local computing hardware, IoT devices</li>
+        </ul>
+      </li>
+      <li>
+<strong>Windows 10 IoT Core Services</strong>: subscription for long-term OS support and services for Windows 10 IoT Core devices</li>
+    </ul>
+  </li>
+  <li>Big Data and Analytics Services
+    <ul>
+      <li>
+<strong>Big Dat</strong>a: massive volumes of structured and unstructured data that are difficult to move and process using traditional techniques</li>
+      <li>
+<strong>Azure Synapse Analytics:</strong> enterprise <em>data warehousing and big data analytics</em>, run SQL queries against large databases for <em>reporting</em>
+</li>
+      <li>
+<strong>HDInsight</strong>: open-source analytics software for Hadoop, Kafka, Spark</li>
+      <li>
+<strong>Azure Databricks</strong>: Spark-based analytics platform on Azure cloud</li>
+      <li>
+<strong>Data Lake Analytics</strong>: on-demand analytics job service that simplifies big data
+        <ul>
+          <li>
+<strong>Data Lake</strong>: storage repo that holds large amounts of raw data</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>AI/ML Services
+    <ul>
+      <li>
+<strong>Artificial Intelligence (AI)</strong>: machines perform jobs that mimic human behavior</li>
+      <li>
+<strong>Machine Learning (ML)</strong>: machines that get better at a task without explicit programming</li>
+      <li>
+<strong>Deep Learning (DL)</strong>: machines have artificial neural network to solve complex problems</li>
+      <li>
+<strong>Azure Machine Learning Service</strong>: service to run AI/ML workloads to build flexible pipelines to automate workflows</li>
+      <li>
+<strong>Personalizer</strong>: personalized experiences for every user</li>
+      <li>
+<strong>Translator</strong>: real-time translation</li>
+      <li>
+<strong>Anomaly Detector</strong>: detect anomalies to quickly identify and troubleshoot issues</li>
+      <li>
+<strong>Azure Bot Service</strong>: serverless bot services that scales on demand</li>
+      <li>
+<strong>Form Recogniser</strong>: automate extraction text, key/value pairs, and tables</li>
+      <li>
+<strong>Computer Vision</strong>: customize computer vision models</li>
+      <li>
+<strong>Language Understanding</strong>: build natural language understanding into apps</li>
+      <li>
+<strong>QnA Maker</strong>: create conversational QnA bot from existing content</li>
+      <li>
+<strong>Text Analytics</strong>: extract sentiment, key phrases, named entities, language from text</li>
+      <li>
+<strong>Content Moderator</strong>: moderate text and images for safer user experience</li>
+      <li>
+<strong>Face</strong>: detect and identify people and emotions in images</li>
+      <li>
+<strong>Ink Recogniser</strong>: recognize digital handwritten content</li>
+    </ul>
+  </li>
+  <li>Serverless Services
+    <ul>
+      <li>
+<strong>Serverless</strong>: underlying servers, infrastructure, and OS fully managed by service provider, highly available, scalable, cost-effective
+        <ul>
+          <li>
+<strong>Event Driven Scale</strong>: serverless function triggered by or trigger other events to compose complex, scaling applications</li>
+          <li>
+<strong>Abstraction of Servers</strong>: code described as functions, running on different compute instances</li>
+          <li>
+<strong>Micro-Billing</strong>: bill in micro-seconds of compute time</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Functions</strong>: run small amounts of code, serverless functions</li>
+      <li>
+<strong>Blog Storage</strong>: serverless object storage</li>
+      <li>
+<strong>Logic Apps</strong>: build serverless workflows, state machines for serverless compute</li>
+      <li>
+<strong>Event Grid</strong>: use Pub/Sub messaging system to react and trigger events using Azure Cloud</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="management-tools">
+<a class="anchor" href="#management-tools" aria-hidden="true"><span class="octicon octicon-link"></span></a>Management Tools</h2>
+<ul>
+  <li>
+<strong>Azure Portal</strong>: web-based, unified console to access Azure Cloud services</li>
+  <li>
+<strong>Azure Preview Portal</strong>: portal to utilize new features that are not fully released</li>
+  <li>
+<strong>Azure Powershell</strong>: manage Azure resources directly from Powershell CLI
+    <ul>
+      <li>
+<strong>Powershell</strong>: command-line shell and scripting language for task automation and configuration management framework, built on .NET Common Language Runtime (CLR)</li>
+    </ul>
+  </li>
+  <li>
+<strong>Visual Studio Code</strong>: source-code editor that can be run on Azure Cloud</li>
+  <li>
+<strong>Azure Cloud Shell</strong>: interactive, authenticated, browser-accessible shell for managing Azure resources using PowerShell or Bash</li>
+  <li>
+<strong>Azure CLI</strong>: type <code class="language-plaintext highlighter-rouge">az</code> followed by other commands to manage Azure resources
+    <ul>
+      <li>
+<strong>Command Line Interface (CLI)</strong>: process commands to computer program using lines of text, implemented using a shell or terminal</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="security">
+<a class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h2>
+<ul>
+  <li>
+<strong>Azure Trust Center</strong>: website portal to provide information on privacy, security, and regulatory compliance on Azure</li>
+  <li>
+<strong>Compliance Programs</strong>: enterprise companies may specify compliance programs required for applications built on Azure</li>
+  <li>
+<strong>Azure Active Directory (Azure AD)</strong>: <em>identity and access management service</em>, helps sign-in and access internal and external resources, <em>Single-Sign On (SSO)</em>
+</li>
+  <li>
+<strong>Multi-Factor Authentication (MFA)</strong>: security control that uses a second device to confirm user logins, protect against stolen passwords</li>
+  <li>
+<strong>Azure Security Center</strong>: unified infrastructure security management system to evaluate security of data centers</li>
+  <li>
+<strong>Key Vault</strong>: safeguard cryptographic keys by cloud apps and services
+    <ul>
+      <li>
+<strong>Secrets Management</strong>: control access to tokens, passwords, certificates, API keys, and other secrets</li>
+      <li>
+<strong>Key Management</strong>: control encryption keys</li>
+      <li>
+<strong>Certificate Management</strong>: manage public and private SSL certificates</li>
+      <li>
+<strong>Hardware Security Module (HSM)</strong>: piece of hardware designed to store encryption keys, data stored in memory not disk and deleted upon device failure
+        <ul>
+          <li>Multi-tenant (multiple customers virtually isolated on single HSM) HSMs are FIPS 140-2 Compliant</li>
+          <li>Single-tenant (single customer on dedicated HSM) HSMs are FIPS 140-3 Compliant</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure DDoS Protection</strong>: free basic protection and paid standard protection ($3k/month) with metrics, alerts, reporting, support, and SLAs
+        <ul>
+          <li>
+<strong>Distributed Denial of Service (DDoS) Attack</strong>: malicious attack by flooding website with large amounts of fake traffic</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Firewall</strong>: managed network security service to protect Azure virtual network resources
+        <ul>
+          <li>create, enforce, and log application and network connectivity policies <em>across subscriptions</em> and virtual networks</li>
+          <li>
+<em>static public IP address</em> for virtual network resources to allow outside firewalls to identify traffic originating from your virtual network</li>
+          <li>high availability, no additional load balancers are required</li>
+          <li>configure deployment to span multiple AZs for increased availability</li>
+          <li>no additional cost for firewall in Availability Zone (AZ)</li>
+          <li>additional costs for inbound and outbound data transfers in AZs</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Information Protection (AIP)</strong>: protect sensitive information with encryption restricted access and rights, and integrated security in Office apps</li>
+      <li>
+<strong>Azure Application Gateway</strong>: web-traffic load balancer (OSI Layer 7 HTTP) to reroute traffic based on set of rules
+        <ul>
+          <li>Web Application Firewall (WAF) can be attached for additional protection on OSI Layer 7</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Advanced Threat Protection (ATP)</strong>: cloud-based security that leverages on-premises Active Directory to <em>identify, detect, and investigate advanced threats, compromised identities, and malicious insider actions</em>
+        <ul>
+          <li>
+<strong>Intrusion Detection System (IDS)/Intrusion Protection System (IPS)</strong>: device or application that monitors network or systems for malicious activity or policy violations</li>
+        </ul>
+      </li>
+      <li>
+<strong>Microsoft Security Development Lifecycle (SDL)</strong>: software security assurance process
+        <ul>
+          <li>Training, Requirements, Design, Implementation, Verification, Release, Response</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Policy</strong>: create, assign, and manage policies to enforce or control properties of a resource
+        <ul>
+          <li>evaluates resources by comparing resource properties to <em>Policy Definitions</em>, or  business rules in JSON</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Role-Based Access Control (RBAC)</strong>: manage access to Azure resources and permissions using role assignments
+        <ul>
+          <li>
+<strong>Role Assignments</strong>: security principal, role definition, scope</li>
+          <li>
+<strong>Security Principal</strong>: access identities
+            <ul>
+              <li>User: individual profile in Azure Active Directory</li>
+              <li>Group: set of users in Azure Active Directory</li>
+              <li>Service Principal: security identity used by applications or services to access specific Azure resources</li>
+              <li>Managed Identity: identity automatically managed by Azure</li>
+            </ul>
+          </li>
+          <li>
+<strong>Role Definition</strong>: collection of permissions (e.g. read, write, delete), can be high-level or specific
+            <ul>
+              <li>Use built-in roles (Owner, Contributor, Reader, User Access Administrator) or custom roles</li>
+            </ul>
+          </li>
+          <li>
+<strong>Scope</strong>: resources available to be accessed by role, controls resource access at Management, Subscription, or Resource Group level</li>
+        </ul>
+      </li>
+      <li>
+<strong>Lock Resources</strong>: prevent other users from accidentally deleting or modifying critical resources of a subscription, resource group, or resource
+        <ul>
+          <li>
+<strong>CanNotDelete</strong>: users can read and modify but not delete resource</li>
+          <li>
+<strong>ReadOnly</strong>: users can read but not modify or delete resource</li>
+        </ul>
+      </li>
+      <li>
+<strong>Management Groups</strong>: manage multiple subscriptions/accounts in hierarchical structure
+        <ul>
+          <li>Each group has top level root and subscriptions inherit conditions of their management group</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Monitor</strong>: collect, analyze, and act on telemetry from cloud and on-premises environments</li>
+      <li>
+<strong>Azure Service Health</strong>: information about current and upcoming issues, e.g. service impacting events, planned maintenance, other availability changes
+        <ul>
+          <li>Azure Status: service outage information in Azure</li>
+          <li>Azure Service Health: personalized view of Azure service and region health</li>
+          <li>Azure Resource Health: health of individual cloud resources</li>
+        </ul>
+      </li>
+      <li>
+<strong>Azure Advisor</strong>: personalized cloud consultant for best practices on Azure
+        <ul>
+          <li>provides recommendations in High Availability, Security, Performance, Cost, Operational Excellence</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="billing-and-pricing">
+<a class="anchor" href="#billing-and-pricing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Billing and Pricing</h2>
+<ul>
+  <li>
+<strong>Service Level Agreement (SLA)</strong>: Azure’s commitments for uptime and connectivity
+    <ul>
+      <li>individualized per Azure service</li>
+      <li>performance targets in uptime and connectivity are in percentages
+        <ul>
+          <li>99% (two nines), 99.9% (three nines), …, 99.9999999% (nine nines)</li>
+        </ul>
+      </li>
+      <li>not available for Free Tier or shared tiers</li>
+    </ul>
+  </li>
+  <li>
+<strong>Service Credits</strong>: discount applied as compensation for under-performing Azure product or service based on SLA</li>
+  <li>
+<strong>Composite SLA</strong>: combined SLAs across different service offerings, improved with fallback systems
+    <ul>
+      <li>Web App + SQL Database = 99.95% * 99.99% = 99.94% composite</li>
+      <li>Web App + (SQL Database or Queue Fallback) = 99.95% * (99.99999%) = 99.95% composite</li>
+    </ul>
+  </li>
+  <li>
+<strong>TCO Calculator</strong>: estimate cost savings of migrating to Azure</li>
+  <li>
+<strong>Azure Marketplace</strong>: apps and services from third-party publishers categorized as Free, Free-Trial, Pay-As-You-Go, or Bring-Your-Own-License (BYOL)</li>
+  <li>
+<strong>Azure Support</strong>
+    <ul>
+      <li>Basic: email support for billing and account, Azure Advisor, Health Status, Community Support, Documentation</li>
+      <li>Developer: Basic support, email tech support, third-party software support, minimal business impact response time &lt; 8 hrs, Architecture General Guidance</li>
+      <li>Standard: Developer support, moderate business impact response time &lt; 4 hrs, critical business impact response time &lt; 1 hr</li>
+      <li>Professional Direct: Standard support, minimal business impact response time &lt; 4 hrs, moderate business impact response time &lt; 2 hrs, Architecture, Operational Support, Proactive Guidance from ProDirect delivery managers, Webinars by Azure engineers</li>
+      <li>Enterprise: Professional Direct support, more things</li>
+    </ul>
+  </li>
+  <li>
+<strong>Azure Licensing</strong>
+    <ul>
+      <li>
+<strong>Azure Hybrid Use Benefit (HUB)</strong>: Repurpose investment of Window Server licenses to use Azure virtual machines (Windows Servers, SQL Servers), Bring your own license (BYOL)</li>
+    </ul>
+  </li>
+  <li>
+<strong>Azure Subscriptions</strong>
+    <ul>
+      <li>Student: no credit card required, $100 USD credits for 12 months</li>
+      <li>Free: credit card required, $200 USD credits for 30 days, certain Azure products free for 12 months</li>
+      <li>Pay-as-you-go (PAYG): credit card required, charged monthly based on resource consumption</li>
+      <li>Enterprise Agreement: receive discounted price for licenses and cloud services</li>
+    </ul>
+  </li>
+  <li>
+<strong>Azure Pricing Calculator</strong>: configure and estimate costs for Azure products</li>
+  <li>
+<strong>Azure Cost Management</strong>
+    <ul>
+      <li>perform cost-analysis, visualize spending on Azure cloud services</li>
+      <li>create budgets, set budget threshold and alerts</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/azure-fundamentals" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
