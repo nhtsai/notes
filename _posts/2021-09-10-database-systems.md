@@ -14,7 +14,9 @@ permalink: /database-systems-intro
 
 # CMU 15-445: Introduction to Database Systems, Fall 2019
 
+
 ## Course Resources
+
 * Professor Andy Pavlo
 * [Course Lectures](https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi)
 * [Course Website](https://15445.courses.cs.cmu.edu/fall2019/)
@@ -23,7 +25,9 @@ permalink: /database-systems-intro
 * Course focuses on design and implementation of disk-oriented database management systems.
 * Topics: Relational Databases, Storage, Execution, Concurrency Control, Recovery, Distributed Databases, Potpourri
 
+
 ## 1. Relational Model & Relational Algebra
+
 * [**Lecture Summary**](https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf)
 
 * **Database**: organized collection of inter-related data that models some aspect of the real-world.
@@ -40,7 +44,7 @@ permalink: /database-systems-intro
     * Data Integrity
         * How do we ensure that the artist is same for each album entry, i.e. no typos or artist changes name?
         * How do we ensure the album year is a valid number and not an invalid string?
-        * How do we store an album with multiple artists, i.e. check if parsed artist is single or multile?
+        * How do we store an album with multiple artists, i.e. check if parsed artist is single or multiple?
     * Implementation
         * How do you find a particular record?
         * What if we want to use a new application with the same database, i.e. connecting logic between two languages?
@@ -62,7 +66,7 @@ permalink: /database-systems-intro
         * Need to know what queries applications needed before deploying the database
     * Early 50s, mathematician Ted Codd (Edgar F. Codd) of IBM noticed people spent lots of time rewriting database applications, i.e. adjusting APIs depending on storing data as tree or hash table.
         * Ted proposed the **relational data model** in *A Relational Model of Data for Large Shared Data Banks* in 1970.
-    * The **relational data model** database abtraction to avoid maintainence.
+    * The **relational data model** database abstraction to avoid maintenance.
         * Store database in simple data structures, i.e. as relations aka tables.
         * Access data through high-level language, i.e. write code describing desired result aka declarative code instead of procedural code.
             * Software has to create query plan to get desired result, similar to compilers creating machine code from high-level languages.
@@ -172,6 +176,454 @@ permalink: /database-systems-intro
 
 
 ## 2. Advanced SQL
+
+* [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/02-advancedsql.pdf)
+
+* SQL History
+    * Originally "SEQUEL" from IBM's **System R** prototype
+        * "Structured English Query Language"
+        * Adopted by Oracle in the 1970s
+        * Not defined by Ted Codd, the creator of relational algebra, who later on developed language Alpha
+    * IBM released DB2 in 1983
+        * IBM's first commercial relational database using SQL
+    * ANSI Standard in 1986, ISO in 1987
+        * "Structured Query Language"
+    * Current SQL standard is **SQL:2016** (added JSON, polymorphic tables)
+        * Every new specification/standard adds new features, which are pushed by major bodies that develop own proprietary features
+    * Most DBMSs at least support **SQL-92** standard
+        * No one follows an SQL standard exactly
+
+* Relational Languages
+    * The goal is for the user to specify the desired answer at a high level, not how to compute it.
+    * The DBMS is responsible for efficient evaluation of the query
+        * Query Optimizer: reorders operations and generates query plan
+    * SQL is a collection of languages
+        * **Data Manipulation Language (DML)**: commands that manipulate data
+        * **Data Definition Language (DDL)**: methods of creating tables and schemas
+        * **Data Control Language (DCL)**: security authorizations to control data access
+        * View Definition
+        * Integrity & Referential Constraints
+        * Transactions
+    * *IMPORTANT*: SQL is based on bag algebra and relational algebra is based on set algebra
+        * **List**: a collection of elements with a defined order, can have duplicates
+        * **Bag**: a collection of elements with no defined order, can have duplicates
+        * **Set**: a collection of elements with no defined order, cannot have duplicates
+        * If we want to define order or ensure no duplicates, the DBMS needs to do extra work to provide this.
+            * The database will ignore these requests, making queries more efficient.
+
+
+* Example Database
+    * `Student(sid, name, login, gpa)`
+    * `Enrolled(sid, cid, grade)`
+    * `Course(cid, name)`
+
+* Aggregates
+    * **Aggregate function**: functions that return a single value by applying a function on a bag of tuples.
+        * `AVG(col)`: Return average col value
+        * `MIN(col)`: Return minimum col value
+        * `MAX(col)`: Return maximum col value
+        * `SUM(col)`: Return sum of values in col
+        * `COUNT(col)`: Return number of values for col
+    * Aggregate functions can only be used in `SELECT` output clause.
+        * Example: Count number of students that have an "@cs" login.
+
+        ```sql
+        -- login field doesn't matter for COUNT
+        SELECT COUNT(login) AS cnt
+        FROM Student WHERE login LIKE '%@cs%'
+
+        -- can just count every row using *
+        SELECT COUNT(*) AS cnt
+        FROM Student WHERE login LIKE '%@cs%'
+
+        -- or count 1 for every row
+        SELECT COUNT(1) AS cnt
+        FROM Student WHERE login LIKE '%@cs%'
+        ```
+
+    * Multiple aggregates
+        * Example: Get number of students that have an "@cs" login and their average GPA.
+
+        ```sql
+        SELECT COUNT(sid), AVG(gpa)
+        FROM Student WHERE login LIKE '%@cs%'
+        ```
+    
+    * Distinct aggregates
+        * Example: Count number of unique students that have an "@cs" login.
+
+        ```sql
+        SELECT COUNT(DISTINCT login)
+        FROM Student WHERE login '%@cs%'
+        ```
+
+    * `GROUP BY`: project tuples into subsets and calculate aggregates against each subset
+        * To aggregate a columns and return a non-aggregated column, we need to use `GROUP BY`.
+        * Non-aggregated columns in the `SELECT` output clause must be in `GROUP BY` clause.
+        * Example: Get average GPA of students enrolled in each course.
+
+        ```sql
+        SELECT AVG(s.gpa) AS avg_gpa, e.cid
+        FROM Enrolled AS e, Student AS s
+        WHERE e.sid = s.sid
+        GROUP BY e.cid
+        ```
+
+    * `HAVING`: filters results based on aggregation computation.
+        * We cannot filter aggregations in the `WHERE` clause because the aggregation is not computed yet.
+        * To filter aggregations, we must use `HAVING`, which is like a `WHERE` clause for `GROUP BY`.
+        * Example: Get average GPA of students enrolled in each course with > 3.9 GPA.
+
+        ```sql
+        SELECT AVG(s.gpa) AS avg_gpa, e.cid
+        FROM Enrolled AS e, Student AS s
+        WHERE e.sid = s.sid
+        -- cannot use: WHERE e.sid = s.sid AND avg_gpa > 3.9
+        GROUP BY e.cid
+        HAVING avg_gpa > 3.9
+        ```
+
+        * Knowing the `HAVING` clause can allow DBMS to optimize query.
+            * In a declarative language, we can optimize because we know the desired result ahead of time, compared to a procedural language, we don't.
+            * Example: Get courses with 10 students or less
+
+            ```sql
+            SELECT COUNT(s.sid) AS cnt, e.cid
+            FROM Enrolled AS e, Student AS s
+            WHERE e.sid = s.sid
+            GROUP BY e.cid
+            HAVING cnt <= 10
+            ```
+
+            * While counting the number of students for a course, if more than 10 students, DBMS can stop counting early for that course.
+
+* Strings
+    * Standard says all string fields are case-sensitive and declared with only single quotes.
+    * Exceptions
+        * MySQL is case-insensitive and can use double quotes
+            * Standard needs to match case to match: `WHERE UPPER(name) = UPPER('KaNyE')`
+            * MySQL is case-insensitive and allows double quotes: `WHERE name = "KaNyE"`
+        * SQLite is case-sensitive and can use double quotes
+    * `LIKE`: used for string matching
+        * `%` matches any substring, including empty strings
+        * `_` matches any one character
+
+        ```sql
+        WHERE e.cid LIKE '15-%'
+        WHERE s.login LIKE `%@c_`
+        ```
+
+    * String functions
+        * Defined in standard, can be used in either output (`SELECT`) or predicates (`WHERE`, `HAVING`)
+
+        ```sql
+        -- output
+        SELECT SUBSTRING(name, 0, 5)
+        FROM Student
+
+        -- predicate
+        SELECT *
+        FROM Student
+        WHERE UPPER(s.name) LIKE 'CHRIS%'
+        ```
+
+    * String concatenation
+        * Standard says to use `||` operator to concatenate 2+ strings together
+        * Exceptions: MSSQL use `+`, MySQL use `CONCAT()`
+
+
+* Date/Time Operations
+    * Manipulate and modify `DATE`/`TIME` attributes, can be used in either output or predicates
+    * Syntax and support varies wildly
+    * Example: Get current time
+
+    ```sql
+    -- PostgreSQL (SQL standard)
+    SELECT NOW();
+    SELECT CURRENT_TIMESTAMP;
+
+    -- MySQL
+    SELECT NOW();
+    SELECT CURRENT_TIMESTAMP();
+    SELECT CURRENT_TIMESTAMP;
+
+    -- SQLite
+    SELECT CURRENT_TIMESTAMP;
+    ```
+
+    * Example: Extract day from a date and getting number of days since beginning of year
+
+    ```sql
+    -- PostgreSQL (SQL standard)
+    SELECT EXTRACT(DAY FROM DATE('2021-09-21'));
+    SELECT DATE('2021-09-21') - DATE('2021-01-01') AS days;
+
+    -- MySQL
+    SELECT EXTRACT(DAY FROM DATE('2021-09-21'));
+    SELECT DATEDIFF(DATE('2021-09-21'), DATE('2021-01-01')) AS days;
+
+    -- SQLite
+    -- cannot extract, cannot subtract dates, no datediff function
+    -- method: cast date strings into julian days, subtract and cast to int
+    -- Why is SQLite the most widely-used database? It's free and public domain (no copyright).
+    ```
+
+    * Simple things are difficult to do.
+
+* **Output Redirection**: store query results in another table
+    * What if we want to use query results in subsequent queries?
+    * We can redirect query results into a new table.
+        * Table must not already be defined
+        * Table will have same number of columns and same data types as input
+
+    ```sql
+    -- SQL standard
+    SELECT DISTINCT cid INTO CourseIDs
+    FROM Enrolled;
+
+    -- MySQL
+    CREATE TABLE CourseIds (
+        SELECT DISTINCT cid FROM Enrolled
+    );
+    ```
+
+    * We can redirect query results into an existing table.
+        * Inner `SELECT` must generate same number of columns and data types as target table
+        * Syntax and options vary on dealing with inserting duplicate tuples
+            * Target table has primary key constraint must be unique and will handle insertion of duplicate primary key values differently.
+    
+    ```sql
+    -- assuming CourseIDs table already exists
+    INSERT INTO CourseIDs (
+        SELECT DISTINCT cid FROM Enrolled
+    );
+    ```
+
+* **Output Control**
+    * `ORDER BY`: order output tuples by values in one or more of their columns
+        * Use `ORDER BY <col> [ASC|DESC]`, default is ascending order
+        * Can also use any complex expression, e.g. `ORDER BY 1+1`
+    * Unlike `GROUP BY`, columns in `ORDER BY` clause don't need to be in `SELECT` clause
+    * Example: Get IDs of students enrolled in 15-445, sorted by descending grade then ascending student ID.
+
+    ```sql
+    SELECT sid
+    FROM Enrolled
+    WHERE cid = '15-445'
+    ORDER BY grade DESC, sid ASC
+    ```
+
+    * `LIMIT`: limit the number of tuples returned in output, can offset to return a range
+        * Use `LIMIT <count> [OFFSET <count>]`
+        * Use `ORDER BY` to make results consistent 
+    * Example: Get 20 student ID and names, skip first 10.
+
+    ```sql
+    SELECT sid, name
+    FROM Student
+    LIMIT 20 OFFSET 10
+    ```
+
+* Nested Queries: queries containing other queries, difficult to optimize
+    * Inner queries can appear (almost) anywhere in a query
+    * Example: Get names of all students enrolled in 15-445.
+        * Naive execution: nested loops, for each student in Student, loop over sids in Enrolled
+        * Better execution: produce set of enrolled student IDs once, loop over sids in Student to check if in enrolled set
+        * Optimized execution: inner join tables on `s.sid = e.sid`
+    
+    ```sql
+    -- nested query using IN
+    SELECT name
+    FROM Student
+    WHERE sid IN (
+        SELECT sid
+        FROM Enrolled
+        WHERE cid = '15-445'
+    );
+
+    -- join
+    SELECT s.name
+    FROM Student AS s, Enrolled AS e
+    WHERE s.sid = e.sid AND e.cid = '15-445'
+    ```
+
+    * To construct a nested query, think about what is the answer you want to produce from the outer query.
+    * Then figure out what you need from the inner query.
+
+    * `ALL`: must satisfy expression for all rows in sub-query
+    * `ANY`: must satisfy expression for at least one row in sub-query
+    * `IN`: equivalent to `=ANY()`
+    * `EXISTS`: at least one row is returned
+
+    ```sql
+    -- nested query using ANY
+    SELECT name
+    FROM Student
+    WHERE sid = ANY(
+        SELECT sid
+        FROM Enrolled
+        WHERE cid = '15-445'
+    );
+    ```
+
+    * Can use subqueries in `SELECT` clause
+        * for every single tuple in enrolled table where cid = 15-445, do a match up in Student table where student IDs are the same
+        * essentially doing a join inside SELECT clause, reversing order of evaluating tables
+        * this reversal is important for optimization because it might be faster to go through Enrolled table first
+
+    ```sql
+    -- nested query in output
+    SELECT (SELECT s.name FROM Student AS s WHERE s.id = e.sid) AS sname
+    FROM Enrolled AS e
+    WHERE e.cid = '15-445'
+    ```
+
+    * Example: find student record with highest ID that is enrolled in at least one course
+
+    ```sql
+    SELECT sid, name
+    FROM Student
+    WHERE sid >= ALL(
+        SELECT sid
+        FROM Enrolled
+    )
+
+    SELECT sid, name
+    FROM Student
+    WHERE sid IN (
+        SELECT MAX(sid)
+        FROM Enrolled
+    )
+
+    SELECT sid, name
+    FROM Student
+    WHERE sid IN (
+        SELECT sid
+        FROM Enrolled
+        ORDER BY sid DESC
+        LIMIT 1
+    )
+    ```
+
+    * Example: find all courses with no enrolled students
+        * Inner query can reference outer query, but outer cannot reference inner.
+
+    ```sql
+    SELECT *
+    FROM Course
+    WHERE NOT EXISTS (
+        SELECT *
+        FROM Enrolled
+        WHERE Course.cid = Enrolled.cid
+    )
+    ```
+
+* Window Functions
+    * Performs a calculation across a set of tuple that relate to a single row
+    * Like an aggregation, but tuples are not grouped into single output tuples
+    * Basic Syntax
+        * `FUNC-NAME`: aggregation functions, special functions
+        * `OVER`: how to 'slice' up data, can also sort
+
+    ```sql
+    SELECT ... FUNC-NAME(...) OVER (...)
+    FROM tableName
+    ```
+
+    * Special window functions
+        * `ROW_NUMBER()`: number of current row
+        * `RANK()`: sort order position of current row, used with `ORDER BY`
+
+    ```sql
+    SELECT *, ROW_NUMBER() OVER () AS row_num
+    FROM Enrolled
+    ```
+
+    * `OVER`: specifies how to group together tuples when computing the window function
+    * Use `PARTITION BY` to specify group, like `GROUP BY` clause
+    * Without `PARTITION BY`, window group is the whole table
+
+    ```sql
+    SELECT cid, sid, ROW_NUMBER() OVER (PARTITION BY cid)
+    FROM Enrolled
+    ORDER BY cid
+    ```
+
+    * Use `ORDER BY` to sort entries in each group
+
+    ```sql
+    SELECT cid, sid, ROW_NUMBER() OVER (ORDER BY cid)
+    FROM Enrolled
+    ORDER BY cid
+    ```
+
+    * Example: find student with highest grade for each course
+        * Window groups tuples by course ID and orders each group by letter grade
+
+    ```sql
+    SELECT *
+    FROM (
+        SELECT *, 
+               RANK() OVER (PARTITION BY cid ORDER BY grade ASC) AS rank
+        FROM Enrolled
+    ) AS ranking
+    WHERE ranking.rank = 1
+    ```
+
+* Common Table Expressions (CTE)
+    * Provides a way to write auxiliary statements for use in a larger query
+    * Like a temp table just for one query
+    * Alternative to nested queries and views
+    * Basic Syntax
+
+    ```sql
+    WITH cteName AS (
+        SELECT 1
+    )
+    SELECT * FROM cteName
+    ```
+
+    * Can bind output columns to names before the `AS` keyword
+        * two named columns, return 1 row with 2 values (1, 2)
+
+    ```sql
+    WITH cteName (col1, col2) AS (
+        SELECT 1, 2
+    )
+    SELECT col1 + col2 FROM cteName
+    ```
+
+    * Example: find student with highest id that is enrolled in at least one course
+        * Query references the CTE cteSource
+
+    ```sql
+    WITH cteSource (maxId) AS (
+        SELECT MAX(sid) FROM Enrolled
+    )
+    SELECT name
+    FROM Student, cteSource
+    WHERE Student.sid = cteSource.maxId
+    ```
+
+    * Difference between CTE and nested queries: CTEs can use recursion!
+
+    * Example: print sequence of numbers from 1 to 10
+
+    ```sql
+    WITH RECURSIVE cteSource (counter) AS (
+        (SELECT 1)              -- base case
+        UNION ALL               -- recursive call:
+        (SELECT counter + 1     --   get current value + 1
+        FROM cteSource
+        WHERE counter < 10)     -- specified limit of recursion
+    )
+    SELECT * FROM cteSource
+    ```
+
+* Conclusion
+    * SQL is not a dead language.
+    * You should (almost) always strive to compute your answer as a single SQL statement.
+
 
 ## 3. Database Storage I
 
