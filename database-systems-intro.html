@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      8 min read
+      19 min read
     
 </span></p>
 
@@ -157,6 +157,7 @@ window.onload = wrap_img;
 
 <h2 id="course-resources">
 <a class="anchor" href="#course-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Course Resources</h2>
+
 <ul>
   <li>Professor Andy Pavlo</li>
   <li><a href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi">Course Lectures</a></li>
@@ -169,6 +170,7 @@ window.onload = wrap_img;
 
 <h2 id="1-relational-model--relational-algebra">
 <a class="anchor" href="#1-relational-model--relational-algebra" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Relational Model &amp; Relational Algebra</h2>
+
 <ul>
   <li>
     <p><a href="https://15445.courses.cs.cmu.edu/fall2019/notes/01-introduction.pdf"><strong>Lecture Summary</strong></a></p>
@@ -196,7 +198,7 @@ window.onload = wrap_img;
         <ul>
           <li>How do we ensure that the artist is same for each album entry, i.e. no typos or artist changes name?</li>
           <li>How do we ensure the album year is a valid number and not an invalid string?</li>
-          <li>How do we store an album with multiple artists, i.e. check if parsed artist is single or multile?</li>
+          <li>How do we store an album with multiple artists, i.e. check if parsed artist is single or multiple?</li>
         </ul>
       </li>
       <li>Implementation
@@ -237,7 +239,7 @@ window.onload = wrap_img;
           <li>Ted proposed the <strong>relational data model</strong> in <em>A Relational Model of Data for Large Shared Data Banks</em> in 1970.</li>
         </ul>
       </li>
-      <li>The <strong>relational data model</strong> database abtraction to avoid maintainence.
+      <li>The <strong>relational data model</strong> database abstraction to avoid maintenance.
         <ul>
           <li>Store database in simple data structures, i.e. as relations aka tables.</li>
           <li>Access data through high-level language, i.e. write code describing desired result aka declarative code instead of procedural code.
@@ -454,6 +456,652 @@ window.onload = wrap_img;
 
 <h2 id="2-advanced-sql">
 <a class="anchor" href="#2-advanced-sql" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Advanced SQL</h2>
+
+<ul>
+  <li>
+    <p><a href="https://15445.courses.cs.cmu.edu/fall2019/notes/02-advancedsql.pdf">Lecture Summary</a></p>
+  </li>
+  <li>SQL History
+    <ul>
+      <li>Originally “SEQUEL” from IBM’s <strong>System R</strong> prototype
+        <ul>
+          <li>“Structured English Query Language”</li>
+          <li>Adopted by Oracle in the 1970s</li>
+          <li>Not defined by Ted Codd, the creator of relational algebra, who later on developed language Alpha</li>
+        </ul>
+      </li>
+      <li>IBM released DB2 in 1983
+        <ul>
+          <li>IBM’s first commercial relational database using SQL</li>
+        </ul>
+      </li>
+      <li>ANSI Standard in 1986, ISO in 1987
+        <ul>
+          <li>“Structured Query Language”</li>
+        </ul>
+      </li>
+      <li>Current SQL standard is <strong>SQL:2016</strong> (added JSON, polymorphic tables)
+        <ul>
+          <li>Every new specification/standard adds new features, which are pushed by major bodies that develop own proprietary features</li>
+        </ul>
+      </li>
+      <li>Most DBMSs at least support <strong>SQL-92</strong> standard
+        <ul>
+          <li>No one follows an SQL standard exactly</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Relational Languages
+    <ul>
+      <li>The goal is for the user to specify the desired answer at a high level, not how to compute it.</li>
+      <li>The DBMS is responsible for efficient evaluation of the query
+        <ul>
+          <li>Query Optimizer: reorders operations and generates query plan</li>
+        </ul>
+      </li>
+      <li>SQL is a collection of languages
+        <ul>
+          <li>
+<strong>Data Manipulation Language (DML)</strong>: commands that manipulate data</li>
+          <li>
+<strong>Data Definition Language (DDL)</strong>: methods of creating tables and schemas</li>
+          <li>
+<strong>Data Control Language (DCL)</strong>: security authorizations to control data access</li>
+          <li>View Definition</li>
+          <li>Integrity &amp; Referential Constraints</li>
+          <li>Transactions</li>
+        </ul>
+      </li>
+      <li>
+<em>IMPORTANT</em>: SQL is based on bag algebra and relational algebra is based on set algebra
+        <ul>
+          <li>
+<strong>List</strong>: a collection of elements with a defined order, can have duplicates</li>
+          <li>
+<strong>Bag</strong>: a collection of elements with no defined order, can have duplicates</li>
+          <li>
+<strong>Set</strong>: a collection of elements with no defined order, cannot have duplicates</li>
+          <li>If we want to define order or ensure no duplicates, the DBMS needs to do extra work to provide this.
+            <ul>
+              <li>The database will ignore these requests, making queries more efficient.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Example Database
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Student(sid, name, login, gpa)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Enrolled(sid, cid, grade)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Course(cid, name)</code></li>
+    </ul>
+  </li>
+  <li>Aggregates
+    <ul>
+      <li>
+<strong>Aggregate function</strong>: functions that return a single value by applying a function on a bag of tuples.
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">AVG(col)</code>: Return average col value</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">MIN(col)</code>: Return minimum col value</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">MAX(col)</code>: Return maximum col value</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">SUM(col)</code>: Return sum of values in col</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">COUNT(col)</code>: Return number of values for col</li>
+        </ul>
+      </li>
+      <li>Aggregate functions can only be used in <code class="language-plaintext highlighter-rouge">SELECT</code> output clause.
+        <ul>
+          <li>Example: Count number of students that have an “@cs” login.</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- login field doesn't matter for COUNT</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">login</span><span class="p">)</span> <span class="k">AS</span> <span class="n">cnt</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">WHERE</span> <span class="n">login</span> <span class="k">LIKE</span> <span class="s1">'%@cs%'</span>
+
+  <span class="c1">-- can just count every row using *</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">cnt</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">WHERE</span> <span class="n">login</span> <span class="k">LIKE</span> <span class="s1">'%@cs%'</span>
+
+  <span class="c1">-- or count 1 for every row</span>
+  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">cnt</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">WHERE</span> <span class="n">login</span> <span class="k">LIKE</span> <span class="s1">'%@cs%'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>Multiple aggregates
+        <ul>
+          <li>Example: Get number of students that have an “@cs” login and their average GPA.</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">sid</span><span class="p">),</span> <span class="k">AVG</span><span class="p">(</span><span class="n">gpa</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">WHERE</span> <span class="n">login</span> <span class="k">LIKE</span> <span class="s1">'%@cs%'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>Distinct aggregates
+        <ul>
+          <li>Example: Count number of unique students that have an “@cs” login.</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">login</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">WHERE</span> <span class="n">login</span> <span class="s1">'%@cs%'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">GROUP BY</code>: project tuples into subsets and calculate aggregates against each subset
+        <ul>
+          <li>To aggregate a columns and return a non-aggregated column, we need to use <code class="language-plaintext highlighter-rouge">GROUP BY</code>.</li>
+          <li>Non-aggregated columns in the <code class="language-plaintext highlighter-rouge">SELECT</code> output clause must be in <code class="language-plaintext highlighter-rouge">GROUP BY</code> clause.</li>
+          <li>Example: Get average GPA of students enrolled in each course.</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">gpa</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_gpa</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span> <span class="k">AS</span> <span class="n">e</span><span class="p">,</span> <span class="n">Student</span> <span class="k">AS</span> <span class="n">s</span>
+  <span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">sid</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">HAVING</code>: filters results based on aggregation computation.
+        <ul>
+          <li>We cannot filter aggregations in the <code class="language-plaintext highlighter-rouge">WHERE</code> clause because the aggregation is not computed yet.</li>
+          <li>To filter aggregations, we must use <code class="language-plaintext highlighter-rouge">HAVING</code>, which is like a <code class="language-plaintext highlighter-rouge">WHERE</code> clause for <code class="language-plaintext highlighter-rouge">GROUP BY</code>.</li>
+          <li>Example: Get average GPA of students enrolled in each course with &gt; 3.9 GPA.</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">gpa</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_gpa</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span> <span class="k">AS</span> <span class="n">e</span><span class="p">,</span> <span class="n">Student</span> <span class="k">AS</span> <span class="n">s</span>
+  <span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">sid</span>
+  <span class="c1">-- cannot use: WHERE e.sid = s.sid AND avg_gpa &gt; 3.9</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+  <span class="k">HAVING</span> <span class="n">avg_gpa</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">.</span><span class="mi">9</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li>Knowing the <code class="language-plaintext highlighter-rouge">HAVING</code> clause can allow DBMS to optimize query.
+            <ul>
+              <li>In a declarative language, we can optimize because we know the desired result ahead of time, compared to a procedural language, we don’t.</li>
+              <li>Example: Get courses with 10 students or less</li>
+            </ul>
+
+            <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">sid</span><span class="p">)</span> <span class="k">AS</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span> <span class="k">AS</span> <span class="n">e</span><span class="p">,</span> <span class="n">Student</span> <span class="k">AS</span> <span class="n">s</span>
+  <span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">sid</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span>
+  <span class="k">HAVING</span> <span class="n">cnt</span> <span class="o">&lt;=</span> <span class="mi">10</span>
+</code></pre></div>            </div>
+
+            <ul>
+              <li>While counting the number of students for a course, if more than 10 students, DBMS can stop counting early for that course.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Strings
+    <ul>
+      <li>Standard says all string fields are case-sensitive and declared with only single quotes.</li>
+      <li>Exceptions
+        <ul>
+          <li>MySQL is case-insensitive and can use double quotes
+            <ul>
+              <li>Standard needs to match case to match: <code class="language-plaintext highlighter-rouge">WHERE UPPER(name) = UPPER('KaNyE')</code>
+</li>
+              <li>MySQL is case-insensitive and allows double quotes: <code class="language-plaintext highlighter-rouge">WHERE name = "KaNyE"</code>
+</li>
+            </ul>
+          </li>
+          <li>SQLite is case-sensitive and can use double quotes</li>
+        </ul>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">LIKE</code>: used for string matching
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">%</code> matches any substring, including empty strings</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">_</code> matches any one character</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span> <span class="k">LIKE</span> <span class="s1">'15-%'</span>
+  <span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">login</span> <span class="k">LIKE</span> <span class="nv">`%@c_`</span>
+</code></pre></div>        </div>
+      </li>
+      <li>String functions
+        <ul>
+          <li>Defined in standard, can be used in either output (<code class="language-plaintext highlighter-rouge">SELECT</code>) or predicates (<code class="language-plaintext highlighter-rouge">WHERE</code>, <code class="language-plaintext highlighter-rouge">HAVING</code>)</li>
+        </ul>
+
+        <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- output</span>
+  <span class="k">SELECT</span> <span class="k">SUBSTRING</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+
+  <span class="c1">-- predicate</span>
+  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="k">UPPER</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">)</span> <span class="k">LIKE</span> <span class="s1">'CHRIS%'</span>
+</code></pre></div>        </div>
+      </li>
+      <li>String concatenation
+        <ul>
+          <li>Standard says to use <code class="language-plaintext highlighter-rouge">||</code> operator to concatenate 2+ strings together</li>
+          <li>Exceptions: MSSQL use <code class="language-plaintext highlighter-rouge">+</code>, MySQL use <code class="language-plaintext highlighter-rouge">CONCAT()</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Date/Time Operations
+    <ul>
+      <li>Manipulate and modify <code class="language-plaintext highlighter-rouge">DATE</code>/<code class="language-plaintext highlighter-rouge">TIME</code> attributes, can be used in either output or predicates</li>
+      <li>Syntax and support varies wildly</li>
+      <li>Example: Get current time</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- PostgreSQL (SQL standard)</span>
+  <span class="k">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+  <span class="k">SELECT</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">;</span>
+
+  <span class="c1">-- MySQL</span>
+  <span class="k">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+  <span class="k">SELECT</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">();</span>
+  <span class="k">SELECT</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">;</span>
+
+  <span class="c1">-- SQLite</span>
+  <span class="k">SELECT</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: Extract day from a date and getting number of days since beginning of year</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- PostgreSQL (SQL standard)</span>
+  <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">DAY</span> <span class="k">FROM</span> <span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-09-21'</span><span class="p">));</span>
+  <span class="k">SELECT</span> <span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-09-21'</span><span class="p">)</span> <span class="o">-</span> <span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-01-01'</span><span class="p">)</span> <span class="k">AS</span> <span class="n">days</span><span class="p">;</span>
+
+  <span class="c1">-- MySQL</span>
+  <span class="k">SELECT</span> <span class="k">EXTRACT</span><span class="p">(</span><span class="k">DAY</span> <span class="k">FROM</span> <span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-09-21'</span><span class="p">));</span>
+  <span class="k">SELECT</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-09-21'</span><span class="p">),</span> <span class="nb">DATE</span><span class="p">(</span><span class="s1">'2021-01-01'</span><span class="p">))</span> <span class="k">AS</span> <span class="n">days</span><span class="p">;</span>
+
+  <span class="c1">-- SQLite</span>
+  <span class="c1">-- cannot extract, cannot subtract dates, no datediff function</span>
+  <span class="c1">-- method: cast date strings into julian days, subtract and cast to int</span>
+  <span class="c1">-- Why is SQLite the most widely-used database? It's free and public domain (no copyright).</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Simple things are difficult to do.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Output Redirection</strong>: store query results in another table
+    <ul>
+      <li>What if we want to use query results in subsequent queries?</li>
+      <li>We can redirect query results into a new table.
+        <ul>
+          <li>Table must not already be defined</li>
+          <li>Table will have same number of columns and same data types as input</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- SQL standard</span>
+  <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">cid</span> <span class="k">INTO</span> <span class="n">CourseIDs</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span><span class="p">;</span>
+
+  <span class="c1">-- MySQL</span>
+  <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">CourseIds</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">cid</span> <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">);</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>We can redirect query results into an existing table.
+        <ul>
+          <li>Inner <code class="language-plaintext highlighter-rouge">SELECT</code> must generate same number of columns and data types as target table</li>
+          <li>Syntax and options vary on dealing with inserting duplicate tuples
+            <ul>
+              <li>Target table has primary key constraint must be unique and will handle insertion of duplicate primary key values differently.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- assuming CourseIDs table already exists</span>
+  <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">CourseIDs</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">cid</span> <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+<strong>Output Control</strong>
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ORDER BY</code>: order output tuples by values in one or more of their columns
+        <ul>
+          <li>Use <code class="language-plaintext highlighter-rouge">ORDER BY &lt;col&gt; [ASC|DESC]</code>, default is ascending order</li>
+          <li>Can also use any complex expression, e.g. <code class="language-plaintext highlighter-rouge">ORDER BY 1+1</code>
+</li>
+        </ul>
+      </li>
+      <li>Unlike <code class="language-plaintext highlighter-rouge">GROUP BY</code>, columns in <code class="language-plaintext highlighter-rouge">ORDER BY</code> clause don’t need to be in <code class="language-plaintext highlighter-rouge">SELECT</code> clause</li>
+      <li>Example: Get IDs of students enrolled in 15-445, sorted by descending grade then ascending student ID.</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">sid</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="k">WHERE</span> <span class="n">cid</span> <span class="o">=</span> <span class="s1">'15-445'</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">grade</span> <span class="k">DESC</span><span class="p">,</span> <span class="n">sid</span> <span class="k">ASC</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">LIMIT</code>: limit the number of tuples returned in output, can offset to return a range
+        <ul>
+          <li>Use <code class="language-plaintext highlighter-rouge">LIMIT &lt;count&gt; [OFFSET &lt;count&gt;]</code>
+</li>
+          <li>Use <code class="language-plaintext highlighter-rouge">ORDER BY</code> to make results consistent</li>
+        </ul>
+      </li>
+      <li>Example: Get 20 student ID and names, skip first 10.</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">sid</span><span class="p">,</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">LIMIT</span> <span class="mi">20</span> <span class="k">OFFSET</span> <span class="mi">10</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Nested Queries: queries containing other queries, difficult to optimize
+    <ul>
+      <li>Inner queries can appear (almost) anywhere in a query</li>
+      <li>Example: Get names of all students enrolled in 15-445.
+        <ul>
+          <li>Naive execution: nested loops, for each student in Student, loop over sids in Enrolled</li>
+          <li>Better execution: produce set of enrolled student IDs once, loop over sids in Student to check if in enrolled set</li>
+          <li>Optimized execution: inner join tables on <code class="language-plaintext highlighter-rouge">s.sid = e.sid</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- nested query using IN</span>
+  <span class="k">SELECT</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="n">sid</span> <span class="k">IN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">sid</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+      <span class="k">WHERE</span> <span class="n">cid</span> <span class="o">=</span> <span class="s1">'15-445'</span>
+  <span class="p">);</span>
+
+  <span class="c1">-- join</span>
+  <span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span> <span class="k">AS</span> <span class="n">s</span><span class="p">,</span> <span class="n">Enrolled</span> <span class="k">AS</span> <span class="n">e</span>
+  <span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">sid</span> <span class="k">AND</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span> <span class="o">=</span> <span class="s1">'15-445'</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>To construct a nested query, think about what is the answer you want to produce from the outer query.</li>
+      <li>
+        <p>Then figure out what you need from the inner query.</p>
+      </li>
+      <li>
+<code class="language-plaintext highlighter-rouge">ALL</code>: must satisfy expression for all rows in sub-query</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">ANY</code>: must satisfy expression for at least one row in sub-query</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">IN</code>: equivalent to <code class="language-plaintext highlighter-rouge">=ANY()</code>
+</li>
+      <li>
+<code class="language-plaintext highlighter-rouge">EXISTS</code>: at least one row is returned</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- nested query using ANY</span>
+  <span class="k">SELECT</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="n">sid</span> <span class="o">=</span> <span class="k">ANY</span><span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">sid</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+      <span class="k">WHERE</span> <span class="n">cid</span> <span class="o">=</span> <span class="s1">'15-445'</span>
+  <span class="p">);</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Can use subqueries in <code class="language-plaintext highlighter-rouge">SELECT</code> clause
+        <ul>
+          <li>for every single tuple in enrolled table where cid = 15-445, do a match up in Student table where student IDs are the same</li>
+          <li>essentially doing a join inside SELECT clause, reversing order of evaluating tables</li>
+          <li>this reversal is important for optimization because it might be faster to go through Enrolled table first</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- nested query in output</span>
+  <span class="k">SELECT</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="n">name</span> <span class="k">FROM</span> <span class="n">Student</span> <span class="k">AS</span> <span class="n">s</span> <span class="k">WHERE</span> <span class="n">s</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">sid</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sname</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span> <span class="k">AS</span> <span class="n">e</span>
+  <span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">cid</span> <span class="o">=</span> <span class="s1">'15-445'</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: find student record with highest ID that is enrolled in at least one course</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">sid</span><span class="p">,</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="n">sid</span> <span class="o">&gt;=</span> <span class="k">ALL</span><span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">sid</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">)</span>
+
+  <span class="k">SELECT</span> <span class="n">sid</span><span class="p">,</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="n">sid</span> <span class="k">IN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">MAX</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">)</span>
+
+  <span class="k">SELECT</span> <span class="n">sid</span><span class="p">,</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span>
+  <span class="k">WHERE</span> <span class="n">sid</span> <span class="k">IN</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="n">sid</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+      <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sid</span> <span class="k">DESC</span>
+      <span class="k">LIMIT</span> <span class="mi">1</span>
+  <span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: find all courses with no enrolled students
+        <ul>
+          <li>Inner query can reference outer query, but outer cannot reference inner.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="n">Course</span>
+  <span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="o">*</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+      <span class="k">WHERE</span> <span class="n">Course</span><span class="p">.</span><span class="n">cid</span> <span class="o">=</span> <span class="n">Enrolled</span><span class="p">.</span><span class="n">cid</span>
+  <span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Window Functions
+    <ul>
+      <li>Performs a calculation across a set of tuple that relate to a single row</li>
+      <li>Like an aggregation, but tuples are not grouped into single output tuples</li>
+      <li>Basic Syntax
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">FUNC-NAME</code>: aggregation functions, special functions</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">OVER</code>: how to ‘slice’ up data, can also sort</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="p">...</span> <span class="n">FUNC</span><span class="o">-</span><span class="n">NAME</span><span class="p">(...)</span> <span class="n">OVER</span> <span class="p">(...)</span>
+  <span class="k">FROM</span> <span class="n">tableName</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Special window functions
+        <ul>
+          <li>
+<code class="language-plaintext highlighter-rouge">ROW_NUMBER()</code>: number of current row</li>
+          <li>
+<code class="language-plaintext highlighter-rouge">RANK()</code>: sort order position of current row, used with <code class="language-plaintext highlighter-rouge">ORDER BY</code>
+</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span><span class="p">,</span> <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">()</span> <span class="k">AS</span> <span class="n">row_num</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">OVER</code>: specifies how to group together tuples when computing the window function</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">PARTITION BY</code> to specify group, like <code class="language-plaintext highlighter-rouge">GROUP BY</code> clause</li>
+      <li>Without <code class="language-plaintext highlighter-rouge">PARTITION BY</code>, window group is the whole table</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">cid</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">cid</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">cid</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Use <code class="language-plaintext highlighter-rouge">ORDER BY</code> to sort entries in each group</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">cid</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">cid</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">cid</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: find student with highest grade for each course
+        <ul>
+          <li>Window groups tuples by course ID and orders each group by letter grade</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="o">*</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="o">*</span><span class="p">,</span> 
+             <span class="n">RANK</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">cid</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">grade</span> <span class="k">ASC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rank</span>
+      <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">)</span> <span class="k">AS</span> <span class="n">ranking</span>
+  <span class="k">WHERE</span> <span class="n">ranking</span><span class="p">.</span><span class="n">rank</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Common Table Expressions (CTE)
+    <ul>
+      <li>Provides a way to write auxiliary statements for use in a larger query</li>
+      <li>Like a temp table just for one query</li>
+      <li>Alternative to nested queries and views</li>
+      <li>Basic Syntax</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">WITH</span> <span class="n">cteName</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="mi">1</span>
+  <span class="p">)</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">cteName</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Can bind output columns to names before the <code class="language-plaintext highlighter-rouge">AS</code> keyword
+        <ul>
+          <li>two named columns, return 1 row with 2 values (1, 2)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">WITH</span> <span class="n">cteName</span> <span class="p">(</span><span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+  <span class="p">)</span>
+  <span class="k">SELECT</span> <span class="n">col1</span> <span class="o">+</span> <span class="n">col2</span> <span class="k">FROM</span> <span class="n">cteName</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Example: find student with highest id that is enrolled in at least one course
+        <ul>
+          <li>Query references the CTE cteSource</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">WITH</span> <span class="n">cteSource</span> <span class="p">(</span><span class="n">maxId</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="k">SELECT</span> <span class="k">MAX</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">Enrolled</span>
+  <span class="p">)</span>
+  <span class="k">SELECT</span> <span class="n">name</span>
+  <span class="k">FROM</span> <span class="n">Student</span><span class="p">,</span> <span class="n">cteSource</span>
+  <span class="k">WHERE</span> <span class="n">Student</span><span class="p">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">cteSource</span><span class="p">.</span><span class="n">maxId</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+        <p>Difference between CTE and nested queries: CTEs can use recursion!</p>
+      </li>
+      <li>
+        <p>Example: print sequence of numbers from 1 to 10</p>
+      </li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">cteSource</span> <span class="p">(</span><span class="n">counter</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
+      <span class="p">(</span><span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span>              <span class="c1">-- base case</span>
+      <span class="k">UNION</span> <span class="k">ALL</span>               <span class="c1">-- recursive call:</span>
+      <span class="p">(</span><span class="k">SELECT</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>     <span class="c1">--   get current value + 1</span>
+      <span class="k">FROM</span> <span class="n">cteSource</span>
+      <span class="k">WHERE</span> <span class="n">counter</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>     <span class="c1">-- specified limit of recursion</span>
+  <span class="p">)</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">cteSource</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Conclusion
+    <ul>
+      <li>SQL is not a dead language.</li>
+      <li>You should (almost) always strive to compute your answer as a single SQL statement.</li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="3-database-storage-i">
 <a class="anchor" href="#3-database-storage-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Database Storage I</h2>
