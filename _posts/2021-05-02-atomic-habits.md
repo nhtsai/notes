@@ -3,7 +3,7 @@ layout: post
 title: "Atomic Habits"
 description: "Book notes on building habits."
 author: "Nathan Tsai"
-toc: false
+toc: true
 comments: false
 hide: false
 search_exclude: false
@@ -12,7 +12,9 @@ categories: [book-notes]
 permalink: /atomic-habits
 ---
 
-# Chapter 1: The Surprising Power of Atomic Habits
+# Atomic Habits by James Clear
+
+## 1. The Surprising Power of Atomic Habits
 
 * Small improvements aren't notable or noticeable but are far more meaningful in the long run.
     * A *1% improvement everyday* results in $$1.01^{365} = 37.78$$ change.
@@ -56,7 +58,7 @@ permalink: /atomic-habits
 * An **atomic habit** is a little habit that is part of a larger system, building up to remarkable achievements through compound growth.
 
 
-# Chapter 2: How Your Habits Shape Your Identity
+## 2: How Your Habits Shape Your Identity
 
 * Changing habits is challenging because you try to change the wrong thing.
     * You should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
@@ -89,7 +91,7 @@ permalink: /atomic-habits
 * Building habits is fundamentally about **becoming someone**, changing your beliefs about yourself.
 
 
-# Chapter 3: How to Build Better Habits in 4 Simple Steps
+## 3. How to Build Better Habits in 4 Simple Steps
 
 * Edward Thorndike's studies on cat behavior shows that behaviors that result in favorable outcomes are more repeated than behaviors that result in unfavorable outcomes.
 * A **habit** is a behavior that has been repeated enough times to become automatic.
@@ -127,7 +129,7 @@ permalink: /atomic-habits
 | **4th Law (Reward)**: Make it satisfying. | **Inverse 4th Law (Reward)**: Make it unsatisfying. |
 
 
-# Chapter 4: The Man Who Didn't Look Right
+## 4. The Man Who Didn't Look Right
 
 * The brain is continuously analyzing information and your surroundings, picking up on important cues to predict certain outcomes subconciously.
 * You don't need to be aware of the cue for a habit to begin.
@@ -142,7 +144,7 @@ permalink: /atomic-habits
 * Behavior change starts with awareness, recognition of habits, and acknoledgement of the cues that trigger them
 
 
-# Chapter 5: The Best Way to Start a New Habit
+## 5. The Best Way to Start a New Habit
 
 * An **implementation intention** is a plan made beforehand about when and where to act, detailing how you *intend* to *implement* a habit.
     * Implementation intentions leverage both time and location cues, in the form: "When situation `X` arises, I will perform response `Y`."
@@ -190,7 +192,7 @@ permalink: /atomic-habits
     * **Implementation Intentions** and **Habit Stacking** help create obvious cues for you habits and design a clear plan for when and where to take action.
 
 
-## Chapter 6: Motivation is Overrated; Environment Often Matters More
+## 6. Motivation is Overrated; Environment Often Matters More
 
 * Anne Thorndike's studies on environmental design shows that your habits change depending on your environment and the cues in front of you.
     * "Every habit is context dependent."
@@ -206,7 +208,7 @@ permalink: /atomic-habits
 * Habits easily form in stable, predictable environments where everything has a place and a purpose.
 
 
-## Chapter 7: The Secret to Self-Control
+## 7. The Secret to Self-Control
 
 * The **Vietnam War Studies** showed that soldiers addicted to heroin got rid of their addiction overnight after returning to an environment devoid of the cues triggering heroin abuse.
     * This finding challenged the conventional association of unhealthy behavior as a moral weakness or lack of discipline.
@@ -217,7 +219,7 @@ permalink: /atomic-habits
 * Self-control is a short-term strategy that fails often when willpower is needed to resist temptations in a negative environment.
 
 
-## Chapter 8: How to Make a Habit Irresistible
+## 8. How to Make a Habit Irresistible
 
 * Niko Tinbergen's experiments on North American sea birds showed that the brains are preloaded with certain rules that activate stronger than usual when exaggerated cues, or **supernormal stimuli**, are present.
     * An example of supernormal stimuli is junk food for humans who have developed a craving for salt, sugar, and fat over years of evolution.
@@ -244,7 +246,7 @@ permalink: /atomic-habits
 | After [HABIT I NEED], I will [HABIT I WANT]. |
 
 
-## Chapter 9: The Role of Family and Friends in Shaping Your Habits
+## 9. The Role of Family and Friends in Shaping Your Habits
 
 * Laszlo Polgar showed how deliberate practice and good habits can overcome innate talent.
 * The culture you live in determins which behaviors are attractive to you.
@@ -261,7 +263,7 @@ permalink: /atomic-habits
     * Humans are not attracted to behaviors that lower status or are negatively-viewed culturally.
 
 
-## Chapter 10: How to Find and Fix the Causes of Your Bad Habits
+## 10. How to Find and Fix the Causes of Your Bad Habits
 
 * Every behavior has a surface level craving and a deeper, underlying motive.
     * A **craving** is a specific manifestation of a deeper underlying motive, a desire to change your internal state.
@@ -288,7 +290,7 @@ permalink: /atomic-habits
 * If you can reprogram your predictions, you can transform a hard habit into an *attractive* one.
 
 
-## Chapter 11: Walk Slowly, but Never Backward
+## 11. Walk Slowly, but Never Backward
 
 * Taking action is better than being in motion, *practice over planning*.
     * You want to delay failure, so you avoid taking action.
@@ -306,7 +308,7 @@ permalink: /atomic-habits
     * This means the amount of time you have been performing a habit is less important than *the number of times you have performed the habit successfully*.
 
 
-## Chapter 12: The Law of Least Effort
+## 12. The Law of Least Effort
 
 * It is human nature to follow the **Law of Least Effort**, which states that when deciding between two similar options, the option that requires less work is more attractive.
     * The most value for the least effort is most attractive.
