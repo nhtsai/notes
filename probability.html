@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Probability | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introduction to Probability" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Course notes from Harvard STAT 110, Fall 2011." />
+<meta property="og:description" content="Course notes from Harvard STAT 110, Fall 2011." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/probability" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/probability" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-23T00:00:00-05:00","url":"https://nhtsai.github.io/notes/probability","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/probability"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes from Harvard STAT 110, Fall 2011.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to Probability</h1><p class="page-description">Course notes from Harvard STAT 110, Fall 2011.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-23T00:00:00-05:00" itemprop="datePublished">
+        Sep 23, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#course-notes">course-notes</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#mathematics">mathematics</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#probability">probability</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#statistics">statistics</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#harvard-stat-110-introduction-to-probability-fall-2011">Harvard STAT 110: Introduction to Probability, Fall 2011</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#course-resources">Course Resources</a></li>
+<li class="toc-entry toc-h2"><a href="#1-probability-counting">1. Probability, Counting</a></li>
+<li class="toc-entry toc-h2"><a href="#2-story-proofs-axioms-of-probability">2. Story Proofs, Axioms of Probability</a></li>
+<li class="toc-entry toc-h2"><a href="#3-birthday-problem-properties-of-probability">3. Birthday Problem, Properties of Probability</a></li>
+<li class="toc-entry toc-h2"><a href="#4-conditional-probability-i">4. Conditional Probability I</a></li>
+<li class="toc-entry toc-h2"><a href="#5-conditional-probability-ii-law-of-total-probability">5. Conditional Probability II, Law of Total Probability</a></li>
+<li class="toc-entry toc-h2"><a href="#6-monty-hall-simpsons-paradox">6. Monty Hall, Simpson’s Paradox</a></li>
+<li class="toc-entry toc-h2"><a href="#7-gamblers-ruin-random-variables">7. Gambler’s Ruin, Random Variables</a></li>
+<li class="toc-entry toc-h2"><a href="#8-random-variables-and-their-distributions">8. Random Variables and Their Distributions</a></li>
+<li class="toc-entry toc-h2"><a href="#9-expectation-i-indicator-random-variables-linearity">9. Expectation I, Indicator Random Variables, Linearity</a></li>
+<li class="toc-entry toc-h2"><a href="#10-expectation-ii">10. Expectation II</a></li>
+<li class="toc-entry toc-h2"><a href="#11-poisson-distribution">11. Poisson Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#12-discrete-vs-continuous-uniform-distribution">12. Discrete vs. Continuous, Uniform Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#13-normal-distribution">13. Normal Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#14-location-scale-lotus">14. Location, Scale, LOTUS</a></li>
+<li class="toc-entry toc-h2"><a href="#15-midterm-review">15. Midterm Review</a></li>
+<li class="toc-entry toc-h2"><a href="#16-exponential-distribution">16. Exponential Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#17-moment-generating-functions-i">17. Moment Generating Functions I</a></li>
+<li class="toc-entry toc-h2"><a href="#18-moment-generating-functions-ii">18. Moment Generating Functions II</a></li>
+<li class="toc-entry toc-h2"><a href="#19-joint-conditional-marginal-distributions">19. Joint, Conditional, Marginal Distributions</a></li>
+<li class="toc-entry toc-h2"><a href="#20-multinomial-cauchy-distributions">20. Multinomial, Cauchy Distributions</a></li>
+<li class="toc-entry toc-h2"><a href="#21-covariance-correlation">21. Covariance, Correlation</a></li>
+<li class="toc-entry toc-h2"><a href="#22-transformations-convolutions">22. Transformations, Convolutions</a></li>
+<li class="toc-entry toc-h2"><a href="#23-beta-distribution">23. Beta Distribution</a></li>
+<li class="toc-entry toc-h2"><a href="#24-gamma-distribution-poisson-process">24. Gamma Distribution, Poisson Process</a></li>
+<li class="toc-entry toc-h2"><a href="#25-order-statistics-conditional-expectation-i">25. Order Statistics, Conditional Expectation I</a></li>
+<li class="toc-entry toc-h2"><a href="#26-conditional-expectation-ii">26. Conditional Expectation II</a></li>
+<li class="toc-entry toc-h2"><a href="#27-conditional-expectation-given-rv">27. Conditional Expectation Given R.V.</a></li>
+<li class="toc-entry toc-h2"><a href="#28-inequalities">28. Inequalities</a></li>
+<li class="toc-entry toc-h2"><a href="#29-law-of-large-numbers-central-limit-theorem">29. Law of Large Numbers, Central Limit Theorem</a></li>
+<li class="toc-entry toc-h2"><a href="#30-chi-square-student-t-multivariate-normal">30. Chi-Square, Student-T, Multivariate Normal</a></li>
+<li class="toc-entry toc-h2"><a href="#31-markov-chains-i">31. Markov Chains I</a></li>
+<li class="toc-entry toc-h2"><a href="#32-markov-chains-ii">32. Markov Chains II</a></li>
+<li class="toc-entry toc-h2"><a href="#33-markov-chains-iii">33. Markov Chains III</a></li>
+<li class="toc-entry toc-h2"><a href="#34-a-look-ahead">34. A Look Ahead</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="harvard-stat-110-introduction-to-probability-fall-2011">
+<a class="anchor" href="#harvard-stat-110-introduction-to-probability-fall-2011" aria-hidden="true"><span class="octicon octicon-link"></span></a>Harvard STAT 110: Introduction to Probability, Fall 2011</h1>
+
+<h2 id="course-resources">
+<a class="anchor" href="#course-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Course Resources</h2>
+<ul>
+  <li>Professor Joe Blitzstein</li>
+  <li><a href="https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo">Course Lectures</a></li>
+  <li><a href="https://projects.iq.harvard.edu/stat110">Course Website</a></li>
+  <li><a href="https://projects.iq.harvard.edu/files/stat110/files/stat110harvarditunesusyllabus.pdf">Course Syllabus</a></li>
+  <li><a href="https://learning.edx.org/course/course-v1:HarvardX+STAT110x+2T2021/home">Course EdX</a></li>
+  <li>
+<a href="http://probabilitybook.net/">Course Textbook</a>: Introduction to Probability, 2 ed. by Blitzstein &amp; Hwang</li>
+  <li>Course focuses on using probability as a language and set of tools for understanding statistics, science, risk, and randomness.</li>
+  <li>Topics: sample spaces/events, conditional probability, Bayes’ Theorem, univariate distributions, multivariate distributions, limit laws, Markov chains</li>
+</ul>
+
+<h2 id="1-probability-counting">
+<a class="anchor" href="#1-probability-counting" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Probability, Counting</h2>
+
+<ul>
+  <li>
+    <p>Probability has its roots in gambling and is an important part of many disciplines today</p>
+  </li>
+  <li>
+<strong>Sample Space</strong>: set of all possible outcomes of an experiment</li>
+  <li>The experiment can be <em>anything</em> with certain possible outcomes that are unknown beforehand
+    <ul>
+      <li>
+<strong>Event</strong>: a <em>subset</em> of the sample space</li>
+      <li>
+<em>Example</em>: Rolling 2 dice has 36 total outcomes in the <em>sample space</em>, and an <em>event</em> could be the subset of all outcomes that sum up to a number</li>
+    </ul>
+  </li>
+  <li>
+<strong>Naive Definition of Probability</strong>: $P(A)=\frac{\text{# favorable outcomes}}{\text{# possible outcomes}}$</li>
+  <li>
+<em>Example</em>: Flipping a fair coin twice, what is probability that both flips are heads?
+    <ul>
+      <li>1 favorable outcome: $HH$</li>
+      <li>4 total outcomes: $HH, HT, TH, TT$</li>
+      <li>Therefore, $P(\text{both heads})=\frac{1}{4}$</li>
+    </ul>
+  </li>
+  <li>Assumes that <em>all outcomes are equally likely</em> and a <em>finite sample space</em>
+    <ul>
+      <li>If the coin was not fair, the outcomes are not equally likely</li>
+      <li>If the outcomes could be infinite, the probability definition doesn’t make sense</li>
+    </ul>
+  </li>
+  <li>
+<strong>Multiplication Rule</strong>: If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.</li>
+  <li>
+<em>Example</em>: 3 flavors of ice cream and 2 types of cones
+    <ul>
+      <li>Ice cream flavor experiment has 3 outcomes (chocolate, vanilla, strawberry)</li>
+      <li>Waffle cone experiment has 2 outcomes (cake, waffle)</li>
+      <li>There are $6 \text{ possible outcomes}=2<em>3=3</em>2$, order of cone/ice cream choice does not matter</li>
+    </ul>
+  </li>
+  <li>
+<strong>Binomial Coefficient</strong>: $\binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k&gt;n}$
+    <ul>
+      <li>Pronounced “n choose k”, choosing k things of n, where order does not matter</li>
+      <li>Number of subsets of size k given n elements, where order does not matter</li>
+      <li>Intuition from multiplication rule
+        <ul>
+          <li>Choose K elements: $n<em>(n-1)</em>(n-2)<em>\ldots</em>(n-k+1)$</li>
+          <li>In any order: divide by $k!$ because we over-counted by that factor</li>
+          <li>Therefore, $\frac{n<em>(n-1)</em>(n-2)<em>\ldots</em>(n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: Find probability of full house in poker, 5 card hand
+    <ul>
+      <li>A <em>full house</em> is 3 cards of 1 rank and 2 cards of another rank, e.g. 3 sevens and 2 tens</li>
+      <li>Assume deck is randomly shuffled so that all sets of 5 cards are equally likely
+        <ul>
+          <li>Because we assume cards are evenly shuffled, we can justify using naive definition</li>
+        </ul>
+      </li>
+      <li>Number of possible hands: $\binom{52}{5}$ , “52 choose 5”</li>
+      <li>Favorable hands (full house): $\binom{13}{1}\binom{4}{3}<em>\binom{12}{1}</em>\binom{4}{2}$
+        <ul>
+          <li>Of 13 ranks choose 1 and of 4 cards need 3, then of 12 remaining ranks choose 1 and of 4 cards we need 2</li>
+        </ul>
+      </li>
+      <li>Therefore, $\frac{\binom{13}{1}\binom{4}{3}<em>\binom{12}{1}</em>\binom{4}{2}}{\binom{52}{5}}$</li>
+    </ul>
+  </li>
+  <li>
+<strong>Sampling Table</strong>: choose k objects out of n
+    <ul>
+      <li>We want to know how many ways there are of doing this, which should be immediate from the multiplication rule</li>
+      <li>We can choose to sample <strong>with replacement</strong> (we can choose the same element again) or <strong>without replacement</strong> (we cannot choose the same element again)</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left"> </th>
+          <th style="text-align: center">Order Matters</th>
+          <th style="text-align: center">Order Doesn’t Matter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">With Replacement</td>
+          <td style="text-align: center">$n^k$</td>
+          <td style="text-align: center">$\binom{n+k-1}{k}$</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">Without Replacement</td>
+          <td style="text-align: center">$(n)(n-1)\ldots(n-k+1)$</td>
+          <td style="text-align: center">$\binom{n}{k}$</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h2 id="2-story-proofs-axioms-of-probability">
+<a class="anchor" href="#2-story-proofs-axioms-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Story Proofs, Axioms of Probability</h2>
+
+<h2 id="3-birthday-problem-properties-of-probability">
+<a class="anchor" href="#3-birthday-problem-properties-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Birthday Problem, Properties of Probability</h2>
+
+<h2 id="4-conditional-probability-i">
+<a class="anchor" href="#4-conditional-probability-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Conditional Probability I</h2>
+
+<h2 id="5-conditional-probability-ii-law-of-total-probability">
+<a class="anchor" href="#5-conditional-probability-ii-law-of-total-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Conditional Probability II, Law of Total Probability</h2>
+
+<h2 id="6-monty-hall-simpsons-paradox">
+<a class="anchor" href="#6-monty-hall-simpsons-paradox" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Monty Hall, Simpson’s Paradox</h2>
+
+<h2 id="7-gamblers-ruin-random-variables">
+<a class="anchor" href="#7-gamblers-ruin-random-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. Gambler’s Ruin, Random Variables</h2>
+
+<h2 id="8-random-variables-and-their-distributions">
+<a class="anchor" href="#8-random-variables-and-their-distributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>8. Random Variables and Their Distributions</h2>
+
+<h2 id="9-expectation-i-indicator-random-variables-linearity">
+<a class="anchor" href="#9-expectation-i-indicator-random-variables-linearity" aria-hidden="true"><span class="octicon octicon-link"></span></a>9. Expectation I, Indicator Random Variables, Linearity</h2>
+
+<h2 id="10-expectation-ii">
+<a class="anchor" href="#10-expectation-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>10. Expectation II</h2>
+
+<h2 id="11-poisson-distribution">
+<a class="anchor" href="#11-poisson-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>11. Poisson Distribution</h2>
+
+<h2 id="12-discrete-vs-continuous-uniform-distribution">
+<a class="anchor" href="#12-discrete-vs-continuous-uniform-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>12. Discrete vs. Continuous, Uniform Distribution</h2>
+
+<h2 id="13-normal-distribution">
+<a class="anchor" href="#13-normal-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>13. Normal Distribution</h2>
+
+<h2 id="14-location-scale-lotus">
+<a class="anchor" href="#14-location-scale-lotus" aria-hidden="true"><span class="octicon octicon-link"></span></a>14. Location, Scale, LOTUS</h2>
+
+<h2 id="15-midterm-review">
+<a class="anchor" href="#15-midterm-review" aria-hidden="true"><span class="octicon octicon-link"></span></a>15. Midterm Review</h2>
+
+<h2 id="16-exponential-distribution">
+<a class="anchor" href="#16-exponential-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>16. Exponential Distribution</h2>
+
+<h2 id="17-moment-generating-functions-i">
+<a class="anchor" href="#17-moment-generating-functions-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>17. Moment Generating Functions I</h2>
+
+<h2 id="18-moment-generating-functions-ii">
+<a class="anchor" href="#18-moment-generating-functions-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>18. Moment Generating Functions II</h2>
+
+<h2 id="19-joint-conditional-marginal-distributions">
+<a class="anchor" href="#19-joint-conditional-marginal-distributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>19. Joint, Conditional, Marginal Distributions</h2>
+
+<h2 id="20-multinomial-cauchy-distributions">
+<a class="anchor" href="#20-multinomial-cauchy-distributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>20. Multinomial, Cauchy Distributions</h2>
+
+<h2 id="21-covariance-correlation">
+<a class="anchor" href="#21-covariance-correlation" aria-hidden="true"><span class="octicon octicon-link"></span></a>21. Covariance, Correlation</h2>
+
+<h2 id="22-transformations-convolutions">
+<a class="anchor" href="#22-transformations-convolutions" aria-hidden="true"><span class="octicon octicon-link"></span></a>22. Transformations, Convolutions</h2>
+
+<h2 id="23-beta-distribution">
+<a class="anchor" href="#23-beta-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>23. Beta Distribution</h2>
+
+<h2 id="24-gamma-distribution-poisson-process">
+<a class="anchor" href="#24-gamma-distribution-poisson-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>24. Gamma Distribution, Poisson Process</h2>
+
+<h2 id="25-order-statistics-conditional-expectation-i">
+<a class="anchor" href="#25-order-statistics-conditional-expectation-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>25. Order Statistics, Conditional Expectation I</h2>
+
+<h2 id="26-conditional-expectation-ii">
+<a class="anchor" href="#26-conditional-expectation-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>26. Conditional Expectation II</h2>
+
+<h2 id="27-conditional-expectation-given-rv">
+<a class="anchor" href="#27-conditional-expectation-given-rv" aria-hidden="true"><span class="octicon octicon-link"></span></a>27. Conditional Expectation Given R.V.</h2>
+
+<h2 id="28-inequalities">
+<a class="anchor" href="#28-inequalities" aria-hidden="true"><span class="octicon octicon-link"></span></a>28. Inequalities</h2>
+
+<h2 id="29-law-of-large-numbers-central-limit-theorem">
+<a class="anchor" href="#29-law-of-large-numbers-central-limit-theorem" aria-hidden="true"><span class="octicon octicon-link"></span></a>29. Law of Large Numbers, Central Limit Theorem</h2>
+
+<h2 id="30-chi-square-student-t-multivariate-normal">
+<a class="anchor" href="#30-chi-square-student-t-multivariate-normal" aria-hidden="true"><span class="octicon octicon-link"></span></a>30. Chi-Square, Student-T, Multivariate Normal</h2>
+
+<h2 id="31-markov-chains-i">
+<a class="anchor" href="#31-markov-chains-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>31. Markov Chains I</h2>
+
+<h2 id="32-markov-chains-ii">
+<a class="anchor" href="#32-markov-chains-ii" aria-hidden="true"><span class="octicon octicon-link"></span></a>32. Markov Chains II</h2>
+
+<h2 id="33-markov-chains-iii">
+<a class="anchor" href="#33-markov-chains-iii" aria-hidden="true"><span class="octicon octicon-link"></span></a>33. Markov Chains III</h2>
+
+<h2 id="34-a-look-ahead">
+<a class="anchor" href="#34-a-look-ahead" aria-hidden="true"><span class="octicon octicon-link"></span></a>34. A Look Ahead</h2>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/probability" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
