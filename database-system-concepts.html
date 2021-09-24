@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Database System Concepts | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Database System Concepts" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Book notes on database system concepts." />
+<meta property="og:description" content="Book notes on database system concepts." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/database-system-concepts" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/database-system-concepts" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-23T00:00:00-05:00","url":"https://nhtsai.github.io/notes/database-system-concepts","@type":"BlogPosting","headline":"Database System Concepts","dateModified":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/database-system-concepts"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Book notes on database system concepts.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Database System Concepts</h1><p class="page-description">Book notes on database system concepts.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-23T00:00:00-05:00" itemprop="datePublished">
+        Sep 23, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#book-notes">book-notes</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#database-systems">database-systems</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#database-system-concepts-by-silberschatz-korth--sudarshan">Database System Concepts by Silberschatz, Korth &amp; Sudarshan</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-introduction-to-database-systems">1. Introduction to Database Systems</a></li>
+<li class="toc-entry toc-h2"><a href="#2-introduction-to-the-relational-model">2. Introduction to the Relational Model</a></li>
+</ul>
+</li>
+</ul><h1 id="database-system-concepts-by-silberschatz-korth--sudarshan">
+<a class="anchor" href="#database-system-concepts-by-silberschatz-korth--sudarshan" aria-hidden="true"><span class="octicon octicon-link"></span></a>Database System Concepts by Silberschatz, Korth &amp; Sudarshan</h1>
+<ul>
+  <li><a href="https://www.db-book.com/db7/index.html">Book Website</a></li>
+  <li><a href="https://fliphtml5.com/pyiue/xxxf/basic">Online Copy</a></li>
+  <li><a href="https://dokumen.pub/qdownload/database-system-concepts-7nbsped-1260084507-9781260084504.html">Student-friendly Source</a></li>
+</ul>
+
+<h2 id="1-introduction-to-database-systems">
+<a class="anchor" href="#1-introduction-to-database-systems" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Introduction to Database Systems</h2>
+
+<ul>
+  <li>
+<strong>Database</strong>: collection of data that contains information relevant to an enterprise</li>
+  <li>
+<strong>Database-management system (DBMS)</strong>: collection of interrelated data and set of programs to access those data
+    <ul>
+      <li>Primary goal is to provide a <em>convenient and efficient</em> way to store and retrieve database information</li>
+      <li>Designed to manage large bodies of information, define structures for storage, provide ways to manipulate information, ensure safety of information in failures or breaches, avoid possible anomalous results</li>
+    </ul>
+  </li>
+  <li>Database-System Applications
+    <ul>
+      <li>Used to manage collections of data that are highly valuable, relatively large, and accessed by multiple users and applications, often simultaneously</li>
+      <li>Early database applications had simple, structured data, but modern database applications can use complex data with complex relationships</li>
+      <li>Databases are essential to every enterprise
+        <ul>
+          <li>Sales: customer, product, purchase information</li>
+          <li>HR: employee information, salaries, payroll taxes, benefits</li>
+          <li>Banking: customer information, accounts, loans, transactions</li>
+          <li>Universities: student information, course registration, grades</li>
+        </ul>
+      </li>
+      <li>Two modes of database usage
+        <ul>
+          <li>
+<strong>Online transaction processing</strong>: large number of users retrieve small amounts of data and perform small updates</li>
+          <li>
+<strong>Data analytics</strong>: processing of data to draw conclusions and infer rules or decision procedures to drive business decisions
+            <ul>
+              <li>Creating <em>predictive models</em> that take in attributes to output predictions</li>
+              <li>
+<em>Data Mining</em> combines knowledge discovery techniques from AI and statistics to implement efficient database operations</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Purpose of Database Systems
+    <ul>
+      <li>Created to manage commercial data through software</li>
+      <li>
+<strong>File-processing system</strong>: early form of database system in which files stored permanent records and used different applications to manipulate records to appropriate files</li>
+      <li>Issues with file-processing systems
+        <ul>
+          <li>Data redundancy: copies of the same data appear in multiple files</li>
+          <li>Data inconsistency: copies of same data may no longer agree</li>
+          <li>Data access: difficulty of parsing entire files or writing custom applications for retrieving data</li>
+          <li>Data isolation: difficulty of working with data in various files in different formats</li>
+          <li>Data integrity: data values must satisfy consistency constraints</li>
+          <li>Data atomicity: upon failure, data should be restored to consistent state that existed prior to failure, either changes occur or not at all</li>
+          <li>Data concurrency-access: simultaneous manipulation of data without supervision may create inconsistent or invalid data</li>
+          <li>Data security: data should only be accessed by appropriate users with permission</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>View of Data
+    <ul>
+      <li>Database system provides <em>abstract</em> view of the data, hiding implementation details of how data are stored and maintained</li>
+      <li>Levels of <strong>Data Abstraction</strong>, from lowest to highest
+        <ul>
+          <li>
+<strong>Physical level</strong>: describes <em>how</em> the data are actually stored in complex, low-level data structures</li>
+          <li>
+<strong>Logical level</strong>: describes <em>what</em> data are stored in database and relationships among data in simple structures
+            <ul>
+              <li>
+<strong>Physical data independence</strong>: logical level abstraction, or abstracting the complex, physical-level structures as relatively simple, logical level structures</li>
+            </ul>
+          </li>
+          <li>
+<strong>View level</strong>: describes only part of entire database, simplifying the database to only the parts users are interested in
+            <ul>
+              <li>Though logical level abstraction uses simpler structures, complexity comes from variety of information stored in a large database</li>
+              <li>System may provide many views for the same database</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Example: Consider <code class="language-plaintext highlighter-rouge">Instructor(id, name dept_name, salary)</code>, <code class="language-plaintext highlighter-rouge">Department(dept_name, building, budget)</code>, <code class="language-plaintext highlighter-rouge">Course(course_id, title, dept_name, credits)</code>, and <code class="language-plaintext highlighter-rouge">Student(id, name, dept_name, total_credits)</code>
+        <ul>
+          <li>Physical level: records are stored in blocks of consecutive storage locations
+            <ul>
+              <li>These details are hidden to programmers but important for database administrators</li>
+            </ul>
+          </li>
+          <li>Logical level: each record has type definitions and relations to other records</li>
+          <li>View level: parts of the database are presented without logical level details in applications to users, who have the correct permissions</li>
+        </ul>
+      </li>
+      <li>Instances and Schemas
+        <ul>
+          <li>
+<strong>Instance</strong>: collection of information stored in database at a particular moment</li>
+          <li>
+<strong>Schema</strong>: overall design of the database, not changed or changed infrequently</li>
+          <li>
+<strong>Physical Schema</strong>: database design at the physical level, can be changed without affecting applications</li>
+          <li>
+<strong>Logical Schema</strong>: database design at the logical level, most important to programmers</li>
+          <li>
+<strong>Subschema</strong>: schemas at the view level that describe different views of the database</li>
+          <li>
+<strong>Physical data independence</strong>: not dependent on physical schema, no rewrites needed if physical schema changes</li>
+        </ul>
+      </li>
+      <li>Data Models
+        <ul>
+          <li>
+<strong>Data Model</strong>: collection of conceptual tools for describing data, relationships, semantics, and consistency constraints
+            <ul>
+              <li>Describes design of database at physical, logical, and view levels</li>
+            </ul>
+          </li>
+          <li>There are four categories of data models</li>
+          <li>
+<strong>Relational Model</strong>: uses a collection of tables, or <strong>relations</strong>, to represent both data and relationships among those data
+            <ul>
+              <li>Each relation contains records with fields or attributes determined by its particular type</li>
+            </ul>
+          </li>
+          <li>
+<strong>Entity-Relationship (E-R) Model</strong>: uses a collection of basic objects, or <strong>entities</strong>, and <strong>relationships</strong> among these objects, important for database design</li>
+          <li>
+<strong>Object-Based Data Model</strong>: uses object-oriented concepts of encapsulation, functions/methods, and object identity to extend entity-relationship model
+            <ul>
+              <li>Object-Relational model combines object-oriented data model and relational data model</li>
+            </ul>
+          </li>
+          <li>
+<strong>Semi-structured Data Model</strong>: allows data items of the same type to have different sets of attributes, often represented in <strong>Extensible Markup Language (XML)</strong>
+</li>
+          <li>Other obsolete data models include <strong>network data model</strong> and <strong>hierarchical data model</strong>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Database Languages
+    <ul>
+      <li>
+<strong>Data-Manipulation Language (DML)</strong>: language used to access or manipulate data as organized by appropriate data model, includes retrieval, insertion, deletion, modification
+        <ul>
+          <li>
+<strong>Procedural DML</strong>: user specifies <em>what</em> data are needed and <em>how</em> to get those data</li>
+          <li>
+<strong>Non-Procedural or Declarative DML</strong>: user specifies <em>what</em> data are needed but <em>not how</em> to get those data</li>
+          <li>
+<strong>Query</strong>: statement requesting information retrieval, using the <strong>query language</strong> of a DML</li>
+        </ul>
+      </li>
+      <li>
+<strong>Data-Definition Language (DDL)</strong>: language used to specify database schema and additional properties of the data
+        <ul>
+          <li>
+<strong>Data Storage and Definition Language</strong>: language used to specify storage structure and access methods used by database system</li>
+          <li>
+<strong>Consistency Constraints</strong>: constraints of data values stored in database, e.g. account balance must never be negative
+            <ul>
+              <li>Usually checked every time a record is updated</li>
+            </ul>
+          </li>
+          <li>Consistency constraints are implemented using <strong>integrity constraints</strong> that can be tested with minimal overhead</li>
+          <li>
+<strong>Domain Constraints</strong>: attribute must be of a certain domain (data type)</li>
+          <li>
+<strong>Referential Integrity</strong>: value that appears in one relation for a set of attributes  also appears in another relation for the same set of attributes
+            <ul>
+              <li>E.g. the dept_name of a course in the Course table must exist in the dept_name column of the Department table</li>
+              <li>Violations of referential integrity are caused by database manipulations, usually handled by rejecting the manipulation action that caused the violation</li>
+            </ul>
+          </li>
+          <li>
+<strong>Assertions</strong>: any condition the database must always satisfy, every manipulation of the database is tested by the system for assertion validity</li>
+          <li>
+<strong>Authorization</strong>: expresses differentiation of users and their access permissions on various data values
+            <ul>
+              <li>
+<strong>Read Authorization</strong>: allows reading but not modification</li>
+              <li>
+<strong>Insert Authorization</strong>: allows insertion but not modification</li>
+              <li>
+<strong>Update Authorization</strong>: allows modification but not deletion</li>
+              <li>
+<strong>Delete Authorization</strong>: allow deletion of data</li>
+              <li>Users can be assigned any combination of these permissions</li>
+            </ul>
+          </li>
+          <li>DDL output is placed a data dictionary that contains <strong>metadata</strong>, or data about data
+            <ul>
+              <li>
+<strong>Data dictionary</strong>: special type of table only internally accessible by database system, consulted before reading or modifying actual data</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Relational Databases
+    <ul>
+      <li>
+<strong>Relational Database</strong>: based on relational model, uses collection of tables to represent both data and relationships among those data, includes DML and DDL</li>
+      <li>
+<strong>Table/Record</strong>: multiple columns, each with a unique column name
+        <ul>
+          <li>Record based model: database is structured in fixed-format records of several types
+            <ul>
+              <li>Each table contains records of a particular type</li>
+              <li>Each record type defines a fixed number of attributes</li>
+              <li>Columns of table correspond to attributes of record type</li>
+            </ul>
+          </li>
+          <li>Most basic table: CSV file
+            <ul>
+              <li>However, unnecessarily duplicated information is a problem</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>SQL: non-procedural query language that includes DML and DDL</li>
+    </ul>
+
+    <div class="language-sql highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="c1">-- DML for query</span>
+  <span class="k">SELECT</span> <span class="n">Instructor</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">Department</span><span class="p">.</span><span class="n">dept_name</span>
+  <span class="k">FROM</span> <span class="n">Instructor</span><span class="p">,</span> <span class="n">Department</span>
+  <span class="k">WHERE</span> <span class="n">Instructor</span><span class="p">.</span><span class="n">dept_name</span> <span class="o">=</span> <span class="n">Department</span><span class="p">.</span><span class="n">dept_name</span> 
+        <span class="k">AND</span> <span class="n">Department</span><span class="p">.</span><span class="n">budget</span> <span class="o">&gt;</span> <span class="mi">95000</span><span class="p">;</span>
+
+
+  <span class="c1">-- DDL for schema</span>
+  <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">department</span> <span class="p">(</span>
+      <span class="n">dept_name</span>   <span class="nb">char</span> <span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+      <span class="n">building</span>    <span class="nb">char</span> <span class="p">(</span><span class="mi">15</span><span class="p">),</span>
+      <span class="n">budget</span>      <span class="nb">numeric</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">);</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>
+<strong>Application Program</strong>: program that interacts with databases through using <em>host language</em> with embedded SQL queries
+        <ul>
+          <li>To execute DML queries from host language, can either:
+            <ul>
+              <li>Use API to send queries to database</li>
+              <li>Extend host language syntax to embed DML calls within host language program, uses DML precompiler for conversion</li>
+            </ul>
+          </li>
+          <li>
+<strong>DML precompiler</strong>: converts DML statements to normal procedure calls in the host language</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Database Design
+    <ul>
+      <li>
+<strong>Conceptual-Design Phase</strong>: <em>what</em> attributes database should have and <em>how to group</em> these attributes to form the various fields
+        <ul>
+          <li>Characterize fully the data needs of prospective database users to produce specification of user requirements</li>
+          <li>Choose data model, apply concepts of chosen data model to translate user requirements into a conceptual schema of the database
+            <ul>
+              <li>Focus on describing data and their relationships, instead of worrying about low-level, physical implementation details</li>
+              <li>Can form tables using either E-R model or normalization algorithms</li>
+            </ul>
+          </li>
+          <li>Review conceptual schema satisfies data requirements without conflicts or redundant features and satisfies functional requirements of project</li>
+          <li>
+<strong>Specification of Functional Requirements</strong>: users describe the kinds of operations/transactions that will be performed on the data</li>
+        </ul>
+      </li>
+      <li>
+<strong>Logical-Design Phase</strong>: map high-level conceptual schema onto implementation data model of database system that will be used</li>
+      <li>
+        <p><strong>Physical-Design Phase</strong>: specify physical features, including file organization and internal storage structures</p>
+      </li>
+      <li>
+<strong>Entity-Relationship Model</strong>: collection of <em>entities</em> and their <em>relationships</em>
+        <ul>
+          <li>
+<strong>Entity</strong>: distinguishable objects that are described by a set of <strong>attributes</strong>, e.g. <code class="language-plaintext highlighter-rouge">Department(dept_name, building, budget)</code>.
+            <ul>
+              <li>
+<strong>Entity Set</strong>: set of all entities of the same type</li>
+            </ul>
+          </li>
+          <li>
+<strong>Relationship</strong>: association among several entities
+            <ul>
+              <li>
+<strong>Relationship Set</strong>: set of all relationships of the same type</li>
+            </ul>
+          </li>
+          <li>Overall logical structure, or <em>schema</em>, of a data base can be expressed graphically by an <strong>Entity-Relationship (E-R) Diagram</strong>
+</li>
+          <li>E-R diagrams are usually drawn using the <strong>Unified Modeling Language (UML)</strong>
+            <ul>
+              <li>Entity sets are <em>rectangular box</em> with entity set name header and attributes listed below</li>
+              <li>Relationship sets are <em>diamond</em> with relationship name connecting a pair of related entity sets</li>
+              <li>
+<strong>Mapping Cardinalities</strong>: a constraint that expresses the number of entities to which another entity can be associated via a relationship set
+                <ul>
+                  <li>E.g. an instructor must be associated with only a single department, but a department can have many instructors</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>Normalization</strong>: process of generating a set of relation schemas to store information without unnecessary redundancy and to easily retrieve information
+        <ul>
+          <li>Design schemas in an appropriate <em>normal form</em> using <strong>functional dependencies</strong> to determine desirable forms</li>
+          <li>Avoids repetition of information
+            <ul>
+              <li>Moving repeated data across multiple rows into a single row of a different table and adding a relationship</li>
+            </ul>
+          </li>
+          <li>Avoids inability to represent certain information
+            <ul>
+              <li>Use <strong>null</strong> values to indicate unknown or missing values if inserting rows with incomplete information.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Database Engine
+    <ul>
+      <li>Components of database system: storage manager, query processor, transaction management</li>
+      <li>
+<strong>Storage Manager</strong>: provides interface between low-level storage and queries from application programs
+        <ul>
+          <li>
+<strong>Authorization and Integrity Manager</strong>: tests satisfaction of integrity constraints and checks authority of users who access the data</li>
+          <li>
+<strong>Transaction Manager</strong>: ensures database remains in consistent or correct state despite system failures and concurrent transaction executions proceed without conflicts, consists of concurrency-control manager and recovery manager
+            <ul>
+              <li>Allows developers to treat a sequence of database accesses as if they were a single unit that either happens in its entirety or not at all</li>
+              <li>Abstracts away lower level details of concurrent access and system failures</li>
+            </ul>
+          </li>
+          <li>
+<strong>File Manager</strong>: manages allocation of space on disk storage and data structures used to represent information on disk</li>
+          <li>
+<strong>Buffer Manager</strong>: fetches data from disk storage into main memory, decides what data to cache in main memory
+            <ul>
+              <li>Enables database to handle data sizes that are larger than main memory size</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Data structures implemented by storage manager
+        <ul>
+          <li>
+<strong>Data Files</strong>: stores database itself</li>
+          <li>
+<strong>Data Dictionary</strong>: stores metadata about structure of the database, its schema</li>
+          <li>
+<strong>Indices</strong>: provides fast access to data items</li>
+        </ul>
+      </li>
+      <li>
+<strong>Query Processor</strong>: helps simplify and facilitate access to data, translating non-procedural queries at the logical level to an efficient sequence of operations at the physical level
+        <ul>
+          <li>
+<strong>DDL Interpreter</strong>: interprets DDL statements and records definitions in data dictionary</li>
+          <li>
+<strong>DML Compiler</strong>: translates DML statements in query language into evaluation plan of low-level instructions for query evaluation engine
+            <ul>
+              <li>Query can be translated into many different evaluation plans with same result</li>
+              <li>
+<strong>Query Optimization</strong>: chooses the lowest cost evaluation plan for the query</li>
+            </ul>
+          </li>
+          <li>
+<strong>Query Evaluation Engine</strong>: executes low-level instructions generated by DML compiler</li>
+        </ul>
+      </li>
+      <li>Transaction Management
+        <ul>
+          <li>
+<strong>Atomicity</strong>: operations that form a single logical unit of work happen in its entirety or not at all
+            <ul>
+              <li>E.g. funds transfer by removing from A and adding to B should either happen together or not at all</li>
+            </ul>
+          </li>
+          <li>
+<strong>Consistency</strong>: operations should preserve correctness of values
+            <ul>
+              <li>E.g. the sums of balances between A and B should be preserved</li>
+            </ul>
+          </li>
+          <li>
+<strong>Durability</strong>: changes as a result of successful operations should be persistent despite system failure
+            <ul>
+              <li>E.g. new balances after funds transfer should persist even if the application crashes</li>
+            </ul>
+          </li>
+          <li>
+<strong>Transaction</strong>: collection of operations that performs a single logical function in a database application
+            <ul>
+              <li>A transaction is a unit of both atomicity and consistency, so it cannot violate any consistency constraints, though transaction execution can create temporary inconsistency</li>
+              <li>Programmer should properly define transactions that preserve consistency</li>
+              <li>E.g. a funds transfer should consist of debiting account A then crediting account B, both operations together form a transaction and should not be separate</li>
+            </ul>
+          </li>
+          <li>
+<strong>Recovery Manager</strong>: ensures atomicity and durability properties
+            <ul>
+              <li>Atomicity is achieved if no failures and all transactions complete successfully</li>
+              <li>But if transaction is incomplete due to failure, it should have <em>no effect</em> on the database</li>
+              <li>
+<strong>Failure Recovery</strong>: detects system failures and restores database to state prior to failure</li>
+            </ul>
+          </li>
+          <li>
+<strong>Concurrency-Control Manager</strong>: controls interaction among concurrent transactions to ensure consistency</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Database and Application Architecture</li>
+</ul>
+
+<p><img src="/notes/images/database-system-concepts/database_architecture.png" alt="Database Architecture Diagram" title="database architecture diagram"></p>
+
+<ul>
+  <li>
+<em>Shared-Memory</em> architectures have multiple CPUs and exploit parallel processing using a common shared memory</li>
+  <li>
+<em>Parallel databases</em> are designed to run on a cluster consisting of multiple machines</li>
+  <li>
+<em>Distributed databases</em> allow data storage and query processing across multiple geographically separated machines</li>
+  <li>
+<strong>Two-Tier Architecture</strong>: application in client machine and queries database system in server machine</li>
+  <li>
+<strong>Three-Tier Architecture</strong>: client machine acts as front-end and does not contain direct database calls, communicates with <strong>application server</strong> to query database system
+    <ul>
+      <li>
+<strong>Business Logic</strong>: specifies which actions to carry out under what conditions, embedded in central application server to handle multiple client front-ends</li>
+      <li>
+<em>Better security and performance</em> than two-tier architecture</li>
+    </ul>
+  </li>
+  <li>Database Users and Administrators
+    <ul>
+      <li>Naive User
+        <ul>
+          <li>Uses predefined user interfaces, usually a forms interface where users can fill out fields of the form</li>
+          <li>Views <em>reports</em> generated from database</li>
+          <li>E.g. student registers for courses using registration website, application verifies user identity and provides form that can query the database to enroll</li>
+        </ul>
+      </li>
+      <li>Application Programmer
+        <ul>
+          <li>Computer professional who writes application programs</li>
+          <li>Chooses from many tools to develop user interfaces</li>
+        </ul>
+      </li>
+      <li>Sophisticated User
+        <ul>
+          <li>Interacts with system without writing programs</li>
+          <li>Forms requests using database query language or data software</li>
+          <li>E.g. analysts submit queries to explore data</li>
+        </ul>
+      </li>
+      <li>
+<strong>Database Administrator (DBA)</strong>: central control over DBMS, or data and programs that access those data
+        <ul>
+          <li>Schema definition: defines original schema using DDL statements</li>
+          <li>Storage structure and access-method definition: specifies parameters for the organization of data and indices</li>
+          <li>Schema and physical-organization modification: changes schema and physical organization of data to reflect changing needs or improve performance</li>
+          <li>Granting of authorization for data access: regulates access of database by changing authorization information kept in an internal, special structure of the DBMS</li>
+          <li>Routine maintenance: periodic backups to remote servers, ensuring enough free disk space or upgrading disk space, monitoring performance across workload</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>History of Database Systems
+    <ul>
+      <li>
+<em>1950s to early 1960s</em>
+        <ul>
+          <li>Magnetic tapes allowed sequential storage of data</li>
+          <li>Data processed by reading from the master tape and writing to another, creating a new master tape</li>
+        </ul>
+      </li>
+      <li>
+<em>Late 1960s to early 1970s</em>
+        <ul>
+          <li>Hard disks allowed direct access to any position in data</li>
+          <li>Network and hierarchical data models developed</li>
+          <li>Codd (1970) defines relational model and non-procedural querying</li>
+        </ul>
+      </li>
+      <li>
+<em>Late 1970s and 1980s</em>
+        <ul>
+          <li>IBM’s System R prototype leads to efficient relational DBMSs IBM’s SQL/DS, UC Berkeley’s Ingres, and first version of Oracle</li>
+          <li>Relational models eventually overtake other data models</li>
+          <li>Research on parallel, distributed, and object-oriented databases</li>
+        </ul>
+      </li>
+      <li>
+<em>1990s</em>
+        <ul>
+          <li>Creation of SQL language for query-intensive workloads</li>
+          <li>Web interfaces for databases</li>
+          <li>High transaction-processing rates and high reliability</li>
+        </ul>
+      </li>
+      <li>
+<em>2000s</em>
+        <ul>
+          <li>Semi-structured, graph, and spatial databases</li>
+          <li>XML and JSON data-exchange formats</li>
+          <li>Open-source PostgreSQL and MySQL</li>
+          <li>Auto-admin features for automatic reconfiguration</li>
+          <li>Column-stores for data analytics and data mining,</li>
+          <li>Map-reduce parallelism programming framework</li>
+          <li>NoSQL systems for lightweight data management for new types of data and eventual consistency allowed for greater scalability and availability</li>
+        </ul>
+      </li>
+      <li>
+<em>2010s</em>
+        <ul>
+          <li>NoSQL systems develop stricter consistency and higher levels of abstractions</li>
+          <li>Cloud services allowed outsourcing of data storage and applications, software as a service</li>
+          <li>Data privacy regulations introduced</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="2-introduction-to-the-relational-model">
+<a class="anchor" href="#2-introduction-to-the-relational-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Introduction to the Relational Model</h2>
+
+  </div><a class="u-url" href="/notes/database-system-concepts" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
