@@ -8,12 +8,11 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [course-notes, databases, distributed-systems]
+categories: [course-notes, database-systems, distributed-systems]
 permalink: /database-systems-intro
 ---
 
 # CMU 15-445: Introduction to Database Systems, Fall 2019
-
 
 ## Course Resources
 
