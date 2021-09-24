@@ -188,9 +188,10 @@ window.onload = wrap_img;
     <p>Probability has its roots in gambling and is an important part of many disciplines today</p>
   </li>
   <li>
-<strong>Sample Space</strong>: set of all possible outcomes of an experiment</li>
-  <li>The experiment can be <em>anything</em> with certain possible outcomes that are unknown beforehand
+<strong>Sample Space</strong>: set of all possible outcomes of an experiment
     <ul>
+      <li>
+<strong>Experiment</strong>: <em>anything</em> with certain possible outcomes that are unknown beforehand</li>
       <li>
 <strong>Event</strong>: a <em>subset</em> of the sample space</li>
       <li>
@@ -198,7 +199,9 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-<strong>Naive Definition of Probability</strong>: $P(A)=\frac{\text{# favorable outcomes}}{\text{# possible outcomes}}$</li>
+<strong>Naive Definition of Probability</strong>
+  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mtext># favorable outcomes</mtext><mtext># possible outcomes</mtext></mfrac></mrow><annotation encoding="application/x-tex">P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.4133239999999998em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322159999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight"># possible outcomes</span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight"># favorable outcomes</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>
+</li>
   <li>
 <em>Example</em>: Flipping a fair coin twice, what is probability that both flips are heads?
     <ul>
@@ -213,26 +216,41 @@ window.onload = wrap_img;
       <li>If the outcomes could be infinite, the probability definition doesn’t make sense</li>
     </ul>
   </li>
+</ul>
+
+<p><br></p>
+
+<ul>
   <li>
-<strong>Multiplication Rule</strong>: If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.</li>
+<strong>Multiplication Rule</strong>
+    <ul>
+      <li>If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.</li>
+    </ul>
+  </li>
   <li>
 <em>Example</em>: 3 flavors of ice cream and 2 types of cones
     <ul>
       <li>Ice cream flavor experiment has 3 outcomes (chocolate, vanilla, strawberry)</li>
       <li>Waffle cone experiment has 2 outcomes (cake, waffle)</li>
-      <li>There are $6 \text{ possible outcomes}=2<em>3=3</em>2$, order of cone/ice cream choice does not matter</li>
+      <li>There are $6 \text{ possible outcomes}= 2 \times 3 = 3 \times 2 $ , order of cone/ice cream choice does not matter</li>
     </ul>
   </li>
+</ul>
+
+<p><br></p>
+
+<ul>
   <li>
-<strong>Binomial Coefficient</strong>: $\binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k&gt;n}$
+<strong>Binomial Coefficient</strong>
+  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>n</mi><mi>k</mi></mfrac><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>n</mi><mo stretchy="false">!</mo></mrow><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mi>k</mi><mo stretchy="false">!</mo></mrow></mfrac><mo separator="true">,</mo><mtext>0 if k&gt;n</mtext></mrow><annotation encoding="application/x-tex">\binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k&gt;n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.20001em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7453919999999999em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.400108em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">)</span><span class="mclose mtight">!</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">!</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mclose mtight">!</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord text"><span class="mord">0 if k&gt;n</span></span></span></span></span>
     <ul>
       <li>Pronounced “n choose k”, choosing k things of n, where order does not matter</li>
       <li>Number of subsets of size k given n elements, where order does not matter</li>
       <li>Intuition from multiplication rule
         <ul>
-          <li>Choose K elements: $n<em>(n-1)</em>(n-2)<em>\ldots</em>(n-k+1)$</li>
+          <li>Choose K elements: $n(n-1)(n-2) \ldots (n-k+1)$</li>
           <li>In any order: divide by $k!$ because we over-counted by that factor</li>
-          <li>Therefore, $\frac{n<em>(n-1)</em>(n-2)<em>\ldots</em>(n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$</li>
+          <li>Therefore, $\frac{n(n-1)(n-2) \ldots (n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$</li>
         </ul>
       </li>
     </ul>
@@ -247,14 +265,19 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>Number of possible hands: $\binom{52}{5}$ , “52 choose 5”</li>
-      <li>Favorable hands (full house): $\binom{13}{1}\binom{4}{3}<em>\binom{12}{1}</em>\binom{4}{2}$
+      <li>Favorable hands (full house): $\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}$
         <ul>
           <li>Of 13 ranks choose 1 and of 4 cards need 3, then of 12 remaining ranks choose 1 and of 4 cards we need 2</li>
         </ul>
       </li>
-      <li>Therefore, $\frac{\binom{13}{1}\binom{4}{3}<em>\binom{12}{1}</em>\binom{4}{2}}{\binom{52}{5}}$</li>
+      <li>Therefore, $\frac{\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}}{\binom{52}{5}}$</li>
     </ul>
   </li>
+</ul>
+
+<p><br></p>
+
+<ul>
   <li>
 <strong>Sampling Table</strong>: choose k objects out of n
     <ul>
@@ -288,6 +311,10 @@ window.onload = wrap_img;
 
 <h2 id="2-story-proofs-axioms-of-probability">
 <a class="anchor" href="#2-story-proofs-axioms-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Story Proofs, Axioms of Probability</h2>
+
+<ul>
+  <li>
+</ul>
 
 <h2 id="3-birthday-problem-properties-of-probability">
 <a class="anchor" href="#3-birthday-problem-properties-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Birthday Problem, Properties of Probability</h2>
