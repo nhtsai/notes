@@ -30,11 +30,12 @@ permalink: /probability
 * Probability has its roots in gambling and is an important part of many disciplines today
 
 * **Sample Space**: set of all possible outcomes of an experiment
-* The experiment can be *anything* with certain possible outcomes that are unknown beforehand
+    * **Experiment**: *anything* with certain possible outcomes that are unknown beforehand
     * **Event**: a *subset* of the sample space
     * *Example*: Rolling 2 dice has 36 total outcomes in the *sample space*, and an *event* could be the subset of all outcomes that sum up to a number
 
-* **Naive Definition of Probability**: $P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}$
+* **Naive Definition of Probability**
+    $$ P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}} $$
 * *Example*: Flipping a fair coin twice, what is probability that both flips are heads?
     * 1 favorable outcome: $HH$
     * 4 total outcomes: $HH, HT, TH, TT$
@@ -43,26 +44,35 @@ permalink: /probability
     * If the coin was not fair, the outcomes are not equally likely
     * If the outcomes could be infinite, the probability definition doesn't make sense
 
-* **Multiplication Rule**: If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.
+<br />
+
+* **Multiplication Rule**
+    * If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.
 * *Example*: 3 flavors of ice cream and 2 types of cones
     * Ice cream flavor experiment has 3 outcomes (chocolate, vanilla, strawberry)
     * Waffle cone experiment has 2 outcomes (cake, waffle)
-    * There are $6 \text{ possible outcomes}=2*3=3*2$, order of cone/ice cream choice does not matter
-* **Binomial Coefficient**: $\binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k>n}$
+    * There are $6 \text{ possible outcomes}= 2 \times 3 = 3 \times 2 $ , order of cone/ice cream choice does not matter
+
+<br />
+
+* **Binomial Coefficient**
+    $$ \binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k>n} $$
     * Pronounced "n choose k", choosing k things of n, where order does not matter
     * Number of subsets of size k given n elements, where order does not matter
     * Intuition from multiplication rule
-        * Choose K elements: $n*(n-1)*(n-2)*\ldots*(n-k+1)$
+        * Choose K elements: $n(n-1)(n-2) \ldots (n-k+1)$
         * In any order: divide by $k!$ because we over-counted by that factor
-        * Therefore, $\frac{n*(n-1)*(n-2)*\ldots*(n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$
+        * Therefore, $\frac{n(n-1)(n-2) \ldots (n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$
 * *Example*: Find probability of full house in poker, 5 card hand
     * A *full house* is 3 cards of 1 rank and 2 cards of another rank, e.g. 3 sevens and 2 tens
     * Assume deck is randomly shuffled so that all sets of 5 cards are equally likely
         * Because we assume cards are evenly shuffled, we can justify using naive definition
     * Number of possible hands: $\binom{52}{5}$ , "52 choose 5"
-    * Favorable hands (full house): $\binom{13}{1}\binom{4}{3}*\binom{12}{1}*\binom{4}{2}$
+    * Favorable hands (full house): $\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}$
         * Of 13 ranks choose 1 and of 4 cards need 3, then of 12 remaining ranks choose 1 and of 4 cards we need 2
-    * Therefore, $\frac{\binom{13}{1}\binom{4}{3}*\binom{12}{1}*\binom{4}{2}}{\binom{52}{5}}$
+    * Therefore, $\frac{\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}}{\binom{52}{5}}$
+
+<br />
 
 * **Sampling Table**: choose k objects out of n
     * We want to know how many ways there are of doing this, which should be immediate from the multiplication rule
@@ -75,6 +85,9 @@ permalink: /probability
 
 
 ## 2. Story Proofs, Axioms of Probability
+
+* 
+
 
 ## 3. Birthday Problem, Properties of Probability
 
