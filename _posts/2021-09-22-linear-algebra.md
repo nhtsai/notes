@@ -22,13 +22,13 @@ permalink: /linear-algebra
 
 ## 1. The Geometry of Linear Equations
 
-### [Lecture Summary](https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/ax-b-and-the-four-subspaces/the-geometry-of-linear-equations/MIT18_06SCF11_Ses1.1sum.pdf)
+* [Lecture Summary](https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/ax-b-and-the-four-subspaces/the-geometry-of-linear-equations/MIT18_06SCF11_Ses1.1sum.pdf)
 
 The fundamental problem of linear algebra is to *solve a system of equations*. This is represented by $$A\boldsymbol{x} = \boldsymbol{b}$$.
 
 2-variable example:
 
-$$\begin{align} 2x-y &= 0 \\ -x+2y &= 3 \\ \end{align}$$
+$$\begin{aligned} 2x-y &= 0 \\ -x+2y &= 3 \\ \end{aligned}$$
 
 In the **Row Picture** method, we view the system of equations as separate lines on the xy-plane. The solution is $$(1, 2)$$, the point where the two lines intersect.
 
