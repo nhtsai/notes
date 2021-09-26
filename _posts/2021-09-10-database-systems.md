@@ -33,7 +33,7 @@ permalink: /database-systems-intro
     * Databases are the core component of most computer applications.
     * E.g. a digital music store database that keeps track of artists and albums needs to store artist biographies and albums those artists released.
 
-* **Flat File** Strawman: simplest database stored as CSV files that we manage in our own code.
+* **Flat File**: simplest database stored as CSV files that we manage in our own code.
     * Use a separate file per entity, e.g. one file for artists and one file for albums
     * The application parses each file to read/update records.
     * E.g. `Artist(name, year, country)` and `Album(name, artist, year)`
@@ -625,6 +625,242 @@ permalink: /database-systems-intro
 
 
 ## 3. Database Storage I
+
+* [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/03-storage1.pdf)
+
+* Disk-Oriented Architecture
+    * DBMS assumes primary storage location of the database is on non-volatile disk
+    * DBMS manages movement of data between *volatile* and *non-volatile* storage
+
+* Storage Hierarchy
+    * *CPU Registers > CPU Caches > DRAM > SSD > HDD > Network Storage (e.g. AWS EBS/S3)*
+    * Ordered from *faster, smaller, expensive* to *slower, larger, cheaper*
+    * **Volatile**
+        * not persistent without power, needs power to maintain memory
+        * random access: can quickly jump around randomly in memory, same performance in any order of jumping
+        * byte-addressable: can read exactly 64 bits at a location
+        * volatile is DRAM and above storages, called *memory*
+    * **Non-Volatile**
+        * persistent without power
+        * sequential access: more efficient to read contiguous blocks of storage
+            * Think of a HDD like a record player, where random access requires expensive movement of needle to another location
+        * block-addressable: need to get a whole 4KB block or page to read the desired 64 bits at a location
+        * non-volatile is SSD and below storage, called *disk*
+    * Exception: **non-volatile memory** (Intel Octane)
+        * Like DRAM in that sits in DIMM slot and is byte-addressable
+        * Like SSD in that it is persistent without power
+        * The *future* of computers!
+    * Access Times
+
+    | Access Time      | Storage          | Comparison  |
+    | ----------------:|:---------------- |:-----------:|
+    |           0.5 ns | L1 Cache Ref     | 0.5 sec     |
+    |             7 ns | L2 Cache Ref     | 7 sec       |
+    |           100 ns | DRAM             | 100 sec     |
+    |       150,000 ns | SSD              | 1.7 days    |
+    |    10,000,000 ns | HDD              | 16.5 weeks  |
+    |   ~30,000,000 ns | Network Storage  | 11.4 months |
+    | 1,000,000,000 ns | Tape Archives    | 31.7 years  |
+
+
+* System Design Goals
+    * Allow DBMS to manage databases that exceed the amount of memory available
+    * Reading/writing to disk is *expensive*, these calls must be managed carefully to avoid large stalls and performance degradation
+        *  Use concurrent queries, caching, precomputing, etc.
+
+* Disk-Oriented DBMS
+    * At the lowest layer, we have a disk that holds database files
+        * **Database file** consists of a directory and **pages**, or blocks
+    * In the next layer, we have the memory that holds the **buffer pool**, which manages movement of data between disk and memory
+    * At the highest layer, we have the **execution engine**, which executes queries
+    * Example: The execution engine needs Page 2, but it is not in memory
+        * We need to use the directory to locate Page 2
+        * Fetch Page 2 from disk
+        * The buffer pool will bring Page 2 into memory
+        * Then we return a pointer to Page 2 to the execution engine to interpret the layout of Page 2
+        * The buffer pool manager ensures the page is there while the execution engine is operating on that memory
+
+* Why not use the OS?
+    * Why does the DBMS need to 'fake' more memory than available and manage memory in this way when the OS can already do this?
+        * Similar to virtual memory, where there is a large address space (virtual) and a place for OS to bring in pages from disk (physical)
+        * The OS is already responsible for moving the files' pages in and out of memory 
+    * Under the hood, the OS uses memory mapping (**mmap**) to store contents of a file into a process' address space
+        * **mmap file**: takes a file on disk and maps the files' pages into the address space of our process
+        * Now we can read and write to those memory locations
+        * If the file is not in memory the OS, a **page fault** occurs
+        * OS needs to bring files into memory before any operations are performed
+    * *Example*
+        * We have a bunch of pages in a file on-disk, a 4-slot virtual memory page table, and 2-slot physical memory
+        * Application wants to read Page 1
+            * We look in virtual memory and see Page 1 is not backed by physical memory, get a page fault
+            * Then we fetch Page 1 from disk and back it into physical memory slot
+            * Then we update our virtual page table to point to Page 1 in physical memory
+        * Application wants to read Page 3, and the same process occurs and Page 3 is fetched into physical memory
+        * Application wants to read Page 2, but both physical memory slots are taken
+            * We need to decide which page (Page 1 or Page 3) to remove, load Page 2 into physical memory, and return a pointer in the virtual memory to the fetched data in physical memory
+            * While this is happening, the thread for Page 2 is *stalled* while the disk scheduler for the OS goes to fetch Page 2
+                * An optimized approach is to *hand off the stalled request task to another thread* to allow non-stalled tasks to continue executing without delay
+    * The OS does not understand what the DBMS wants to do; it just sees a bunch of reads and writes to pages and does not understand the high-level semantics of queries and what data queries want to read
+        * By relying on the OS, virtual memory, and mmap, we don't take advantage of our knowledge of the DBMS and *give up* control of memory management to the blind OS
+    * What if we allow multiple threads to access the mmap files to hide page fault stalls?
+        * This works good enough for *read-only access* because stalled requests that are being fetched can be passed to other threads to keep executing non-stalled requests
+        * It is complicated for *multiple writing threads* because the OS does not know that certain pages need to be flushed out to disk before other pages do
+            * The OS just writes data out to disk without knowing if it is okay or not
+    * Some solutions to issues of using mmap
+        * **madvise**: tell OS how you expect to read certain pages (sequential or random access)
+        * **mlock**: tell OS that memory ranges cannot be paged out
+        * **msync**: tell OS to flush memory ranges out to disk
+    * **mmap files** and relying on the OS for memory management sound good but will create performance bottlenecks and correctness issues
+        * None of the major databases use mmap completely
+    * DBMS (almost) always wants to control things itself and can do a better job at it
+        * knows what queries want to do and the workload
+        * flushing dirty pages to disk in correct order
+        * specialized pre-fetching
+        * buffer replacement policy
+        * thread/process scheduling
+        * OS is *not* your friend
+
+* Database Storage
+    * Problem 1: How the DBMS represents database in files on disk
+    * Problem 2: How the DBMS manages its memory and moves data back-and-forth from disk
+
+* File Storage
+    * DBMS stores database as one or more files on disk
+        * E.g. SQLite stores databases in 1 file, most other systems store in multiple files due to file-size limitations
+        * OS does not know anything about the contents of these files, but the formats of these files are typically specific to the DBMS
+    * Early systems in 1980s used custom file systems on raw storage, rather than formatting the hard drive to a common file format like NTFS
+        * Some 'enterprise' DBMSs still support this, e.g. Oracle DB2
+        * Most newer DBMSs do not do this
+
+* **Storage Manager**: responsible for maintaining a database's files on disk
+    * Some DBMS do own scheduling for reads/writes to improve spatial and temporal locality of pages, i.e. combining queries that closely-located blocks
+    * A file itself is organized as collection of pages
+        * storage manager tracks data read/written to pages
+        * storage manager tracks available space to store new data in the pages
+    * **Page**: fixed-size block of data
+        * can contain anything: tuples, meta-data, indexes, log records, ...
+        * most systems do no mix page types, e.g. a page with only tuples and a page with only index information
+        * some systems require a page to be **self-contained**, in which all the information needed to comprehend the contents of a page must be stored within the page itself
+        * *Example*: a table with 10 columns of different types
+            * Consider page's metadata about the table (schema, layout) was stored in one page and all the tuples of the table stored in another
+            * An issue arises if the metadata page is lost in a system failure, then the tuples page is difficult to comprehend or interpret
+            * By keeping metadata in each page, we trade overhead and storage for better disaster recovery
+    * Each page is given a unique identifier, generated by the DBMS
+        * The DBMS uses an **indirection layer** to map page IDs to physical location in a file at some offset
+        * We want to do this to move pages around (compacting disk, setting up another disk) and still know where pages are physically located because page IDs are unchanged
+    * 3 notions of pages in DBMS
+        * **Hardware Page** (usually 4KB): the page access level from the storage device itself, what the HDD or SSD exposes
+            * The lowest level we can do atomic writes to the storage device, usually in 4KB writes
+            * The level the device can guarantee a "failsafe write", or a write and flush to the disk is atomic
+            * Example: if we need to write 16KB and we write 8KB, crash, and write 8KB
+                * There is a "torn write" where we only see the first half but not the second half
+                * The hardware can only guarantee 4KB writes at a time
+        * **OS Page** (usually 4KB): the page access level when moving data from disk into memory
+        * **Database Page** (512B - 4KB SQLite - 8KB PostgreSQL - 16KB MySQL): the page access level the DBMS operates on
+            * Why use more than 4KB pages?
+            * Internally, we use a table to map pages to locations on disk. Using large sized pages, we can reduce that page mapping table size to represent more data with fewer page ID mappings
+            * Tradeoff is handling 4KB writes very carefully
+
+* Page Storage Architecture
+    * Different DBMSs manage pages in files on disk differently, how pages are organized within files
+        * Heap File Organization
+        * Sequential/Sorted File Organization
+        * Hashing File Organization
+    * At this lowest level of hierarchy, we don't care what data is stored in the pages (tuples, indexes, etc.)
+
+* Database Heap
+    * **Heap File**: unordered collection of pages where tuples are stored in random order
+        * Relational model does not have any order, insertion order is not guaranteed
+        * API functions: Create, Get, Write, Delete page
+        * Must support iterating over all pages for scanning entire table
+    * Metadata to keep track of what pages exist and which ones have free space for inserting new data
+    * Representations of heap files
+        * Doubly-Linked List (naive)
+
+            ![Heap File Linked List]({{ site.baseurl }}/images/cmu14-445/heapfile_linkedlist.png "heap file linked list")
+
+            * maintain a **header page** at beginning of file that stores two pointers
+                * HEAD of *free page list*, pages with available space
+                * HEAD of *data page list*, pages completely full
+            * each page keeps track of number of free slots in itself
+                * to insert new data, we look through pages in the free page list
+            * to find a particular page, we iterate over the entire data page list
+            * if the pages were sorted in a unified linked list, we would have faster page searching but need to iterate over all pages to find free space
+
+        * Page Directory (optimal)
+
+            ![Heap File Page Directory]({{ site.baseurl }}/images/cmu14-445/heapfile_pagedir.png "heap file page directory")
+
+            * maintain a **directory page** that tracks location to *data pages* in the database files, similar to a hash table
+            * directory also records number of free slots per page
+            * DBMS has to make sure that directory pages are in sync with the data pages 
+                * the directory holds metadata about the pages themselves that need to be in sync, but this cannot be guaranteed
+                * the hardware cannot guarantee (over 4KB writes) that we can write to two pages at the same time
+                * *Example*: if we deleted a bunch of data in a page and freed up space, the page directory should update the number of free slots for that page
+                * But if the system crashes before the page directory is updated, the DBMS may think the page is full when it is not
+
+* Page Layout
+    * Page Header: metadata about the page's contents
+        * Page Size, Checksum (used to determine torn writes/crashes), DBMS Version, Transaction Visibility, Compression Information
+        * Some systems require pages to be *self-contained*
+    * How do we store data within a page (assuming only storing tuples)?
+        * Tuple-Oriented
+        * Log-Structured
+    * Tuple Storage
+        * How to store tuples in a page?
+        * Simple Append: strawman idea
+            * Header keep tracks of the number of tuples in the page
+            * Append new tuples to end (determined by offset calculated from number of tuples)
+            * If we delete a tuple, there is a gap where the removed tuple was.
+            * If tuples are fixed length, we can just insert a new one in the gap, but we need to sequentially scan for gaps
+            * But if not fixed-length, then the gap may be too big or too small
+        * **Slotted Pages**: most common layout scheme
+
+            ![Page Layout Slotted Pages]({{ site.baseurl }}/images/cmu14-445/pagelayout_slottedpages.png "Slotted Pages")
+
+            * Header keeps track of number of used slots and the offset of the starting location of the last slot used
+            * Slot array maps 'slots' to the tuples' starting position offsets
+            * Tuples are stored at the end of the page, and the offset of start of the tuple is written to a slot array
+                * Tuples can be fixed or variable length
+                * The slot array grows from the beginning to end of page
+                * The tuple storage grows from end to the beginning of page
+                * Page is full when two section meet or gap too small to store anything
+            * Now we can *move tuples around the page without affecting upper levels*
+                * Locating a record (record Id) is just page ID and slot number
+                * To move a tuple, just update its slot number
+                * To delete a tuple, some systems use compaction to remove gap or some systems can mark slot value as available or some systems just append and deal with the gap later
+
+* Tuple Layout
+    * **Tuple**: essentially a sequence of bytes
+    * The DBMS needs to interpret the bytes into attribute types and values
+    * Prefixed with *header* that contains metadata
+        * visibility info (concurrency control)
+        * bitmap for `NULL` values
+    * Do not need to store metadata about tuple in itself because it is stored in the page or another structure
+        * Need to store metadata in JSON/Schema-less databases like MongoDB because every single document can be different, so you need metadata in itself.
+    * Attributes are typically stored in the order specified when the table is created
+        * Not necessary in relational model, but easier for software engineering
+
+    * Denormalized Tuple Data
+        * Can physically **denormalize** (e.g. pre-join) related tuples and store them together in the same page
+            * This is when data from different tables are stored within the same page
+            * Technically allowed, but now have to keep track of which tuple is from which table
+        * Potentially reduces amount of I/O for common workload patterns
+        * Can make updates more expensive
+        * Normalization: how we split up data across different tables
+            * Naturally happens with foreign keys
+            * Sometimes, we want embed tables inside another table to avoid joins
+            * Packing tuples inside of a tuple value
+        * Not a new idea
+            * IBM System R did this in 1970s, abandoned in DB2
+            * Several NoSQL DBMSs (CloudSpanner, MongoDB, etc.) do this without calling it physical denormalization
+
+* Conclusion
+    * Database is organized in pages.
+    * Different ways to track pages.
+    * Different ways to store pages.
+    * Different ways to store tuples.
+
 
 ## 4. Database Storage II
 
