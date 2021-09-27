@@ -777,7 +777,7 @@ permalink: /database-systems-intro
     * Representations of heap files
         * Doubly-Linked List (naive)
 
-            ![Heap File Linked List]({{ site.baseurl }}/images/cmu14-445/heapfile_linkedlist.png "heap file linked list")
+            ![Heap File Linked List]({{ site.baseurl }}/images/cmu15-445/heapfile_linkedlist.png "heap file linked list")
 
             * maintain a **header page** at beginning of file that stores two pointers
                 * HEAD of *free page list*, pages with available space
@@ -789,7 +789,7 @@ permalink: /database-systems-intro
 
         * Page Directory (optimal)
 
-            ![Heap File Page Directory]({{ site.baseurl }}/images/cmu14-445/heapfile_pagedir.png "heap file page directory")
+            ![Heap File Page Directory]({{ site.baseurl }}/images/cmu15-445/heapfile_pagedir.png "heap file page directory")
 
             * maintain a **directory page** that tracks location to *data pages* in the database files, similar to a hash table
             * directory also records number of free slots per page
@@ -816,7 +816,7 @@ permalink: /database-systems-intro
             * But if not fixed-length, then the gap may be too big or too small
         * **Slotted Pages**: most common layout scheme
 
-            ![Page Layout Slotted Pages]({{ site.baseurl }}/images/cmu14-445/pagelayout_slottedpages.png "Slotted Pages")
+            ![Page Layout Slotted Pages]({{ site.baseurl }}/images/cmu15-445/pagelayout_slottedpages.png "Slotted Pages")
 
             * Header keeps track of number of used slots and the offset of the starting location of the last slot used
             * Slot array maps 'slots' to the tuples' starting position offsets
