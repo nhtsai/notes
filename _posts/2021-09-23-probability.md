@@ -133,7 +133,7 @@ permalink: /probability
         * Can think of this as flipping a fair coin twice
 
     * Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
-        * Say $n=4,k=6$, a possible way is  $(***),(),(**),(*) \rightarrow ***| |**|*$
+        * Say $n=4,k=6$, a possible way is (\*\*\*),(),(\*\*),(\*), or \*\*\*| |\*\*|\*
         * There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$
 
     * Bose-Einstein
@@ -178,10 +178,12 @@ permalink: /probability
                     * $S_0$ must be in $S$ because $S$ represents the universe of all outcomes
             * $P(\cup_{n=1}^{\infty} A_n) = \Sigma_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
                 * Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_1,A_2,\ldots$ are disjoint/non-overlapping
-    * Everything in probability basically derives from this definition with the two constraints
+    * Everything in probability basically derives from this definition with the two **Axioms of Probability**
 
 
 ## 3. Birthday Problem, Properties of Probability
+
+*
 
 ## 4. Conditional Probability I
 

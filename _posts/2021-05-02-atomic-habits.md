@@ -58,7 +58,7 @@ permalink: /atomic-habits
 * An **atomic habit** is a little habit that is part of a larger system, building up to remarkable achievements through compound growth.
 
 
-## 2: How Your Habits Shape Your Identity
+## 2. How Your Habits Shape Your Identity
 
 * Changing habits is challenging because you try to change the wrong thing.
     * You should focus on building **identity-based habits** (3 -> 2 -> 1), rather than **outcome-based habits** (1 -> 2 -> 3).
