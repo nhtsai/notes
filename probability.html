@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      9 min read
     
 </span></p>
 
@@ -195,7 +195,7 @@ window.onload = wrap_img;
       <li>
 <strong>Event</strong>: a <em>subset</em> of the sample space</li>
       <li>
-<em>Example</em>: Rolling 2 dice has 36 total outcomes in the <em>sample space</em>, and an <em>event</em> could be the subset of all outcomes that sum up to a number</li>
+<em>Example</em>: The <em>experiment</em> of rolling 2 dice has 36 total outcomes in the <em>sample space</em>, and an <em>event</em> could be the subset of all outcomes that sum up to a number</li>
     </ul>
   </li>
   <li>
@@ -212,8 +212,8 @@ window.onload = wrap_img;
   </li>
   <li>Assumes that <em>all outcomes are equally likely</em> and a <em>finite sample space</em>
     <ul>
-      <li>If the coin was not fair, the outcomes are not equally likely</li>
-      <li>If the outcomes could be infinite, the probability definition doesn’t make sense</li>
+      <li>If the coin was not fair, the outcomes would not be equally likely</li>
+      <li>If the sample space is infinite, the probability definition doesn’t make sense</li>
     </ul>
   </li>
 </ul>
@@ -225,6 +225,7 @@ window.onload = wrap_img;
 <strong>Multiplication Rule</strong>
     <ul>
       <li>If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.</li>
+      <li>The total number of possible outcomes of a series of experiments is the <em>product of each experiment’s outcomes</em>.</li>
     </ul>
   </li>
   <li>
@@ -244,8 +245,8 @@ window.onload = wrap_img;
 <strong>Binomial Coefficient</strong>
   <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>n</mi><mi>k</mi></mfrac><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>n</mi><mo stretchy="false">!</mo></mrow><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mi>k</mi><mo stretchy="false">!</mo></mrow></mfrac><mo separator="true">,</mo><mtext>0 if k&gt;n</mtext></mrow><annotation encoding="application/x-tex">\binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k&gt;n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.20001em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7453919999999999em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.400108em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">)</span><span class="mclose mtight">!</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">!</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mclose mtight">!</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord text"><span class="mord">0 if k&gt;n</span></span></span></span></span>
     <ul>
-      <li>Pronounced “n choose k”, choosing k things of n, where order does not matter</li>
       <li>Number of subsets of size k given n elements, where order does not matter</li>
+      <li>Pronounced “n choose k”, choosing k elements of n possible elements, where order does not matter</li>
       <li>Intuition from multiplication rule
         <ul>
           <li>Choose K elements: $n(n-1)(n-2) \ldots (n-k+1)$</li>
@@ -279,11 +280,58 @@ window.onload = wrap_img;
 
 <ul>
   <li>
-<strong>Sampling Table</strong>: choose k objects out of n
+<strong>Sampling Table</strong>: choose $k$ elements out of $n$ total elements
     <ul>
       <li>We want to know how many ways there are of doing this, which should be immediate from the multiplication rule</li>
-      <li>We can choose to sample <strong>with replacement</strong> (we can choose the same element again) or <strong>without replacement</strong> (we cannot choose the same element again)</li>
+      <li>
+        <p>We can choose to sample <strong>with replacement</strong> (we can choose the same element again) or <strong>without replacement</strong> (we cannot choose the same element again)</p>
+      </li>
+      <li>With replacement, order matters
+        <ul>
+          <li>Have $k$ experiments, each with $n$ outcomes and order matters, so ${1, 2} \neq {2, 1}$</li>
+        </ul>
+      </li>
     </ul>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mn>1</mn></msub><mo>×</mo><msub><mi>n</mi><mn>2</mn></msub><mo>×</mo><mo>…</mo><mo>×</mo><msub><mi>n</mi><mi>k</mi></msub><mo>=</mo><msup><mi>n</mi><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">n_1 \times n_2 \times \ldots \times n_k = n^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8991079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991079999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span></span>
+
+    <ul>
+      <li>Without replacement, order matters
+        <ul>
+          <li>Have $k$ experiments, with $n$ outcomes without replacement and order matters, so ${1, 2} \neq {2, 1}$</li>
+        </ul>
+      </li>
+    </ul>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>×</mo><mo>…</mo><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">n \times (n-1) \times \ldots \times (n-k+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span>
+
+    <ul>
+      <li>Without replacement, order does not matter
+        <ul>
+          <li>Have $k$ experiments, with $n$ outcomes without replacement and order does not matter, so ${1, 2} = {2, 1}$</li>
+          <li>Want 1 combination of $k$ elements to represent all $k!$ permutations with the same $k$ elements, so need to divide by $k!$</li>
+          <li>Think of grouping all possible permutations with the same $k$ elements into $k!$ groups
+            <ul>
+              <li>For the $k=3$ choice $(1,2,3)$, there are $3!$ orderings that we want to group into 1 representation ${1,2,3}$</li>
+              <li>To do this grouping for all different choices, we divide by $k!$ so that we’re left with the number of unique combinations of $k=3$ elements</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>×</mo><mo>…</mo><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mrow><mi>k</mi><mo>×</mo><mo stretchy="false">(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>×</mo><mo>…</mo><mo>×</mo><mn>1</mn></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>n</mi><mo stretchy="false">!</mo></mrow><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mo>×</mo><mi>k</mi><mo stretchy="false">!</mo></mrow></mfrac><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>n</mi><mi>k</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{n \times (n-1) \times \ldots \times (n-k+1)}{k \times (k-1) \times \ldots \times 1} = \frac{n!}{(n-k)! \times k!} = \binom{n}{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.30744em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">!</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mclose">!</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1075599999999999em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
+
+    <ul>
+      <li>With replacement, order does not matter
+        <ul>
+          <li>Hardest to understand, not obvious from multiplication rule</li>
+          <li>Have $k$ experiments, with $n$ outcomes and order does not matter, so ${1, 2} = {2, 1}$</li>
+        </ul>
+      </li>
+    </ul>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>+</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">!</mo></mrow><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mo>×</mo><mi>k</mi><mo stretchy="false">!</mo></mrow></mfrac><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><mi>n</mi><mo>+</mo><mi>k</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo fence="true">)</mo></mrow><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><mi>n</mi><mo>+</mo><mi>k</mi><mo>−</mo><mn>1</mn></mrow><mi>k</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{(n+k-1)!}{(n-1)! \times k!} = \binom{n+k-1}{n-1} = \binom{n+k-1}{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">!</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">!</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714400000000002em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span><span style="top:-3.6770000000000005em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693300000000001em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.40003em;vertical-align:-0.95003em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.37144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span></span></span></span></span>
 
     <table>
       <thead>
@@ -301,8 +349,8 @@ window.onload = wrap_img;
         </tr>
         <tr>
           <td style="text-align: left">Without Replacement</td>
-          <td style="text-align: center">$(n)(n-1)\ldots(n-k+1)$</td>
-          <td style="text-align: center">$\binom{n}{k}$</td>
+          <td style="text-align: center">$nPk = \frac{n!}{(n-k)!}$</td>
+          <td style="text-align: center">$\binom{n}{k} = \frac{n!}{(n-k)!k!}$</td>
         </tr>
       </tbody>
     </table>
@@ -313,7 +361,160 @@ window.onload = wrap_img;
 <a class="anchor" href="#2-story-proofs-axioms-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Story Proofs, Axioms of Probability</h2>
 
 <ul>
+  <li>General Advice for Homework
+    <ul>
+      <li>Don’t lose common sense</li>
+      <li>Do check answers, especially by doing simple and extreme cases</li>
+      <li>Label people, objects, etc. (If we have n people, label them 1, 2, …, n)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Pick k times from a set of n objects, where order does not matter and with replacement
+    <ul>
+      <li>Prove the answer is $\binom{n+k-1}{k}$ ways</li>
+      <li>
+<em>Example</em>: $k=0, \binom{n-1}{0} = 1$
+        <ul>
+          <li>Only 1 way to choose 0 elements from n-1 elements, choose none!</li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>: $k=1, \binom{n}{1} = n$
+        <ul>
+          <li>When only picking 1 element, no difference if with/without replacement or if order matters or does not matter</li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>: $n=2, \binom{k+1}{k} = \binom{k+1}{1} = k+1$
+        <ul>
+          <li>They are equal because: If we choose $k$ of $k+1$ elements, then the remaining is the 1. If we choose 1, then the remaining is the $k+1$</li>
+          <li>Choosing k elements from 2 total elements with replacement and order doesn’t matter
+            <ul>
+              <li>If we get the first element $x$ times, we know we got the second element $k-x$ times</li>
+              <li>Number of possible first elements we get is from ${0, \ldots, k}$ , so there are $k+1$ possibilities of choosing $k$ from $n=2$ elements</li>
+            </ul>
+          </li>
+          <li>Can think of this as flipping a fair coin twice</li>
+        </ul>
+      </li>
+      <li>Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
+        <ul>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Say $n=4,k=6$, a possible way is  $(<em><strong>),(),(</strong>),(</em>) \rightarrow ***</td>
+                  <td> </td>
+                  <td>**</td>
+                  <td>*$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$</li>
+        </ul>
+      </li>
+      <li>Bose-Einstein
+        <ul>
+          <li>Bose said flipping a fair coin twice had 3 equally likely outcomes ${HH, TT, 1H+1T}$</li>
+          <li>Bose thought of the two coin flips as indistinguishable, rather than ${HT, TH}$</li>
+          <li>Thinking of coins as indistinguishable led to the discovery Bose-Einstein condensate</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
   <li>
+<strong>Story Proof</strong>: proof by interpretation, rather than by algebra or calculus
+    <ul>
+      <li>
+<em>Example</em>: $\binom{n}{k} = \binom{n}{n-k}$
+        <ul>
+          <li>Think about what this means in terms of choosing k elements rather than calculating factorials</li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>: $n \binom{n-1}{k-1} = k \binom{n}{k}$
+        <ul>
+          <li>Imagine we pick k of n people, with one of them designated as the president</li>
+          <li>How many ways can we do this?</li>
+          <li>Approach 1: choose the president, then choose k-1 of n-1 people to form the rest of the group (left side)</li>
+          <li>Approach 2: choose $k$ of $n$ people, then select $1$ of the $k$ people to be the president (right side)</li>
+          <li>Both approaches count the same thing in different ways</li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>: $\binom{m+n}{k}=\Sigma_{j=0}^{k}\binom{m}{j}\binom{n}{k-j}$ (Vandermonde’s Identity)
+        <ul>
+          <li>Imagine a group of $m$ people and a group of $n$ people, and we want to select $k$ people total from both groups</li>
+          <li>One way is we choose $j$ from group $m$ and $k-j$ from group $n$</li>
+          <li>How many ways are there to choose $j$ from group $m$ and $k-j$ from group $n$?
+            <ul>
+              <li>$\binom{m}{j}\binom{n}{k-j}$ ways, using multiplication rule to get total number of ways for this $j$</li>
+            </ul>
+          </li>
+          <li>Then, we add those disjoint cases up to get the total number of ways!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>
+<strong>Non-Naive Definition of Probability</strong>
+    <ul>
+      <li>
+<strong>Probability Space</strong>: $S$ and $P$, where
+        <ul>
+          <li>S is sample space, or the set of all possible outcomes of an experiment</li>
+          <li>P is a function that maps
+            <ul>
+              <li>Input (Domain): any event A, which is a subset $A \subseteq S$</li>
+              <li>Output (Range): $P(A) \in [0,1]$ a number between 0 and 1</li>
+            </ul>
+          </li>
+          <li>such that
+            <ul>
+              <li>$P(\emptyset)=0, P(S)=1$
+                <ul>
+                  <li>Probability of empty set is 0 and probability of full set is 1</li>
+                  <li>What does it mean for the empty set to occur?
+                    <ul>
+                      <li>If we get an outcome $S_0$ , if $S_0 \in A$, then we say A occurred, else $A$ did not occur</li>
+                      <li>If the empty set occurred, then $S_0 \in \emptyset$ , but nothing is in the empty set, so it cannot occur.</li>
+                      <li>We want impossible events to be impossible $P(\emptyset) = 0$</li>
+                    </ul>
+                  </li>
+                  <li>Why is an outcome in S a certainty?
+                    <ul>
+                      <li>$S_0$ must be in $S$ because $S$ represents the universe of all outcomes</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>$P(\cup_{n=1}^{\infty} A_n) = \Sigma_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
+                <ul>
+                  <li>Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_1,A_2,\ldots$ are disjoint/non-overlapping</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Everything in probability basically derives from this definition with the two constraints</li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="3-birthday-problem-properties-of-probability">
