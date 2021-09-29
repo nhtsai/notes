@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      9 min read
+      15 min read
     
 </span></p>
 
@@ -403,18 +403,8 @@ window.onload = wrap_img;
       </li>
       <li>Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
         <ul>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Say $n=4,k=6$, a possible way is (***),(),(**),(*), or ***</td>
-                  <td> </td>
-                  <td>**</td>
-                  <td>*</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>Say $n=4,k=6$, a possible way is <code class="language-plaintext highlighter-rouge">(***),(),(**),(*)</code> , or <code class="language-plaintext highlighter-rouge">***| |**|*</code>
+</li>
           <li>There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$</li>
         </ul>
       </li>
@@ -452,7 +442,7 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>
-<em>Example</em>: $\binom{m+n}{k}=\Sigma_{j=0}^{k}\binom{m}{j}\binom{n}{k-j}$ (Vandermonde’s Identity)
+<em>Example</em>: $\binom{m+n}{k}=\sum_{j=0}^{k}\binom{m}{j}\binom{n}{k-j}$ (Vandermonde’s Identity)
         <ul>
           <li>Imagine a group of $m$ people and a group of $n$ people, and we want to select $k$ people total from both groups</li>
           <li>One way is we choose $j$ from group $m$ and $k-j$ from group $n$</li>
@@ -503,7 +493,7 @@ window.onload = wrap_img;
                   </li>
                 </ul>
               </li>
-              <li>$P(\cup_{n=1}^{\infty} A_n) = \Sigma_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
+              <li>$P(\cup_{n=1}^{\infty} A_n) = \sum_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
                 <ul>
                   <li>Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_1,A_2,\ldots$ are disjoint/non-overlapping</li>
                 </ul>
@@ -521,10 +511,239 @@ window.onload = wrap_img;
 <h2 id="3-birthday-problem-properties-of-probability">
 <a class="anchor" href="#3-birthday-problem-properties-of-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Birthday Problem, Properties of Probability</h2>
 
-<p>*</p>
+<ul>
+  <li>
+<a href="https://en.wikipedia.org/wiki/Birthday_problem">Birthday Problem</a>
+    <ul>
+      <li>In a group of people, how likely is it that at least one pair of people share the same birthday?</li>
+      <li>How many people do you need for a 50% chance two people have the same birthday?
+        <ul>
+          <li>$K$ people, find probability that 2 have the same birthday</li>
+          <li>Exclude Feb 29, assume other 365 days are equally likely (use naive definition of probability)</li>
+          <li>Assume independence of births, one person’s birthday has no effect on another person’s birthday</li>
+        </ul>
+      </li>
+      <li>
+<strong>Pigeonhole Principle</strong>: If there are more people than days in a year, then the probability two people share the same birthday is certain
+        <ul>
+          <li>If $K &gt; 365$, then probability is $1$</li>
+          <li>Imagine 365 boxes, if there are more than 365 dots, at least one box must have more than one dot</li>
+        </ul>
+      </li>
+      <li>Intuition says if probability of 1 for &gt; 365 people, then to get probability of 0.5, we need around 180 people.
+        <ul>
+          <li>The answer is 23 people for 50.7% chance two people share the same birthday</li>
+        </ul>
+      </li>
+      <li>Let $K &lt;= 365$</li>
+      <li>Probability of no match (0 pairs share a birthday)
+        <ul>
+          <li>Each of K persons has $\frac{1}{365}$ chance of a particular birthday</li>
+          <li>If no matches, every person must have a different birthday (no replacement)</li>
+          <li>$P(\text{no match}) = \frac{365 \times 364 \times \ldots \times (365 - K + 1)}{365^K}$</li>
+        </ul>
+      </li>
+      <li>Probability of match (at least 1 pair shares a birthday)
+        <ul>
+          <li>Complement: $P(\geq 1 \text{ match}) = 1 - P(\text{no match})$</li>
+          <li>If $K=23$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^23} = 1 - 0.492703 = 0.507297 = 50.7\%$</li>
+          <li>If $K=50$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 316}{365^50} = 97\%$</li>
+          <li>If $K=100$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^100} = &gt; 99.999\%$</li>
+        </ul>
+      </li>
+      <li>How could we get a birthday match with such low number of people?
+        <ul>
+          <li>The more relevant quantity is the number of pairs in K people
+            <ul>
+              <li>$\binom{K}{2} = \frac{K(K-1)}{2}$</li>
+              <li>For $K=23$, $\binom{23}{2} = \frac{23 * 22}{2} = 23 * 11 = 253 \text{ pairs}$</li>
+              <li>253 is a lot of pairs, and any one of those pairs may share a birthday</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>If we then consider what K to have 50% chance of finding a pair with same birthday or off by 1 day, the answer is $K=14$
+        <ul>
+          <li>With 14 people, there is a better than 50% chance to find a pair of people with the same birthday or off by 1 day</li>
+          <li>More complicated problem to calculate</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
-<h2 id="4-conditional-probability-i">
+<p><br></p>
+
+<ul>
+  <li>Axioms of Probability
+    <ol>
+      <li>$P(\emptyset) = 0, P(S) = 1$
+        <ul>
+          <li>Probability of empty set is 0 (impossible)</li>
+          <li>Probability of full sample space is 1 (certain)</li>
+        </ul>
+      </li>
+      <li>$P(\cup^{\infty}<em>{n=1}A_n) = \sum^{\infty}</em>{n=1} P(A_n)$
+        <ul>
+          <li>If $A_1, A2, \ldots \text{ are disjoint events}$</li>
+          <li>Probability of the union (infinite or finite) equals the sum of probabilities of all events if events are disjoint.</li>
+          <li>Think of probabilities as disjoint sets, union of sets is same as adding the sets up
+        * Assume $0 \leq P(A) \leq 1$ , probability is between 0 and 1
+        * As long as a thing satisfies both axioms, we can apply any theorems of probability to the thing.
+        * From these 2 axioms, we can derive every theorem of probability.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Properties of Probability (naive and non-naive)
+    <ol>
+      <li>$P(A^C) = 1 - P(A)$
+        <ul>
+          <li>Probability of complement of A is 1 minus probability of A</li>
+          <li>Proof:
+            <ul>
+              <li>$1 = P(S) = P(A \cup A^C)$</li>
+              <li>$1 = P(A) + P(A^C)$ , since $A \cap A^C = \emptyset$
+                <ul>
+                  <li>A and its complement are disjoint, nothing can be in both by definition</li>
+                </ul>
+              </li>
+              <li>Therefore, $P(A^C) = 1 - P(A)$</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>If $A \in B$ , then $P(A) \leq P(B)$
+        <ul>
+          <li>A and B are events, A is <em>in</em> B, “if A occurs then B occurs”</li>
+          <li>Proof:
+            <ul>
+              <li>$B = A \cup (B \cap A^C)$ , where $A, (B \cap A^C)$ are disjoint
+                <ul>
+                  <li>B is made of of A and everything in B that’s not in A</li>
+                </ul>
+              </li>
+              <li>$P(B) = P(A) + P(B \cap A^C) \geq P(A)$
+                <ul>
+                  <li>From axiom #2, adding some non-negative probability so must be $\geq$</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+        <ul>
+          <li>To get a probability of A union B, we can sum probabilities if A and B are disjoint.</li>
+          <li>Otherwise, if we add non-disjoint events A and B, we double count the overlapping intersection</li>
+          <li>Simple case of <strong>inclusion-exclusion</strong> with 2 events</li>
+          <li>Proof:
+            <ul>
+              <li>
+<em>Technique</em>: “disjointification” of A and B so that we can apply axiom #2</li>
+              <li>$P(A \cup B) = P(A \cup (B \cap A^C))$
+                <ul>
+                  <li>Union of A and B equals union of A and everything in B that’s not in A</li>
+                </ul>
+              </li>
+              <li>$P(A \cup B) = P(A) + P(B \cap A^C)$
+                <ul>
+                  <li>Since $A, (B \cap A^C)$ are disjoint and we can apply axiom #2</li>
+                </ul>
+              </li>
+              <li>
+<em>Technique</em>: “wishful thinking” to see if two sides are equal</li>
+              <li>$P(A) + P(B) - P(A \cap B) \eqsim P(A) + P(B \cap A^C)$</li>
+              <li>$P(B) \eqsim P(A \cap B) + P(B \cap A^C)$
+                <ul>
+                  <li>$A \cap B, A^C \cap B$ are disjoint because no elements can be in both $A, A^C$</li>
+                  <li>Using axiom #2, $P(B) = P((A \cap B) \cup (B \cap A^C))$</li>
+                  <li>B is equal to the part of B in A and part of B not in A</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>General Inclusion-Exclusion
+    <ul>
+      <li>Finds the probability of a union</li>
+      <li>Inclusion-Exclusion for 3 events
+        <ul>
+          <li>$P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$</li>
+          <li>Add all 3 events, subtract the intersections of pairs, then add the intersection of all</li>
+        </ul>
+      </li>
+      <li>Inclusion-Exclusion for N events
+        <ul>
+          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = \sum^{N}<em>{j=1} P(A_j) - \sum^{N}</em>{i \lt j} P(A_i \cap A_j) + \sum^{N}_{i \lt j \lt k} P(A_i \cap A_j \cap A_k) - \ldots + (-1)^{N+1} \times P(A_1 \cap A_2 \cap \ldots \cap A_N)$</li>
+        </ul>
+      </li>
+      <li>Alternate including and excluding portions</li>
+    </ul>
+  </li>
+  <li>de Montmort’s Problem (1713) / Matching Problem
+    <ul>
+      <li>Originated from gambling problems</li>
+      <li>Imagine $N$ cards, labeled from 1 to N</li>
+      <li>Shuffle the cards</li>
+      <li>Flip over the cards while counting from 1 to N</li>
+      <li>If the count <em>matches</em> the flipped card’s number, then win</li>
+      <li>What’s the probability that one card has the same number as its position in the deck?</li>
+      <li>Let $A_j$ be the event “jth card matches”</li>
+      <li>$P(\geq 1 \text{ match}) = P(A_1 \cup A_2 \cup \ldots \cup A_N)$</li>
+      <li>$P(A_j) = \frac{1}{N}$
+        <ul>
+          <li>Probability that card’s number matches position is 1 over N since all positions are equally likely for the card labeled j</li>
+          <li>Naive definition uses $\frac{(N-1)!}{N!} = \frac{1}{N}$
+            <ul>
+              <li>$N!$ possible permutations of deck of cards</li>
+              <li>$(N-1)!$ possible permutations of the deck of cards, fixing card labeled j is at jth position</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>$P(A_1 \cap A_2) = \frac{(N-2)!}{N!} = \frac{1}{N(N-1)}$
+        <ul>
+          <li>$N!$ possible permutations of deck of cards</li>
+          <li>$(N-2)!$ possible permutations of the deck of cards, fixing card labeled i at ith position and card labeled j at jth position</li>
+        </ul>
+      </li>
+      <li>$P(A_1 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+        <ul>
+          <li>$N!$ possible permutations of deck of cards</li>
+          <li>$(N-K)!$ possible permutations of the deck of cards, fixing $K$ cards at their corresponding positions</li>
+        </ul>
+      </li>
+      <li>
+<em>Technique</em>: Apply Inclusion-Exclusion
+        <ul>
+          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$</li>
+          <li>Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add …, subtract</li>
+          <li>Everything cancels!</li>
+          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$</li>
+          <li>This is the Taylor series for $e^x$ .</li>
+          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$
+            <h2 id="4-conditional-probability-i">
 <a class="anchor" href="#4-conditional-probability-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Conditional Probability I</h2>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="5-conditional-probability-ii-law-of-total-probability">
 <a class="anchor" href="#5-conditional-probability-ii-law-of-total-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Conditional Probability II, Law of Total Probability</h2>
