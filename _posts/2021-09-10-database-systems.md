@@ -107,6 +107,8 @@ permalink: /database-systems-intro
     * **Non-Procedural/Declarative**: the query specifies only what data is wanted and not how to find it, so the DBMS needs to come up with a strategy.
         * E.g. relational calculus
 
+<br />
+
 * **Relational Algebra**: procedural language proposed by Ted Codd for querying relational data models.
     * Fundamental operations, based on set algebra, to retrieve and manipulate tuples in a relation.
     * Each operator takes one or more relations as its inputs and outputs a new relation
@@ -210,6 +212,7 @@ permalink: /database-systems-intro
         * If we want to define order or ensure no duplicates, the DBMS needs to do extra work to provide this.
             * The database will ignore these requests, making queries more efficient.
 
+<br />
 
 * Example Database
     * `Student(sid, name, login, gpa)`
@@ -296,6 +299,8 @@ permalink: /database-systems-intro
 
             * While counting the number of students for a course, if more than 10 students, DBMS can stop counting early for that course.
 
+<br />
+
 * Strings
     * Standard says all string fields are case-sensitive and declared with only single quotes.
     * Exceptions
@@ -330,6 +335,7 @@ permalink: /database-systems-intro
         * Standard says to use `||` operator to concatenate 2+ strings together
         * Exceptions: MSSQL use `+`, MySQL use `CONCAT()`
 
+<br />
 
 * Date/Time Operations
     * Manipulate and modify `DATE`/`TIME` attributes, can be used in either output or predicates
@@ -369,6 +375,8 @@ permalink: /database-systems-intro
 
     * Simple things are difficult to do.
 
+<br />
+
 * **Output Redirection**: store query results in another table
     * What if we want to use query results in subsequent queries?
     * We can redirect query results into a new table.
@@ -398,6 +406,8 @@ permalink: /database-systems-intro
     );
     ```
 
+<br />
+
 * **Output Control**
     * `ORDER BY`: order output tuples by values in one or more of their columns
         * Use `ORDER BY <col> [ASC|DESC]`, default is ascending order
@@ -422,6 +432,8 @@ permalink: /database-systems-intro
     FROM Student
     LIMIT 20 OFFSET 10
     ```
+
+<br />
 
 * Nested Queries: queries containing other queries, difficult to optimize
     * Inner queries can appear (almost) anywhere in a query
@@ -517,6 +529,8 @@ permalink: /database-systems-intro
     )
     ```
 
+<br />
+
 * Window Functions
     * Performs a calculation across a set of tuple that relate to a single row
     * Like an aggregation, but tuples are not grouped into single output tuples
@@ -568,6 +582,8 @@ permalink: /database-systems-intro
     ) AS ranking
     WHERE ranking.rank = 1
     ```
+
+<br />
 
 * Common Table Expressions (CTE)
     * Provides a way to write auxiliary statements for use in a larger query
@@ -662,6 +678,7 @@ permalink: /database-systems-intro
     |   ~30,000,000 ns | Network Storage  | 11.4 months |
     | 1,000,000,000 ns | Tape Archives    | 31.7 years  |
 
+<br />
 
 * System Design Goals
     * Allow DBMS to manage databases that exceed the amount of memory available
@@ -720,6 +737,8 @@ permalink: /database-systems-intro
         * thread/process scheduling
         * OS is *not* your friend
 
+<br />
+
 * Database Storage
     * Problem 1: How the DBMS represents database in files on disk
     * Problem 2: How the DBMS manages its memory and moves data back-and-forth from disk
@@ -761,6 +780,8 @@ permalink: /database-systems-intro
             * Internally, we use a table to map pages to locations on disk. Using large sized pages, we can reduce that page mapping table size to represent more data with fewer page ID mappings
             * Tradeoff is handling 4KB writes very carefully
 
+<br />
+
 * Page Storage Architecture
     * Different DBMSs manage pages in files on disk differently, how pages are organized within files
         * Heap File Organization
@@ -777,7 +798,7 @@ permalink: /database-systems-intro
     * Representations of heap files
         * Doubly-Linked List (naive)
 
-            ![Heap File Linked List]({{ site.baseurl }}/images/cmu15-445/heapfile_linkedlist.png "heap file linked list")
+            ![Heap File Linked List]({{ site.baseurl }}/images/cmu15-445/heapfile_linkedlist.png "Heap File Linked List")
 
             * maintain a **header page** at beginning of file that stores two pointers
                 * HEAD of *free page list*, pages with available space
@@ -789,7 +810,7 @@ permalink: /database-systems-intro
 
         * Page Directory (optimal)
 
-            ![Heap File Page Directory]({{ site.baseurl }}/images/cmu15-445/heapfile_pagedir.png "heap file page directory")
+            ![Heap File Page Directory]({{ site.baseurl }}/images/cmu15-445/heapfile_pagedir.png "Heap File Page Directory")
 
             * maintain a **directory page** that tracks location to *data pages* in the database files, similar to a hash table
             * directory also records number of free slots per page
@@ -798,6 +819,8 @@ permalink: /database-systems-intro
                 * the hardware cannot guarantee (over 4KB writes) that we can write to two pages at the same time
                 * *Example*: if we deleted a bunch of data in a page and freed up space, the page directory should update the number of free slots for that page
                 * But if the system crashes before the page directory is updated, the DBMS may think the page is full when it is not
+
+<br />
 
 * Page Layout
     * Page Header: metadata about the page's contents
@@ -816,7 +839,7 @@ permalink: /database-systems-intro
             * But if not fixed-length, then the gap may be too big or too small
         * **Slotted Pages**: most common layout scheme
 
-            ![Page Layout Slotted Pages]({{ site.baseurl }}/images/cmu15-445/pagelayout_slottedpages.png "Slotted Pages")
+            ![Slotted Pages]({{ site.baseurl }}/images/cmu15-445/pagelayout_slottedpages.png "Slotted Pages")
 
             * Header keeps track of number of used slots and the offset of the starting location of the last slot used
             * Slot array maps 'slots' to the tuples' starting position offsets
@@ -863,6 +886,304 @@ permalink: /database-systems-intro
 
 
 ## 4. Database Storage II
+
+* [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/04-storage2.pdf)
+
+* **Log-Structured File Organization**
+
+    ![Log-Structured File Organization]({{ site.baseurl }}/images/cmu15-445/log_structure_fileorg.png "Log-Structured File Organization")
+
+    * Instead of storing tuples in pages (*slotted pages*), DBMS only stores **log records**, or records of how the database was modified
+        * Insert, store entire tuple
+        * Delete, mark tuple as deleted
+        * Update, record delta of the just the modified attributes
+    * Advantages
+        * *Fast writes*, sequential read/write is faster than random access on disk storage
+            * In slotted pages, if we want to update 10 tuples all in different pages, then we need make and write changes at 10 separate, slotted pages
+            * In log records, if we want to update 10 tuples, we just sequentially append the log records to a single page and write it out to disk.
+        * Rollback capability, can revert changes to tuples
+    * Disadvantages
+        * Reading tuples: DBMS scans the log backwards and recreates the tuple to find what it needs
+            * Can build indexes to allow jumping to particular locations in the log that reference the tuple needed
+            * Can periodically compact logs back into tuples 
+    * Seen in: Apache HBase, Cassandra, LevelDB, RocksDB
+
+<br />
+
+* Data Representation
+    * **Tuple**: a sequence of bytes that the DBMS interprets into attribute types and values
+        * Tuple layout determined by table schema
+    * For most DBMS, we represent data similar to C++ standards
+        * Integer/BigInt/SmallInt/TinyInt (C/C++/IEEE-754 standard)
+        * Float/Real vs. Numeric/Decimal (IEEE-754 standard vs. fixed-point decimals)
+        * Varchar/Varbinary/Text/Blob (header with length, followed by data bytes)
+        * Time/Date/Timestamp (32/64-bit integer of (micro)seconds since Unix epoch)
+
+* **Variable Precision Numbers**
+    * Inexact, variable-precision numeric type that uses native C/C++ types
+    * Stored directly as specified by IEEE-754 standard
+    * E.g. `float`, `real`, `double`
+    * Typically *faster* than (fixed point) arbitrary precision numbers because CPU has instructions to operate on these types, but can have *rounding errors* because no exact way to store decimals
+        * One CPU instruction to add floating point numbers
+        * Already built in functionality of underlying language
+
+    * Rounding Example
+        * Looks equal on the surface, but expanding precision shows inexactness of storing floating point numbers
+
+    ```cpp
+    #include <stdio.h>
+    int main(int argc, char* argv[]) {
+        float x = 0.1;
+        float y = 0.2;
+        printf("x+y = %.20f\n", x+y); // 0.3000...1192
+        printf("0.3 = %.20f\n", 0.3); // 0.2999...8850
+    }
+    ```
+
+* **Fixed Precision Numbers**
+    * Numeric data types with arbitrary precision and scale
+    * Used when round errors and inexactness are unacceptable
+    * E.g. `numeric`, `decimal`
+    * Typically stored in an exact, variable-length binary representation with additional meta-data (num digits, weight of first digit, scale factor, sign, digits)
+        * Like a `varchar` but not stored as a string
+    * Operations with fixed precision numbers are *slower* because of the extra calculations for the exact rounding
+        * Large switch statement function to add fixed precision numbers with exact rounding
+        * Need to implement this in DBMS ourselves
+
+<br />
+
+* Storing Large Values Internally
+
+    ![Large Value Internal Storage]({{ site.baseurl }}/images/cmu15-445/largevalue_internal.png "Large Value Internal Storage")
+
+    * What happens when the value we want to store doesn't fit in a single page?
+        * The page size is set when the DBMS is started, usually 4KB.
+    * To internally store values larger than a page, use **overflow storage pages**.
+        * The tuple attribute's value is now a pointer to an overflow page using a record ID (page number + offset)
+        * If the value still doesn't fit the overflow page, point to another overflow page
+        * When we want to get the value, we chain the overflow pages to get all the data
+    * Most DBMS do not allow a tuple to exceed the size of a single page, other DBMS have overflow pages
+        * Postgres: TOAST (overflow if value > 2KB)
+        * MySQL: Overflow (overflow if value > 0.5 size of page)
+        * SQL Server: Overflow (overflow if value > size of page)
+    * We want to use overflow pages because we get all the protections of regular data
+        * If we crash when writing to overflow pages, we want to recover in the same way
+
+* Storing Large Values Externally
+
+    ![Large Value External Storage]({{ site.baseurl }}/images/cmu15-445/largevalue_external.png "Large Value External Storage")
+
+    * Some systems allow you to store really large value in an external file
+        * Treated as `BLOB` type, binary large object, variable length binary large data
+        * Oracle: `BFILE` data type
+        * Microsoft: `FILESTREAM` data type
+    * To externally store values larger than a page, use a file pointer
+        * The tuple attribute's value is now a pointer or filepath to some external storage device where the data can be found
+    * DBMS *cannot manipulate* the contents of the external file, read only.
+        * No durability protections
+        * No transaction protections
+    * Commonly used for storing videos or images
+    * *"To BLOB or Not to BLOB"* paper from Microsoft says any values <= 256KB store as overflow page, else store in external file storage
+    * SQLite inventor says to store thumbnail images up to 1MB internally is faster for phones and smaller devices because the internal file is already open, rather than following a filepath to open an external.
+
+<br />
+
+* System Catalogs
+    * DBMS stores metadata about the databases in its internal catalogs
+        * Tables, columns, indexes, views
+        * Users, permissions, security
+        * Internal statistics (number of values, distribution of values)
+        * Should not use external information that is outside of DBMS control
+    * Almost every DBMS stores their catalog inside itself as another table
+        * Wrap object abstraction around tuples
+            * Some kind of code to access catalogs directly, otherwise we need to query a table to find its name (which we don't know unless we query it!)
+        * Specialized code for "bootstrapping" catalog tables
+    * Can query the DBMS internal `INFORMATION_SCHEMA` catalog to get info about the database
+        * ANSI standard specifies `INFORMATION_SCHEMA`, a set of read-only views that provide info about all of the tables, views, columns, and procedures in a database
+    * DBMS also have non-standard shortcuts to retrieve this information
+        * Essentially converts shortcut into ANSI standard
+        * *Example*: List all tables in current database.
+
+        ```sql
+        -- ANSI/SQL-92
+        SELECT *
+        FROM INFORMATION_SCHEMA.TABLES
+        WHERE table_catalog = '<db name>';
+
+        -- PostgreSQL
+        \d;
+
+        -- MySQL
+        SHOW TABLES;
+
+        -- SQLITE
+        .tables;
+        ```
+
+        * *Example*: Get schema for the *student* table.
+
+        ```sql
+        -- ANSI/SQL-92
+        SELECT *
+        FROM INFORMATION_SCHEMA.TABLES
+        WHERE table_name = 'student';
+
+        -- PostgreSQL
+        \d student;
+
+        -- MySQL
+        DESCRIBE student;
+
+        -- SQLITE
+        .schema student;
+        ```
+
+    * *Main Point*: Internal catalog about database schema is used in querying and other operations
+        * Easiest way to implement type system is using a switch statement to handle each type for every tuple
+        * More optimized way is to use just-in-time compilation on the fly
+
+<br />
+
+![Workload Complexity Graph]({{ site.baseurl }}/images/cmu15-445/workload_complexity.png "Workload Complexity Graph")
+
+* Different Workloads
+    * The relational model does *not* specify that we have to store all of a tuple's attributes together in a single page
+        * This may *not* actually be the best layout for some workloads
+    * *Example*: Wikipedia is an OLTP workload application
+        * `users(userID, userName)`
+        * `pages(pageID, title, latest, revID)`
+        * `revisions(revID, userID, pageID, content, updated)`
+
+* **On-line Transaction Processing (OLTP)**
+    * Simple queries read/write a small amount of data that is related to a single entity in the database
+    * Ingest new data from outside world and put into database system
+        * Only read a small amount of data, over and over again
+    * Typical database built first for new applications, websites, etc.
+    * Typical of Traditional NoSQL DBMS: MongoDB, Cassandra, Redis, BigTable
+        * Focused on ingesting new data, rather than analytics
+    * *Example*: Amazon.com storefront
+        * Operations: adding stuff to cart, making purchases, updating account information
+        * Not updating a lot of data, just your cart or account information
+        * Queries just modify a small part of the database
+    * *Example*: Wikipedia
+        * Operations: get current revision of a page, update user login time, add a revision to a page
+
+* **On-line Analytical Processing (OLAP)**
+    * Complex queries that read large portions of database spanning multiple entities
+        * Typically read-only, join queries on lots of data
+    * Typical of Column-store DBMS or NewSQL DBMS or Big Data: Hadoop
+        * Focused on efficient analytics, fast transaction processing without giving up joins like NoSQL DBMS
+    * When you already collected a lot of data from OLTP applications and want to execute workloads on that data to *analyze and extrapolate new information*
+    * *Example*: Wikipedia
+        * Count the number of .gov user accounts that have logged in per month
+
+* **Hyper Transaction Analytical Processing (HTAP)**
+    * When you want to ingest new data and analyze it as it comes in
+    * Commonly used in decision making on-the-fly
+        * Internet advertising companies adapting while users are browsing websites
+
+<br />
+
+* N-ary Storage Model (NSM)/Row Storage Model
+
+    ![NSM Diagram]({{ site.baseurl }}/images/cmu15-445/nsm_diagram.png "NSM Diagram")
+
+    * The DBMS can store tuples in different ways depending on what is better for the OLTP or OLAP workloads
+        * So far, we have assumed n-ary storage model, or row storage, of tuples.
+    * **N-ary Storage Model (NSM)**: DBMS stores all attributes for a single tuple continuously in a page, row store
+    * Ideal for OLTP workloads where queries tend to operate only on an individual entity
+        * Accessing small amounts of data relating to a single entity, e.g. user data, is better when the entity's attributes are stored together (in a row)
+    * Ideal for insert-heavy workloads
+        * Inserting small amounts of related data in a row is more efficient because writing a row of data into a free slot and flush out in one disk write
+    * *Example*: Accessing all account information given username and password
+        * User data is stored as rows in a single tuple continuously in a page
+        * Query uses username and password to lookup in an index
+        * Index tells what page and slot number where the tuple can be found
+        * Perform one-read, one-seek to bring the page into memory
+        * Jump to location in page where tuple can be found and return result
+    * Where is row-storage a bad idea?
+
+        ![NSM Example]({{ site.baseurl }}/images/cmu15-445/nsm_example.png "NSM Example")
+
+
+        * *Example*: Count the number of .gov user accounts that have logged in per month
+            * Need to sequentially scan whole user account table, looking for .gov hostnames
+            * Want to first look at `hostname` attribute of all users, going through each row of each page
+            * Want to group accounts by `lastLogin` month of all users
+            * Because disk is *block-addressable*, we can't just bring in the two columns we need; we need to bring the entire page to memory
+                * Need to bring into memory all user attributes (`userID`, `username`, `password`, `hostname`, `lastLogin`) despite only needing `hostname` and `lastLogin`, 3 columns unneeded
+            * Row-storage model is inefficient when analyzing data from disk that doesn't need all of the attributes
+    * Advantages
+        * Fast inserts, updates, and deletes
+        * Good for queries that need all of the tuple's attributes
+    * Disadvantages
+        * Bad for scanning large portions of the table
+        * Bad for queries that only need a subset of the tuple's attributes
+
+<br />
+
+* Decomposition Storage Model (DSM)/Column Storage Model
+
+    ![DSM Diagram]({{ site.baseurl }}/images/cmu15-445/dsm_diagram.png "DSM Diagram")
+
+    * **Decomposition Storage Model (DSM)**: DBMS stores values of a single attribute for all tuples contiguously in a page, column store
+    * Ideal for OLAP workloads where read-only queries perform large scans over a subset of the table's attributes
+        * Only need to load into memory the pages of the attribute(s) that are needed
+    * *Example*: Count the number of .gov user accounts that have logged in per month
+
+        ![DSM Example]({{ site.baseurl }}/images/cmu15-445/dsm_example.png "DSM Example")
+
+        * User data is stored as separate pages of attributes, so we only need to bring the `hostname` pages and `lastLogin` pages into memory
+            * Instead of scanning all user pages just for two attributes
+        * Go through the `hostname` pages to look for .gov hostnames
+        * From the matching tuples, jump to relevant locations in the `lastLogin` pages
+        * Process the data needed and return result
+    * Because we are storing attributes of the same type together, we can now apply compression techniques
+        * *Example*: instead of storing all temperatures, store a base temperature value and a series of deltas
+        * More efficient: with every page fetch we can get more compressed tuples compared to uncompressed tuples
+        * Some systems can operate on compressed tuples without needing to un-compress
+
+    * Tuple Identification
+
+        ![Tuple Identification]({{ site.baseurl }}/images/cmu15-445/tuple_identification.png "Tuple Identification")
+
+        * After finding the tuples with .gov in `hostname` pages, how do we match to the tuples in `lastLogin` pages?
+        * Most Common Choice: **Fixed-Length Offsets**
+            * Each value in an attribute/column is a fixed-length.
+                * E.g. every integer is 32-bits
+            * To find the same tuple in two different pages, we take the index and multiply by the fixed-length size of the attribute to get the offset or page ID (record ID + offset)
+        * Alternative Choice: **Embedded Tuple IDs**
+            * Each value is stored with its tuple ID in a column
+            * To find the same tuple in two different pages, we just look up the same tuple ID
+            * Large storage overhead, extra 32/64-bit int ID for every value
+
+    * Advantages
+        * Reduces amount of wasted I/O, moving unneeded data into memory, because DBMS only reads the data that it needs
+        * Better query processing
+            * Speed depends heavily on query plan, though theoretically better/faster than row storage
+        * Better data compression because values of the same type are stored together
+    * Disadvantages
+        * Slow for point queries, inserts, updates, and deletes because of tuple splitting/stitching
+            * Need to insert value in every attribute page separately
+            * Need to read from multiple attribute pages to build tuple
+    * History of DSM/Column Storage Model
+        * 1970s: Cantor DBMS from Swedish military internal project
+        * 1980s: DSM Proposal
+        * 1990s: SysbaseIQ (in-memory only, first commercial product, add-on)
+        * 2000s: Vertica (from creator Postgres/Ingres), VectorWise, MonetDB
+        * 2010s: Everyone (Amazon RedShift, MariaDB, Cloudera Impala, etc.)
+
+<br />
+
+* Conclusion
+    * The storage manager is not entirely independent from the rest of the DBMS
+        * Underlying representation of data (row/column/etc.) is involved in other DBMS operations
+    * It is important to choose the right storage model for the target workload
+        * Use row store for OLTP workloads
+        * Use column store for OLAP workloads
+        * Some systems offer both row st1ore and column store options
+        * You can mix the two in certain cases: trimming old data from OLTP for speed and moving that into OLAP data warehouse for analytics
+
 
 ## 5. Buffer Pools & Memory Management
 
