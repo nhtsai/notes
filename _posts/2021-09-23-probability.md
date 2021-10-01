@@ -263,7 +263,7 @@ permalink: /probability
 
 <br />
 
-* General Inclusion-Exclusion
+* **General Inclusion-Exclusion**
     * Finds the probability of a union
     * Inclusion-Exclusion for 3 events
         * $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
@@ -272,7 +272,7 @@ permalink: /probability
         * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = \sum^{N}_{j=1} P(A_j) - \sum^{N}_{i \lt j} P(A_i \cap A_j) + \sum^{N}_{i \lt j \lt k} P(A_i \cap A_j \cap A_k) - \ldots + (-1)^{N+1} \times P(A_1 \cap A_2 \cap \ldots \cap A_N)$
     * Alternate including and excluding portions
 
-* de Montmort's Problem (1713) / Matching Problem
+* de Montmort's Problem (1713) / **Matching Problem**
     * Originated from gambling problems
     * Imagine $N$ cards, labeled from 1 to N
     * Shuffle the cards
@@ -294,12 +294,122 @@ permalink: /probability
         * $(N-K)!$ possible permutations of the deck of cards, fixing $K$ cards at their corresponding positions
     * *Technique*: Apply Inclusion-Exclusion
         * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$
-        * Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add ..., subtract
+        * Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add ..., subtract ...
         * Everything cancels!
         * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$
         * This is the Taylor series for $e^x$ .
         * $P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$
+
+
 ## 4. Conditional Probability I
+
+* Matching Problem (Continued)
+    * Most famous example of *inclusion-exclusion*
+        * Deck of N cards, labeled from 1 to N
+        * Random shuffle and flip through deck
+        * Win if a card's label matches its position
+    * Problem
+    * $A_j$ : the jth card in the deck is labeled j
+        * $P(A_j) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck
+    * Find $P(\cup_{j=1}^{N} A_j)$ : the probability of a match on any card j
+    * To apply inclusion-exclusion we need:
+        * For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+            * If K cards match their positions, then we fix those cards in place
+            * The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained
+        * There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$
+        * These terms are all the same by **symmetry**.
+        * Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
+            * $\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings
+    * $P(\text{no match}) = P(\cap_{j=1}^{N} A^{C}_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
+        * Complement of union is the intersection of those complements
+        * The factorials in denominators should remind you of Taylor series of $e^x$
+    * If there were an infinite amount of cards, what is $P(\text{no match})$ ?
+        * The chance a card is in the exact position is very unlikely, but there are so many chances in an infinite deck.
+        * The competing forces somehow reduces to $\frac{1}{e}$ .
+
+<br />
+
+* **Independent Events**
+    * Two Events: Events A, B are *independent* if $P(A \cap B) = P(A) \times P(B)$
+        * The probability that both A and B occurs is the product of probability of A and probability of B
+        * They're independent, so we just multiply
+    * *Important*: Independence is completely different from **disjointness**
+        * **Disjointnesss** says if A occurs, B *cannot* occur
+    * Three Events: Events A, B, C are *independent* if $P(A \cap B) = P(A)P(B), P(A \cap C) = P(A)P(C), P(B \cap C) = P(B)P(C), P(A \cap B \cap C) = P(A)P(B)P(C)$
+        * The pairwise independence does not imply independence of all 3 events, so we need the last equation too
+    * N Events: Follows the same rules
+        * Any 1, 2, 3, ..., N events need to be *independent*
+    * Basic rule: "independent means multiply" from multiplication rule
+
+* Newton-Pepys Problem (1693)
+    * Samuel Pepys wanted to know a gambling problem solution, and Newton solved it for him.
+    * Problem
+        * Have some fair dice, each with 6 equally-likely sides, independent from each other
+        * Which of these events is more likely?
+            * Event A: at least 6 with 6 dice
+            * Event B: at least two 6's with 12 dice
+            * Event C: at least three 6's with 18 dice
+    * Pepys strongly believed Event C was more likely, but Newton solved the answer was Event A.
+    * Can use naive definition but we will use independence to solve.
+        * Seeing "at least 1" should signal a union, but a complement of union is an intersection
+        * Intersection of independent events signals multiply!
+    * Probability of Event A
+        * Take complement: 1 minus probability that all dices are not 6
+        * $P(A) = 1 - (\frac{5}{6})^6 \approx 0.665$
+    * Probability of Event B
+        * Take complement: 1 minus probability of no 6's minus probability of exactly one 6
+        * $P(B) = 1 - (\frac{5}{6})^6 - 12(\frac{1}{6})(\frac{5}{6})^11 \approx 0.619 $
+            * Probability of exactly one 6: one dice is 6, the other 11 are not 6, and that one 6 dice can be any of the 12 total dice
+    * Probability of Event C
+        * Take complement: 1 minus sum of probabilities of exactly zero to two 6's
+        * $P(C) = 1 - \sum_{2}^{K=0} \binom{18}{K} \times (\frac{1}{6})^{K}(\frac{5}{6})^{18-K} \approx 0.597$
+            * Choose position where the K dice will be 6
+            * Then set each K dice as 6
+            * Then the remaining dice can be anything not 6
+    * Therefore, Event A is the most likely, and Event C is the least likely.
+        * Though Newton got the calculation right, his intuition was confusing and *wrong* because it was not dependent on *fair* dice.
+
+<br />
+
+* **Conditional Probability**
+    * How should you update probability/beliefs/uncertainty based on new evidence?
+        * "Conditioning is the soul of statistics." - Professor Blitzstein
+    * $P(A | B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) > 0$
+        * Probability that A occurs given that B occurs
+        * If A, B are independent, this doesn't matter
+            * $P(A | B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$
+    * Intuition 1: **Pebble World**
+        * Imagine a sample space S and not all outcomes are equally likely
+        * Imagine a finite number of outcomes, each represented by a pebble
+        * Consider in our sample space, there are 9 possible outcomes, or 9 pebbles, some larger than others, with a total mass of 1
+            * Event is a subset of sample space
+            * Say Event B is a set of 4 pebbles
+            * Say Event A is a set of 1 pebble in B and 3 pebbles outside of B
+        * $P(A|B)$
+            * Since we know B occurred, the other 5 pebbles outside B are irrelevant
+            * Get rid of pebbles in $B^C$, our universe got restricted to B since we know Event B occurred
+            * In our new universe, find the pebbles that are also in Event A (numerator)
+            * But now total mass is not 1, so we **renormalize**, or multiply by a constant so new total mass is 1 again (denominator)
+    * Intuition 2: **Frequentist World**
+        * If we flipped a coin 1000 times, and 612 of them are heads, then we can say $P(H) \approx 0.612$
+        * Interpret probability as the fraction of event occurring from *repeating the experiment many times*
+        * $P(A|B)$
+            * Repeat an experiment many times
+            * Circle the experiments where B occurred
+            * Of the circled experiments, what fraction of them did A also occur?
+    * Theorem 1
+        * Suppose we wanted to find probability of A and B
+        * $P(A \cap B) = P(B) \times P(A|B) = P(B \cap A) = P(A) \times P(B|A)$
+        * If A and B are *independent*, then $P(A|B) = P(A), P(B|A) = P(B)$
+    * Theorem 2
+        * $P(A_1, \ldots, A_N) = P(A_1) \times P(A_2|A_1) \times P(A_3|A_2, A_1) \times \ldots \times P(A_N|A_1, \ldots, A_{N-1})$
+        * This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times
+    * Theorem 3 (**Bayes' Rule**)
+        * We want $P(A|B)$ to relate to $P(B|A)$
+        * So we divide Theorem 1 by $P(B)$ on both sides
+        * $P(B) \times P(A|B) \div P(B) = P(A) \times P(B|A) \div P(B)$
+        * $P(A|B) = \frac{P(A)P(B|A)}{P(B)}$
+
 
 ## 5. Conditional Probability II, Law of Total Probability
 
