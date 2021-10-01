@@ -403,8 +403,7 @@ window.onload = wrap_img;
       </li>
       <li>Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
         <ul>
-          <li>Say $n=4,k=6$, a possible way is <code class="language-plaintext highlighter-rouge">(***),(),(**),(*)</code> , or <code class="language-plaintext highlighter-rouge">***| |**|*</code>
-</li>
+          <li>Say $n=4,k=6$, a possible way is $(<strong><em>),(),(**),(</em>)$ , or $</strong>* \mid \mid ** \mid *$</li>
           <li>There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$</li>
         </ul>
       </li>
@@ -899,29 +898,12 @@ window.onload = wrap_img;
           <li>“Conditioning is the soul of statistics.” - Professor Blitzstein</li>
         </ul>
       </li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td>$P(A</td>
-              <td>B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) &gt; 0$</td>
-            </tr>
-          </tbody>
-        </table>
+      <li>$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) &gt; 0$
         <ul>
           <li>Probability that A occurs given that B occurs</li>
           <li>If A, B are independent, this doesn’t matter
             <ul>
-              <li>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>$P(A</td>
-                      <td>B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </li>
+              <li>$P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$</li>
             </ul>
           </li>
         </ul>
@@ -937,15 +919,7 @@ window.onload = wrap_img;
               <li>Say Event A is a set of 1 pebble in B and 3 pebbles outside of B</li>
             </ul>
           </li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(A</td>
-                  <td>B)$</td>
-                </tr>
-              </tbody>
-            </table>
+          <li>$P(A \mid B)$
             <ul>
               <li>Since we know B occurred, the other 5 pebbles outside B are irrelevant</li>
               <li>Get rid of pebbles in $B^C$, our universe got restricted to B since we know Event B occurred</li>
@@ -960,15 +934,7 @@ window.onload = wrap_img;
           <li>If we flipped a coin 1000 times, and 612 of them are heads, then we can say $P(H) \approx 0.612$</li>
           <li>Interpret probability as the fraction of event occurring from <em>repeating the experiment many times</em>
 </li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(A</td>
-                  <td>B)$</td>
-                </tr>
-              </tbody>
-            </table>
+          <li>$P(A \mid B)$
             <ul>
               <li>Repeat an experiment many times</li>
               <li>Circle the experiments where B occurred</li>
@@ -980,83 +946,22 @@ window.onload = wrap_img;
       <li>Theorem 1
         <ul>
           <li>Suppose we wanted to find probability of A and B</li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(A \cap B) = P(B) \times P(A</td>
-                  <td>B) = P(B \cap A) = P(A) \times P(B</td>
-                  <td>A)$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>If A and B are <em>independent</em>, then $P(A</td>
-                  <td>B) = P(A), P(B</td>
-                  <td>A) = P(B)$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>$P(A \cap B) = P(B) \times P(A \mid B) = P(B \cap A) = P(A) \times P(B \mid A)$</li>
+          <li>If A and B are <em>independent</em>, then $P(A \mid B) = P(A), P(B \mid A) = P(B)$</li>
         </ul>
       </li>
       <li>Theorem 2
         <ul>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(A_1, \ldots, A_N) = P(A_1) \times P(A_2</td>
-                  <td>A_1) \times P(A_3</td>
-                  <td>A_2, A_1) \times \ldots \times P(A_N</td>
-                  <td>A_1, \ldots, A_{N-1})$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>$P(A_1, \ldots, A_N) = P(A_1) \times P(A_2 \mid A_1) \times P(A_3 \mid A_2, A_1) \times \ldots \times P(A_N \mid A_1, \ldots, A_{N-1})$</li>
           <li>This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times</li>
         </ul>
       </li>
       <li>Theorem 3 (<strong>Bayes’ Rule</strong>)
         <ul>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>We want $P(A</td>
-                  <td>B)$ to relate to $P(B</td>
-                  <td>A)$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>We want $P(A \mid B)$ to relate to $P(B \mid A)$</li>
           <li>So we divide Theorem 1 by $P(B)$ on both sides</li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(B) \times P(A</td>
-                  <td>B) \div P(B) = P(A) \times P(B</td>
-                  <td>A) \div P(B)$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>$P(A</td>
-                  <td>B) = \frac{P(A)P(B</td>
-                  <td>A)}{P(B)}$</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li>$P(B) \times P(A \mid B) \div P(B) = P(A) \times P(B \mid A) \div P(B)$</li>
+          <li>$P(A \mid B) = \frac{P(A)P(B \mid A)}{P(B)}$</li>
         </ul>
       </li>
     </ul>
