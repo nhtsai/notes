@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      15 min read
+      21 min read
     
 </span></p>
 
@@ -677,7 +677,8 @@ window.onload = wrap_img;
 <p><br></p>
 
 <ul>
-  <li>General Inclusion-Exclusion
+  <li>
+<strong>General Inclusion-Exclusion</strong>
     <ul>
       <li>Finds the probability of a union</li>
       <li>Inclusion-Exclusion for 3 events
@@ -694,7 +695,7 @@ window.onload = wrap_img;
       <li>Alternate including and excluding portions</li>
     </ul>
   </li>
-  <li>de Montmort’s Problem (1713) / Matching Problem
+  <li>de Montmort’s Problem (1713) / <strong>Matching Problem</strong>
     <ul>
       <li>Originated from gambling problems</li>
       <li>Imagine $N$ cards, labeled from 1 to N</li>
@@ -731,13 +732,330 @@ window.onload = wrap_img;
 <em>Technique</em>: Apply Inclusion-Exclusion
         <ul>
           <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$</li>
-          <li>Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add …, subtract</li>
+          <li>Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add …, subtract …</li>
           <li>Everything cancels!</li>
           <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$</li>
           <li>This is the Taylor series for $e^x$ .</li>
-          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$
-            <h2 id="4-conditional-probability-i">
+          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="4-conditional-probability-i">
 <a class="anchor" href="#4-conditional-probability-i" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Conditional Probability I</h2>
+
+<ul>
+  <li>Matching Problem (Continued)
+    <ul>
+      <li>Most famous example of <em>inclusion-exclusion</em>
+        <ul>
+          <li>Deck of N cards, labeled from 1 to N</li>
+          <li>Random shuffle and flip through deck</li>
+          <li>Win if a card’s label matches its position</li>
+        </ul>
+      </li>
+      <li>Problem</li>
+      <li>$A_j$ : the jth card in the deck is labeled j
+        <ul>
+          <li>$P(A_j) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck</li>
+        </ul>
+      </li>
+      <li>Find $P(\cup_{j=1}^{N} A_j)$ : the probability of a match on any card j</li>
+      <li>To apply inclusion-exclusion we need:
+        <ul>
+          <li>For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+            <ul>
+              <li>If K cards match their positions, then we fix those cards in place</li>
+              <li>The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained</li>
+            </ul>
+          </li>
+          <li>There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$</li>
+          <li>These terms are all the same by <strong>symmetry</strong>.</li>
+          <li>Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
+            <ul>
+              <li>$\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>$P(\text{no match}) = P(\cap_{j=1}^{N} A^{C}_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
+        <ul>
+          <li>Complement of union is the intersection of those complements</li>
+          <li>The factorials in denominators should remind you of Taylor series of $e^x$</li>
+        </ul>
+      </li>
+      <li>If there were an infinite amount of cards, what is $P(\text{no match})$ ?
+        <ul>
+          <li>The chance a card is in the exact position is very unlikely, but there are so many chances in an infinite deck.</li>
+          <li>The competing forces somehow reduces to $\frac{1}{e}$ .</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>
+<strong>Independent Events</strong>
+    <ul>
+      <li>Two Events: Events A, B are <em>independent</em> if $P(A \cap B) = P(A) \times P(B)$
+        <ul>
+          <li>The probability that both A and B occurs is the product of probability of A and probability of B</li>
+          <li>They’re independent, so we just multiply</li>
+        </ul>
+      </li>
+      <li>
+<em>Important</em>: Independence is completely different from <strong>disjointness</strong>
+        <ul>
+          <li>
+<strong>Disjointnesss</strong> says if A occurs, B <em>cannot</em> occur</li>
+        </ul>
+      </li>
+      <li>Three Events: Events A, B, C are <em>independent</em> if $P(A \cap B) = P(A)P(B), P(A \cap C) = P(A)P(C), P(B \cap C) = P(B)P(C), P(A \cap B \cap C) = P(A)P(B)P(C)$
+        <ul>
+          <li>The pairwise independence does not imply independence of all 3 events, so we need the last equation too</li>
+        </ul>
+      </li>
+      <li>N Events: Follows the same rules
+        <ul>
+          <li>Any 1, 2, 3, …, N events need to be <em>independent</em>
+</li>
+        </ul>
+      </li>
+      <li>Basic rule: “independent means multiply” from multiplication rule</li>
+    </ul>
+  </li>
+  <li>Newton-Pepys Problem (1693)
+    <ul>
+      <li>Samuel Pepys wanted to know a gambling problem solution, and Newton solved it for him.</li>
+      <li>Problem
+        <ul>
+          <li>Have some fair dice, each with 6 equally-likely sides, independent from each other</li>
+          <li>Which of these events is more likely?
+            <ul>
+              <li>Event A: at least 6 with 6 dice</li>
+              <li>Event B: at least two 6’s with 12 dice</li>
+              <li>Event C: at least three 6’s with 18 dice</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Pepys strongly believed Event C was more likely, but Newton solved the answer was Event A.</li>
+      <li>Can use naive definition but we will use independence to solve.
+        <ul>
+          <li>Seeing “at least 1” should signal a union, but a complement of union is an intersection</li>
+          <li>Intersection of independent events signals multiply!</li>
+        </ul>
+      </li>
+      <li>Probability of Event A
+        <ul>
+          <li>Take complement: 1 minus probability that all dices are not 6</li>
+          <li>$P(A) = 1 - (\frac{5}{6})^6 \approx 0.665$</li>
+        </ul>
+      </li>
+      <li>Probability of Event B
+        <ul>
+          <li>Take complement: 1 minus probability of no 6’s minus probability of exactly one 6</li>
+          <li>$P(B) = 1 - (\frac{5}{6})^6 - 12(\frac{1}{6})(\frac{5}{6})^11 \approx 0.619 $
+            <ul>
+              <li>Probability of exactly one 6: one dice is 6, the other 11 are not 6, and that one 6 dice can be any of the 12 total dice</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Probability of Event C
+        <ul>
+          <li>Take complement: 1 minus sum of probabilities of exactly zero to two 6’s</li>
+          <li>$P(C) = 1 - \sum_{2}^{K=0} \binom{18}{K} \times (\frac{1}{6})^{K}(\frac{5}{6})^{18-K} \approx 0.597$
+            <ul>
+              <li>Choose position where the K dice will be 6</li>
+              <li>Then set each K dice as 6</li>
+              <li>Then the remaining dice can be anything not 6</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Therefore, Event A is the most likely, and Event C is the least likely.
+        <ul>
+          <li>Though Newton got the calculation right, his intuition was confusing and <em>wrong</em> because it was not dependent on <em>fair</em> dice.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>
+<strong>Conditional Probability</strong>
+    <ul>
+      <li>How should you update probability/beliefs/uncertainty based on new evidence?
+        <ul>
+          <li>“Conditioning is the soul of statistics.” - Professor Blitzstein</li>
+        </ul>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td>$P(A</td>
+              <td>B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) &gt; 0$</td>
+            </tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>Probability that A occurs given that B occurs</li>
+          <li>If A, B are independent, this doesn’t matter
+            <ul>
+              <li>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>$P(A</td>
+                      <td>B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Intuition 1: <strong>Pebble World</strong>
+        <ul>
+          <li>Imagine a sample space S and not all outcomes are equally likely</li>
+          <li>Imagine a finite number of outcomes, each represented by a pebble</li>
+          <li>Consider in our sample space, there are 9 possible outcomes, or 9 pebbles, some larger than others, with a total mass of 1
+            <ul>
+              <li>Event is a subset of sample space</li>
+              <li>Say Event B is a set of 4 pebbles</li>
+              <li>Say Event A is a set of 1 pebble in B and 3 pebbles outside of B</li>
+            </ul>
+          </li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(A</td>
+                  <td>B)$</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul>
+              <li>Since we know B occurred, the other 5 pebbles outside B are irrelevant</li>
+              <li>Get rid of pebbles in $B^C$, our universe got restricted to B since we know Event B occurred</li>
+              <li>In our new universe, find the pebbles that are also in Event A (numerator)</li>
+              <li>But now total mass is not 1, so we <strong>renormalize</strong>, or multiply by a constant so new total mass is 1 again (denominator)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Intuition 2: <strong>Frequentist World</strong>
+        <ul>
+          <li>If we flipped a coin 1000 times, and 612 of them are heads, then we can say $P(H) \approx 0.612$</li>
+          <li>Interpret probability as the fraction of event occurring from <em>repeating the experiment many times</em>
+</li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(A</td>
+                  <td>B)$</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul>
+              <li>Repeat an experiment many times</li>
+              <li>Circle the experiments where B occurred</li>
+              <li>Of the circled experiments, what fraction of them did A also occur?</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Theorem 1
+        <ul>
+          <li>Suppose we wanted to find probability of A and B</li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(A \cap B) = P(B) \times P(A</td>
+                  <td>B) = P(B \cap A) = P(A) \times P(B</td>
+                  <td>A)$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>If A and B are <em>independent</em>, then $P(A</td>
+                  <td>B) = P(A), P(B</td>
+                  <td>A) = P(B)$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
+      </li>
+      <li>Theorem 2
+        <ul>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(A_1, \ldots, A_N) = P(A_1) \times P(A_2</td>
+                  <td>A_1) \times P(A_3</td>
+                  <td>A_2, A_1) \times \ldots \times P(A_N</td>
+                  <td>A_1, \ldots, A_{N-1})$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times</li>
+        </ul>
+      </li>
+      <li>Theorem 3 (<strong>Bayes’ Rule</strong>)
+        <ul>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>We want $P(A</td>
+                  <td>B)$ to relate to $P(B</td>
+                  <td>A)$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>So we divide Theorem 1 by $P(B)$ on both sides</li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(B) \times P(A</td>
+                  <td>B) \div P(B) = P(A) \times P(B</td>
+                  <td>A) \div P(B)$</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>
+            <table>
+              <tbody>
+                <tr>
+                  <td>$P(A</td>
+                  <td>B) = \frac{P(A)P(B</td>
+                  <td>A)}{P(B)}$</td>
+                </tr>
+              </tbody>
+            </table>
           </li>
         </ul>
       </li>
