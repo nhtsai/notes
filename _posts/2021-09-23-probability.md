@@ -133,7 +133,7 @@ permalink: /probability
         * Can think of this as flipping a fair coin twice
 
     * Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
-        * Say $n=4,k=6$, a possible way is `(***),(),(**),(*)` , or `***| |**|*`
+        * Say $n=4,k=6$, a possible way is $(***),(),(**),(*)$ , or $*** \mid \mid ** \mid *$
         * There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$
 
     * Bose-Einstein
@@ -374,10 +374,10 @@ permalink: /probability
 * **Conditional Probability**
     * How should you update probability/beliefs/uncertainty based on new evidence?
         * "Conditioning is the soul of statistics." - Professor Blitzstein
-    * $P(A | B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) > 0$
+    * $P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \text{ if } P(B) > 0$
         * Probability that A occurs given that B occurs
         * If A, B are independent, this doesn't matter
-            * $P(A | B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$
+            * $P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$
     * Intuition 1: **Pebble World**
         * Imagine a sample space S and not all outcomes are equally likely
         * Imagine a finite number of outcomes, each represented by a pebble
@@ -385,7 +385,7 @@ permalink: /probability
             * Event is a subset of sample space
             * Say Event B is a set of 4 pebbles
             * Say Event A is a set of 1 pebble in B and 3 pebbles outside of B
-        * $P(A|B)$
+        * $P(A \mid B)$
             * Since we know B occurred, the other 5 pebbles outside B are irrelevant
             * Get rid of pebbles in $B^C$, our universe got restricted to B since we know Event B occurred
             * In our new universe, find the pebbles that are also in Event A (numerator)
@@ -393,22 +393,22 @@ permalink: /probability
     * Intuition 2: **Frequentist World**
         * If we flipped a coin 1000 times, and 612 of them are heads, then we can say $P(H) \approx 0.612$
         * Interpret probability as the fraction of event occurring from *repeating the experiment many times*
-        * $P(A|B)$
+        * $P(A \mid B)$
             * Repeat an experiment many times
             * Circle the experiments where B occurred
             * Of the circled experiments, what fraction of them did A also occur?
     * Theorem 1
         * Suppose we wanted to find probability of A and B
-        * $P(A \cap B) = P(B) \times P(A|B) = P(B \cap A) = P(A) \times P(B|A)$
-        * If A and B are *independent*, then $P(A|B) = P(A), P(B|A) = P(B)$
+        * $P(A \cap B) = P(B) \times P(A \mid B) = P(B \cap A) = P(A) \times P(B \mid A)$
+        * If A and B are *independent*, then $P(A \mid B) = P(A), P(B \mid A) = P(B)$
     * Theorem 2
-        * $P(A_1, \ldots, A_N) = P(A_1) \times P(A_2|A_1) \times P(A_3|A_2, A_1) \times \ldots \times P(A_N|A_1, \ldots, A_{N-1})$
+        * $P(A_1, \ldots, A_N) = P(A_1) \times P(A_2 \mid A_1) \times P(A_3 \mid A_2, A_1) \times \ldots \times P(A_N \mid A_1, \ldots, A_{N-1})$
         * This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times
     * Theorem 3 (**Bayes' Rule**)
-        * We want $P(A|B)$ to relate to $P(B|A)$
+        * We want $P(A \mid B)$ to relate to $P(B \mid A)$
         * So we divide Theorem 1 by $P(B)$ on both sides
-        * $P(B) \times P(A|B) \div P(B) = P(A) \times P(B|A) \div P(B)$
-        * $P(A|B) = \frac{P(A)P(B|A)}{P(B)}$
+        * $P(B) \times P(A \mid B) \div P(B) = P(A) \times P(B \mid A) \div P(B)$
+        * $P(A \mid B) = \frac{P(A)P(B \mid A)}{P(B)}$
 
 
 ## 5. Conditional Probability II, Law of Total Probability
