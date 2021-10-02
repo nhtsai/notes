@@ -34,80 +34,86 @@ permalink: /probability
     * **Event**: a *subset* of the sample space
     * *Example*: The *experiment* of rolling 2 dice has 36 total outcomes in the *sample space*, and an *event* could be the subset of all outcomes that sum up to a number
 
+<br />
+
 * **Naive Definition of Probability**
-    $$ P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}} $$
-* *Example*: Flipping a fair coin twice, what is probability that both flips are heads?
-    * 1 favorable outcome: $HH$
-    * 4 total outcomes: $HH, HT, TH, TT$
-    * Therefore, $P(\text{both heads})=\frac{1}{4}$
-* Assumes that *all outcomes are equally likely* and a *finite sample space*
-    * If the coin was not fair, the outcomes would not be equally likely
-    * If the sample space is infinite, the probability definition doesn't make sense
+    * $P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}$
+        * The number of outcomes where Event A occurs over all possible outcomes
+    * *Example*: Flipping a fair coin twice, what is probability that both flips are heads?
+        * 1 favorable outcome: $(HH)$
+        * 4 total outcomes: $(HH, HT, TH, TT)$
+        * Therefore, $P(\text{both heads}) = \frac{1}{4}$
+    * Assumes that *all outcomes are equally likely* and a *finite sample space*
+        * If the coin was not fair, the outcomes would not be equally likely
+        * If the sample space is infinite, the probability definition doesn't make sense
 
 <br />
 
 * **Multiplication Rule**
-    * If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes.
-    * The total number of possible outcomes of a series of experiments is the *product of each experiment's outcomes*.
-* *Example*: 3 flavors of ice cream and 2 types of cones
-    * Ice cream flavor experiment has 3 outcomes (chocolate, vanilla, strawberry)
-    * Waffle cone experiment has 2 outcomes (cake, waffle)
-    * There are $6 \text{ possible outcomes}= 2 \times 3 = 3 \times 2 $ , order of cone/ice cream choice does not matter
+    * If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes
+    * The total number of possible outcomes of a series of experiments is the *product of each experiment's outcomes*
+
+    * *Example*: 3 flavors of ice cream and 2 types of cones
+        * Ice cream flavor experiment has 3 outcomes (chocolate, vanilla, strawberry)
+        * Waffle cone experiment has 2 outcomes (cake, waffle)
+        * There are $6 \text{ possible outcomes}= 2 \times 3 = 3 \times 2$
+            * Order of cone/ice cream choice does not matter
 
 <br />
 
 * **Binomial Coefficient**
-    $$ \binom{n}{k}=\frac{n!}{(n-k)!k!}, \text{0 if k>n} $$
-    * Number of subsets of size k given n elements, where order does not matter
-    * Pronounced "n choose k", choosing k elements of n possible elements, where order does not matter
-    * Intuition from multiplication rule
-        * Choose K elements: $n(n-1)(n-2) \ldots (n-k+1)$
-        * In any order: divide by $k!$ because we over-counted by that factor
-        * Therefore, $\frac{n(n-1)(n-2) \ldots (n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$
-* *Example*: Find probability of full house in poker, 5 card hand
-    * A *full house* is 3 cards of 1 rank and 2 cards of another rank, e.g. 3 sevens and 2 tens
-    * Assume deck is randomly shuffled so that all sets of 5 cards are equally likely
-        * Because we assume cards are evenly shuffled, we can justify using naive definition
-    * Number of possible hands: $\binom{52}{5}$ , "52 choose 5"
-    * Favorable hands (full house): $\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}$
-        * Of 13 ranks choose 1 and of 4 cards need 3, then of 12 remaining ranks choose 1 and of 4 cards we need 2
-    * Therefore, $\frac{\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}}{\binom{52}{5}}$
+    * $\binom{n}{k}=\frac{n!}{(n-k)!k!}, 0 \text{ if } k>n$
+    * The number of possible subsets of size k given n elements, where *order does not matter*
+        * Sets must contain distinct elements, so *without replacement*
+        * Pronounced "n choose k"
+
+    * *Intuition*: From the multiplication rule
+        * Choose k elements from n elements: $n(n-1)(n-2) \ldots (n-k+1)$
+        * Order does not matter: divide by $k!$ because we over-counted by that factor
+            * Consider $\binom{5}{2}$ , we want to count $(1, 2)$ and $(2, 1)$ as equivalent, not separately
+            * There are $k!$ possible orderings of a size k subset, so we divide by $k!$ to reduce it down to 1
+        * $\therefore \binom{n}{k} = \frac{n(n-1)(n-2) \ldots (n-k+1)}{k!}=\frac{n!}{(n-k)!k!}$
+
+    * *Example*: Find probability of full house in poker, 5 card hand
+        * A *full house* is 3 cards of 1 rank and 2 cards of another rank, e.g. 3 sevens and 2 tens
+        * Assume deck is randomly shuffled so that all sets of 5 cards are equally likely
+            * Because we assume cards are evenly shuffled, we can justify using naive definition
+        * Number of possible hands: $\binom{52}{5}$ , "52 choose 5"
+        * Favorable hands (full house): $\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}$
+            * Of 13 ranks choose 1 and of 4 cards need 3, then of 12 remaining ranks choose 1 and of 4 cards we need 2
+        * $\therefore \frac{\binom{13}{1} \binom{4}{3} \times \binom{12}{1} \binom{4}{2}}{\binom{52}{5}} = \frac{13 \binom{4}{3} \times 12 \binom{4}{2}}{\binom{52}{5}}$
 
 <br />
 
-* **Sampling Table**: choose $k$ elements out of $n$ total elements
-    * We want to know how many ways there are of doing this, which should be immediate from the multiplication rule
+* **Sampling Table**
+    * From the multiplication rule, we can determine how many ways there are to choose $k$ elements out of $n$ total elements
     * We can choose to sample **with replacement** (we can choose the same element again) or **without replacement** (we cannot choose the same element again)
 
-    * With replacement, order matters
+    |                         | Order Matters | Order Doesn't Matter |
+    |------------------------:|:-------------:|:--------------------:|
+    | **With Replacement**    | $n^k$         | $\binom{n+k-1}{k}$   |
+    | **Without Replacement** | $nPk = \frac{n!}{(n-k)!}$ | $\binom{n}{k} = \frac{n!}{(n-k)!k!}$ |
+
+    * *Sample Method*: With replacement, order matters
+        * $n_1 \times n_2 \times \ldots \times n_k = n^k$
         * Have $k$ experiments, each with $n$ outcomes and order matters, so $\{1, 2\} \neq \{2, 1\}$
 
-    $$n_1 \times n_2 \times \ldots \times n_k = n^k$$
-
-    * Without replacement, order matters
+    * *Sample Method*: Without replacement, order matters
+        * $n \times (n-1) \times \ldots \times (n-k+1)$
         * Have $k$ experiments, with $n$ outcomes without replacement and order matters, so $\{1, 2\} \neq \{2, 1\}$
 
-    $$n \times (n-1) \times \ldots \times (n-k+1)$$
-    
-    * Without replacement, order does not matter
+    * *Sample Method*: Without replacement, order does not matter (**Binomial Coefficient**)
+        * $\frac{n \times (n-1) \times \ldots \times (n-k+1)}{k \times (k-1) \times \ldots \times 1} = \frac{n!}{(n-k)! \times k!} = \binom{n}{k}$
         * Have $k$ experiments, with $n$ outcomes without replacement and order does not matter, so $\{1, 2\} = \{2, 1\}$
         * Want 1 combination of $k$ elements to represent all $k!$ permutations with the same $k$ elements, so need to divide by $k!$
         * Think of grouping all possible permutations with the same $k$ elements into $k!$ groups
             * For the $k=3$ choice $(1,2,3)$, there are $3!$ orderings that we want to group into 1 representation $\{1,2,3\}$
             * To do this grouping for all different choices, we divide by $k!$ so that we're left with the number of unique combinations of $k=3$ elements
-    
-    $$\frac{n \times (n-1) \times \ldots \times (n-k+1)}{k \times (k-1) \times \ldots \times 1} = \frac{n!}{(n-k)! \times k!} = \binom{n}{k}$$
 
-    * With replacement, order does not matter
+    * *Sample Method*: With replacement, order does not matter (**Bose-Einstein**)
+        * $\frac{(n+k-1)!}{(n-1)! \times k!} = \binom{n+k-1}{n-1} = \binom{n+k-1}{k}$
         * Hardest to understand, not obvious from multiplication rule
-        * Have $k$ experiments, with $n$ outcomes and order does not matter, so $\{1, 2\} = \{2, 1\}$
-
-    $$\frac{(n+k-1)!}{(n-1)! \times k!} = \binom{n+k-1}{n-1} = \binom{n+k-1}{k}$$
-
-    |                     | Order Matters | Order Doesn't Matter |
-    |:--------------------|:-------------:|:--------------------:|
-    | With Replacement    | $n^k$         | $\binom{n+k-1}{k}$   |
-    | Without Replacement | $nPk = \frac{n!}{(n-k)!}$ | $\binom{n}{k} = \frac{n!}{(n-k)!k!}$ |
+        * Have $k$ experiments, with $n$ outcomes and order does not matter, so $(1, 2) = (2, 1)$
 
 
 ## 2. Story Proofs, Axioms of Probability
@@ -119,31 +125,33 @@ permalink: /probability
 
 <br />
 
-* Pick k times from a set of n objects, where order does not matter and with replacement
-    * Prove the answer is $\binom{n+k-1}{k}$ ways
-    * *Example*: $k=0, \binom{n-1}{0} = 1$ 
-        * Only 1 way to choose 0 elements from n-1 elements, choose none!
-    * *Example*: $k=1, \binom{n}{1} = n$
+* **Bose-Einstein**
+    * Bose said flipping a fair coin twice had 3 equally likely outcomes $(HH, TT, 1H+1T)$
+    * Bose thought of the two coin flips as indistinguishable $(HT = TH)$, rather than $(HT, TH)$
+    * Thinking of coins as indistinguishable led to the discovery Bose-Einstein condensate
+    * *Sample Method*: Pick k times from a set of n objects, where order does not matter and with replacement
+        * Prove the answer is $\binom{n+k-1}{k}$ ways
+    * *Case*: if $k=0, \binom{n-1}{0} = 1$ 
+        * Only 1 way to choose 0 elements from $n-1$ elements, choose none!
+    * *Case*: if $k=1, \binom{n}{1} = n$
+        * $n$ ways to choose 1 of $n$ elements
         * When only picking 1 element, no difference if with/without replacement or if order matters or does not matter
-    * *Example*: $n=2, \binom{k+1}{k} = \binom{k+1}{1} = k+1$
+    * *Case*: if $n=2, \binom{k+1}{k} = \binom{k+1}{1} = k+1$
         * They are equal because: If we choose $k$ of $k+1$ elements, then the remaining is the 1. If we choose 1, then the remaining is the $k+1$
-        * Choosing k elements from 2 total elements with replacement and order doesn't matter
-            * If we get the first element $x$ times, we know we got the second element $k-x$ times
-            * Number of possible first elements we get is from $\{0, \ldots, k\}$ , so there are $k+1$ possibilities of choosing $k$ from $n=2$ elements
+        * If we get the first element $x$ times, we know we got the second element $k-x$ times
+        * Number of possible first elements we get is from $\{0, \ldots, k\}$ , so there are $k+1$ possibilities of choosing $k$ from $n=2$ elements
         * Can think of this as flipping a fair coin twice
 
-    * Equivalent: how many ways are there to put k indistinguishable elements into n distinguishable groups?
-        * Say $n=4,k=6$, a possible way is $(***),(),(**),(*)$ , or $*** \mid \mid ** \mid *$
+    * *Equivalent*: How many ways are there to put k indistinguishable elements into n distinguishable groups?
+        * *indistinguishable* here means order does not matter and with replacement
+        * Say $n=4, k=6$, a possible way is $(***),(),(**),(*)$
+        * We can also represent groups using separators: $( *** \mid \mid ** \mid * )$
         * There must be $k$ stars and $n-1$ separators, we just need to choose $k$ positions for stars in $n+k-1$ total positions, or $\binom{n+k-1}{k} = \binom{n+k-1}{n-1}$
-
-    * Bose-Einstein
-        * Bose said flipping a fair coin twice had 3 equally likely outcomes $\{HH, TT, 1H+1T\}$
-        * Bose thought of the two coin flips as indistinguishable, rather than $\{HT, TH\}$
-        * Thinking of coins as indistinguishable led to the discovery Bose-Einstein condensate
 
 <br />
 
-* **Story Proof**: proof by interpretation, rather than by algebra or calculus
+* **Story Proof**
+    * Proof by interpretation, rather than by algebra or calculus
     * *Example*: $\binom{n}{k} = \binom{n}{n-k}$
         * Think about what this means in terms of choosing k elements rather than calculating factorials
     * *Example*: $n \binom{n-1}{k-1} = k \binom{n}{k}$
@@ -183,7 +191,7 @@ permalink: /probability
 
 ## 3. Birthday Problem, Properties of Probability
 
-* [Birthday Problem](https://en.wikipedia.org/wiki/Birthday_problem)
+* **Birthday Problem**
     * In a group of people, how likely is it that at least one pair of people share the same birthday?
     * How many people do you need for a 50% chance two people have the same birthday?
         * $K$ people, find probability that 2 have the same birthday
@@ -198,12 +206,12 @@ permalink: /probability
     * Probability of no match (0 pairs share a birthday)
         * Each of K persons has $\frac{1}{365}$ chance of a particular birthday
         * If no matches, every person must have a different birthday (no replacement)
-        * $P(\text{no match}) = \frac{365 \times 364 \times \ldots \times (365 - K + 1)}{365^K}$
+        * $P(\text{no match}) = \frac{365 \times 364 \times \ldots \times (365 - K + 1)}{365^{K}}$
     * Probability of match (at least 1 pair shares a birthday)
         * Complement: $P(\geq 1 \text{ match}) = 1 - P(\text{no match})$
-        * If $K=23$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^23} = 1 - 0.492703 = 0.507297 = 50.7\%$
-        * If $K=50$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 316}{365^50} = 97\%$
-        * If $K=100$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^100} = > 99.999\%$
+        * If $K=23$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^{23}} \approx 1 - 0.492703 \approx 0.507297 \approx 50.7\%$
+        * If $K=50$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 316}{365^{50}} \approx 97\%$
+        * If $K=100$, $P(\text{match}) = 1 - \frac{365 \times 364 \times \ldots \times 343}{365^{100}} \geq 99.999\%$
     * How could we get a birthday match with such low number of people?
         * The more relevant quantity is the number of pairs in K people
             * $\binom{K}{2} = \frac{K(K-1)}{2}$
@@ -215,11 +223,11 @@ permalink: /probability
 
 <br />
 
-* Axioms of Probability
+* **Axioms of Probability**
     1. $P(\emptyset) = 0, P(S) = 1$
         * Probability of empty set is 0 (impossible)
         * Probability of full sample space is 1 (certain)
-    1. $P(\cup^{\infty}_{n=1}A_n) = \sum^{\infty}_{n=1} P(A_n)$
+    1. $P(\cup_{n=1}^{\infty} A_{n}) = \sum_{n=1}^{\infty} P(A_{n})$
         * If $A_1, A2, \ldots \text{ are disjoint events}$ 
         * Probability of the union (infinite or finite) equals the sum of probabilities of all events if events are disjoint.
         * Think of probabilities as disjoint sets, union of sets is same as adding the sets up
@@ -229,7 +237,7 @@ permalink: /probability
 
 <br />
 
-* Properties of Probability (naive and non-naive)
+* **Properties of Probability**
     1. $P(A^C) = 1 - P(A)$
         * Probability of complement of A is 1 minus probability of A
         * Proof:
@@ -265,14 +273,16 @@ permalink: /probability
 
 * **General Inclusion-Exclusion**
     * Finds the probability of a union
-    * Inclusion-Exclusion for 3 events
+    * Alternates inclusion and exclusion of portions
+    * *Case*: Inclusion-Exclusion for 3 events
         * $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
         * Add all 3 events, subtract the intersections of pairs, then add the intersection of all
-    * Inclusion-Exclusion for N events
+    * *Case*: Inclusion-Exclusion for N events
         * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = \sum^{N}_{j=1} P(A_j) - \sum^{N}_{i \lt j} P(A_i \cap A_j) + \sum^{N}_{i \lt j \lt k} P(A_i \cap A_j \cap A_k) - \ldots + (-1)^{N+1} \times P(A_1 \cap A_2 \cap \ldots \cap A_N)$
-    * Alternate including and excluding portions
 
-* de Montmort's Problem (1713) / **Matching Problem**
+<br />
+
+* *Example*: **Matching Problem** / **de Montmort's Problem (1713)**
     * Originated from gambling problems
     * Imagine $N$ cards, labeled from 1 to N
     * Shuffle the cards
@@ -303,45 +313,47 @@ permalink: /probability
 
 ## 4. Conditional Probability I
 
-* Matching Problem (Continued)
+* **Matching Problem**
     * Most famous example of *inclusion-exclusion*
         * Deck of N cards, labeled from 1 to N
         * Random shuffle and flip through deck
         * Win if a card's label matches its position
-    * Problem
-    * $A_j$ : the jth card in the deck is labeled j
+    * *Case*: $A_j$ , the jth card in the deck is labeled j
         * $P(A_j) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck
-    * Find $P(\cup_{j=1}^{N} A_j)$ : the probability of a match on any card j
-    * To apply inclusion-exclusion we need:
-        * For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
-            * If K cards match their positions, then we fix those cards in place
-            * The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained
-        * There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$
-        * These terms are all the same by **symmetry**.
-        * Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
-            * $\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings
-    * $P(\text{no match}) = P(\cap_{j=1}^{N} A^{C}_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
-        * Complement of union is the intersection of those complements
-        * The factorials in denominators should remind you of Taylor series of $e^x$
+    * *Case* $P(\cup_{j=1}^{N} A_j)$ , the probability of a match on any card j
+        * To apply inclusion-exclusion we need:
+            * For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+                * If K cards match their positions, then we fix those cards in place
+                * The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained
+            * There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$
+            * These terms are all the same by **symmetry**.
+            * Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
+                * $\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings
+        * $P(\text{no match}) = P(\cap_{j=1}^{N} A^{C}_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
+            * Complement of union is the intersection of those complements
+            * The factorials in denominators should remind you of Taylor series of $e^x$
     * If there were an infinite amount of cards, what is $P(\text{no match})$ ?
         * The chance a card is in the exact position is very unlikely, but there are so many chances in an infinite deck.
-        * The competing forces somehow reduces to $\frac{1}{e}$ .
+        * The competing forces somehow reduce the answer to $\frac{1}{e}$ .
 
 <br />
 
 * **Independent Events**
-    * Two Events: Events A, B are *independent* if $P(A \cap B) = P(A) \times P(B)$
+    * *Case*: Two Events A, B are *independent* if $P(A \cap B) = P(A) \times P(B)$
         * The probability that both A and B occurs is the product of probability of A and probability of B
         * They're independent, so we just multiply
     * *Important*: Independence is completely different from **disjointness**
         * **Disjointnesss** says if A occurs, B *cannot* occur
-    * Three Events: Events A, B, C are *independent* if $P(A \cap B) = P(A)P(B), P(A \cap C) = P(A)P(C), P(B \cap C) = P(B)P(C), P(A \cap B \cap C) = P(A)P(B)P(C)$
+    * *Case*: Three Events A, B, C are *independent* if $P(A \cap B) = P(A)P(B), P(A \cap C) = P(A)P(C), P(B \cap C) = P(B)P(C), P(A \cap B \cap C) = P(A)P(B)P(C)$
         * The pairwise independence does not imply independence of all 3 events, so we need the last equation too
-    * N Events: Follows the same rules
+    * *Case*: N Events
+        * Follows the same pattern
         * Any 1, 2, 3, ..., N events need to be *independent*
-    * Basic rule: "independent means multiply" from multiplication rule
+    * *Basic Rule*: "independent means multiply" from multiplication rule
 
-* Newton-Pepys Problem (1693)
+<br />
+
+* *Example*: **Newton-Pepys Problem (1693)**
     * Samuel Pepys wanted to know a gambling problem solution, and Newton solved it for him.
     * Problem
         * Have some fair dice, each with 6 equally-likely sides, independent from each other
@@ -378,7 +390,7 @@ permalink: /probability
         * Probability that A occurs given that B occurs
         * If A, B are independent, this doesn't matter
             * $P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{P(A)P(B)}{P(B)} = P(A)$
-    * Intuition 1: **Pebble World**
+    * *Intuition 1*: **Pebble World**
         * Imagine a sample space S and not all outcomes are equally likely
         * Imagine a finite number of outcomes, each represented by a pebble
         * Consider in our sample space, there are 9 possible outcomes, or 9 pebbles, some larger than others, with a total mass of 1
@@ -390,7 +402,7 @@ permalink: /probability
             * Get rid of pebbles in $B^C$, our universe got restricted to B since we know Event B occurred
             * In our new universe, find the pebbles that are also in Event A (numerator)
             * But now total mass is not 1, so we **renormalize**, or multiply by a constant so new total mass is 1 again (denominator)
-    * Intuition 2: **Frequentist World**
+    * *Intuition 2*: **Frequentist World**
         * If we flipped a coin 1000 times, and 612 of them are heads, then we can say $P(H) \approx 0.612$
         * Interpret probability as the fraction of event occurring from *repeating the experiment many times*
         * $P(A \mid B)$
@@ -404,7 +416,7 @@ permalink: /probability
     * Theorem 2
         * $P(A_1, \ldots, A_N) = P(A_1) \times P(A_2 \mid A_1) \times P(A_3 \mid A_2, A_1) \times \ldots \times P(A_N \mid A_1, \ldots, A_{N-1})$
         * This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times
-    * Theorem 3 (**Bayes' Rule**)
+    * Theorem 3: **Bayes' Rule**
         * We want $P(A \mid B)$ to relate to $P(B \mid A)$
         * So we divide Theorem 1 by $P(B)$ on both sides
         * $P(B) \times P(A \mid B) \div P(B) = P(A) \times P(B \mid A) \div P(B)$
@@ -412,6 +424,13 @@ permalink: /probability
 
 
 ## 5. Conditional Probability II, Law of Total Probability
+
+* 
+
+* 
+* 
+
+
 
 ## 6. Monty Hall, Simpson's Paradox
 
