@@ -37,7 +37,7 @@ permalink: /probability
 <br />
 
 * **Naive Definition of Probability**
-    * $P(A)=\frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}$
+    * $ P(A)=\frac{\text{favorable outcomes}}{\text{total possible outcomes}} $
         * The number of outcomes where Event A occurs over all possible outcomes
     * *Example*: Flipping a fair coin twice, what is probability that both flips are heads?
         * 1 favorable outcome: $(HH)$
@@ -283,11 +283,11 @@ permalink: /probability
 <br />
 
 * *Example*: **Matching Problem** / **de Montmort's Problem (1713)**
-    * Originated from gambling problems
-    * Imagine $N$ cards, labeled from 1 to N
-    * Shuffle the cards
-    * Flip over the cards while counting from 1 to N
-    * If the count *matches* the flipped card's number, then win
+    * Problem originated from gambling problems:
+        * Imagine $N$ cards, labeled from 1 to N
+        * Shuffle the cards
+        * Flip over the cards while counting from 1 to N
+        * If the count *matches* the flipped card's number, then win
     * What's the probability that one card has the same number as its position in the deck?
     * Let $A_j$ be the event "jth card matches"
     * $P(\geq 1 \text{ match}) = P(A_1 \cup A_2 \cup \ldots \cup A_N)$
@@ -313,7 +313,7 @@ permalink: /probability
 
 ## 4. Conditional Probability I
 
-* **Matching Problem**
+* *Example*: **Matching Problem** / **de Montmort's Problem (1713)**
     * Most famous example of *inclusion-exclusion*
         * Deck of N cards, labeled from 1 to N
         * Random shuffle and flip through deck
@@ -427,12 +427,9 @@ permalink: /probability
 
 * 
 
-* 
-* 
-
-
-
 ## 6. Monty Hall, Simpson's Paradox
+
+
 
 ## 7. Gambler's Ruin, Random Variables
 

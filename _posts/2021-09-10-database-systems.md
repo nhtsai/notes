@@ -112,41 +112,49 @@ permalink: /database-systems-intro
 * **Relational Algebra**: procedural language proposed by Ted Codd for querying relational data models.
     * Fundamental operations, based on set algebra, to retrieve and manipulate tuples in a relation.
     * Each operator takes one or more relations as its inputs and outputs a new relation
+
     * **Select** $(\sigma)$ : choose a subset of tuples from a relation that satisfies a selection predicate.
         * Predicate is a filter to only select tuples that satisfy its requirement.
         * Can combine multiple predicates using conjunctions or disjunctions
         * Syntax: $\sigma _{\text{predicate}}(R)$
         * Example: $\sigma _{\text{a\textunderscore id='a2'}}(R)$
         * Select corresponds to `WHERE` in SQL.
+
     * **Projection** $(\Pi)$ : generate a relation with tuples that contains only the specified attributes.
         * Can rearrange attributes' ordering
         * Can manipulate the values
         * Syntax: $\Pi _{\text{attributes}}(R)$
         * Example: $\Pi _{\text{b\textunderscore id - 100, a\textunderscore id}}(\sigma _{\text{a\textunderscore id='a2'}}(R))$
         * Projection corresponds to `SELECT` in SQL.
+
     * **Union** $(\cup)$ : generate a relation that contains all tuples that appear in either only one or both input relations.
         * Relations must have same attributes with same types.
         * Syntax: $R \cup S$
         * Example: $R \cup S$
         * Union corresponds to `UNION ALL` in SQL.
+
     * **Intersection** $(\cap)$ : generate a relation that contains only the tuples that appear in both of the input relations.
         * Relations must have same attributes with same types.
         * Syntax: $R \cap S$
         * Example: $R \cap S$
         * Intersection corresponds to `INTERSECT` in SQL.
+
     * **Difference** $(-)$ : generate a relation that contains only the tuples that appear in first and not the second of input relations.
         * Relations must have same attributes with same types.
         * Syntax: $R - S$
         * Example: $R - S$
         * Difference corresponds to `EXCEPT` in SQL.
+
     * **Product** $(\times)$ : generate a relation that contains all possible combinations of tuples from the input relations.
         * Syntax: $R \times S$
         * Example: $R \times S$
         * Product corresponds to `CROSS JOIN` in SQL.
+
     * **Join** $(\bowtie)$ : generate a relation that contains all tuples that are a combination of two tuples (one from each input relation) with a common value(s) for one or more attributes.
         * Syntax: $R \bowtie S$
         * Example: $R \bowtie S$
         * Join corresponds to `NATURAL JOIN` in SQL.
+
     * Other operators developed over the years.
         * Rename $(\rho)$
         * Assignment $(R \leftarrow S)$
@@ -154,6 +162,7 @@ permalink: /database-systems-intro
         * Aggregation $(\gamma)$
         * Sorting $(\tau)$
         * Division $(R \div S)$ 
+
     * Relational algebra defines the high-level steps of how to compute a query, instead of only stating the desired result.
         * E.g. $\sigma _{\text{b\textunderscore id=102}}(R \bowtie S)$ vs. $(R \bowtie (\sigma _{\text{b\textunderscore id=102}}(S))$
         * The first query natural joins R and S, then performs a filter after.
@@ -1186,6 +1195,11 @@ permalink: /database-systems-intro
 
 
 ## 5. Buffer Pools & Memory Management
+
+* Database Workloads
+    * **On-line Transaction Processing (OLTP)**
+    * **On-line Analytical Processing (OLAP)**
+    * **Hyper Transaction & Analytical Processing (HTAP)**
 
 ## 6. Hash Tables
 
