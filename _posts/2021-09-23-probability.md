@@ -425,7 +425,90 @@ permalink: /probability
 
 ## 5. Conditional Probability II, Law of Total Probability
 
-* 
+* Problem Solving
+    * "Thinking conditionally is a condition for thinking." - Professor Blitzstein
+    * How to Solve Problems
+        1. Try simple and extreme cases
+        1. Break up the problem into simpler pieces/partitions
+
+<br />
+
+* **Law of Total Probability**
+    * Let $A_1, \ldots, A_N$ be disjoint partitions of universe S
+    * Consider a sample space B within universe S
+    * $P(B) = P(B \cap A_1)*P(A_1) + \ldots + P(B \cap A_N)*P(A_N)$
+
+<br />
+
+* *Example*: Get a random 2-card hand from standard deck of cards
+    * Find $P(\text{both cards are aces} \mid \text{have an ace})$
+        * $P(\text{both cards are aces} \mid \text{have an ace}) = \frac{P(\text{both cards are aces} \cap \text{have an ace})}{P(\text{have an ace})}$
+        * $P(\text{both cards are aces} \cap \text{have an ace}) = P(\text{both cards are aces})$
+            * Having both cards aces is same as having one of the cards is an ace
+        * $P(\text{both cards are aces} \mid \text{have an ace}) = \frac{P(\text{both cards are aces})}{P(\text{have an ace})}$
+        * $P(\text{both cards are aces} \mid \text{have an ace}) = \frac{\binom{4}{2} / \binom{52}{2}}{1 - \binom{48}{2}/\binom{52}{2}}$
+            * Numerator: choose 2 of 4 Aces, out of all possible 2 card hands
+            * Denominator: 1 minus choose 2 of 48 non-Aces, out of all possible 2 card hands
+        * $P(\text{both cards are aces} \mid \text{have an ace}) = \frac{1}{33}$
+
+    * Find $P(\text{both cards are aces} \mid \text{have Ace of Spades})$
+        * We have the Ace of Spades, second card can be any card in the deck other than the Ace of Spades, by symmetry
+        * $P(\text{both cards are aces} \mid \text{have Ace of Spades}) = \frac{3}{51} = \frac{1}{17}$
+    * It's twice as likely to have double Aces just by knowing the suit of the Ace we have!
+        * What is going on? Think about least one Ace vs. a specific Ace...
+
+<br />
+
+* *Example*: A patient gets tested for a disease that affects 1% of the population and tests positive, using a test that is "95% accurate".
+    * Let $D = \text{ patient has disease}, T = \text{ patient tests positive}$
+    * $P(T \mid D) = 0.95 = P(T^C \mid D^C)$
+        * If the patient has the disease, 95% of the time the test will be positive.
+        * If the patient does not have the disease, 95% of the time the test will be negative.
+    * $P(D \mid T) = \frac{P(T \mid D) * P(D)}{P(T)}$
+        * Patient wants to know: if the test is positive, how likely do they have the disease?
+        * Bayes' Rule tells us how these are connected!
+    * $P(D \mid T) = \frac{P(T \mid D) * P(D)}{P(T \mid D)P(D) + P(T|D^C)P(D^C)}$
+        * We use the Law of Total Probability to find $P(T)$
+        * Probability patient tests positive is the sum of positive tests if patient tests positive and positive tests if patient tests negative
+    * $P(D \mid T) = \frac{(0.95)(0.01)}{(0.95)*(0.01) + (1 - 0.95)(1 - 0.01)} \approx 0.16$
+    * Although the test is 95% accurate, there is only a 16% chance the patient has the disease if they have a positive test!
+        * Why is this number so small and our intuition is so off?
+        * We need to consider that it's both *rare that the test is wrong (5%)* and *rare that someone has the disease (1%)*!
+    * *Intuition*: If we had 1,000 patients, roughly 10 would have the disease (1%). If the 10 patients all test positive, but 5% of the 990 patients also test positive.
+        * Roughly speaking, 50 patients test positive who don't have the disease and 10 patients test positive who do have the disease
+        * This ratio of 50/10 is what leads to the $0.16$ .
+    * *Important*: Bayes' Rule is coherent
+        * Updating probabilities using the intersection of two new evidence is equal to updating probabilities using the first new evidence then updating again using the second new evidence, in any order
+
+<br />
+
+* Common Mistakes with Conditional Probability
+    1. Confusing $P(A \mid B)$ with $P(B \mid A)$ , "Prosecutor's Fallacy"
+        * *Example*: Sally Clark Case
+            * Clark's two babies died suddenly and was charged with murder
+            * The only evidence that probability of baby dies not by murder is $\frac{1}{8500}$ 
+            * But since Clark lost two babies, the probability of not murder was $\frac{1}{8500} * \frac{1}{8500}$
+            * However, this assumes independence between baby deaths
+            * Want $P(\text{innocence} \mid \text{evidence})$ , rather than $P(\text{evidence} \mid \text{innocence})$
+    1. Confusing $P(A)$ , the **prior**, with $P(A \mid B)$ , the **posterior**
+        * If Event A occurs, $P(A \mid A) = 1$ , but $P(A) \neq 1$
+    1. Confusing independence with conditional independence
+        * **Conditional Independence**: Events A and B are conditionally independent given Event C if $P(A \cap B \mid C) = P(A \mid C) * P(B \mid C)$
+        * Conditional independence given Event C *does not imply* independence.
+            * *Example*: Chess opponent of unknown strength
+                * If you play a series of chess games with the opponent, conditioning on the opponent's strength, all games are independent (conditional independence)
+                    * However, this does not imply the games are unconditionally independent!
+                * If you win the first 5 games, then you think the opponent is weaker than you.
+                    * The earlier games give you evidence of the opponent's strength, even though the games are seemingly independent
+                * Independence says earlier games give no indication of the opponent's strength
+                * It may happen that the game outcomes are *conditionally independent* given strength of opponent but *not unconditionally independent*
+        * Unconditional independence *does not imply* conditional independence given Event C
+            * *Example*: If the alarm goes off (Event A), which can be caused by two causes: fire (Event F) or popcorn (Event C)
+                * Suppose F and C are independent.
+                * But what's the probability that there's a fire given the alarm goes off and nobody is making popcorn?
+                    * $P(F \mid A, C^C) = 1$
+                    * Must be 1 if we eliminate the only other explanation of making popcorn
+                * F and C are initially *independent*, but *not conditionally independent* given A
 
 ## 6. Monty Hall, Simpson's Paradox
 
