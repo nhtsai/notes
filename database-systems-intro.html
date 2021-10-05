@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      45 min read
+      62 min read
     
 </span></p>
 
@@ -2211,9 +2211,641 @@ window.onload = wrap_img;
 <ul>
   <li>Database Workloads
     <ul>
-      <li><strong>On-line Transaction Processing (OLTP)</strong></li>
-      <li><strong>On-line Analytical Processing (OLAP)</strong></li>
-      <li><strong>Hyper Transaction &amp; Analytical Processing (HTAP)</strong></li>
+      <li>
+<strong>On-line Transaction Processing (OLTP)</strong>
+        <ul>
+          <li>Fast operations that only read/update a small amount of data each time</li>
+        </ul>
+      </li>
+      <li>
+<strong>On-line Analytical Processing (OLAP)</strong>
+        <ul>
+          <li>Complex queries that read a lot of data to compute aggregates</li>
+        </ul>
+      </li>
+      <li>
+<strong>Hyper Transaction &amp; Analytical Processing (HTAP)</strong>
+        <ul>
+          <li>OLTP + OLAP together on the same database instance</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Bifurcated Environment
+    <ul>
+      <li>Typical Setup
+        <ul>
+          <li>Multiple OLTP Data Silos in the frontend
+            <ul>
+              <li>E.g. MySQL, PostGres, MongoDB</li>
+            </ul>
+          </li>
+          <li>Large OLAP Data Warehouse in the backend
+            <ul>
+              <li>E.g. Hadoop, Spark, GreenPlum, Vertica, RedShift, Snowflake</li>
+            </ul>
+          </li>
+          <li>
+<strong>Extract-Transform-Load (ETL)</strong> process performed to clean and move data from front end to back end</li>
+          <li>Perform analytics in data warehouse</li>
+          <li>Push any new information to the OLTP frontend, e.g. customers also bought/viewed</li>
+        </ul>
+      </li>
+      <li>HTAP Setup
+        <ul>
+          <li>Multiple HTAP Data Silos in the frontend</li>
+          <li>Large OLAP Data Warehouse in the backend</li>
+          <li>ETL process performed to clean and move data from front end to back end</li>
+          <li>Instead of waiting on ETL process and analytics in the backend, perform some analytics in the front end</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>How does DBMS manage its memory and move data back and forth from disk?
+    <ul>
+      <li>Due to von Neumann architecture, DBMS cannot operate directly on disk; we must bring data from disk into memory first</li>
+      <li>How can we bring pages into disk and support databases that exceeds the available memory?</li>
+      <li>How can we minimize the slowdown from movement of data, making it appear everything is in memory?</li>
+    </ul>
+  </li>
+  <li>Database Storage
+    <ul>
+      <li>Spatial Control
+        <ul>
+          <li>Where to write pages on disk</li>
+          <li>Goal: keep pages used together often as physically close together as possible on disk
+            <ul>
+              <li>Avoid long disk seeks</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Temporal Control
+        <ul>
+          <li>When to read pages into memory, and when to write them to disk</li>
+          <li>Goal: minimize the number of stalls from having to read data from disk into memory</li>
+        </ul>
+      </li>
+      <li>
+<strong>Buffer Pool Manager</strong>: brings the directory into memory, looks up the page location, brings the page into memory, and decides when to evict pages to free memory or write pages out to disk</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Buffer Pool Organization
+    <ul>
+      <li>
+<strong>Buffer Pool</strong>: <em>memory</em> region organized as an array of fixed-size pages
+        <ul>
+          <li>DBMS use the OS <code class="language-plaintext highlighter-rouge">malloc</code> to get a chunk of memory to use as the buffer pool</li>
+          <li>
+<strong>Frame</strong>: an array entry, the regions/chunks of a buffer pool</li>
+          <li>When the DBMS requests a page…
+            <ul>
+              <li>Look if the page is already in buffer pool</li>
+              <li>Otherwise an exact copy of the page is placed from disk into a frame in memory</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Buffer Pool Metadata</p>
+
+    <p><img src="/notes/images/cmu15-445/bufferpool_pagetable.png" alt="Buffer Pool Page Table" title="Buffer Pool Page Table"></p>
+
+    <ul>
+      <li>Pages can go in any order in the frames of the buffer pool, so we need something to keep track of what page is in what frame</li>
+      <li>
+<strong>Page Table</strong>: keeps track of pages that are currently in the buffer pool memory, hash table that maps page IDs to frame IDs</li>
+      <li>DBMS also maintains additional meta-data per page
+        <ul>
+          <li>
+<strong>Dirty Flag</strong>: single bit flag that indicates the page has been modified it was copied from disk
+            <ul>
+              <li>DBMS also needs to keep track of who made the modification in a log</li>
+            </ul>
+          </li>
+          <li>
+<strong>Pin/Reference Counter</strong>: keeps track of number of threads or queries that want the page to be kept in memory
+            <ul>
+              <li>Avoids evicting pages to disk before operations are completed (pin)</li>
+              <li>Reserves frames in the page table while the corresponding page is being read into memory (lock)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Locks vs. Latches
+    <ul>
+      <li>
+<strong>Locks</strong>
+        <ul>
+          <li>Protects the database’s <em>logical</em> contents from other transactions</li>
+          <li>Higher level logical primitive, e.g. tuple, table, database</li>
+          <li>Held for transaction duration, could be multiple queries, seconds, or hours</li>
+          <li>Need to be able to rollback changes for concurrency control</li>
+          <li>Exposed to programmers, can see locks as you run queries</li>
+        </ul>
+      </li>
+      <li>
+<strong>Latches</strong>
+        <ul>
+          <li>Protects the critical sections of the DBMS’s <em>internal</em> data structure from other threads</li>
+          <li>Low level protection primitive, e.g. protecting data structures or regions of memory</li>
+          <li>Held for operation duration, e.g. when updating page table, apply latch on the entry (frame to page mapping) being modified before making the change</li>
+          <li>Do not need to be able to rollback changes
+            <ul>
+              <li>Internal operations, abort if cannot apply latch or operation fails</li>
+            </ul>
+          </li>
+          <li>In OS world, this is known as a <em>mutex</em>
+</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Page Directory vs. Page Table
+    <ul>
+      <li>
+<strong>Page Directory</strong>: mapping from page IDs to page locations in the database files
+        <ul>
+          <li>All changes must be recorded on disk to allow DBMS to find on restart, must be <em>durable</em>
+            <ul>
+              <li>If we crash and come back, we want to know where to find the pages we have</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<strong>Page Table</strong>: mapping from page IDs to a copy of of the page in buffer pool frames
+        <ul>
+          <li>In-memory data structure that does not need to be stored on disk
+            <ul>
+              <li>If we crash and come back, buffer pool is erased too, so it doesn’t matter</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Allocation Policies
+    <ul>
+      <li>
+<strong>Global Policies</strong>
+        <ul>
+          <li>Make decision for all active transactions of the entire workload</li>
+          <li>“At this point in time, what’s the right thing to do to decide what should or should not be in memory?”</li>
+        </ul>
+      </li>
+      <li>
+<strong>Local Policies</strong>
+        <ul>
+          <li>Allocate frames to a specific transaction without considering the behavior of concurrent transactions</li>
+          <li>“What’s the best thing to do to make my one transaction faster?”</li>
+          <li>Still need to support <em>sharing pages</em>
+</li>
+        </ul>
+      </li>
+      <li>For optimizations, most systems implement a combination of both allocation policies</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Buffer Pool Optimizations
+    <ul>
+      <li>There are a variety of ways to tailor the buffer pool to make our specific workload more efficient, better management than the OS</li>
+    </ul>
+  </li>
+  <li>
+<strong>Multiple Buffer Pools</strong>
+    <ul>
+      <li>DBMS does not always have a single buffer pool for the entire system
+        <ul>
+          <li>E.g. Enterprise DBMSs: MySQL, IBM DB2, Oracle, SyBase, MS SQL Server, Informix</li>
+        </ul>
+      </li>
+      <li>DBMS can actually have multiple regions of allocated memory, each with page tables that map page IDs to frames in the buffer pool
+        <ul>
+          <li>Multiple buffer pool instances</li>
+          <li>Per-database buffer pool</li>
+          <li>Per-page type buffer pool</li>
+        </ul>
+      </li>
+      <li>Advantages
+        <ul>
+          <li>Improves locality
+            <ul>
+              <li>Use a local policy tailored to each buffer pool and the data it holds</li>
+            </ul>
+          </li>
+          <li>Reduces <em>latch contention</em> for different threads accessing the buffer pool
+            <ul>
+              <li>As a thread looks up a page ID in the page table, it latches the page table entry so the entry does not change while the thread is accessing the corresponding frame</li>
+              <li>Makes sure other threads do not swap the page table entry out while thread is fetching the frame of the page</li>
+            </ul>
+          </li>
+          <li>
+<strong>Latch Contention</strong>: multiple threads contending on the same latch while accessing the same page table
+            <ul>
+              <li>More buffer pools = more page tables = more threads accessing different page tables at the same time = less threads contending on the same latches = more scalability</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>: single buffer pool for each table, tables with sequential vs. random access workloads are more efficient with different caching/eviction policies</li>
+      <li>
+<em>Example</em>: separate buffer pool for indexes and tables, different access patterns and workloads need different buffer pool policies</li>
+      <li>Approach #1: <strong>Object ID</strong>
+        <ul>
+          <li>Embed an object identifier in record IDs</li>
+          <li>Maintain a mapping from object IDs to specific buffer pools</li>
+          <li>Ensures that pages are fetched to the same buffer pool every time
+            <ul>
+              <li>Keeps the page in the same buffer pool to quickly find it</li>
+              <li>Object ID determines which buffer pool maintains that specific record</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Approach #2: <strong>Hashing</strong>
+        <ul>
+          <li>Hash the page ID to select which buffer pool to access</li>
+          <li>Take the page ID, hash it, mod by number of buffer pools</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Pre-Fetching</strong>
+    <ul>
+      <li>DBMS can pre-fetch pages based on query plan to minimize stall time of fetching data from disk
+        <ul>
+          <li>If a thread requests a page that’s not in memory, we stall that thread until the page is fetched from disk into the buffer pool, then we return the pointer to the page in memory</li>
+          <li>Internally the DBMS keeps track of a cursor in disk of the page that was fetched
+            <ul>
+              <li>If the thread needs the next page, the cursor can tell us where to fetch the next page into memory</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Sequential Scans
+        <ul>
+          <li>If the query wants to scan the entire table as in sequential read, the DBMS can <em>pre-fetch</em> all pages of the table into the buffer pool, rather than wait to fetch page by page
+            <ul>
+              <li>Pages already processed can be evicted and replaced with the next page</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Index Scans
+        <ul>
+          <li>The index allows you to jump to specific points in the data based on values</li>
+          <li>If the query wants values in a specific range, the index can tell us which pages pages have values within the range</li>
+          <li>Because the query wants specific, non-sequential index pages, the DBMS can <em>pre-fetch</em> the specific index pages into the buffer pool, rather than sequentially fetching unneeded pages</li>
+        </ul>
+      </li>
+      <li>Advantage
+        <ul>
+          <li>Pre-fetching using sequential read minimizes random I/O and reduces disk stalls</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Scan Sharing</strong>
+    <ul>
+      <li>Queries can <em>reuse</em> data retrieved from storage or operator computations
+        <ul>
+          <li>Multiple queries can use the same data from disk</li>
+          <li>Different from <strong>result caching</strong>: returning cached answer instead of re-computing query</li>
+        </ul>
+      </li>
+      <li>Allow multiple queries to attach to a single cursor that scans a table
+        <ul>
+          <li>Queries do not have to be exactly the same</li>
+          <li>Can also share intermediate results across different threads in some cases, <em>materialized view</em>
+            <ul>
+              <li>Intermediate results are stored in a separate memory region outside of buffer pool</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>If a query starts a scan and there’s an existing query doing the same scan, the DBMS will attach the new query to the existing query’s cursor
+        <ul>
+          <li>DBMS keeps track of where new query joined with existing query so that it can finish the scan when it reaches the end of the data structure, go back to read previous data that was read before new query joined</li>
+        </ul>
+      </li>
+      <li>Fully supported in IBM DB2 and MS SQL Server, Oracle only supports basic scan sharing (cursor sharing) for identical queries</li>
+      <li>
+<em>Example</em>
+        <ul>
+          <li>First query wants to compute sum on table A</li>
+          <li>Pages are fetched, buffer pool fills up and replaces older frames (Page 0) with new page copies (Page 3)</li>
+          <li>Second query wants to compute average on table A
+            <ul>
+              <li>It hops on to the same cursor as the first query, which is already at Page 3</li>
+            </ul>
+          </li>
+          <li>The cursor scans the rest of the disk pages into buffer pool frames that are needed for the first query</li>
+          <li>After the first query is done reading data, the cursors disappears</li>
+          <li>Second query then starts cursor from beginning at Page 0
+            <ul>
+              <li>Second query then reads until Page 3 to make up for missing pages as needed</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>The relational model is unordered; answers can be correct without being the same value every time
+        <ul>
+          <li>
+<em>Example</em>: Query wants to compute average, limit 100 tuples
+            <ul>
+              <li>Without a shared cursor, the query will read the first 100 tuples, starting from the first disk page</li>
+              <li>If the query hops on to a shared cursor, the first 100 tuples will be whatever is on the disk pages that the cursor is at</li>
+              <li>If the data needed is already in the buffer pool, the query can use the existing data in memory</li>
+            </ul>
+          </li>
+          <li>All methods can produce a “correct” answer without reading the same data to compute the same value because data is stored unordered</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Buffer Pool Bypass</strong>
+    <ul>
+      <li>Sequential scan operator will not store fetched pages in the buffer pool in order to avoid overhead of looking at page table
+        <ul>
+          <li>Sequential scan does not look at the page table to see if the page is already in memory</li>
+          <li>Sequential scan also does not want to pollute the cache with data that may not be needed in the near future</li>
+          <li>Sequential scan just keeps scanning sequential disk pages and evicting them once finished processing in memory</li>
+        </ul>
+      </li>
+      <li>
+<strong>Buffer Pool Bypass</strong> or <strong>Buffer Cache Bypass</strong>
+        <ul>
+          <li>Allocate a small amount of memory to the query</li>
+          <li>The query reads pages, fetching from disk if not already in the buffer pool</li>
+          <li>The pages are fetched into a local memory area, instead of the buffer pool
+            <ul>
+              <li>Memory is local to running query and the thread running it</li>
+            </ul>
+          </li>
+          <li>When the query is done, all of the local memory is freed at once</li>
+        </ul>
+      </li>
+      <li>Advantages
+        <ul>
+          <li>Avoids overhead of going to the page table, a hash table with latches</li>
+          <li>Works well if operator needs to read a large sequence of pages that are contiguous on disk</li>
+          <li>Can also be used for smaller temporary data, intermediate tables (sorting, joins)
+            <ul>
+              <li>Larger temporary data needs to be backed by the buffer pool, written as pages out to disk if larger than memory</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Most DBMS support this optimization, called light scans in Informix</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>OS Page Cache
+    <ul>
+      <li>What is the OS actually doing at a lower level?</li>
+      <li>Most disk operations go through the OS API (<code class="language-plaintext highlighter-rouge">fopen</code>, <code class="language-plaintext highlighter-rouge">fread</code>, <code class="language-plaintext highlighter-rouge">fwrite</code>)</li>
+      <li>Unless specified otherwise, the OS maintains its own filesystem cache
+        <ul>
+          <li>By default, the OS maintains the <strong>OS page cache</strong>
+</li>
+          <li>As the DBMS reads pages from disk, the OS also caches a copy of the page</li>
+        </ul>
+      </li>
+      <li>Most DBMS use <strong>direct I/O</strong> (<code class="language-plaintext highlighter-rouge">O_DIRECT</code> POSIX flag) to bypass the OS’s cache
+        <ul>
+          <li>Avoid redundant copies of pages</li>
+          <li>Different eviction policies between DBMS buffer pool and OS page cache</li>
+          <li>Can also help maintain similar performance across different OS’s</li>
+        </ul>
+      </li>
+      <li>Postgres is the only major DBMS that relies on the OS page cache
+        <ul>
+          <li>Trade avoid maintaining a separate caching system for a minor performance penalty</li>
+          <li>Main disadvantage is there could be two copies of every single page, and the OS page cache could be old if the DBMS modifies the page</li>
+        </ul>
+      </li>
+      <li>If we give the DBMS enough memory, it can store the whole table in memory, which will make queries on that table faster since we don’t have to fetch from disk</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Buffer Replacement Policies
+    <ul>
+      <li>What happens if we need to fetch a page from disk but the buffer pool is full?</li>
+      <li>When the DBMS needs to free up a frame to make room for a new page, it must decide which page to <strong>evict</strong> from the buffer pool</li>
+      <li>Goals
+        <ul>
+          <li>Correctness: we don’t want to write out data from latched frames before threads are done modifying</li>
+          <li>Accuracy: we want to make sure we evict pages that are least likely to be used in the future to minimize future disk seeks and stalls</li>
+          <li>Speed: we want to quickly decide which pages to evict from frames to make space for new fetches</li>
+          <li>Meta-data overhead: we don’t want metadata for a page (e.g. how likely it’s going to be used) to be larger than the page itself</li>
+        </ul>
+      </li>
+      <li>Higher-end DBMS have complex replacement policies compared to open-source DBMS</li>
+    </ul>
+  </li>
+  <li>
+<strong>Least-Recently Used (LRU)</strong>
+    <ul>
+      <li>Maintain a timestamp of when each page was last accessed</li>
+      <li>Evict the page with the <em>oldest timestamp</em>
+</li>
+      <li>Keep pages in sorted order to reduce search time on eviction</li>
+      <li>
+<em>Intuition</em>: If the page hasn’t been used in a while, it probably won’t be used often in the future, and we can evict it</li>
+    </ul>
+  </li>
+  <li>
+<strong>CLOCK</strong>
+    <ul>
+      <li>Approximation of LRU without needing a separate timestamp per page
+        <ul>
+          <li>Each page has a <em>reference bit</em>, which is set to 1 if the page is accessed since the last time it was checked</li>
+        </ul>
+      </li>
+      <li>Organize pages in a circular buffer (clock), sweeping through with a “clock hand”
+        <ul>
+          <li>Upon sweeping, check if a page’s bit is set to 1</li>
+          <li>If the bit is set to 1, we know it was accessed, and reset to 0</li>
+          <li>If the bit is not set to 1, we know it was not accessed, and evict it</li>
+          <li>Evicted frames can be re-populated with new fetched disk pages</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Problems with LRU and Clock
+    <ul>
+      <li>
+<strong>Sequential Flooding</strong>
+        <ul>
+          <li>A query performs a sequential scan that reads every page</li>
+          <li>This pollutes the buffer pool with pages that are read once and then never again</li>
+          <li>The pages with the oldest timestamps that are important to keep are pushed to eviction by a sequential scan of many new pages</li>
+          <li>The <em>most recently used page</em> is actually the page we should evict in this case</li>
+        </ul>
+      </li>
+      <li>
+<em>Example</em>
+        <ul>
+          <li>Query 1 wants to find tuples with ID = 1 and fetches Page 0</li>
+          <li>Query 2 wants to find average of all values and starts a sequential scan</li>
+          <li>The buffer pool fills up (Page 1, Page 2) and a page needs to be evicted
+            <ul>
+              <li>Under LRU replacement policy, Page 0 is the oldest and should be evicted to be replaced with Page 3</li>
+            </ul>
+          </li>
+          <li>Query 3 wants to do the same thing as Query 1
+            <ul>
+              <li>Now Page 0 needs to be re-fetched even though it was just evicted!</li>
+            </ul>
+          </li>
+          <li>The best approach would have been to evict either Page 1 or Page 2 because the sequential scan is just going to keep reading more pages, not using Page 1 or Page 2 ever again</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>LRU-K</strong>
+    <ul>
+      <li>Track the history of last K references to each page as timestamps
+        <ul>
+          <li>List of timestamps of every time the page was accessed</li>
+        </ul>
+      </li>
+      <li>Compute the interval between subsequent accesses
+        <ul>
+          <li>Which page has the largest interval, or the longest amount of time between accesses?</li>
+        </ul>
+      </li>
+      <li>DBMS then uses this history to estimate the next time that page is going to be accessed</li>
+      <li>Used in more sophisticated DBMS</li>
+    </ul>
+  </li>
+  <li>
+<strong>Localization</strong>
+    <ul>
+      <li>DBMS chooses which pages to evict on a per transaction/query basis
+        <ul>
+          <li>Rather than putting sequentially scanned pages into the global buffer pool, set aside some frames in the buffer pool for a specific query</li>
+          <li>Evict pages least recently used for that specific query, not the global view</li>
+        </ul>
+      </li>
+      <li>Minimizes pollution of buffer pool from each query</li>
+      <li>Postgres maintains a small ring buffer that is private to the query</li>
+    </ul>
+  </li>
+  <li>
+<strong>Priority Hints</strong>
+    <ul>
+      <li>DBMS knows the context of each page during query execution</li>
+      <li>DBMS can provide hints to the buffer pool on whether a page is important or not</li>
+      <li>
+<em>Example</em>
+        <ul>
+          <li>We continuously run queries to insert an incrementing ID value, like auto-increment</li>
+          <li>If the index is sorted on ID in ascending order, we know we want to keep accessing increasing index pages</li>
+          <li>Therefore, DBMS can tell buffer pool that previous index pages are less important and should be evicted</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>
+<strong>Dirty Pages</strong>
+    <ul>
+      <li>How do we handle dirty pages, which have been modified since being fetched into the buffer pool?</li>
+      <li>
+<em>FAST</em>: If a page in the buffer pool is <em>not dirty</em>, then DBMS can simply “drop” it</li>
+      <li>
+<em>SLOW</em>: If a page in the buffer pool is <em>dirty</em>, DBMS must write back to disk to ensure changes are persisted</li>
+      <li>Tradeoff in replacement policy between fast evictions vs. dirty writing pages
+        <ul>
+          <li>If a non-dirty page will be used in the future, DBMS should take the penalty of writing a dirty page out to disk</li>
+          <li>Writing a dirty page is 2 disk I/O’s: 1 to write page to disk and evict from buffer pool, 1 to fetch new page into buffer pool</li>
+          <li>Evicting a non-dirty page is 1 disk I/O: evict from buffer pool and 1 to fetch new page into buffer pool</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Background Writing
+    <ul>
+      <li>How do we figure out whether to keep a non-dirty page or a dirty page?</li>
+      <li>DBMS can periodically walk through page table and write dirty pages to disk</li>
+      <li>When a dirty page is safely written, DBMS can either evict the page or just unset the dirty flag
+        <ul>
+          <li>The replacement policy can now drop more clean pages, since dirty pages have already been written to disk</li>
+        </ul>
+      </li>
+      <li>Need to be careful that dirty pages are not written to disk before their log records have been written to disk
+        <ul>
+          <li>Don’t want to write to disk without first recording the modifications made</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Other Memory Pools
+    <ul>
+      <li>DBMS needs memory for things other than just tuples and indexes</li>
+      <li>Other memory pools may not be backed by disk, depending on implementation
+        <ul>
+          <li>Sorting, Join Buffers</li>
+          <li>Query Caches</li>
+          <li>Maintenance Buffers</li>
+          <li>Log Buffers</li>
+          <li>Dictionary Caches</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br></p>
+
+<ul>
+  <li>Conclusion
+    <ul>
+      <li>The DBMS can manage that sweet, sweet memory better than the OS can</li>
+      <li>Leverage semantics about the query plan to make better decisions
+        <ul>
+          <li>Evictions/Replacement Policy</li>
+          <li>Allocations/Allocation Policy</li>
+          <li>Pre-fetching/Other Optimizations</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
