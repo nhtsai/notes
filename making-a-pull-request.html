@@ -121,69 +121,57 @@ window.onload = wrap_img;
   </li>
   <li>
     <p>Clone your copy of the repository using HTTPS or SSH.</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone forked_repo.git
+</code></pre></div>    </div>
   </li>
-</ol>
+  <li>
+    <p>Create a new branch to work on a separate branch.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone forked_repo.git
-</code></pre></div></div>
-
-<ol>
-  <li>Create a new branch to work on a separate branch.</li>
-</ol>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout origin/master <span class="nt">-b</span> fix_bug
-</code></pre></div></div>
-
-<ol>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git checkout origin/master <span class="nt">-b</span> fix_bug
+</code></pre></div>    </div>
+  </li>
   <li>
     <p>Make any modifications to the code, e.g. bug fix, new feature, etc.</p>
   </li>
   <li>
     <p>Preview your changes.</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git diff
+</code></pre></div>    </div>
   </li>
-</ol>
+  <li>
+    <p>Check the state of the repository. Files should be modified but untracked.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff
-</code></pre></div></div>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git status
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Track the modified files.</p>
 
-<ol>
-  <li>Check the state of the repository. Files should be modified but untracked.</li>
-</ol>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git add file.txt
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Commit the changes.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
-</code></pre></div></div>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git commit <span class="nt">-m</span> <span class="s2">"Fixed typo in file.txt"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check the state of the repository. Files should be modified and changes committed.</p>
 
-<ol>
-  <li>Track the modified files.</li>
-</ol>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git status
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Push your new branch up to your remote forked repository.</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add file.txt
-</code></pre></div></div>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git push origin HEAD
+</code></pre></div>    </div>
 
-<ol>
-  <li>Commit the changes.</li>
-</ol>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">-m</span> <span class="s2">"Fixed typo in file.txt"</span>
-</code></pre></div></div>
-
-<ol>
-  <li>Check the state of the repository. Files should be modified and changes committed.</li>
-</ol>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
-</code></pre></div></div>
-
-<ol>
-  <li>Push your new branch up to your remote forked repository.</li>
-</ol>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin HEAD
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">HEAD</code> is a a shortcut for your current checked-out branch, aka <code class="language-plaintext highlighter-rouge">fix_typo</code>.</p>
-
-<ol>
+    <p><code class="language-plaintext highlighter-rouge">HEAD</code> is a a shortcut for your current checked-out branch, aka <code class="language-plaintext highlighter-rouge">fix_typo</code>.</p>
+  </li>
   <li>
     <p>Open a pull request from your fork.</p>
   </li>
