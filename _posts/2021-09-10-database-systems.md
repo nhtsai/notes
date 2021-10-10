@@ -1196,6 +1196,8 @@ permalink: /database-systems-intro
 
 ## 5. Buffer Pools & Memory Management
 
+* [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/05-bufferpool.pdf)
+
 * Database Workloads
     * **On-line Transaction Processing (OLTP)**
         * Fast operations that only read/update a small amount of data each time
@@ -1505,6 +1507,10 @@ permalink: /database-systems-intro
 
 
 ## 6. Hash Tables
+
+* [Lecture Summary](https://15445.courses.cs.cmu.edu/fall2019/notes/06-hashtables.pdf)
+
+* 
 
 ## 7. Tree Indexes I
 
