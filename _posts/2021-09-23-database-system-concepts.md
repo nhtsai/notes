@@ -272,3 +272,102 @@ permalink: /database-system-concepts
 
 
 ## 2. Introduction to the Relational Model
+
+* Relational model is the primary data model for commercial data-processing
+    * Simplicity compared to earlier data models, i.e. network, hierarchical
+    * Added object-relational features, e.g. complex data types, stored procedures
+    * Added support for XML data and semi-structured data
+    * Independent from any specific underlying low-level data structures
+
+* Structure of Relational Databases
+    * Relational database consists of a collection of **relations**, or *tables*
+        * Each table has a unique name, columns, and rows
+    * **Tuple**: *row*, represents a *relationship* among a set of values
+    * **Attribute**: *column*, describes the values in a tuple
+    * **Relation Instance**: specific instance of a relation, containing a specific set of rows
+    * **Domain**: set of permitted values for an attribute
+        * **Atomic Domain**: elements of the domain are considered to be indivisible units
+    * **Null Value**: special value signifying value is unknown or does not exist
+    * Strict structure of relations is good for storage and data processing in well-defined and relatively static applications, but bad for applications with changing data types and structures
+
+* Database Schema
+    * **Database Schema**: logical design of the database
+    * **Database Instance**: snapshot of data in database at a given instant in time
+    * **Relation Schema**: definition of a relation variable, consisting of a list of attributes and their corresponding domains
+        * Relation may change over time, but the schema does not generally change
+
+* Keys
+    * Tuples must be *uniquely identified* by their attributes, where no two tuples in a relation are allowed to have
+    * **Superkey**: set of one or more attributes that, taken collectively, uniquely identifies a tuple in the relation
+        * Let $R$ denote the set of attributes in the schema of relation $r$
+        * If subset $K \subset R$ is a superkey for $r$ , then no two distinct tuples have the same values on all attributes in $K$ for relation instances of schema $r$ 
+        * If $t_1, t_2$ are in $r$ and $t_1 \neq t_2$ , then $t_1.K \neq t_2.K$
+    * Superkey can contain extraneous attributes
+        * Any superset of a superkey is also a superkey
+        * *Example*: unique ID column with any other column also forms a superkey
+    * **Candidate Key**: minimal superkey for which no proper subset is also a superkey
+    * **Primary Key**: candidate key that is chosen by database designer as principal means of identifying tuples within a relation
+        * A key (primary, candidate, super) is a property of the entire relation, rather than individual tuples
+        * Any two tuples in the relation cannot have same values for key attributes
+        * **Primary Key Constraint**: the primary key is considered a constraint on real-world enterprise being modeled
+        * Primary keys are usually listed first and underlined in relation schema
+        * Primary keys should be chosen such that attribute values are never or very rarely changed
+    * **Foreign Key**: an attribute set in one relation that references the primary key of another relation
+        * **Foreign Key Constraint**: foreign key attributes in a relation must have the same values for primary key attributes of the referenced relation
+            * The foreign key must have the same attributes and values as the primary key being referenced
+        * **Referencing Relation**: relation that has the foreign key constraint
+        * **Referenced Relation**: relation that is being referenced
+    * **Referential Integrity Constraint**: the values appearing in specified attributes of any tuple in the referencing relation must also appear in specified attributes of at least 1 tuple in referenced relation
+        * A general case of the foreign key constraint
+        * Attributes in referencing relation must reference existing attributes in referenced relation
+        * The attribute could be referencing a part of the primary key, so this cannot be enforced with foreign key constraint, which requires referencing attributes form the whole primary key
+
+* Schema Diagrams
+    * **Schema Diagram**: diagram of database schema with primary keys (underlined), foreign key constraints (single-headed arrows), referential integrity constraints (two-headed arrows), relations as boxes with their attributes, and arrows indicating relationships
+
+* Relational Query Languages
+    * **Query Language**: language used to request information from database
+    * **Imperative Query Language**: user instructs system to perform a specific sequence of operations on the database to compute desired result
+        * State variables are updated in the course of computation
+    * **Functional Query Language**: computation consists of evaluation of functions that may operate on data in database or results of other functions
+        * Functions are free of side effects (pure) and don't update program state
+    * **Declarative Query Language**: user describes desired information in a form of mathematical logic, and the database system has to figure out how to obtain desired information through computation
+    * *Example*: relational algebra and SQL are functional, tuple relational calculus and domain relational calculus are declarative
+
+* Relational Algebra
+    * **Relational Algebra**: set of operations that take one or two relations as input and produces a new relation as the result
+        * Unary operations operate on one relation (select, project, rename)
+        * Binary operations operate on pairs of relations (union, Cartesian product, set difference)
+        * Though a relation is a set of tuples and duplicate tuples are prohibited (by definition of set), database systems typically allow duplicate tuples in practice in multisets (sets that allow duplicates)
+    * **Select**: selects tuples that satisfy a given predicate
+    * **Project**: produces a relation
+    * Composition of Relational Operations
+        * **Relational Algebra Expression**: expression consisting of relational algebra operations composed together
+    * **Cartesian Product**: combines information from any two relations
+    * **Join**: combines a selection and Cartesian product into a single operation
+    * **Union**: combines tuples from both input relations
+    * **Intersection**: finds tuples that appear in both input relations
+    * **Set Difference**: finds tuples that are in one relation but not in another
+
+
+## 3. Introduction to SQL
+
+* SQL Overview
+
+* SQL Data Definition
+
+* Basic Structure of SQL Queries
+
+* Additional Basic Operations
+
+* Set Operations
+
+* Null Values
+
+* Aggregate Functions
+
+* Nested Subqueries
+
+* Database Modification
+
+## 4. Intermediate SQL
