@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      19 min read
+      20 min read
     
 </span></p>
 
@@ -819,9 +819,19 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>
-<strong>Select</strong>: selects tuples that satisfy a given predicate</li>
+<strong>Select</strong>: selects tuples that satisfy a given predicate
+        <ul>
+          <li>
+<em>Example</em>: $\sigma_{\theta}(r_1)$</li>
+        </ul>
+      </li>
       <li>
-<strong>Project</strong>: produces a relation</li>
+<strong>Project</strong>: produces a relation
+        <ul>
+          <li>
+<em>Example</em>: $\Pi_{\text{attributes}}(r_1)$</li>
+        </ul>
+      </li>
       <li>Composition of Relational Operations
         <ul>
           <li>
@@ -829,15 +839,69 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>
-<strong>Cartesian Product</strong>: combines information from any two relations</li>
+<strong>Cartesian Product</strong>: combines information from any two relations
+        <ul>
+          <li>
+<em>Example</em>: $r_1 \times r_2$</li>
+        </ul>
+      </li>
       <li>
-<strong>Join</strong>: combines a selection and Cartesian product into a single operation</li>
+<strong>Join</strong>: combines a selection and Cartesian product into a single operation
+        <ul>
+          <li>
+<em>Example</em>: $r_1 \bowtie_{\theta} r_2$</li>
+          <li>Equivalent to $\sigma_{\theta}(r_1 \times r_2)$ , selecting all the matching rows of the cartesian product</li>
+        </ul>
+      </li>
       <li>
-<strong>Union</strong>: combines tuples from both input relations</li>
+<strong>Union</strong>: combines tuples that appear in either or both input relations
+        <ul>
+          <li>
+<em>Example</em>: $r_1 \cup r_2$</li>
+          <li>Input relations must be <strong>compatible</strong>:
+            <ul>
+              <li>Input relations must have same <strong>arity</strong>, or number of attributes</li>
+              <li>Those attributes must have same types</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
       <li>
-<strong>Intersection</strong>: finds tuples that appear in both input relations</li>
+<strong>Intersection</strong>: finds tuples that appear in both input relations
+        <ul>
+          <li>
+<em>Example</em>: $r_1 \cap r_2$</li>
+        </ul>
+      </li>
       <li>
-<strong>Set Difference</strong>: finds tuples that are in one relation but not in another</li>
+<strong>Set Difference</strong>: finds tuples that are in one relation but not in another
+        <ul>
+          <li>
+<em>Example</em>: $r_1 - r_2$</li>
+        </ul>
+      </li>
+      <li>
+<strong>Assignment</strong>: assigns parts of an expression to temporary relation variables
+        <ul>
+          <li>
+<em>Example</em>: $r_3 \leftarrow (\Pi_{L}(\sigma_{\theta}(r_1)))$</li>
+        </ul>
+      </li>
+      <li>
+<strong>Rename</strong>: gives names to results of expressions
+        <ul>
+          <li>
+<em>Example</em>: $\rho_{X}(E)$ to rename expression result to x</li>
+          <li>
+<em>Example</em>: $\rho_{X(A_1, A_2, \ldots, A_n)}(E)$ to also rename attributes</li>
+        </ul>
+      </li>
+      <li>Equivalent Queries
+        <ul>
+          <li>There is often more than 1 way to write a query in relational algebra that are <strong>equivalent</strong>, or give the same result on any database</li>
+          <li>Query optimizers often look at the result to figure out the most efficient but equivalent alternative expressions</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
