@@ -340,14 +340,33 @@ permalink: /database-system-concepts
         * Binary operations operate on pairs of relations (union, Cartesian product, set difference)
         * Though a relation is a set of tuples and duplicate tuples are prohibited (by definition of set), database systems typically allow duplicate tuples in practice in multisets (sets that allow duplicates)
     * **Select**: selects tuples that satisfy a given predicate
+        * *Example*: $\sigma_{\theta}(r_1)$
     * **Project**: produces a relation
+        * *Example*: $\Pi_{\text{attributes}}(r_1)$
     * Composition of Relational Operations
         * **Relational Algebra Expression**: expression consisting of relational algebra operations composed together
     * **Cartesian Product**: combines information from any two relations
+        * *Example*: $r_1 \times r_2$
     * **Join**: combines a selection and Cartesian product into a single operation
-    * **Union**: combines tuples from both input relations
+        * *Example*: $r_1 \bowtie_{\theta} r_2$
+        * Equivalent to $\sigma_{\theta}(r_1 \times r_2)$ , selecting all the matching rows of the cartesian product
+    * **Union**: combines tuples that appear in either or both input relations
+        * *Example*: $r_1 \cup r_2$
+        * Input relations must be **compatible**:
+            * Input relations must have same **arity**, or number of attributes
+            * Those attributes must have same types
     * **Intersection**: finds tuples that appear in both input relations
+        * *Example*: $r_1 \cap r_2$
     * **Set Difference**: finds tuples that are in one relation but not in another
+        * *Example*: $r_1 - r_2$
+    * **Assignment**: assigns parts of an expression to temporary relation variables
+        * *Example*: $r_3 \leftarrow (\Pi_{L}(\sigma_{\theta}(r_1)))$
+    * **Rename**: gives names to results of expressions
+        * *Example*: $\rho_{X}(E)$ to rename expression result to x
+        * *Example*: $\rho_{X(A_1, A_2, \ldots, A_n)}(E)$ to also rename attributes
+    * Equivalent Queries
+        * There is often more than 1 way to write a query in relational algebra that are **equivalent**, or give the same result on any database
+        * Query optimizers often look at the result to figure out the most efficient but equivalent alternative expressions
 
 
 ## 3. Introduction to SQL
