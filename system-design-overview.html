@@ -97,7 +97,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      14 min read
+      16 min read
     
 </span></p>
 
@@ -194,17 +194,27 @@ window.onload = wrap_img;
 <h3 id="clones">
 <a class="anchor" href="#clones" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clones</h3>
 <ul>
-  <li>Load balancers evenly distribute user requests to public web servers.</li>
-  <li>
-<strong>Rule #1</strong>: Every server contains exactly the same codebase and does not store any user-related data, like sessions or profile pictures, on local disc or memory.</li>
-  <li>Sessions need to stored in a centralized data store that is accessible by all application servers.
+  <li>Load balancers evenly distribute user requests to public web servers for processing.
     <ul>
-      <li>The data store can be an external database or an external persistent cache (e.g. Redis), which will have better performance than an external database.</li>
-      <li>External means data store is somewhere in or near the data center of application servers, does not reside on application servers themselves.</li>
+      <li>Every server contains exactly the same codebase and <em>does not store any user-related data</em>, like sessions or profile pictures, on local disc or memory.</li>
     </ul>
   </li>
-  <li>Deployment ensures that a code change is sent to all servers without an outdated server still serving old code.</li>
-  <li>Clones are instances of an machine image based upon a “super-clone” that is created from one of your servers.
+  <li>Sessions need to stored in a centralized data store that is accessible by all application servers.
+    <ul>
+      <li>This way the user session can be maintained if a different application server handles the user’s requests.</li>
+      <li>E.g. Keeps a user’s shopping cart data the same if multiple servers handle the same user</li>
+    </ul>
+  </li>
+  <li>The data store can be an external database or an external persistent cache (e.g. Redis), which will have better performance than an external database.
+    <ul>
+      <li>
+<strong>External</strong> means data store is somewhere in or near the data center of application servers, does not reside on application servers themselves.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Deployment</strong> ensures that a code change is sent to all servers without an outdated server still serving old code.</li>
+  <li>
+<strong>Clones</strong> are instances of an machine image based upon a “super-clone” that is created from one of your servers.
     <ul>
       <li>Just do an initial deployment of your latest code to a new clone and everything is ready.</li>
     </ul>
@@ -216,7 +226,7 @@ window.onload = wrap_img;
 <ul>
   <li>Using cloning, you can now horizontally scale across multiple servers to handle lots of requests.</li>
   <li>But one day, your application slows and breaks due to the MySQL database.</li>
-  <li>Path 1: Keep MySQL
+  <li>Approach 1: Keep MySQL
     <ul>
       <li>Apply active-passive replication strategy on the database.</li>
       <li>Upgrade server components like RAM.</li>
@@ -224,11 +234,11 @@ window.onload = wrap_img;
       <li>Eventually the upkeep will become too expensive.</li>
     </ul>
   </li>
-  <li>Path 2: NoSQL
+  <li>Approach 2: Transition to NoSQL
     <ul>
       <li>Denormalize right from the beginning.</li>
       <li>Remove joins from any database query.</li>
-      <li>Use MySQL as a NoSQL database or switch to MongoDB.</li>
+      <li>Use MySQL as a NoSQL database or switch to a NoSQL database like MongoDB.</li>
       <li>If database requests still get too slow, consider a cache.</li>
     </ul>
   </li>
@@ -237,24 +247,25 @@ window.onload = wrap_img;
 <h3 id="cache">
 <a class="anchor" href="#cache" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cache</h3>
 <ul>
-  <li>An in-memory cache (e.g. Memcached, Redis) is a simple key-value store that resides between the application and data storage.</li>
+  <li>An in-memory <strong>cache</strong> (e.g. Memcached, Redis) is a simple key-value store that resides between the application and data storage.</li>
   <li>The application should try to read from the cache first before hitting the database because the cache is lightning fast.
     <ul>
-      <li>The cache holds every dataset in RAM and handles requests as fast as possible.</li>
+      <li>The cache holds every dataset in <em>memory</em> (RAM) and handles requests as fast as possible, compared to <em>disk</em> data storage where I/O of reading/writing data is much slower.</li>
     </ul>
   </li>
-  <li>Cached Database Queries
+  <li>Approach 1: Cached Database Queries
     <ul>
-      <li>Whenevery a query on the database is run, store the result dataset in a cache.</li>
+      <li>Whenever a query on the database is run, store the result dataset in a cache.</li>
       <li>Use a hashed version of query as cache key.</li>
       <li>Expiration is a large issue.
         <ul>
-          <li>All cached results that include piece a data needed to be deleted when that piece of data changes.</li>
+          <li>How do we decide what cached results to evict from the cache?</li>
+          <li>When data is updated, all cached results calculated from that data are outdated and need to be deleted.</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Cached Objects
+  <li>Approach 2: Cached Objects
     <ul>
       <li>See the data as an object or class.
         <ul>
@@ -262,19 +273,21 @@ window.onload = wrap_img;
           <li>Store the complete instance of the class or assembled dataset into the cache.</li>
         </ul>
       </li>
-      <li>Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.</li>
-    </ul>
-  </li>
-  <li>If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.
-    <ul>
-      <li>This makes it easy to delete the object when a piece of data changes.</li>
-      <li>This makes asynchronous processing possible.
+      <li>Rather than storing results of multiple queries, we can <em>aggregate the results as data for a class instance</em> and store the instance in the cache.</li>
+      <li>If this ID is not present in the cache, load the data from DB, translate it and return to the client.
         <ul>
-          <li>Servers query the database to assemble the data in the class.</li>
-          <li>The application just serves the latest cached object and never touches the database.</li>
+          <li>You can cache this result by translating this data into the raw data your cache has, and put it into the cache.</li>
+          <li>This makes it easy to delete the object when a piece of data changes.</li>
+          <li>This makes asynchronous processing possible.
+            <ul>
+              <li>Servers query the database to assemble the data in the class.</li>
+              <li>The application just serves the latest cached object and never touches the database.</li>
+            </ul>
+          </li>
         </ul>
       </li>
-      <li>Example Objects: user sessions, fully rendered blog articles, activity streams, user-friend relationships
+      <li>
+<em>Example</em>: Let objects be user sessions, fully rendered blog articles, activity streams, user-friend relationships
         <ul>
           <li>The blog object has multiple methods that query the database for data.</li>
           <li>Instead of caching the result of these separate database calls, cache the entire blog object.</li>
@@ -291,34 +304,37 @@ window.onload = wrap_img;
 <ul>
   <li>Asynchronously doing work in advance and serving finished work with low request time.
     <ul>
-      <li>Used to turn dynamic content into static content.
+      <li>Used to turn dynamic content into static content.</li>
+      <li>
+<em>Example</em>: Pre-rendering pages into static HTML files to be served quicker.
         <ul>
-          <li>Think pre-rendering pages into static HTML files to be served quicker.</li>
           <li>The rendering can be scripted to run every hour by a cronjob.</li>
-          <li>This pre-computing process helps make web applications scalable and performant</li>
+          <li>This pre-computing process helps make web applications scalable and performant.</li>
         </ul>
       </li>
     </ul>
   </li>
-  <li>Referring unforseen, immediate requests to an asynchronous service.
+  <li>Referring unforeseen, immediate requests to an asynchronous service.
     <ul>
-      <li>Upon receiving a computing intensive task, the job is added to the job queue.</li>
+      <li>Upon receiving a compute-intensive task, the job is added to the job queue.</li>
       <li>The job is then sent to an asynchronous server to be processed in the background.</li>
-      <li>The results are returned once the server is done processing.</li>
+      <li>Other less compute-intensive tasks can still be processed in the meantime, avoiding idle time.</li>
+      <li>The results of the compute-intensive job are returned once the server is done processing.</li>
     </ul>
   </li>
   <li>Basic idea: Have a queue of tasks or jobs that a worker can process.
     <ul>
       <li>Backends become scalable and frontends become responsive.</li>
-      <li>Tools to implement async processing: RabbitMQ</li>
     </ul>
   </li>
+  <li>Tools to implement async processing: <a href="https://www.rabbitmq.com/">RabbitMQ</a>
+</li>
 </ul>
 
 <h2 id="performance-vs-scalability">
 <a class="anchor" href="#performance-vs-scalability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Performance vs Scalability</h2>
 <ul>
-  <li>A service is <strong>scalable</strong> if it results in increased <strong>performance</strong> in a manner proportional to resources added.
+  <li>A service is <strong>scalable</strong> if it results in increased <strong>performance</strong> in a manner <em>proportional to resources added</em>.
     <ul>
       <li>E.g. adding another server to handle requests speeds up the website response time</li>
     </ul>
@@ -329,11 +345,11 @@ window.onload = wrap_img;
   </li>
   <li>An always-on service is <strong>scalable</strong> if adding resources to facilitate <strong>redundancy</strong> does not result in loss of <strong>performance</strong>.
     <ul>
-      <li>E.g. adding multiple copies of a database for redundancy does not decrease the query response time</li>
+      <li>E.g. Adding multiple replications of a database for redundancy does not decrease the query response time</li>
     </ul>
   </li>
   <li>Scalability requires applications be <strong>designed</strong> with scaling in mind.</li>
-  <li>Scalability also has to handle <strong>heterogeneity</strong>.
+  <li>Scalability also has to handle <strong>heterogeneity</strong>, in which servers may not work in the same manner.
     <ul>
       <li>As new resources (hardware, software) come online, some nodes will be able to process faster or store more data than other nodes in a system.</li>
     </ul>
@@ -347,7 +363,7 @@ window.onload = wrap_img;
 <strong>Latency</strong> is the time to perform some action or to produce some result.</li>
   <li>
 <strong>Throughput</strong> is the number of such actions or results per unit of time.</li>
-  <li>Generally, you should aim for <strong>maximal throughup</strong> with <strong>acceptable latency</strong>.</li>
+  <li>Generally, you should aim for <strong>maximal throughput</strong> with <strong>acceptable latency</strong>.</li>
 </ul>
 
 <h2 id="availability-vs-consistency">
@@ -360,13 +376,30 @@ window.onload = wrap_img;
       <li>
 <strong>Consistency</strong>: every read receives most recent write or an error</li>
       <li>
-<strong>Availability</strong>: every request receives a response, without guarantee that it contains the most recent version of the data</li>
+<strong>Availability</strong>: every request receives a (non-error) response, without guarantee that it contains the most recent write</li>
       <li>
-<strong>Partition Tolerance</strong>: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline</li>
+<strong>Partition Tolerance</strong>: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline, requests are dropped, etc.</li>
     </ul>
   </li>
-  <li>Networks aren’t reliable, so <em>partition tolerance needs to be supported</em>.</li>
-  <li>You need to make a <em>software tradeoff between consistency and availability</em>.</li>
+  <li>CA or CP, or AP?
+    <ul>
+      <li>Networks aren’t reliable, so <em>partition tolerance (P) needs to be supported</em>.</li>
+      <li>When a network partition failure happens, need to either:
+        <ul>
+          <li>Cancel the operation, decreasing availability but ensuring consistency</li>
+          <li>Proceed with operation, decreasing consistency but ensuring availability</li>
+        </ul>
+      </li>
+      <li>You need to make a <em>software tradeoff between consistency (C) and availability (A)</em>.
+        <ul>
+          <li>Consistency (C) and availability (A) is not a practical option.</li>
+          <li>For (CP), system will return up-to-date response, but it may return an error or time out if a network failure occurs</li>
+          <li>For (AP), system will return a response if a network failure occurs, but the response may be outdated.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>For systems with no partitions or no network partition failures, all 3 guarantees can be satisfied.</li>
 </ul>
 
 <h3 id="consistency-and-partition-tolerance-cp">
@@ -374,10 +407,17 @@ window.onload = wrap_img;
 <ul>
   <li>System is consistent across servers and can handle network failures, but responses to requests are not always available.</li>
   <li>Waiting for a response from the partitioned node might result in a timeout error.</li>
-  <li>Good choice if <strong>atomic reads and writes</strong> are required.
+  <li>Good choice if <strong>atomic reads and writes</strong> are required, e.g. banks.
     <ul>
       <li>
-<strong>Atomic</strong> refers to performing operations one at a time.</li>
+<strong>Atomic</strong> refers to performing operations one at a time in a complete manner.</li>
+      <li>By returning an error, an incomplete operation is stopped.</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: A read operation is performed, but data propagation to all nodes is interrupted by system failure.
+    <ul>
+      <li>The system will</li>
     </ul>
   </li>
 </ul>
@@ -471,7 +511,7 @@ window.onload = wrap_img;
     <ul>
       <li>Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.</li>
       <li>If a heartbeat is interrupted, the passive server takes over the active server’s IP address and resumes service to maintain availability.</li>
-      <li>Downtime duration is determined by whether passive servier is already running in ‘hot’ standby or starting from ‘cold’ standby.</li>
+      <li>Downtime duration is determined by whether passive server is already running in ‘hot’ standby or starting from ‘cold’ standby.</li>
     </ul>
   </li>
   <li>Active-Active
@@ -551,7 +591,7 @@ window.onload = wrap_img;
 <ul>
   <li>Overall availability <em>decreases</em> when two components with &lt; 100% availability are in <strong>sequence</strong>.</li>
   <li>
-    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo>∗</mo><mtext>Availabiilty</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availabiilty</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span></span></span></span></span>
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo>∗</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availability}(\text{Bar})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span></span></span></span></span>
   </li>
   <li>If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.</li>
 </ul>
@@ -559,9 +599,9 @@ window.onload = wrap_img;
 <h3 id="availability-in-parallel">
 <a class="anchor" href="#availability-in-parallel" aria-hidden="true"><span class="octicon octicon-link"></span></a>Availability in Parallel</h3>
 <ul>
-  <li>Overall availability <em>increases</em> when two componenets with &lt; 100% availabiilty are in <strong>parallel</strong>.</li>
+  <li>Overall availability <em>increases</em> when two components with &lt; 100% availability are in <strong>parallel</strong>.</li>
   <li>
-    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>∗</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availabiilty</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availabiilty</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span>
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Total</mtext><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Foo</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>∗</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mtext>Availability</mtext><mo stretchy="false">(</mo><mtext>Bar</mtext><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availability}(\text{Bar}))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Total</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Foo</span></span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Availability</span></span><span class="mopen">(</span><span class="mord text"><span class="mord">Bar</span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span>
   </li>
   <li>If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.</li>
 </ul>
@@ -577,7 +617,7 @@ window.onload = wrap_img;
       <li>DNS results can also be cached by your browser or OS for a certain period of time, determined by the <strong>time to live (TTL)</strong>.</li>
     </ul>
   </li>
-  <li>A <strong>Name Server (NS) Record</strong> specifieds the DNS servers for your domain/subdomain.</li>
+  <li>A <strong>Name Server (NS) Record</strong> specifies the DNS servers for your domain/subdomain.</li>
   <li>A <strong>Mail Exchange (MX) Record</strong> specifies the mail servers for accepting messages.</li>
   <li>An <strong>Address (A) Record</strong> points a name to an IP address.</li>
   <li>A <strong>Canonical Name (CNAME)</strong> points a name to another name or to an A Record, e.g. pointing <code class="language-plaintext highlighter-rouge">example.com</code> to <code class="language-plaintext highlighter-rouge">www.example.com</code>.</li>
@@ -590,7 +630,7 @@ window.onload = wrap_img;
   <li>
 <strong>Round Robin</strong>
     <ul>
-      <li>Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request</li>
+      <li>Pairs an incoming request to a specific machine by circling through a list of servers capable of handling the request</li>
       <li>May not result in a perfectly-balanced load distribution</li>
     </ul>
   </li>
@@ -628,7 +668,7 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>Can localize content and restrict content distribution based on region.</li>
-      <li>Can load balance predicatably so each user location is consistently routed to the same endpoint.</li>
+      <li>Can load balance predictably so each user location is consistently routed to the same endpoint.</li>
     </ul>
   </li>
 </ul>
