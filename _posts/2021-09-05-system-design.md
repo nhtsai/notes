@@ -20,49 +20,53 @@ permalink: /system-design-overview
 
 
 ### Clones
-* Load balancers evenly distribute user requests to public web servers.
-* **Rule #1**: Every server contains exactly the same codebase and does not store any user-related data, like sessions or profile pictures, on local disc or memory.
+* Load balancers evenly distribute user requests to public web servers for processing.
+    * Every server contains exactly the same codebase and *does not store any user-related data*, like sessions or profile pictures, on local disc or memory.
 * Sessions need to stored in a centralized data store that is accessible by all application servers.
-    * The data store can be an external database or an external persistent cache (e.g. Redis), which will have better performance than an external database.
-    * External means data store is somewhere in or near the data center of application servers, does not reside on application servers themselves.
-* Deployment ensures that a code change is sent to all servers without an outdated server still serving old code.
-* Clones are instances of an machine image based upon a "super-clone" that is created from one of your servers.
+    * This way the user session can be maintained if a different application server handles the user's requests.
+    * E.g. Keeps a user's shopping cart data the same if multiple servers handle the same user
+* The data store can be an external database or an external persistent cache (e.g. Redis), which will have better performance than an external database.
+    * **External** means data store is somewhere in or near the data center of application servers, does not reside on application servers themselves.
+* **Deployment** ensures that a code change is sent to all servers without an outdated server still serving old code.
+* **Clones** are instances of an machine image based upon a "super-clone" that is created from one of your servers.
     * Just do an initial deployment of your latest code to a new clone and everything is ready.
 
 ### Databases
 * Using cloning, you can now horizontally scale across multiple servers to handle lots of requests.
 * But one day, your application slows and breaks due to the MySQL database.
-* Path 1: Keep MySQL
+* Approach 1: Keep MySQL
     * Apply active-passive replication strategy on the database.
     * Upgrade server components like RAM.
     * Consider sharding, denormalization, SQL tuning, etc.
     * Eventually the upkeep will become too expensive.
-* Path 2: NoSQL
+* Approach 2: Transition to NoSQL
     * Denormalize right from the beginning.
     * Remove joins from any database query.
-    * Use MySQL as a NoSQL database or switch to MongoDB.
+    * Use MySQL as a NoSQL database or switch to a NoSQL database like MongoDB.
     * If database requests still get too slow, consider a cache.
 
 ### Cache
-* An in-memory cache (e.g. Memcached, Redis) is a simple key-value store that resides between the application and data storage.
+* An in-memory **cache** (e.g. Memcached, Redis) is a simple key-value store that resides between the application and data storage.
 * The application should try to read from the cache first before hitting the database because the cache is lightning fast.
-    * The cache holds every dataset in RAM and handles requests as fast as possible.
-* Cached Database Queries
-    * Whenevery a query on the database is run, store the result dataset in a cache.
+    * The cache holds every dataset in *memory* (RAM) and handles requests as fast as possible, compared to *disk* data storage where I/O of reading/writing data is much slower.
+* Approach 1: Cached Database Queries
+    * Whenever a query on the database is run, store the result dataset in a cache.
     * Use a hashed version of query as cache key.
     * Expiration is a large issue.
-        * All cached results that include piece a data needed to be deleted when that piece of data changes.
-* Cached Objects
+        * How do we decide what cached results to evict from the cache?
+        * When data is updated, all cached results calculated from that data are outdated and need to be deleted.
+* Approach 2: Cached Objects
     * See the data as an object or class.
         * Let the class assemble the dataset from the database.
         * Store the complete instance of the class or assembled dataset into the cache.
-    * Rather than storing results of multiple queries, we can aggregate the results as data for a class instance and store the instance in the cache.
-* If this ID is not present in the cache, load the data from DB, translate it and return to the client. You can cache this result by translating this data again, into the rawdata your cache has, and put it into the cache.
-    * This makes it easy to delete the object when a piece of data changes.
-    * This makes asynchronous processing possible.
-        * Servers query the database to assemble the data in the class.
-        * The application just serves the latest cached object and never touches the database.
-    * Example Objects: user sessions, fully rendered blog articles, activity streams, user-friend relationships
+    * Rather than storing results of multiple queries, we can *aggregate the results as data for a class instance* and store the instance in the cache.
+    * If this ID is not present in the cache, load the data from DB, translate it and return to the client.
+        * You can cache this result by translating this data into the raw data your cache has, and put it into the cache.
+        * This makes it easy to delete the object when a piece of data changes.
+        * This makes asynchronous processing possible.
+            * Servers query the database to assemble the data in the class.
+            * The application just serves the latest cached object and never touches the database.
+    * *Example*: Let objects be user sessions, fully rendered blog articles, activity streams, user-friend relationships
         * The blog object has multiple methods that query the database for data.
         * Instead of caching the result of these separate database calls, cache the entire blog object.
         * When something changes, the blog object queries the database for updated data.
@@ -71,49 +75,61 @@ permalink: /system-design-overview
 ### Asynchronism
 * Asynchronously doing work in advance and serving finished work with low request time.
     * Used to turn dynamic content into static content.
-        * Think pre-rendering pages into static HTML files to be served quicker.
+    * *Example*: Pre-rendering pages into static HTML files to be served quicker.
         * The rendering can be scripted to run every hour by a cronjob.
-        * This pre-computing process helps make web applications scalable and performant
-* Referring unforseen, immediate requests to an asynchronous service.
-    * Upon receiving a computing intensive task, the job is added to the job queue.
+        * This pre-computing process helps make web applications scalable and performant.
+* Referring unforeseen, immediate requests to an asynchronous service.
+    * Upon receiving a compute-intensive task, the job is added to the job queue.
     * The job is then sent to an asynchronous server to be processed in the background.
-    * The results are returned once the server is done processing.
+    * Other less compute-intensive tasks can still be processed in the meantime, avoiding idle time.
+    * The results of the compute-intensive job are returned once the server is done processing.
 * Basic idea: Have a queue of tasks or jobs that a worker can process.
     * Backends become scalable and frontends become responsive.
-    * Tools to implement async processing: RabbitMQ
+* Tools to implement async processing: [RabbitMQ](https://www.rabbitmq.com/)
 
 ## Performance vs Scalability
-* A service is **scalable** if it results in increased **performance** in a manner proportional to resources added.
+* A service is **scalable** if it results in increased **performance** in a manner *proportional to resources added*.
     * E.g. adding another server to handle requests speeds up the website response time
 * If the system is slow for a single user, there is a **performance** problem.
 * If the system is fast for a single user but slow under heavy load, there is a **scalability** problem.
 
 * An always-on service is **scalable** if adding resources to facilitate **redundancy** does not result in loss of **performance**.
-    * E.g. adding multiple copies of a database for redundancy does not decrease the query response time
+    * E.g. Adding multiple replications of a database for redundancy does not decrease the query response time
 
 * Scalability requires applications be **designed** with scaling in mind.
-* Scalability also has to handle **heterogeneity**.
+* Scalability also has to handle **heterogeneity**, in which servers may not work in the same manner.
     * As new resources (hardware, software) come online, some nodes will be able to process faster or store more data than other nodes in a system.
 
 ## Latency vs Throughput
 * **Latency** is the time to perform some action or to produce some result.
 * **Throughput** is the number of such actions or results per unit of time.
-* Generally, you should aim for **maximal throughup** with **acceptable latency**.
+* Generally, you should aim for **maximal throughput** with **acceptable latency**.
 
 ## Availability vs Consistency
 ### CAP Theorem
 * In a distributed system, you can only support 2 guarantees:
     * **Consistency**: every read receives most recent write or an error
-    * **Availability**: every request receives a response, without guarantee that it contains the most recent version of the data
-    * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline
-* Networks aren't reliable, so *partition tolerance needs to be supported*.
-* You need to make a *software tradeoff between consistency and availability*.
+    * **Availability**: every request receives a (non-error) response, without guarantee that it contains the most recent write
+    * **Partition Tolerance**: system continues to operate despite arbitrary partitioning due to network failures, e.g. a server crashes or goes offline, requests are dropped, etc.
+* CA or CP, or AP?
+    * Networks aren't reliable, so *partition tolerance (P) needs to be supported*.
+    * When a network partition failure happens, need to either:
+        * Cancel the operation, decreasing availability but ensuring consistency
+        * Proceed with operation, decreasing consistency but ensuring availability
+    * You need to make a *software tradeoff between consistency (C) and availability (A)*.
+        * Consistency (C) and availability (A) is not a practical option.
+        * For (CP), system will return up-to-date response, but it may return an error or time out if a network failure occurs
+        * For (AP), system will return a response if a network failure occurs, but the response may be outdated.
+* For systems with no partitions or no network partition failures, all 3 guarantees can be satisfied.
 
 ### Consistency and Partition Tolerance (CP)
 * System is consistent across servers and can handle network failures, but responses to requests are not always available.
 * Waiting for a response from the partitioned node might result in a timeout error.
-* Good choice if **atomic reads and writes** are required.
-    * **Atomic** refers to performing operations one at a time.
+* Good choice if **atomic reads and writes** are required, e.g. banks.
+    * **Atomic** refers to performing operations one at a time in a complete manner.
+    * By returning an error, an incomplete operation is stopped.
+* *Example*: A read operation is performed, but data propagation to all nodes is interrupted by system failure.
+    * The system will 
 
 ### Availability and Partition Tolerance (AP)
 * System is always available and can handle network failures, but the data is not always consistent or up to date across nodes.
@@ -164,7 +180,7 @@ permalink: /system-design-overview
 * Active-Passive
     * Heartbeats are sent between the active server and the passive server on standby. Only the active server handles traffic.
     * If a heartbeat is interrupted, the passive server takes over the active server's IP address and resumes service to maintain availability.
-    * Downtime duration is determined by whether passive servier is already running in 'hot' standby or starting from 'cold' standby. 
+    * Downtime duration is determined by whether passive server is already running in 'hot' standby or starting from 'cold' standby. 
 * Active-Active
     * Both servers are managing traffic, spreading load between them
     * If servers are public-facing, DNS needs to know about public IPs of both servers.
@@ -192,12 +208,12 @@ permalink: /system-design-overview
 
 ### Availability in Sequence
 * Overall availability *decreases* when two components with < 100% availability are in **sequence**.
-* $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availabiilty}(\text{Bar})$$
+* $$\text{Availability}(\text{Total}) = \text{Availability}(\text{Foo}) * \text{Availability}(\text{Bar})$$
 * If both Foo and Bar have 99.9% availability each, their total availability in sequence would be 99.8%.
 
 ### Availability in Parallel
-* Overall availability *increases* when two componenets with < 100% availabiilty are in **parallel**.
-* $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availabiilty}(\text{Bar}))$$
+* Overall availability *increases* when two components with < 100% availability are in **parallel**.
+* $$\text{Availability}(\text{Total}) = 1 - (1 - \text{Availability}(\text{Foo})) * (1 - \text{Availability}(\text{Bar}))$$
 * If both Foo and Bar have 99.9% availability each, their total availability in parallel would be 99.9999%.
 
 ## Domain Name System (DNS)
@@ -206,7 +222,7 @@ permalink: /system-design-overview
     * Your router or ISP provides information about which DNS server(s) to contact when doing a lookup.
     * Lower level DNS servers cache mappings, which could become stale due to DNS propagation delays.
     * DNS results can also be cached by your browser or OS for a certain period of time, determined by the **time to live (TTL)**.
-* A **Name Server (NS) Record** specifieds the DNS servers for your domain/subdomain.
+* A **Name Server (NS) Record** specifies the DNS servers for your domain/subdomain.
 * A **Mail Exchange (MX) Record** specifies the mail servers for accepting messages.
 * An **Address (A) Record** points a name to an IP address.
 * A **Canonical Name (CNAME)** points a name to another name or to an A Record, e.g. pointing `example.com` to `www.example.com`.
@@ -214,7 +230,7 @@ permalink: /system-design-overview
 
 ### DNS Traffic Routing Methods
 * **Round Robin**
-    * Pairs an incoming request to a specific machine by circling through a list of servers capaable of handling the request
+    * Pairs an incoming request to a specific machine by circling through a list of servers capable of handling the request
     * May not result in a perfectly-balanced load distribution
 
 * **Weighted Round Robin**
@@ -234,7 +250,7 @@ permalink: /system-design-overview
     * Choosing servers to serve traffic based on the geographic location of users.
         * E.g. routing all European traffic to a European load balancer
     * Can localize content and restrict content distribution based on region.
-    * Can load balance predicatably so each user location is consistently routed to the same endpoint.
+    * Can load balance predictably so each user location is consistently routed to the same endpoint.
 
 ### Disadvantages of DNS
 * Accessing a DNS server introduces a slight delay, which can be mitigated by caching.
