@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Probability | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introduction to Probability" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Book notes on probability." />
+<meta property="og:description" content="Book notes on probability." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/probability-book" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/probability-book" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-26T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-10-26T00:00:00-05:00","url":"https://nhtsai.github.io/notes/probability-book","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-10-26T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/probability-book"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Book notes on probability.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.css" integrity="sha512-SgbQw5g+dYpW7CUSasc2ontF/7/JIHORpkzukPxbO2JIcyGy7p2WtlkfBGHvekdhJawrdp+p1bEzBH+nU/cbEg==" crossorigin="anonymous" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.js" integrity="sha512-vhW78Uk043jhhQnaIpK3Io8CbTmcD3fcfZyhl7qz+Md1P78MI7Hlw39lEqdddt8nobv4sclKZU8CeVDzIfLUNA==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/contrib/auto-render.min.js" integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==" crossorigin="anonymous"></script>
+    <!-- MathJax -->
+    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- KaTeX Auto-render Function with custom delimiter rules -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to Probability</h1><p class="page-description">Book notes on probability.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-26T00:00:00-05:00" itemprop="datePublished">
+        Oct 26, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#book-notes">book-notes</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#mathematics">mathematics</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#probability">probability</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#statistics">statistics</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#introduction-to-probability-by-blitzstein--hwang">Introduction to Probability by Blitzstein &amp; Hwang</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1-probability-and-counting">1. Probability and Counting</a></li>
+<li class="toc-entry toc-h2"><a href="#2-conditional-probability">2. Conditional Probability</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="introduction-to-probability-by-blitzstein--hwang">
+<a class="anchor" href="#introduction-to-probability-by-blitzstein--hwang" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction to Probability by Blitzstein &amp; Hwang</h1>
+<ul>
+  <li><a href="www.probabilitybook.net">Online Book</a></li>
+</ul>
+
+<h2 id="1-probability-and-counting">
+<a class="anchor" href="#1-probability-and-counting" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Probability and Counting</h2>
+
+<p><strong>Why study probability?</strong></p>
+<ul>
+  <li>Probability is the logic of uncertainty.</li>
+  <li>Applications of probability: statistics, physics, biology, computer science, meteorology, gambilng, finance, political science, medicine, life.</li>
+</ul>
+
+<p><strong>Sample spaces and Pebble World</strong></p>
+<ul>
+  <li>An experiment results in a set of outcomes, and the outcome is unknown before the experiment is run.</li>
+  <li>
+<strong>Sample Space</strong>: set of all possible outcomes of the experiment
+    <ul>
+      <li>The sample space $S$ can be finite, countably infinite, or uncountably infinite</li>
+    </ul>
+  </li>
+  <li>
+<strong>Event</strong>: subset of the sample space
+    <ul>
+      <li>Event $A$ <em>occurred</em> if the actual outcome of the experiment is in $A$</li>
+    </ul>
+  </li>
+  <li>If $S$ is finite, we can visualize it as <em>pebble world</em>, in which each pebble is an outcome and each event is a set of pebbles
+    <ul>
+      <li>Performing an experiment is randomly selecting one pebble</li>
+      <li>If all the pebbles are of the same mass, they are equally likely to be chosen, a special case</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: let $S$ be the sample space of an experiment and let $A,B \subseteq S$ be events
+    <ul>
+      <li>Union $A \cup B$ : the event that occurs if and only if <em>at least one</em> of $A, B$ occurs, “OR”</li>
+      <li>Intersection $A \cap B$ : the event that occurs if and only if <em>both</em> $A$ and $B$ occur, “AND”</li>
+      <li>Complement $A^C$ : the event that occurs if and only if $A$ does <em>not</em> occur, “NOT”</li>
+    </ul>
+  </li>
+  <li>
+<strong>De Morgan’s Laws</strong>
+    <ul>
+      <li>$(A \cup B)^C = A^C \cap B^C$ : it is not the case that at least one of $A, B$ occur is the same as $A$ does not occur and $B$ does not occur</li>
+      <li>$(A \cap B)^C = A^C \cup B^C$ : it is not the case that both $A,B$ occur is the same as at least one $A$ or $B$ does not occur</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: A coin is flipped 10 times.
+    <ul>
+      <li>A possible outcome is $HHHTHHTTHT$ . The sample space is all possible strings of length 10 of $H$ and $T$ . Let $H=1, T=0$, so the sample space is the set of all sequences in $(s_{1}, \dots, s_{10}), s_{j} \in {0, 1}$
+        <ol>
+          <li>Let $A_{1}$ be the event that the first flip is Heads.<br>
+  $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$
+  This event occurs when the first flip is Heads.</li>
+        </ol>
+      </li>
+    </ul>
+
+    <ol>
+      <li>
+        <p>Let $B$ be the event that at least one flip was Heads.
+  $B = \bigcup_{j=1}^{10} A_{j}$
+  Where $A_{j}$ is the event that the <em>j</em>-th flip is Heads for $j = 2, 3, \dots, 10$
+  This event is the combination of events where any of the 10 coins being Heads.</p>
+      </li>
+      <li>
+        <p>Let $C$ be the event that all flips were Heads.
+  $C = \bigcap_{j=1}^{10} A_{j}$</p>
+      </li>
+      <li>
+        <p>Let $D$ be the event there were at least two consecutive Heads.
+  $D  \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+<em>Example</em>: Picking a card from a standard deck of 52 cards.
+    <ol>
+      <li>Let $A$ be the event the card is an ace.</li>
+      <li>Let $B$ be the event the card has a black suit.</li>
+      <li>Let $D$ be the event the card is a diamond.</li>
+      <li>Let $H$ be the event the card is a heart.
+        <ul>
+          <li>$A \cap H$ is the event the card is ace of hearts.</li>
+          <li>$A \cap B$ is the event the card is a black (spades, clubs) ace.</li>
+          <li>$A \cup D \cup H$ is the event the card is red (hearts, diamonds) or an ace.</li>
+          <li>$(A \cup B)^C = A^C \cap B^C$ is the event the card is not either an ace or black, or not ace and not black, or a red non-ace.</li>
+          <li>$(D \cup H)^C = D^C \cap H^C = B$ is the event the card is not either a diamond or heart, or not diamond and not heart, or black</li>
+          <li>If the card was a joker, then we had the wrong sample space since we assume the outcome of the experiment is guaranteed to an element of the sample space of the experiment.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><strong>Notation</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">English</th>
+      <th style="text-align: center">Sets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><em>Events and occurrences</em></td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sample space</td>
+      <td style="text-align: center">$S$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$s$ is a possible outcome</td>
+      <td style="text-align: center">$s \in S$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ is an event</td>
+      <td style="text-align: center">$A \subseteq S $</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ occurred</td>
+      <td style="text-align: center">$s_{\text{actual}} \in A$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">something must happen</td>
+      <td style="text-align: center">$s_{\text{actual}} \in S$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>New events from old events</em></td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ or $B$ (inclusive)</td>
+      <td style="text-align: center">$A \cup B$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ and $B$</td>
+      <td style="text-align: center">$A \cap B$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">not $A$</td>
+      <td style="text-align: center">$A^{C}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ or $B$ (exclusive)</td>
+      <td style="text-align: center">$(A \cap B^{C}) \cup (A^{C} \cap B)$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">at least one of $A_{1}, \dots , A_{n}$</td>
+      <td style="text-align: center">$A_{1} \cup \dots \cup A_{n}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">all of $A_{1}, \dots , A_{n}$</td>
+      <td style="text-align: center">$A_{1} \cap \dots \cap A_{n}$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>Relationships between events</em></td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ implies $B$</td>
+      <td style="text-align: center">$A \subseteq B$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A$ and $B$ are mutually exclusive</td>
+      <td style="text-align: center">$A \cap B = \emptyset$</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">$A_{1}, \dots , A_{n}$ are a partition of $S$</td>
+      <td style="text-align: center">$A_{1} \cup \dots \cup A_{n} = S, A_{i} \cap A_{j} = \emptyset \text{ for } i \neq j$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Naive definition of probability</strong></p>
+<ul>
+  <li>The naive probability of an event is the count the number of ways the event could happen divided by total number of possible outcomes for the experiment
+    <ul>
+      <li>Restrictive and relies on strong assumptions</li>
+    </ul>
+  </li>
+  <li>Let $A$ be an event for an experiment with finite sample space $S$. The <strong>naive probability</strong> of event $A$ is:</li>
+</ul>
+
+<p>$P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$</p>
+
+<ul>
+  <li>In terms of Pebble World, probability of $A$ is the fraction of all pebbles that are in $A$.</li>
+  <li>Similarly, the probability of the complement of event $A$ is made of the remaining events:</li>
+</ul>
+
+<p>$P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$</p>
+
+<ul>
+  <li>The naive definition requires $S$ to be finite with equally likely outcomes.</li>
+  <li>Can be applied in certain situations:
+    <ul>
+      <li>There is <em>symmetry</em> in the problem that makes outcomes equally likely. E.g. fair coin or deck of cards.</li>
+      <li>The outcomes are equally likely <em>by design</em>. E.g. conducting a survey of $n$ people in a population of $N$ people using a simple random sample to select people.</li>
+      <li>The naive definition serves as a useful <em>null model</em>. We <em>assume</em> the naive definition just to see what predictions it would yield, and then comapre observed data with predicted values to assess whether outcomes are equally likely.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>How to count</strong></p>
+<ul>
+  <li>
+    <p>Calculating probability often involves counting outcomes in event $A$ and outcomes in sample space $S$, but sets are often extremely large to count, so counting methods are used.</p>
+  </li>
+  <li>
+<strong>Multiplication Rule</strong>: If an Experiment A has $a$ possible outcomes, and for each of those outcomes Experiment B has $b$ possible outcomes, then the compound experiment as $ab$ possible outcomes.
+    <ul>
+      <li>Each of the $a$ outcomes can lead to $b$ outcomes, so there are $b_{1} + \dots + b_{a} = ab$ possiblities.</li>
+      <li>There’s no requirement Experiment A has to be performed before Experiment B, so no chronological order.</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: Suppose 10 runners in a race, no ties and all 10 will complete the race. How many posibilities are there for first, second, and third place winners?
+    <ul>
+      <li>Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place.</li>
+      <li>There are $10 \times 9 \times 8 = 720$ posibilities.</li>
+      <li>Could have also considered 10 runners in third place first, order of consideration not important.</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: How many squares are there in an $8 \times 8$ chessboard?
+    <ul>
+      <li>To specify a square, can consider its position within 8 rows and 8 columns.</li>
+      <li>There are $8 \times 8 = 64$ squares on the board.</li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: How many possible ice cream cone combinations if there are 2 types of cones and 3 types of flavors?
+    <ul>
+      <li>There are $2 \times 3 = 3 \times 2 = 6$ possibilities.</li>
+      <li>Order of choice doesn’t matter, can either choose cone then flavor, or flavor then cone.</li>
+      <li>Which flavors each cone could have doesn’t matter, only the <em>number of flavor choices</em> for each cone matters. If the waffle cones could only have 2 flavors, multiplication rule does not apply and there are $3 + 2 = 5$ possibilities.</li>
+      <li>If you bought 2 ice creams in a single day $(x, y)$, there would be $6 \times 6 = 36$ possible combinations.</li>
+      <li>If you didn’t want to distinguish between combinations $(x,y) = (y,x)$ , then there are 15 $(x, y), x \neq y$ possibilities and 6 $(x,x)$ possibilities, for a total of 21 possibilities.
+        <ul>
+          <li>Cannot just divide $36 / 2 = 18$ ! Since $(x,x)$ pairs are already only listed once each, must do $((6 \times 5) / 2) + 6 = 21$ possibilites.</li>
+        </ul>
+      </li>
+      <li>If the original 36 cone-flavor pairs are equally likely, then the 21 possibilities are not equally likely.
+        <ul>
+          <li>Counting $(x,y) = (y, x)$ doubles likeliness, but $(x,x)$ pairs stay the same.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+<em>Example</em>: A set of $n$ elements has $2^{n}$ subsets, including the empty set $\emptyset$ and the set itself.
+    <ul>
+      <li>From the multiplication rule, we can choose to include or exclude each element of the set.</li>
+      <li>Multiplication rule: think of each number consideration as an experiment with 2 outcomes: include or exclude.</li>
+      <li>${1, 2, 3}$ has 8 subsets: $\emptyset, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}$
+        <ul>
+          <li>Consider first element 1, then consider second element 2, and then consider last element 3.</li>
+          <li>$\emptyset$ is (exclude, exclude, exclude).</li>
+          <li>${3}$ is (exclude, exclude, include).</li>
+          <li>Order of consideration does not matter; could have considered element 3 first.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Multiplication rule counting principle is used for problems of sampling with and without replacement.</li>
+  <li>
+<strong>Sampling with Replacement</strong>: Consider $n$ objects and making $k$ choices from them, one at a time <em>with replacement</em>, then there are $n^{k}$ possible outcomes, where order matters $(x,y) \neq (y,x)$ .</li>
+  <li>
+<em>Example</em>: Jar with $n$ balls, labeled from 1 to $n$.
+    <ul>
+      <li>Choosing a ball is an experiment with $n$ outcomes, and there are $k$ experiments.</li>
+      <li>Therefore, multiplication rule says there are $n_{1} \times n_{k} = n^{k}$ possibilities.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Sampling without Replacement</strong>: Consider $n$ objects and making $k$ choices from them, one at a time <em>without replacement</em>, then there are $n(n-1) \dots (n-k+1)$ possible outcomes, where order matters, for $1 \leq k \leq n$ . There are 0 possibilities, where order matters, for $k &gt; n$.</li>
+</ul>
+
+<p><strong>Story proofs</strong></p>
+
+<p><strong>Non-naive definition of probability</strong></p>
+
+<p><strong>Recap</strong></p>
+
+<h2 id="2-conditional-probability">
+<a class="anchor" href="#2-conditional-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Conditional Probability</h2>
+
+<p>##</p>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/probability-book" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
