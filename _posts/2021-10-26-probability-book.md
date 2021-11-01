@@ -234,13 +234,20 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
 **Story Proofs**
 * **Story Proof*: a proof by interpretation for explaining why results of counting problems are true
 * *Example*: For any nonnegative integers $n, k$ with $k \leq n$, $\binom{n}{k} = \binom{n}{n-k}$.
-    * *Story*: Consider choosing a committee of size $k$ in a group of $n$ people, which has $\binom{n}{k}$ possibilities. Another way is to choose the complement, or $n-k$ people *not* on the committee, which has $\binom{n}{n-k}$ possibilities. The two methods are equal because they count the same thing.
+    * *Story*: Consider choosing a committee of size $k$ in a group of $n$ people, which has $\binom{n}{k}$ possibilities.
+    * Another way is to choose the complement, or $n-k$ people *not* on the committee, which has $\binom{n}{n-k}$ possibilities.
+    * The two methods are equal because they count the same thing.
 * *Example*: For any positive integers $n, k$ with $k \leq n$, $n \binom{n - 1}{k - 1} = k \binom{n}{k}$.
-    * *Story*: Consider choosing a team of $k$ people, with one being the team captain, from $n$ total people. We could first choose the team captain and then choose the remaining $k-1$ team members for $n \binom{n-1}{k-1}$ possibilities. We could also first choose the team of $k$ members and then choose who is the team captain, for $\binom{n}{k} k$ possibilities.
+    * *Story*: Consider choosing a team of $k$ people, with one being the team captain, from $n$ total people. We could first choose the team captain and then choose the remaining $k-1$ team members for $n \binom{n-1}{k-1}$ possibilities.
+    * We could also first choose the team of $k$ members and then choose who is the team captain, for $\binom{n}{k} k$ possibilities.
 * *Example*: **Vandermonde's Identity** states $\binom{m + n}{k} = \sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$
-    * *Story*: Consider an organization of $m$ juniors and $n$ seniors and choosing a committee of $k$ members, for $\binom{m + n}{k}$ possible committee formations. This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
+    * *Story*: Consider an organization of $m$ juniors and $n$ seniors and choosing a committee of $k$ members, for $\binom{m + n}{k}$ possible committee formations.
+    * This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
 * *Example*: Proving $\frac{(2n)!}{2^{n} \cdot n!} = (2n - 1)(2n - 3) \dots (3)(1)$ describes the number of ways to break $2n$ people into $n$ partnerships.
-    * *Story*: Take $2n$ people and label them with IDs $1 \dots 2n$. We can form pairs by taking one of $(2n)!$ orderings and grouping adjacent people, but this overcounts by a factor of $n! \cdot 2^{n}$ because order of pairs does not matter $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}) = (\underbrace{3, 4}_{\text{pair 1}}, \underbrace{1, 2}_{\text{pair 2}})$ and order within pairs does not matter $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}), (\underbrace{2, 1}_{\text{pair 1}}, \underbrace{4, 3}_{\text{pair 2}})$. We can also consider the number of possible groups by noting there are $(2n-1)$ possible partners for person 1, $(2n - 3)$ possible partners for person 2, and so on.
+    * *Story*: Take $2n$ people and label them with IDs $1 \dots 2n$. We can form pairs by taking one of $(2n)!$ orderings and grouping adjacent people, but this overcounts by a factor of $n! \cdot 2^{n}$.
+        * Order of pairs does not matter: $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}) = (\underbrace{3, 4}_{\text{pair 1}}, \underbrace{1, 2}_{\text{pair 2}})$
+        * Order within pairs does not matter: $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}), (\underbrace{2, 1}_{\text{pair 1}}, \underbrace{4, 3}_{\text{pair 2}})$
+    * We can also consider the number of possible groups by noting there are $(2n-1)$ possible partners for person 1, $(2n - 3)$ possible partners for person 2, and so on.
 
 **Non-naive definition of probability**
 * **General Definition of Probability**: A *probability space* consists of a sample space $S$ and a *probability function* $P$ which takes an event $A \subseteq S$ as input and returns $P(A)$, a real number between $0$ and $1$, as output. The function $P$ must satisfy the following axioms:
@@ -264,15 +271,27 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
         * *Proof*: The probability of a union of two events is the sum of separate probabilities minus any overlap. $P(A \cup B) = P(A) + P(B \cap A^{C}) = P(A) + P(B \cap A^C)$ by the second axiom, since $A$ and $B \cap A^{C}$ are disjoint events. Since $A \cap B$ and $B \cap A^{C}$ are disjoint and $P(A \cap B) + P(B \cap A^{C}) = P(B)$ by the second axiom, then $P(B \cap A^{C}) = P(B) - P(A \cap B)$. Plugging this in, we get $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
 * **Inclusion-Exclusion**: For any events $A_{1}, \dots, A_{n}$, $P(\bigcup_{i=1}^{n} A_{i}) = \sum_{i} P(A_{i}) - \sum_{i < j} P(A_{i} \cap A_{j}) + \sum_{i < j < k} P(A_{i} \cap A_{j} \cap A_{k}) - \dots + (-1)^{n + 1} P(A_{1} \cap \dots \cap A_{n})$
-* *Example*: **de Montmort's Matching Problem**
-    * Consider a well-shuffled deck of $n$ cards, labeled $1 \dots n$. 
+    * The probability of the union of events is equal to the sum of the individual probabilities minus any overlapping and add back any non-overlapping that was overly removed.
 
-**Recap**
+* *Example*: **de Montmort's Matching Problem**
+    * Consider a well-shuffled deck of $n$ cards, labeled $1 \dots n$. You flip over cards one by one while saying numbers $1 \dots n$. If the number you say is the same number as the card, you win. What is the probability of winning?
+    * Let $A_{i}$ be the event that the $i \text{th}$ card in the deck has the number $i$ written on it. We want to find the probability of the union $P(A_{1} \cup \dots \cup A_{n})$, which is the win condition. A ordering with no matching card numbers to positions is called a *derangement*.
+    * We know $P(A_{i}) = \frac{1}{n}$.
+        * *Naive Probability*: The probability of a card number matching its position is $P(A_{i}) = \frac{(n-1)!}{n!} = \frac{1}{n}$, or the number of orderings where the card matches its position $(n-1)!$ divided by all possible orderings $n!$.
+        * *Symmetry*: Alternatively, the card with number $i$ is equally likely to be in any of the $n$ positions in the deck, so the probability of a card number matching its position is $P(A_{i}) = \frac{1}{n}$.
+    * Similarly, $P(A_{i} \cap A_{j}) = \frac{(n - 2)!}{n!} = \frac{1}{n(n - 1)}$.
+        * Since we fix the cards with numbers $i,j$ to be in the $i \text{th}, j \text{th}$ spots in deck, there are $(n-2)!$ permutations out of $n!$ total permutations.
+    * Similarly, $P(A_{i} \cap A_{j} \cap A_{k}) = \frac{1}{n(n - 1)(n - 2)}$, and so on.
+    * *Inclusion-Exclusion*: There are $\binom{n}{i}$ terms involving $i$ events, representing the number of ways to intersect $i$ events, i.e. $n$ terms for 1-event, $\binom{n}{2}$ terms for 2-events, etc.
+        * By *symmetry*, all $\binom{n}{i}$ terms are equal, e.g. $P(A_{i}) = 1/n \text{, for all }i$.
+        * Therefore, $P(\bigcup_{i=1}^{n} A_{i}) = \frac{n}{n} - \frac{\binom{n}{2}}{n(n - 1)} + \frac{\binom{n}{3}}{n(n - 1)(n - 2)} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
+        * Simplify, $P(\bigcup_{i=1}^{n} A_{i}) = 1 - \frac{1}{2!} + \frac{1}{3!} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
+    * Similar to the Taylor series for $e^{-1} = 1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \dots$, we see that the probability of winning approaches $1 - 1/e \approx 0.63$ as $n$ gets larger.
+    * Rather than approaching 0 or 1, the probability of winning is determined by the competing forces of increasing possible locations for matching $(n)$ and the decreasing probability of any particular match $(1/n)$.
+* Inclusion-Exclusion is a general formula for *probability of a union of events* that is most helpful when there is *symmetry* among events (which helps us add up all terms and simplify easily). In general, consider inclusion-exclusion as a *last resort if no symmetry*.
 
 
 ## 2. Conditional Probability
-
-##
 
 ## References
 [^1]: Footnote
