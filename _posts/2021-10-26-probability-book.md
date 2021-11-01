@@ -137,7 +137,6 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
         * $\{3\}$ is (exclude, exclude, include).
         * Order of consideration does not matter; could have considered element 3 first.
 
-* Multiplication rule counting principle is used for problems of sampling with and without replacement.
 * **Sampling with Replacement**: Consider $n$ objects and making $k$ choices from them, one at a time *with replacement*, then there are $n^{k}$ possible outcomes, where order matters $(x,y) \neq (y,x)$.
 * *Example*: Jar with $n$ balls, labeled from 1 to $n$.
     * Choosing a ball is an experiment with $n$ outcomes, and there are $k$ experiments.
@@ -150,7 +149,8 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
 * *Example*: A **permutation** of $1, 2, \dots, n$ is an arrangement of the $n$ elements in some order.
     * Sampling without replacement: if $k=n$, there are $n!$ permutations of $n$ elements, or ways to choose $n$ items without replacement
 * We can use sampling with and without replacement as probabilities when the naive definition of probability applies.
-* *Example*: (**Birthday Problem**) There are $k$ people in a room. Assume each person's birthday is equally likely to be any of the 365 days of the year, and people's birthdays are independent, e.g. no twins. What is the probability that at least one pair of people in the group have the same birthday?
+* *Example*: **Birthday Problem**
+    * There are $k$ people in a room. Assume each person's birthday is equally likely to be any of the 365 days of the year, and people's birthdays are independent, e.g. no twins. What is the probability that at least one pair of people in the group have the same birthday?
     * If we sample with replacement $k$ days from $n = 365$ total days, what is the probability at least two samples are the same?
         * There are $365^{k}$ possible outcomes.
         * But how can we count all the ways that two more more people have the same birthday?
@@ -180,6 +180,7 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
     * Sets are *unordered* by definition $(a,b) = (b,a)$, so a binomial coefficient counts the number of ways to choose $k$ objects out of $n$, *without replacement* and *without distinguishing between different orders*.
     * For $k \leq n$, $\binom{n}{k} = \frac{n (n-1) \dots (n-k+1)}{k!} = \frac{n!}{(n-k)!k!}$.
     * For $k > n, \binom{n}{k} = 0$.
+    * For naive definition problems, binomial coefficient can be used to calculate probabilities.
 * *Proof*: Let $A$ be set with $\lvert A \rvert = n$. Any subset of $A$ has size at most $n$, so $\binom{n}{k} = 0$ for $k > n$, or no ways to create a larger subset than what's available. If $k \leq n$, then sampling without replacement tells us there are $n(n-1) \dots (n-k+1)$ ways to make *ordered* choice of $k$ elements without replacement. But this overcounts each subset by $k!$ since order does not matter for binomial coefficient $(a,b) = (b,a)$, so we divide by $k!$ to get $\binom{n}{k} = \frac{n (n-1) \dots (n-k+1)}{k!} = \frac{n!}{(n-k)!k!}$.
 * *Example*: In a club of $n$ people, how many ways are there to choose 3 officers?
     * There are $\binom{n}{3} = \frac{n(n-1)(n-2)}{3!}$ possible ways.
@@ -188,16 +189,83 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
 * *Example*: How many ways are there to permute the letters in the word "STATISTICS"?
     * We can choose positions for 3 S's, 3 T's, 2 I's, 1 A, and 1 C is determined. So there are $\binom{10}{3}\binom{7}{3}\binom{4}{2}\binom{2}{1} = 50400$ permutations.
     * We can also start with $10!$ permutations and account for overcounting of a factor of $3!3!2!$ for the 3 S's, 3 T's, and 2 I's because the repeated letters can be permuted among themselves in any way. So there are $\frac{10!}{3!3!2!} = 50400$ permutations.
-* **Binomial Theorem**: For any nonnegative integer $n$, $(x + y)^{n} = \sum_{k=0}^{n} \binom{n}{k} x^{k} y^{n-k}$.
-* *Proof*: $(x + y)_{1} (x + y)_{2} \dots (x + y)_{n}$
+
+* **Binomial Theorem**: For any nonnegative integer $n$, $(x + y)^{n} = \sum_{k=0}^{n} \binom{n}{k} x^{k} y^{n-k}$
+* *Proof*: We decompose the term $(x+y)^{n} = \underbrace{(x + y) (x + y) \dots (x + y)}_{n \text{ factors}}$
     * The terms of $(x + y)^{n}$ are obtained by picking either the $x$ or the $y$ from each factor $(x + y)$. This is similar to $(a + b)(c + d) = ab + ac + bc + bd$, where each product term is created from only one term of each factor.
     * There are $\binom{n}{k}$ ways to choose exactly $k$ of the $x \text{'s}$ to make the term $x^{k} y^{n-k}$.
+* *Example*: A 5-card hand is dealt from a standard, well-shuffled 52-card deck. What is the probability of a full house (3 cards of some rank, 2 cards of another rank)?
+    * Since all of the $\binom{52}{5}$ total possible hands are equally likely by *symmetry*, the naive definition of probability applies.
+    * Multiplication rule: Choosing a rank for the 3 cards is one experiment, and choosing the suits of the 3 cards is another experiment. Similarly, choosing a rank for the 2 cards is one experiment, and choosing the suits of the 2 cards is another experiment.
+    * So the probability of a full house is $\frac{13 \binom{4}{3} \times 12 \binom{4}{2} }{ \binom{52}{5} } = \frac{3744}{2598960} \approx 0.00144$
+    * *Note*: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the *order* of the ranks as interchangeable, which undercounts by a factor of $2$.
+        * E.g. $(\underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}_{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}_{2 \text{-card}}) \neq (\underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}_{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}_{2 \text{-card}})$
+
+* *Example*: **Newton-Pepys Problem**
+    * Which of the following events has the highest probability?
+        * Event A: At least one 6 appears when 6 fair dice are rolled.
+        * Event B: At least two 6's appear when 12 fair dice are rolled.
+        * Event C: At least three 6's appear when 18 fair dice are rolled.
+    * The three experiments have $6^{6}, 6^{12}, 6^{18}$ possible outcomes, respectively.
+    * By *symmetry*, all outcomes are equally likely, so the naive definition applies in all three experiments.
+    * Event A
+        * Rather than count all possible ways to roll at least one 6, we consider the complement of all possible ways to roll no 6's. $P(A) = 1 - P(A^{C}), P(\geq \text{ one } 6) = 1 - P(\text{no } 6)$
+        * Therefore, $P(A) = 1 - \frac{5^{6}}{6^{6}} \approx 0.67$
+    * Event B
+        * Similarly, we consider the complement of all possible ways to roll either zero or one 6's in 12 dice rolls. $P(B) = 1 - P(\text{zero } 6) - P(\text{one } 6)$
+        * Therefore, $P(B) = 1 - \frac{5^{12} + \binom{12}{1} 5^{11}}{6^{12}} \approx 0.62$
+    * Event C
+        * Similarly, we consider the complement of all possible ways to roll either zero, one, or two 6's in 18 dice rolls. $P(C) = 1 - P(\text{zero } 6) - P(\text{one } 6) - P(\text{two } 6)$
+        * Therefore, $P(C) = 1 - \frac{5^{18} + \binom{18}{1} 5^{17} + \binom{18}{2} 5^{16}}{6^{18}} \approx 0.62$
+    * The event with the highest probability is Event A.
+
+* *Example*: **Bose-Einstein Problem**
+    * How many ways are there to choose $k$ objects from a set of $n$ objects with replacement, if order does not matter?
+    * When order does matter, we know from sampling with replacement there are $n^{k}$ times, but what about when order does not matter?
+    * We consider an *isomorphic* (equivalent) problem: How many ways are there to put $k$ indistinguishable particles into $n$ distinguishable boxes?
+        * We use $\bullet$ to represent a particle and $\vert$ to represent a wall.
+        * Consider putting $k=7$ particles in $n=4$ boxes, such as $\vert \bullet \vert \bullet \bullet \vert \bullet \bullet \bullet \vert \bullet \vert$
+        * A sequence must start and end with a wall, and it must have exactly $n - 1$ walls and $k$ particles in between. There are $(n - 1) + k$ slots between 2 outer walls to place $n - 1$ inner walls and $k$ particles, so the number of possible placements is $\binom{n + k - 1}{k}$.
+    * We can consider another isomorphic problem: How many solutions $(x_{1}, \dots, x_{n})$ to the equation $x_{1} + x_{2} + \dots + x_{n} = k$, where $x_{i}$ are nonnegative integers. We can think of $x_{i}$ as the number of particles in the $i \text{th}$ box.
+    * *Note*: Bose-Einstein result cannot be used in naive definition of probability in most cases.
+        * E.g. Survey by sampling $k$ people from population of size $n$ one at a time, with replacement and equal probabilities. The $n^{k}$ *ordered* samples are equally likely (naive definition applies), but the $\binom{n + k - 1}{k}$ *unordered* samples are *not* equally likely (naive definition does not apply).
+        * E.g. How many *unordered* birthday lists are possible for $k$ people and $n=365$ days in a year? For $k=3$, we want to count lists, where $(a, b, c) = (c, b, a)$ and so on, but we cannot simply adjust for overcounting like $\frac{n^{k}}{3!}$ for the permutations because there are $3!$ permutations for $(a, b, c)$ but only $3$ permutations for $(a, a, c)$. The *ordered* birthday lists are equally likely (naive definition applies), but the *unordered* birthday lists are not equally likely (naive definition does not apply) as the number of permutations is not equal across all lists.
 
 **Story Proofs**
-
+* **Story Proof*: a proof by interpretation for explaining why results of counting problems are true
+* *Example*: For any nonnegative integers $n, k$ with $k \leq n$, $\binom{n}{k} = \binom{n}{n-k}$.
+    * *Story*: Consider choosing a committee of size $k$ in a group of $n$ people, which has $\binom{n}{k}$ possibilities. Another way is to choose the complement, or $n-k$ people *not* on the committee, which has $\binom{n}{n-k}$ possibilities. The two methods are equal because they count the same thing.
+* *Example*: For any positive integers $n, k$ with $k \leq n$, $n \binom{n - 1}{k - 1} = k \binom{n}{k}$.
+    * *Story*: Consider choosing a team of $k$ people, with one being the team captain, from $n$ total people. We could first choose the team captain and then choose the remaining $k-1$ team members for $n \binom{n-1}{k-1}$ possibilities. We could also first choose the team of $k$ members and then choose who is the team captain, for $\binom{n}{k} k$ possibilities.
+* *Example*: **Vandermonde's Identity** states $\binom{m + n}{k} = \sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$
+    * *Story*: Consider an organization of $m$ juniors and $n$ seniors and choosing a committee of $k$ members, for $\binom{m + n}{k}$ possible committee formations. This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
+* *Example*: Proving $\frac{(2n)!}{2^{n} \cdot n!} = (2n - 1)(2n - 3) \dots (3)(1)$ describes the number of ways to break $2n$ people into $n$ partnerships.
+    * *Story*: Take $2n$ people and label them with IDs $1 \dots 2n$. We can form pairs by taking one of $(2n)!$ orderings and grouping adjacent people, but this overcounts by a factor of $n! \cdot 2^{n}$ because order of pairs does not matter $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}) = (\underbrace{3, 4}_{\text{pair 1}}, \underbrace{1, 2}_{\text{pair 2}})$ and order within pairs does not matter $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}), (\underbrace{2, 1}_{\text{pair 1}}, \underbrace{4, 3}_{\text{pair 2}})$. We can also consider the number of possible groups by noting there are $(2n-1)$ possible partners for person 1, $(2n - 3)$ possible partners for person 2, and so on.
 
 **Non-naive definition of probability**
+* **General Definition of Probability**: A *probability space* consists of a sample space $S$ and a *probability function* $P$ which takes an event $A \subseteq S$ as input and returns $P(A)$, a real number between $0$ and $1$, as output. The function $P$ must satisfy the following axioms:
+    1. $P(\emptyset) = 0, P(S) = 1$
+        * Probability of a non-existent event is 0; probability of an event in S is 1 (certain).
+    1. If $A_{1}, A_{2}, \dots $ are *disjoint* events, then $P(\bigcup_{j=1}^{\infty} A_{j}) = \sum_{j=1}^{\infty} P(A_{j})$
+        * The probability of the union of disjoint events is equal to the sum of the individual probabilities.
+        * *Disjoint* events are *mutually exclusive* such that $A_{i} \cap A_{j} = \emptyset$ for $i \neq j$.
+* In Pebble World, general probability is like mass; mass of empty pile is 0 and total mass of all pebble is 1. Given non-overlapping piles of pebbles, we can get combined mass by adding individual masses, and we can have a countably infinite number of pebbles as long as the total mass is 1.
+* Any function $P$ that maps events to the interval $[0, 1]$ that satisfies the two axioms is a *valid probability function*, but the axioms don't state how the probability should be *interpreted*.
+    * *Frequentist View*: Probability represents a long-run frequency over a large number of repetitions of an experiment. E.g. If we say a coin has a probability of $1/2$ of Heads, the coin will land Heads 50% of the time if tossed over and over.
+    * *Bayesian View*: Probability represents a degree of belief about the event in question, so probabilities can be assigned to hypotheses, such as "candidate A will win the election" or "the defendant is guilty", even if it isn't possible to repeat the same election or same crime over and over again.
+    * *Frequentist* and *Bayesian* views are complementary.
+* **Properties of Probability**: For any events $A, B$:
+    1. Complement: $P(A^{C}) = 1 - P(A)$
+        * *Proof*: Since $A$ and $A^{C}$ are disjoint and their union makes up $S$, $P(S) = P(A \cup A^{C}) = P(A) + P(A^{C})$. Since $P(S) = 1$ by the first axiom, $P(A) + P(A^{C}) = 1$.
+    1. Subset: If $A \subseteq B$, then $P(A) \leq P(B)$
+        * *Proof*: Since $A$ and $B \cap A^{C}$ are disjoint, $P(B) = P(A \cup (B \cap A^{C})) = P(A) + P(B \cap A^{C})$ by the second axiom. Probability is nonnegative, so $P(B \cap A^{C}) \geq 0$, proving $P(B) \geq P(A)$.
+        * The probability of Event B is all outcomes in Event A and all outcomes in Event B but not in Event A. Since these groups are disjoint, we can add the individual probabilities together. Since we know group in Event B but not in Event A has a positive probability, we know Event A must be smaller than group B.
+    1. Inclusion-Exclusion: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+        * *Proof*: The probability of a union of two events is the sum of separate probabilities minus any overlap. $P(A \cup B) = P(A) + P(B \cap A^{C}) = P(A) + P(B \cap A^C)$ by the second axiom, since $A$ and $B \cap A^{C}$ are disjoint events. Since $A \cap B$ and $B \cap A^{C}$ are disjoint and $P(A \cap B) + P(B \cap A^{C}) = P(B)$ by the second axiom, then $P(B \cap A^{C}) = P(B) - P(A \cap B)$. Plugging this in, we get $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
+* **Inclusion-Exclusion**: For any events $A_{1}, \dots, A_{n}$, $P(\bigcup_{i=1}^{n} A_{i}) = \sum_{i} P(A_{i}) - \sum_{i < j} P(A_{i} \cap A_{j}) + \sum_{i < j < k} P(A_{i} \cap A_{j} \cap A_{k}) - \dots + (-1)^{n + 1} P(A_{1} \cap \dots \cap A_{n})$
+* *Example*: **de Montmort's Matching Problem**
+    * Consider a well-shuffled deck of $n$ cards, labeled $1 \dots n$. 
 
 **Recap**
 
