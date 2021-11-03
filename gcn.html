@@ -189,13 +189,13 @@ window.onload = wrap_img;
 
 <p>For example, using graph Laplacian regularization:</p>
 
-<p>$\mathcal{L} = \mathcal{L}<em>0 + \lambda \mathcal{L}</em>{reg}$</p>
+<p>$\mathcal{L} = \mathcal{L}<em>0 + \lambda \mathcal{L}</em>{\text{reg}}$</p>
 
-<p>where $\mathcal{L}<em>{reg} = \sum</em>{i,j} A_{i,j} \lVert f(X_{i}) - f(X_{j}) \rVert ^{2} = f(X)^{T} \Delta f(X)$</p>
+<p>where $\mathcal{L}<em>{\text{reg}} = \sum</em>{i,j} A_{i,j} \lVert f(X_{i}) - f(X_{j}) \rVert ^{2} = f(X)^{T} \Delta f(X)$</p>
 
 <ul>
   <li>$\mathcal{L}_0$ : supervised loss with respect to labeled part of graph</li>
-  <li>$\mathcal{L}_{reg}$ : graph Laplacian regularization term</li>
+  <li>$\mathcal{L}_{\text{reg}}$ : graph Laplacian regularization term</li>
   <li>$f(\dots)$ : a neural network-like differentiable function</li>
   <li>$\lambda$ : regularization weight</li>
   <li>$X$ : matrix of node feature vectors $X_{i}$</li>
@@ -223,7 +223,7 @@ window.onload = wrap_img;
 </ul>
 
 <p>The authors want to encode the graph structure in a neural network model $f(X, A)$ .
-For all nodes with labels, train on a supervised target $\mathcal{L}<em>{0}$ and avoid graph regularization $\mathcal{L}</em>{reg}$ in the loss function.</p>
+For all nodes with labels, train on a supervised target $\mathcal{L}<em>{0}$ and avoid graph regularization $\mathcal{L}</em>{\text{reg}}$ in the loss function.</p>
 
 <p>By conditioning $f(\dots)$ on adjacency matrix $A$ , the model can distribute gradient information from supervised loss $\mathcal{L}_0$ to learn representations of nodes both with and without labels. Because the model knows each node’s neighbors, the labeled nodes can help inform the unlabeled nodes.</p>
 
