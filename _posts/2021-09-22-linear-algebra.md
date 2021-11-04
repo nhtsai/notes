@@ -9,7 +9,7 @@ hide: false
 search_exclude: false
 show_tags: false
 categories: [course-notes, mathematics, linear-algebra]
-permalink: /linear-algebra
+permalink: /mit-18-06sc
 ---
 
 # MIT 18.06SC: Linear Algebra, Fall 2011

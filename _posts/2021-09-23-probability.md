@@ -9,7 +9,7 @@ hide: false
 search_exclude: false
 show_tags: true
 categories: [course-notes, mathematics, probability, statistics]
-permalink: /probability
+permalink: /harvard-stat110
 ---
 
 # Harvard STAT 110: Introduction to Probability, Fall 2011
@@ -510,7 +510,28 @@ permalink: /probability
                     * Must be 1 if we eliminate the only other explanation of making popcorn
                 * F and C are initially *independent*, but *not conditionally independent* given A
 
+
 ## 6. Monty Hall, Simpson's Paradox
+
+* *Example*: **Monty Hall Problem**
+    * Problem
+        * Monty Hall was a game show host on "Let's Make a Deal"
+        * There are 3 doors (Door 1, Door 2, Door 3)
+        * One door has a car, the other two have goats
+        * Monty Hall asks you to choose a door
+        * When you choose a door (Door 1), Monty Hall will open up either of the other doors (Door 2, Door 3), revealing a goat behind a door (Door 2)
+        * You know the car is either the door you initially chose (Door 1) or the remaining unopened door (Door 3)
+        * Should you switch you initial door choice?
+    * Assumptions
+        * The doors are equally likely to have the car
+        * Monty Hall knows which door has the car behind it
+        * You want the car, not the goats
+        * Monty always opens a goat door after you choose an initial door
+        * If Monty has a choice of which door to open (you initially picked the car), he will open one of the goat doors with equal probabilities
+    * 
+
+* **Simpson's Paradox**
+    * 
 
 
 

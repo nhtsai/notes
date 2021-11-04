@@ -9,7 +9,7 @@ hide: false
 search_exclude: false
 show_tags: true
 categories: [course-notes, cassandra, database-systems]
-permalink: /cassandra-intro
+permalink: /datastax-ds101
 ---
 
 # Introduction to Apache Cassandra
