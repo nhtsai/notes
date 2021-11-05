@@ -12,13 +12,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Course notes from Harvard STAT 110, Fall 2011." />
 <meta property="og:description" content="Course notes from Harvard STAT 110, Fall 2011." />
-<link rel="canonical" href="https://nhtsai.github.io/notes/probability" />
-<meta property="og:url" content="https://nhtsai.github.io/notes/probability" />
+<link rel="canonical" href="https://nhtsai.github.io/notes/harvard-stat110" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/harvard-stat110" />
 <meta property="og:site_name" content="notes" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-09-23T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2021-09-23T00:00:00-05:00","url":"https://nhtsai.github.io/notes/probability","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/probability"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes from Harvard STAT 110, Fall 2011.","@context":"https://schema.org"}</script>
+{"datePublished":"2021-09-23T00:00:00-05:00","url":"https://nhtsai.github.io/notes/harvard-stat110","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/harvard-stat110"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes from Harvard STAT 110, Fall 2011.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -100,7 +100,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      27 min read
+      34 min read
     
 </span></p>
 
@@ -1228,6 +1228,196 @@ window.onload = wrap_img;
 <h2 id="6-monty-hall-simpsons-paradox">
 <a class="anchor" href="#6-monty-hall-simpsons-paradox" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Monty Hall, Simpson’s Paradox</h2>
 
+<ul>
+  <li>
+<em>Example</em>: <strong>Monty Hall Problem</strong>
+    <ul>
+      <li>Problem
+        <ul>
+          <li>Monty Hall was a game show host on “Let’s Make a Deal”. There are 3 doors (Door 1, Door 2, Door 3): one door has a car, the other two have goats.</li>
+          <li>Monty Hall asks you to choose a door. When you choose a door (Door 1), Monty Hall will open up either of the other doors (Door 2, Door 3), revealing a goat behind a door (Door 2)</li>
+          <li>You know the car is either the door you initially chose (Door 1) or the remaining unopened door (Door 3). Should you switch you initial door choice?</li>
+        </ul>
+      </li>
+      <li>Assumptions
+        <ul>
+          <li>The doors are equally likely to have the car</li>
+          <li>Monty Hall knows which door has the car behind it</li>
+          <li>You want the car, not the goats</li>
+          <li>Monty always opens a goat door after you choose an initial door</li>
+          <li>If Monty has a choice of which door to open (you initially picked the car), he will open one of the goat doors with equal probabilities</li>
+        </ul>
+      </li>
+      <li>The answer is that you should switch, which gives a winning chance of $2/3$.
+        <ul>
+          <li>Once the door is opened, the probabilities of each door is no longer $1/3$.</li>
+          <li>Monty opens Door 2 and reveals a goat, so it would seem the probabilities of winning is now $1/2$ each for Doors 1 and 3.</li>
+          <li>There is a subtle flaw in this thinking. We need to condition on all the evidence, which includes the fact Monty Hall opened Door 2.</li>
+        </ul>
+      </li>
+      <li>
+        <p><em>Intuition</em>: Use a tree diagram based on initial door choice, the car door, and the door Monty opens.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: center">Initial Door</th>
+              <th style="text-align: center">Car Door</th>
+              <th style="text-align: center">Monty Door</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center">1</td>
+              <td style="text-align: center">1 $(1/3)$</td>
+              <td style="text-align: center">2 $(1/2)$</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">1</td>
+              <td style="text-align: center">1 $(1/3)$</td>
+              <td style="text-align: center">3 $(1/2)$</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">1</td>
+              <td style="text-align: center">2 $(1/3)$</td>
+              <td style="text-align: center">3 $(1)$</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">1</td>
+              <td style="text-align: center">3 $(1/3)$</td>
+              <td style="text-align: center">2 $(1)$</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ul>
+          <li>If we condition on the fact Monty opened Door 2, we either took the top path (car is behind Door 1) or the bottom path (car is behind Door 3). The probability of the top path is $1/3 * 1/2 = 1/6$, and the probability of the bottom path is $1/3 * 1 = 1/3$. We renormalize the two options (make total sum = 1), to find the car has a $1/3$ chance of being behind Door 1 and a $2/3$ chance of being behind Door 3.</li>
+          <li>This means $1/3$ of the time your initial guess is correct, and the other $2/3$ of the time you should switch</li>
+        </ul>
+      </li>
+      <li>
+<em>Intuition</em>: Law of Total Probability
+        <ul>
+          <li>What do we wish we knew beforehand? In this case, we wish we know which door has the car. Now we condition on that.</li>
+          <li>Let $S$ = succeed (assuming we always switch) and $D_{j}$ = Door j has the car where $j \in {1, 2, 3}$</li>
+          <li>From the law of Total Probabilities, $P(S) = P(S \vert D_{1}) \frac{1}{3} + P(S \vert D_{2}) \frac{1}{3} + P(S \vert D_{3}) \frac{1}{3}$
+            <ul>
+              <li>In the first case: we pick Door 1, car is behind Door 1, Monty opens either Door 2 or Door 3, and we switch our choice, so $P(S \vert D_{1}) = 0$</li>
+              <li>In the second case: we pick Door 1, car is behind Door 2, Monty must open Door 3, and we switch our choice, so $P(S \vert D_{2}) = 1$</li>
+              <li>In the third case: we pick Door 1, car is behind Door 3, Monty must open Door 2, and we switch our choice, so $P(S \vert D_{3}) = 1$</li>
+            </ul>
+          </li>
+          <li>Therefore, $P(S) = 0 + 1 (\frac{1}{3}) + 1 (\frac{1}{3}) = \frac{2}{3}$</li>
+          <li>By symmetry, we also know that $P(S \vert \text{ Monty opens Door 2}) = \frac{2}{3}$</li>
+        </ul>
+      </li>
+      <li>
+<em>Intuition</em>: Consider if there were 1,000,000 doors and Monty opens 999,9988 doors. In this case it is clear you should switch since your initial guess is most likely incorrect.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Simpson’s Paradox</strong>
+    <ul>
+      <li>Is it possible to have 2 doctors, where the first doctor has a higher success rate at every single type of surgery than the second doctor, yet the second doctor overall has a higher success rate?
+        <ul>
+          <li>Simpson’s Paradox says this is possible, but this is very counterintuitive. How can one thing better in all individual cases be worse after aggregating the cases?</li>
+        </ul>
+      </li>
+      <li>
+        <p>Consider first doctor is Dr. Hibbert and second doctor is Dr. Nick, and they both do 100 cases total of two types of surgeries: heart surgery and band-aid removal</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: center">Hibbert</th>
+              <th style="text-align: center">Heart</th>
+              <th style="text-align: center">Band-Aid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center">Success</td>
+              <td style="text-align: center">70</td>
+              <td style="text-align: center">10</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">Failure</td>
+              <td style="text-align: center">20</td>
+              <td style="text-align: center">0</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align: center">Nick</th>
+              <th style="text-align: center">Heart</th>
+              <th style="text-align: center">Band-Aid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align: center">Success</td>
+              <td style="text-align: center">2</td>
+              <td style="text-align: center">81</td>
+            </tr>
+            <tr>
+              <td style="text-align: center">Failure</td>
+              <td style="text-align: center">8</td>
+              <td style="text-align: center">9</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li>If you need surgery, who do you choose? For each individual operation (conditioning on a type of surgery), Dr. Hibbert has a higher success rate. But overall (unconditionally), Dr. Hibbert has a 80% success rate, and Dr. Nick has a 83% success rate.</li>
+      <li>Simpson’s Paradox in terms of Conditional Probability
+        <ul>
+          <li>Let A = surgery is successful</li>
+          <li>Let B = treated by Dr. Nick</li>
+          <li>Let C = heart surgery
+            <ul>
+              <li>Called the <em>confounder</em> or <em>control</em>, the type of surgery you want to condition on</li>
+              <li>If we fail to condition on C, then Simpson’s Paradox shows us the inequality can flip.</li>
+              <li>Knowing we got treated by Dr. Nick gives us information about what type of surgery we had, which then affects the probability of success.</li>
+            </ul>
+          </li>
+          <li>$ P(A \vert B, C) &lt; P(A \vert B^{C}, C)$
+            <ul>
+              <li>The probability of success of heart surgery from Dr. Nick is less than probability of success of heart surgery from Dr. Hibbert.</li>
+            </ul>
+          </li>
+          <li>$ P(A \vert B, C^{C}) &lt; P(A \vert B^{C}, C^{C})$
+            <ul>
+              <li>The probability of success of band-aid removal from Dr. Nick is less than probability of success of band-aid removal from Dr. Hibbert.</li>
+            </ul>
+          </li>
+          <li>But overall, $P(A \vert B)$ &gt; P(A \vert B^{C})$
+            <ul>
+              <li>The probability of successful surgery is higher with Dr. Nick than with Dr. Hibbert.</li>
+              <li>Notice how the inequality flips</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>How is Simpson’s Paradox possible? How can the sign flip from the conditioning on individual events compared to overall?
+        <ul>
+          <li>From the Law of Total Probability using conditional probability, $P(A \vert B) = P(A \vert B, C) P(C \vert B) + P(A \vert B, C^{C}) P(C^{C} \vert B)$</li>
+          <li>We know that $P(A \vert B, C) &lt; P(A \vert B^{C}, C)$ and that $P(A \vert B, C^{C}) &lt; P(A \vert B^{C}, C^{C})$</li>
+          <li>However, we are unable to reduce it further to $P(A \vert B)$ due to the terms $P(C \vert B), P(C^{C} \vert B)$, which are weights conditional on B.</li>
+          <li>
+<em>Intuition</em>: $P(C \vert B)$ is the probability of performing heart surgery for Dr. Nick, which is very different than $P(C \vert B^{C})$ probability of performing heart surgery for Dr. Hibbert. The weights $P(C \vert B), P(C^{C} \vert B)$ change, and that is what enables Simpson’s Paradox to happen.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><em>Example</em>: There was a lawsuit against UC Berkeley claiming sex discriminations in graduate admission rates. Looking at the overall admission rates, it looked like it was easier for men to get into UC Berkeley for graduate school. However, looking at the data of each individual apartment, the admission rates were generally more fair. The reason was that certain departments are more popular for women applicants and certain departments are harder to get into than others.</p>
+  </li>
+  <li>
+<em>Example</em>: There are four jars that each contain two flavors of jellybeans. Suppose you like one flavor over the other. Suppose jars are “better” if they have a higher percentage of the jellybean you like. If we combine the two “better” jars into one large jar and likewise with the two “worse” jars, Simpson’s Paradox says the large jar created from the two “worse” jars may now have a higher percentage of the favorable jellybean and be “better”.</li>
+</ul>
+
 <h2 id="7-gamblers-ruin-random-variables">
 <a class="anchor" href="#7-gamblers-ruin-random-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. Gambler’s Ruin, Random Variables</h2>
 
@@ -1315,7 +1505,7 @@ window.onload = wrap_img;
 <h2 id="references">
 <a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
 
-  </div><a class="u-url" href="/notes/probability" hidden></a>
+  </div><a class="u-url" href="/notes/harvard-stat110" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
