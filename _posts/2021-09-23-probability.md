@@ -515,24 +515,80 @@ permalink: /harvard-stat110
 
 * *Example*: **Monty Hall Problem**
     * Problem
-        * Monty Hall was a game show host on "Let's Make a Deal"
-        * There are 3 doors (Door 1, Door 2, Door 3)
-        * One door has a car, the other two have goats
-        * Monty Hall asks you to choose a door
-        * When you choose a door (Door 1), Monty Hall will open up either of the other doors (Door 2, Door 3), revealing a goat behind a door (Door 2)
-        * You know the car is either the door you initially chose (Door 1) or the remaining unopened door (Door 3)
-        * Should you switch you initial door choice?
+        * Monty Hall was a game show host on "Let's Make a Deal". There are 3 doors (Door 1, Door 2, Door 3): one door has a car, the other two have goats.
+        * Monty Hall asks you to choose a door. When you choose a door (Door 1), Monty Hall will open up either of the other doors (Door 2, Door 3), revealing a goat behind a door (Door 2)
+        * You know the car is either the door you initially chose (Door 1) or the remaining unopened door (Door 3). Should you switch you initial door choice?
     * Assumptions
         * The doors are equally likely to have the car
         * Monty Hall knows which door has the car behind it
         * You want the car, not the goats
         * Monty always opens a goat door after you choose an initial door
         * If Monty has a choice of which door to open (you initially picked the car), he will open one of the goat doors with equal probabilities
-    * 
+    * The answer is that you should switch, which gives a winning chance of $2/3$.
+        * Once the door is opened, the probabilities of each door is no longer $1/3$.
+        * Monty opens Door 2 and reveals a goat, so it would seem the probabilities of winning is now $1/2$ each for Doors 1 and 3.
+        * There is a subtle flaw in this thinking. We need to condition on all the evidence, which includes the fact Monty Hall opened Door 2.
+    * *Intuition*: Use a tree diagram based on initial door choice, the car door, and the door Monty opens.
+
+        | Initial Door | Car Door  | Monty Door |
+        |:------------:|:---------:|:----------:|
+        | 1            | 1 $(1/3)$ | 2 $(1/2)$  |
+        | 1            | 1 $(1/3)$ | 3 $(1/2)$  |
+        | 1            | 2 $(1/3)$ | 3 $(1)$    |
+        | 1            | 3 $(1/3)$ | 2 $(1)$    |
+
+        * If we condition on the fact Monty opened Door 2, we either took the top path (car is behind Door 1) or the bottom path (car is behind Door 3). The probability of the top path is $1/3 * 1/2 = 1/6$, and the probability of the bottom path is $1/3 * 1 = 1/3$. We renormalize the two options (make total sum = 1), to find the car has a $1/3$ chance of being behind Door 1 and a $2/3$ chance of being behind Door 3.
+        * This means $1/3$ of the time your initial guess is correct, and the other $2/3$ of the time you should switch
+    * *Intuition*: Law of Total Probability
+        * What do we wish we knew beforehand? In this case, we wish we know which door has the car. Now we condition on that.
+        * Let $S$ = succeed (assuming we always switch) and $D_{j}$ = Door j has the car where $j \in {1, 2, 3}$
+        * From the law of Total Probabilities, $P(S) = P(S \vert D_{1}) \frac{1}{3} + P(S \vert D_{2}) \frac{1}{3} + P(S \vert D_{3}) \frac{1}{3}$
+            * In the first case: we pick Door 1, car is behind Door 1, Monty opens either Door 2 or Door 3, and we switch our choice, so $P(S \vert D_{1}) = 0$
+            * In the second case: we pick Door 1, car is behind Door 2, Monty must open Door 3, and we switch our choice, so $P(S \vert D_{2}) = 1$
+            * In the third case: we pick Door 1, car is behind Door 3, Monty must open Door 2, and we switch our choice, so $P(S \vert D_{3}) = 1$
+        * Therefore, $P(S) = 0 + 1 (\frac{1}{3}) + 1 (\frac{1}{3}) = \frac{2}{3}$
+        * By symmetry, we also know that $P(S \vert \text{ Monty opens Door 2}) = \frac{2}{3}$ 
+    * *Intuition*: Consider if there were 1,000,000 doors and Monty opens 999,9988 doors. In this case it is clear you should switch since your initial guess is most likely incorrect.
 
 * **Simpson's Paradox**
-    * 
+    * Is it possible to have 2 doctors, where the first doctor has a higher success rate at every single type of surgery than the second doctor, yet the second doctor overall has a higher success rate?
+        * Simpson's Paradox says this is possible, but this is very counterintuitive. How can one thing better in all individual cases be worse after aggregating the cases?
+    * Consider first doctor is Dr. Hibbert and second doctor is Dr. Nick, and they both do 100 cases total of two types of surgeries: heart surgery and band-aid removal
 
+        | Hibbert | Heart | Band-Aid |
+        |:-------:|:-----:|:--------:|
+        | Success | 70    | 10       |
+        | Failure | 20    | 0        |
+
+        |  Nick   | Heart | Band-Aid |
+        |:-------:|:-----:|:--------:|
+        | Success | 2     | 81       |
+        | Failure | 8     | 9        |
+
+    * If you need surgery, who do you choose? For each individual operation (conditioning on a type of surgery), Dr. Hibbert has a higher success rate. But overall (unconditionally), Dr. Hibbert has a 80% success rate, and Dr. Nick has a 83% success rate.
+    * Simpson's Paradox in terms of Conditional Probability
+        * Let A = surgery is successful
+        * Let B = treated by Dr. Nick
+        * Let C = heart surgery
+            * Called the *confounder* or *control*, the type of surgery you want to condition on
+            * If we fail to condition on C, then Simpson's Paradox shows us the inequality can flip.
+            * Knowing we got treated by Dr. Nick gives us information about what type of surgery we had, which then affects the probability of success.
+        * $ P(A \vert B, C) < P(A \vert B^{C}, C)$
+            * The probability of success of heart surgery from Dr. Nick is less than probability of success of heart surgery from Dr. Hibbert.
+        * $ P(A \vert B, C^{C}) < P(A \vert B^{C}, C^{C})$
+            * The probability of success of band-aid removal from Dr. Nick is less than probability of success of band-aid removal from Dr. Hibbert.
+        * But overall, $P(A \vert B)$ > P(A \vert B^{C})$
+            * The probability of successful surgery is higher with Dr. Nick than with Dr. Hibbert.
+            * Notice how the inequality flips
+    * How is Simpson's Paradox possible? How can the sign flip from the conditioning on individual events compared to overall?
+        * From the Law of Total Probability using conditional probability, $P(A \vert B) = P(A \vert B, C) P(C \vert B) + P(A \vert B, C^{C}) P(C^{C} \vert B)$
+        * We know that $P(A \vert B, C) < P(A \vert B^{C}, C)$ and that $P(A \vert B, C^{C}) < P(A \vert B^{C}, C^{C})$
+        * However, we are unable to reduce it further to $P(A \vert B)$ due to the terms $P(C \vert B), P(C^{C} \vert B)$, which are weights conditional on B.
+        * *Intuition*: $P(C \vert B)$ is the probability of performing heart surgery for Dr. Nick, which is very different than $P(C \vert B^{C})$ probability of performing heart surgery for Dr. Hibbert. The weights $P(C \vert B), P(C^{C} \vert B)$ change, and that is what enables Simpson's Paradox to happen.
+
+* *Example*: There was a lawsuit against UC Berkeley claiming sex discriminations in graduate admission rates. Looking at the overall admission rates, it looked like it was easier for men to get into UC Berkeley for graduate school. However, looking at the data of each individual apartment, the admission rates were generally more fair. The reason was that certain departments are more popular for women applicants and certain departments are harder to get into than others.
+
+* *Example*: There are four jars that each contain two flavors of jellybeans. Suppose you like one flavor over the other. Suppose jars are "better" if they have a higher percentage of the jellybean you like. If we combine the two "better" jars into one large jar and likewise with the two "worse" jars, Simpson's Paradox says the large jar created from the two "worse" jars may now have a higher percentage of the favorable jellybean and be "better".
 
 
 ## 7. Gambler's Ruin, Random Variables
