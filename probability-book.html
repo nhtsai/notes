@@ -100,7 +100,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      27 min read
+      30 min read
     
 </span></p>
 
@@ -244,7 +244,7 @@ window.onload = wrap_img;
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: left"><em>Events and occurrences</em></td>
+      <td style="text-align: left"><strong>Events and occurrences</strong></td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
@@ -268,7 +268,7 @@ window.onload = wrap_img;
       <td style="text-align: center">$s_{\text{actual}} \in S$</td>
     </tr>
     <tr>
-      <td style="text-align: left"><em>New events from old events</em></td>
+      <td style="text-align: left"><strong>New events from old events</strong></td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
@@ -296,7 +296,7 @@ window.onload = wrap_img;
       <td style="text-align: center">$A_{1} \cap \dots \cap A_{n}$</td>
     </tr>
     <tr>
-      <td style="text-align: left"><em>Relationships between events</em></td>
+      <td style="text-align: left"><strong>Relationships between events</strong></td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
@@ -321,19 +321,17 @@ window.onload = wrap_img;
       <li>Restrictive and relies on strong assumptions</li>
     </ul>
   </li>
-  <li>Let $A$ be an event for an experiment with finite sample space $S$. The <strong>naive probability</strong> of event $A$ is:</li>
-</ul>
+  <li>
+    <p>Let $A$ be an event for an experiment with finite sample space $S$. The <strong>naive probability</strong> of event $A$ is:</p>
 
-<p>$P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$</p>
-
-<ul>
+    <p>$P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$</p>
+  </li>
   <li>In terms of Pebble World, probability of $A$ is the fraction of all pebbles that are in $A$.</li>
-  <li>Similarly, the probability of the complement of event $A$ is made of the remaining events:</li>
-</ul>
+  <li>
+    <p>Similarly, the probability of the complement of event $A$ is made of the remaining events:</p>
 
-<p>$P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$</p>
-
-<ul>
+    <p>$P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$</p>
+  </li>
   <li>The naive definition requires $S$ to be finite with equally likely outcomes.</li>
   <li>Can be applied in certain situations:
     <ul>
@@ -527,9 +525,9 @@ window.onload = wrap_img;
       <li>Multiplication rule: Choosing a rank for the 3 cards is one experiment, and choosing the suits of the 3 cards is another experiment. Similarly, choosing a rank for the 2 cards is one experiment, and choosing the suits of the 2 cards is another experiment.</li>
       <li>So the probability of a full house is $\frac{13 \binom{4}{3} \times 12 \binom{4}{2} }{ \binom{52}{5} } = \frac{3744}{2598960} \approx 0.00144$</li>
       <li>
-<em>Note</em>: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the <em>order</em> of the ranks as interchangeable, which undercounts by a factor of $2$.
+<em>Note</em>: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the <em>order</em> of the ranks as interchangeable, which undercounts by a factor of 2.
         <ul>
-          <li>E.g. $(\underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}<em>{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}</em>{2 \text{-card}}) \neq (\underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}<em>{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}</em>{2 \text{-card}})$</li>
+          <li>E.g. $( \underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}<em>{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}</em>{2 \text{-card}} ) \neq ( \underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}<em>{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}</em>{2 \text{-card}} )$</li>
         </ul>
       </li>
     </ul>
@@ -731,6 +729,47 @@ window.onload = wrap_img;
 
 <h2 id="2-conditional-probability">
 <a class="anchor" href="#2-conditional-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Conditional Probability</h2>
+
+<p><strong>The Importance of Thinking Conditionally</strong></p>
+<ul>
+  <li>All probabilities are conditional. There is always background knowledge/assumptions built into every probability. Conditional probability addresses the question: how should we update our beliefs in light of the evidence we observe?</li>
+  <li>
+<em>Example</em>: Let $R$ be the event that it will rain that day. Let $P(R)$ be the assessment of the probability of rain <em>before</em> looking outside. After looking outside and seeing ominous clouds, our probability of rain should increase, as in $P(R \vert C)$ (“probability of R given C”) where $C$ is the event of there being ominous clouds. We are <em>conditioning on</em> $C$ when we go from $P(R) \rightarrow P(R \vert C)$.
+    <ul>
+      <li>If we get more information about the weather, we can keep updating our probabilities. If we observe events $B_{1}, \dots, B_{n}$ occurred, we can write a new conditional probability of rain $P(R \vert B_{1}, \dots, B_{n})$. If it does start raining, our conditional probability becomes 1.</li>
+    </ul>
+  </li>
+  <li>We can use <strong>conditioning</strong> to solve complex problems by decomposing it into simpler conditional probability problems. The <strong>first-step analysis</strong> strategy can help find recursive solutions to problems where the experiment has multiple stages.</li>
+  <li><em>Conditioning is the soul of statistics.</em></li>
+</ul>
+
+<p><strong>Definition and Intuition</strong></p>
+<ul>
+  <li>
+<strong>Conditional Probability</strong>: If $A, B$ are events with $P(B) &gt; 0$, then the <em>conditional probability</em> of $A$ given $B$ is: $P(A \vert B) = \frac{P(A \cap B)}{P(B)}$.
+    <ul>
+      <li>The chance of $A$ happening given $B$ is equal to the number of outcomes where both $A$ and $B$ happen over all the outcomes where $B$ happens.</li>
+      <li>Here we update the uncertainty of event $A$, and event $B$ is the evidence we observe (or the evidence given). $P(A)$ is the <strong>prior</strong> probability of $A$ (before updating based on evidence), and $P(A \vert B)$ is the <strong>posterior</strong> probability of $A$ (after updating based on evidence).</li>
+    </ul>
+  </li>
+  <li>For any event $A$, $P(A \vert A) = \frac{P(A \cap A)}{P(A)} = 1$. If we observe event $A$ occurs, then the updated probability $P(A \vert A) = 1$.</li>
+  <li>
+<em>Example</em>: Draw two cards, one at a time without replacement, randomly from a shuffled deck of cards. Let $A$ be the event that the first card is a Heart and $B$ be the event that the second card is red.
+    <ul>
+      <li>Since each of the 4 suits are equally likely, $P(A) = 13/52 = 1/4$.</li>
+      <li>Since for each of the 26 red cards that can be the second card, the first card can be any other card, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$. Chronological order not needed in multiplication rule.
+        <ul>
+          <li>Another way is to see that $P(B) = 1/2$ by <em>symmetry</em>: the second card is equally likely to be any card in the deck.</li>
+        </ul>
+      </li>
+      <li>By the naive definition of probability and the multiplication rule: $P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
+        <ul>
+          <li>There are 13 Heart cards and then there are 25 remaining red cards.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <h2 id="references">
 <a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
