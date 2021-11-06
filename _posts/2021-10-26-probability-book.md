@@ -70,21 +70,21 @@ permalink: /probability-book
 
 | English                                       | Sets |
 |:--------------------------------------------- |:----:|
-| *Events and occurrences*                      | |
+| **Events and occurrences**                    | |
 | sample space                                  | $S$ |
 | $s$ is a possible outcome                     | $s \in S$ |
 | $A$ is an event                               | $A \subseteq S $ |
 | $A$ occurred                                  | $s_{\text{actual}} \in A$ |
 | something must happen                         | $s_{\text{actual}} \in S$ |
-| *New events from old events*                  | |
+| **New events from old events**                | |
 | $A$ or $B$ (inclusive)                        | $A \cup B$ |
 | $A$ and $B$                                   | $A \cap B$ |
 | not $A$                                       | $A^{C}$ |
 | $A$ or $B$ (exclusive)                        | $(A \cap B^{C}) \cup (A^{C} \cap B)$ |
 | at least one of $A_{1}, \dots , A_{n}$        | $A_{1} \cup \dots \cup A_{n}$ |
 | all of $A_{1}, \dots , A_{n}$                 | $A_{1} \cap \dots \cap A_{n}$ |
-| *Relationships between events*                | |
-| $A$ implies $B$ | $A \subseteq B$             |
+| **Relationships between events**              | |
+| $A$ implies $B$                               | $A \subseteq B$ |
 | $A$ and $B$ are mutually exclusive            | $A \cap B = \emptyset$ |
 | $A_{1}, \dots , A_{n}$ are a partition of $S$ | $A_{1} \cup \dots \cup A_{n} = S, A_{i} \cap A_{j} = \emptyset \text{ for } i \neq j$ |
 
@@ -93,12 +93,12 @@ permalink: /probability-book
     * Restrictive and relies on strong assumptions
 * Let $A$ be an event for an experiment with finite sample space $S$. The **naive probability** of event $A$ is:
 
-$P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$
+    $P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$
 
 * In terms of Pebble World, probability of $A$ is the fraction of all pebbles that are in $A$.
 * Similarly, the probability of the complement of event $A$ is made of the remaining events:
 
-$P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$
+    $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$
 
 * The naive definition requires $S$ to be finite with equally likely outcomes.
 * Can be applied in certain situations:
@@ -198,8 +198,8 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
     * Since all of the $\binom{52}{5}$ total possible hands are equally likely by *symmetry*, the naive definition of probability applies.
     * Multiplication rule: Choosing a rank for the 3 cards is one experiment, and choosing the suits of the 3 cards is another experiment. Similarly, choosing a rank for the 2 cards is one experiment, and choosing the suits of the 2 cards is another experiment.
     * So the probability of a full house is $\frac{13 \binom{4}{3} \times 12 \binom{4}{2} }{ \binom{52}{5} } = \frac{3744}{2598960} \approx 0.00144$
-    * *Note*: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the *order* of the ranks as interchangeable, which undercounts by a factor of $2$.
-        * E.g. $(\underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}_{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}_{2 \text{-card}}) \neq (\underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}_{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}_{2 \text{-card}})$
+    * *Note*: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the *order* of the ranks as interchangeable, which undercounts by a factor of 2.
+        * E.g. $( \underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}_{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}_{2 \text{-card}} ) \neq ( \underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}_{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}_{2 \text{-card}} )$
 
 * *Example*: **Newton-Pepys Problem**
     * Which of the following events has the highest probability?
@@ -292,6 +292,29 @@ $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\
 
 
 ## 2. Conditional Probability
+
+**The Importance of Thinking Conditionally**
+* All probabilities are conditional. There is always background knowledge/assumptions built into every probability. Conditional probability addresses the question: how should we update our beliefs in light of the evidence we observe?
+* *Example*: Let $R$ be the event that it will rain that day. Let $P(R)$ be the assessment of the probability of rain *before* looking outside. After looking outside and seeing ominous clouds, our probability of rain should increase, as in $P(R \vert C)$ ("probability of R given C") where $C$ is the event of there being ominous clouds. We are *conditioning on* $C$ when we go from $P(R) \rightarrow P(R \vert C)$.
+    * If we get more information about the weather, we can keep updating our probabilities. If we observe events $B_{1}, \dots, B_{n}$ occurred, we can write a new conditional probability of rain $P(R \vert B_{1}, \dots, B_{n})$. If it does start raining, our conditional probability becomes 1.
+* We can use **conditioning** to solve complex problems by decomposing it into simpler conditional probability problems. The **first-step analysis** strategy can help find recursive solutions to problems where the experiment has multiple stages.
+* *Conditioning is the soul of statistics.*
+
+**Definition and Intuition**
+* **Conditional Probability**: If $A, B$ are events with $P(B) > 0$, then the *conditional probability* of $A$ given $B$ is: $P(A \vert B) = \frac{P(A \cap B)}{P(B)}$.
+    * The chance of $A$ happening given $B$ is equal to the number of outcomes where both $A$ and $B$ happen over all the outcomes where $B$ happens.
+    * Here we update the uncertainty of event $A$, and event $B$ is the evidence we observe (or the evidence given). $P(A)$ is the **prior** probability of $A$ (before updating based on evidence), and $P(A \vert B)$ is the **posterior** probability of $A$ (after updating based on evidence).
+* For any event $A$, $P(A \vert A) = \frac{P(A \cap A)}{P(A)} = 1$. If we observe event $A$ occurs, then the updated probability $P(A \vert A) = 1$.
+* *Example*: Draw two cards, one at a time without replacement, randomly from a shuffled deck of cards. Let $A$ be the event that the first card is a Heart and $B$ be the event that the second card is red.
+    * Since each of the 4 suits are equally likely, $P(A) = 13/52 = 1/4$.
+    * Since for each of the 26 red cards that can be the second card, the first card can be any other card, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$. Chronological order not needed in multiplication rule.
+        * Another way is to see that $P(B) = 1/2$ by *symmetry*: the second card is equally likely to be any card in the deck.
+    * By the naive definition of probability and the multiplication rule: $P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
+        * There are 13 Heart cards and then there are 25 remaining red cards.
+
+
+
+
 
 ## References
 [^1]: Footnote
