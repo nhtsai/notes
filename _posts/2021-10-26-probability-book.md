@@ -308,10 +308,16 @@ permalink: /probability-book
 * *Example*: Draw two cards, one at a time without replacement, randomly from a shuffled deck of cards. Let $A$ be the event that the first card is a Heart and $B$ be the event that the second card is red.
     * Since each of the 4 suits are equally likely, $P(A) = 13/52 = 1/4$.
     * Since for each of the 26 red cards that can be the second card, the first card can be any other card, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$. Chronological order not needed in multiplication rule.
-        * Another way is to see that $P(B) = 1/2$ by *symmetry*: the second card is equally likely to be any card in the deck.
+        * Another way is to see that $P(B) = 1/2$ by *symmetry*. Before the experiment, the second card is equally likely to be any card in the deck.
     * By the naive definition of probability and the multiplication rule: $P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
         * There are 13 Heart cards and then there are 25 remaining red cards.
-
+    * $P(A \vert B) = \frac{P(A \cap B)}{P(B)} = \frac{25/204}{1/2} = \frac{25}{102}$
+    * $P(B \vert A) = \frac{P(B \cap A)}{P(A)} = \frac{25/204}{1/4} = \frac{25}{51}$
+    * *Important*:
+        1. $P(A \vert B) \neq P(B \vert A)$. Confusing these terms is called the **prosecutor's fallacy**. If $B$ was the event the second card is a heart then $P(A \vert B) = P(B \vert A)$.
+        1. $P(A \vert B), P(B \vert A)$ both make sense. The chronological order in which cards were chosen does not matter. We only consider what *information* observing one event provides about another event, not whether one event *causes* another, in conditional probabilities.
+            * *Intuition*: Imagine drawing cards using left and right hands at the same time. Defining events $A,B$ based on the left and right card rather than first and second card would not change the structure of the problem in any important way.
+        1. $P(B \vert A) = 25/51$ means: if a first card drawn is a heart, then the remaining cards consist of 25 red cards and 26 black cards that are equally likely to be drawn next.
 
 
 
