@@ -318,9 +318,17 @@ permalink: /probability-book
         1. $P(A \vert B), P(B \vert A)$ both make sense. The chronological order in which cards were chosen does not matter. We only consider what *information* observing one event provides about another event, not whether one event *causes* another, in conditional probabilities.
             * *Intuition*: Imagine drawing cards using left and right hands at the same time. Defining events $A,B$ based on the left and right card rather than first and second card would not change the structure of the problem in any important way.
         1. $P(B \vert A) = 25/51$ means: if a first card drawn is a heart, then the remaining cards consist of 25 red cards and 26 black cards that are equally likely to be drawn next.
+* *Intuition*: Consider a finite sample space, with the outcomes visualized as pebbles with total mass 1. Events $A,B$ are sets of pebbles. If we are given that event $B$ occurred, then we can remove all pebbles in $B^{C}$ and know $P(A \cap B)$ is the total mass of the pebbles remaining in $A$. We *renormalize* to make the mass of the remaining pebbles sum to 1. Therefore, $P(A \vert B) = P(A \cap B) / P(B)$.
+    * The probability is updated when new evidence is observed. We remove outcomes that contradict the observed evidence and renormalize among the remaining outcomes to preserve their relative masses.
+* *Frequentist Interpretation*: Frequentists interpret probability as the relative frequency over many repeated trials. The conditional probability $P(A \vert B)$ can be thought of as the fraction of times that $A$ occurs, restricting attention to the trials where $B$ occurs.
 
-
-
+* *Example*: "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?" "Mr. Smith has two children. At least one of them is a girl. WHat is the probability that both children are girls?
+    * *Assumptions*
+        * Gender is binary, boy or girl.
+        * $P(\text{boy}) = P(\text{girl})$ for elder child and younger child.
+        * Genders of the two children are independent.
+    * Jones: $P(\text{both girls} \vert \text{elder is girl}) = \frac{P(\text{both girls, elder is girl})}{P(\text{elder is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$
+    * Smith: $P(\text{both girls} \vert \text{at least one girl}) = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl})} = \frac{1/4}{3/4} = \frac{1}{3}$
 
 ## References
 [^1]: Footnote
