@@ -322,13 +322,40 @@ permalink: /probability-book
     * The probability is updated when new evidence is observed. We remove outcomes that contradict the observed evidence and renormalize among the remaining outcomes to preserve their relative masses.
 * *Frequentist Interpretation*: Frequentists interpret probability as the relative frequency over many repeated trials. The conditional probability $P(A \vert B)$ can be thought of as the fraction of times that $A$ occurs, restricting attention to the trials where $B$ occurs.
 
-* *Example*: "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?" "Mr. Smith has two children. At least one of them is a girl. WHat is the probability that both children are girls?
+* *Example*: "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?" "Mr. Smith has two children. At least one of them is a girl. What is the probability that both children are girls?
     * *Assumptions*
         * Gender is binary, boy or girl.
         * $P(\text{boy}) = P(\text{girl})$ for elder child and younger child.
         * Genders of the two children are independent.
     * Jones: $P(\text{both girls} \vert \text{elder is girl}) = \frac{P(\text{both girls, elder is girl})}{P(\text{elder is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$
     * Smith: $P(\text{both girls} \vert \text{at least one girl}) = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl})} = \frac{1/4}{3/4} = \frac{1}{3}$
+
+* *Example*: A family has two children, and you randomly learn one of the two is a girl. What is the conditional probability that both are girls?
+    * *Assumptions*
+        * Gender is binary, boy or girl.
+        * $P(\text{boy}) = P(\text{girl})$ for elder child and younger child.
+        * Genders of the two children are independent.
+        * You are equally likely to learn about either child.
+        * The gender of the child does not affect if you learn about them.
+    * *Intuition*: Since you learned about one child, both children being girls would mean the one you don't know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven't met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.
+    * Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
+        * By assumption, $P(G_{1}) = P(G_{2}) = P(G_{3}) = 1/2$.
+        * By the naive definition of probability, $P(G_{1}) \cap P(G_{2}) = 1/4$.
+        * $P(G_{1} \cap G_{2} \vert G_{3}) = \frac{P(G_{1} \cap G_{2} \cap G_{3})}{P(G_{3})} = \frac{1/4}{1/2} = 1/2$
+            * If both elder and younger children are girls, the random child must be a girl: $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.
+
+* *Example*: A family has two children. Given that at least one of the two is a girl who was born in the winter, find the probability that both children are girls.
+    * *Assumptions*
+        * Gender is binary, boy or girl.
+        * $P(\text{boy}) = P(\text{girl})$ for elder child and younger child.
+        * Genders of the two children are independent.
+        * The four seasons are equally likely.
+        * Gender of the child is independent of the birth season.
+    * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
+        * $P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (\frac{3}{4})^{2})$
+        * $P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$
+        * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (\frac{3}{4})^{2})}{1 - (\frac{7}{8})^{2}} = \frac{7/64}{15/64} = 7/15$
+
 
 ## References
 [^1]: Footnote
