@@ -39,20 +39,15 @@ permalink: /probability-book
     * $(A \cap B)^C = A^C \cup B^C$ : it is not the case that both $A,B$ occur is the same as at least one $A$ or $B$ does not occur
 * *Example*: A coin is flipped 10 times.
     * A possible outcome is $HHHTHHTTHT$. The sample space is all possible strings of length 10 of $H$ and $T$. Let $H=1, T=0$, so the sample space is the set of all sequences in $(s_{1}, \dots, s_{10}), s_{j} \in {0, 1}$
-    1. Let $A_{1}$ be the event that the first flip is Heads.  
-    $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$
-    This event occurs when the first flip is Heads.
-
-    1. Let $B$ be the event that at least one flip was Heads.
-    $B = \bigcup_{j=1}^{10} A_{j}$
-    Where $A_{j}$ is the event that the *j*-th flip is Heads for $j = 2, 3, \dots, 10$
-    This event is the combination of events where any of the 10 coins being Heads.
-
-    1. Let $C$ be the event that all flips were Heads.
+    * Let $A_{1}$ be the event that the first flip is Heads.  
+    $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$.
+    * Let $B$ be the event that at least one flip was Heads.  
+    $B = \bigcup_{j=1}^{10} A_{j}$  
+    Where $A_{j}$ is the event that the *j*-th flip is Heads for $j = 1, 2, \dots, 10$.
+    * Let $C$ be the event that all flips were Heads.  
     $C = \bigcap_{j=1}^{10} A_{j}$
-
-    1. Let $D$ be the event there were at least two consecutive Heads.
-    $D  \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$
+    * Let $D$ be the event there were at least two consecutive Heads.  
+    $D = \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$
 
 * *Example*: Picking a card from a standard deck of 52 cards.
     1. Let $A$ be the event the card is an ace.
@@ -90,7 +85,7 @@ permalink: /probability-book
 
 **Naive definition of probability**
 * The naive probability of an event is the count the number of ways the event could happen divided by total number of possible outcomes for the experiment
-    * Restrictive and relies on strong assumptions
+    * The naive definition requires $S$ to be finite with equally likely outcomes.
 * Let $A$ be an event for an experiment with finite sample space $S$. The **naive probability** of event $A$ is:
 
     $P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$
@@ -99,8 +94,6 @@ permalink: /probability-book
 * Similarly, the probability of the complement of event $A$ is made of the remaining events:
 
     $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$
-
-* The naive definition requires $S$ to be finite with equally likely outcomes.
 * Can be applied in certain situations:
     * There is *symmetry* in the problem that makes outcomes equally likely. E.g. fair coin or deck of cards.
     * The outcomes are equally likely *by design*. E.g. conducting a survey of $n$ people in a population of $N$ people using a simple random sample to select people.
@@ -113,29 +106,26 @@ permalink: /probability-book
     * Each of the $a$ outcomes can lead to $b$ outcomes, so there are $b_{1} + \dots + b_{a} = ab$ possibilities.
     * There's no requirement Experiment A has to be performed before Experiment B, so no chronological order.
 * *Example*: Suppose 10 runners in a race, no ties and all 10 will complete the race. How many possibilities are there for first, second, and third place winners?
-    * Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place.
-    * There are $10 \times 9 \times 8 = 720$ possibilities.
-    * Could have also considered 10 runners in third place first, order of consideration not important.
+    * Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place. So there are $10 \times 9 \times 8 = 720$ possibilities.
+    * The order of consideration not important: could have considered 10 runners in third place first.
 * *Example*: How many squares are there in an $8 \times 8$ chessboard?
-    * To specify a square, can consider its position within 8 rows and 8 columns.
-    * There are $8 \times 8 = 64$ squares on the board.
+    * To specify a square, can consider its row position and its column position. So there are $8 \times 8 = 64$ squares on the board.
 * *Example*: How many possible ice cream cone combinations if there are 2 types of cones and 3 types of flavors?
     * There are $2 \times 3 = 3 \times 2 = 6$ possibilities.
     * Order of choice doesn't matter, can either choose cone then flavor, or flavor then cone.
     * Which flavors each cone could have doesn't matter, only the *number of flavor choices* for each cone matters. If the waffle cones could only have 2 flavors, multiplication rule does not apply and there are $3 + 2 = 5$ possibilities.
-    * If you bought 2 ice creams in a single day $(x, y)$, there would be $6 \times 6 = 36$ possible combinations.
-    * If you didn't want to distinguish between combinations $(x,y) = (y,x)$ , then there are 15 $(x, y), x \neq y$ possibilities and 6 $(x,x)$ possibilities, for a total of 21 possibilities.
+    * If you bought 2 ice creams in a single day $(x_{\text{cone}}, y_{\text{flavor}})$, there would be $6 \times 6 = 36$ possible combinations.
+    * If you didn't want to distinguish between combinations $(x,y) = (y,x)$ , then we have  $15 \text{ of } (x, y), x \neq y$ possibilities and $6 \text{ of } (x, x)$ possibilities, for a total of 21 possibilities.
         * Cannot just divide $36 / 2 = 18$ ! Since $(x,x)$ pairs are already only listed once each, must do $((6 \times 5) / 2) + 6 = 21$ possibilities.
     * If the original 36 cone-flavor pairs are equally likely, then the 21 possibilities are not equally likely.
-        * Counting $(x,y) = (y, x)$ doubles likeliness, but $(x,x)$ pairs stay the same.
+        * Counting $(x, y) = (y, x)$ doubles likeliness, but the likeliness of $(x, x)$ pairs stays does not change.
 * *Example*: A set of $n$ elements has $2^{n}$ subsets, including the empty set $\emptyset$ and the set itself.
-    * From the multiplication rule, we can choose to include or exclude each element of the set.
-    * Multiplication rule: think of each number consideration as an experiment with 2 outcomes: include or exclude.
-    * $\{1, 2, 3\}$ has 8 subsets: $\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}$
+    * From the multiplication rule, we can choose to include or exclude each element of the set. Think of each number consideration as an experiment with 2 outcomes: include or exclude.
+    * A set of 3 elements $\{1, 2, 3\}$ has 8 subsets: $\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}$
         * Consider first element 1, then consider second element 2, and then consider last element 3.
         * $\emptyset$ is (exclude, exclude, exclude).
         * $\{3\}$ is (exclude, exclude, include).
-        * Order of consideration does not matter; could have considered element 3 first.
+        * Order of consideration does not matter: could have considered element 3 first.
 
 * **Sampling with Replacement**: Consider $n$ objects and making $k$ choices from them, one at a time *with replacement*, then there are $n^{k}$ possible outcomes, where order matters $(x,y) \neq (y,x)$.
 * *Example*: Jar with $n$ balls, labeled from 1 to $n$.
@@ -199,6 +189,7 @@ permalink: /probability-book
     * Multiplication rule: Choosing a rank for the 3 cards is one experiment, and choosing the suits of the 3 cards is another experiment. Similarly, choosing a rank for the 2 cards is one experiment, and choosing the suits of the 2 cards is another experiment.
     * So the probability of a full house is $\frac{13 \binom{4}{3} \times 12 \binom{4}{2} }{ \binom{52}{5} } = \frac{3744}{2598960} \approx 0.00144$
     * *Note*: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the *order* of the ranks as interchangeable, which undercounts by a factor of 2.
+        * E.g. $(7 \heartsuit, 7 \diamondsuit, 7 \clubsuit, 5 \diamondsuit, 5 \clubsuit) \neq (5 \heartsuit, 5 \diamondsuit, 5 \clubsuit, 7 \diamondsuit, 7 \clubsuit)$
         * E.g. $( \underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}_{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}_{2 \text{-card}} ) \neq ( \underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}_{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}_{2 \text{-card}} )$
 
 * *Example*: **Newton-Pepys Problem**
@@ -216,7 +207,7 @@ permalink: /probability-book
         * Therefore, $P(B) = 1 - \frac{5^{12} + \binom{12}{1} 5^{11}}{6^{12}} \approx 0.62$
     * Event C
         * Similarly, we consider the complement of all possible ways to roll either zero, one, or two 6's in 18 dice rolls. $P(C) = 1 - P(\text{zero } 6) - P(\text{one } 6) - P(\text{two } 6)$
-        * Therefore, $P(C) = 1 - \frac{5^{18} + \binom{18}{1} 5^{17} + \binom{18}{2} 5^{16}}{6^{18}} \approx 0.62$
+        * Therefore, $P(C) = 1 - \frac{5^{18} + \binom{18}{1} 5^{17} + \binom{18}{2} 5^{16}}{6^{18}} \approx 0.60$
     * The event with the highest probability is Event A.
 
 * *Example*: **Bose-Einstein Problem**
