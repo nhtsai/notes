@@ -187,31 +187,17 @@ window.onload = wrap_img;
   <li>
 <em>Example</em>: A coin is flipped 10 times.
     <ul>
-      <li>A possible outcome is $HHHTHHTTHT$. The sample space is all possible strings of length 10 of $H$ and $T$. Let $H=1, T=0$, so the sample space is the set of all sequences in $(s_{1}, \dots, s_{10}), s_{j} \in {0, 1}$
-        <ol>
-          <li>Let $A_{1}$ be the event that the first flip is Heads.<br>
-  $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$
-  This event occurs when the first flip is Heads.</li>
-        </ol>
-      </li>
+      <li>A possible outcome is $HHHTHHTTHT$. The sample space is all possible strings of length 10 of $H$ and $T$. Let $H=1, T=0$, so the sample space is the set of all sequences in $(s_{1}, \dots, s_{10}), s_{j} \in {0, 1}$</li>
+      <li>Let $A_{1}$ be the event that the first flip is Heads.<br>
+  $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$.</li>
+      <li>Let $B$ be the event that at least one flip was Heads.<br>
+  $B = \bigcup_{j=1}^{10} A_{j}$<br>
+  Where $A_{j}$ is the event that the <em>j</em>-th flip is Heads for $j = 1, 2, \dots, 10$.</li>
+      <li>Let $C$ be the event that all flips were Heads.<br>
+  $C = \bigcap_{j=1}^{10} A_{j}$</li>
+      <li>Let $D$ be the event there were at least two consecutive Heads.<br>
+  $D = \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$</li>
     </ul>
-
-    <ol>
-      <li>
-        <p>Let $B$ be the event that at least one flip was Heads.
-  $B = \bigcup_{j=1}^{10} A_{j}$
-  Where $A_{j}$ is the event that the <em>j</em>-th flip is Heads for $j = 2, 3, \dots, 10$
-  This event is the combination of events where any of the 10 coins being Heads.</p>
-      </li>
-      <li>
-        <p>Let $C$ be the event that all flips were Heads.
-  $C = \bigcap_{j=1}^{10} A_{j}$</p>
-      </li>
-      <li>
-        <p>Let $D$ be the event there were at least two consecutive Heads.
-  $D  \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$</p>
-      </li>
-    </ol>
   </li>
   <li>
 <em>Example</em>: Picking a card from a standard deck of 52 cards.
@@ -318,7 +304,7 @@ window.onload = wrap_img;
 <ul>
   <li>The naive probability of an event is the count the number of ways the event could happen divided by total number of possible outcomes for the experiment
     <ul>
-      <li>Restrictive and relies on strong assumptions</li>
+      <li>The naive definition requires $S$ to be finite with equally likely outcomes.</li>
     </ul>
   </li>
   <li>
@@ -332,7 +318,6 @@ window.onload = wrap_img;
 
     <p>$P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$</p>
   </li>
-  <li>The naive definition requires $S$ to be finite with equally likely outcomes.</li>
   <li>Can be applied in certain situations:
     <ul>
       <li>There is <em>symmetry</em> in the problem that makes outcomes equally likely. E.g. fair coin or deck of cards.</li>
@@ -357,16 +342,14 @@ window.onload = wrap_img;
   <li>
 <em>Example</em>: Suppose 10 runners in a race, no ties and all 10 will complete the race. How many possibilities are there for first, second, and third place winners?
     <ul>
-      <li>Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place.</li>
-      <li>There are $10 \times 9 \times 8 = 720$ possibilities.</li>
-      <li>Could have also considered 10 runners in third place first, order of consideration not important.</li>
+      <li>Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place. So there are $10 \times 9 \times 8 = 720$ possibilities.</li>
+      <li>The order of consideration not important: could have considered 10 runners in third place first.</li>
     </ul>
   </li>
   <li>
 <em>Example</em>: How many squares are there in an $8 \times 8$ chessboard?
     <ul>
-      <li>To specify a square, can consider its position within 8 rows and 8 columns.</li>
-      <li>There are $8 \times 8 = 64$ squares on the board.</li>
+      <li>To specify a square, can consider its row position and its column position. So there are $8 \times 8 = 64$ squares on the board.</li>
     </ul>
   </li>
   <li>
@@ -375,15 +358,15 @@ window.onload = wrap_img;
       <li>There are $2 \times 3 = 3 \times 2 = 6$ possibilities.</li>
       <li>Order of choice doesn’t matter, can either choose cone then flavor, or flavor then cone.</li>
       <li>Which flavors each cone could have doesn’t matter, only the <em>number of flavor choices</em> for each cone matters. If the waffle cones could only have 2 flavors, multiplication rule does not apply and there are $3 + 2 = 5$ possibilities.</li>
-      <li>If you bought 2 ice creams in a single day $(x, y)$, there would be $6 \times 6 = 36$ possible combinations.</li>
-      <li>If you didn’t want to distinguish between combinations $(x,y) = (y,x)$ , then there are 15 $(x, y), x \neq y$ possibilities and 6 $(x,x)$ possibilities, for a total of 21 possibilities.
+      <li>If you bought 2 ice creams in a single day $(x_{\text{cone}}, y_{\text{flavor}})$, there would be $6 \times 6 = 36$ possible combinations.</li>
+      <li>If you didn’t want to distinguish between combinations $(x,y) = (y,x)$ , then we have  $15 \text{ of } (x, y), x \neq y$ possibilities and $6 \text{ of } (x, x)$ possibilities, for a total of 21 possibilities.
         <ul>
           <li>Cannot just divide $36 / 2 = 18$ ! Since $(x,x)$ pairs are already only listed once each, must do $((6 \times 5) / 2) + 6 = 21$ possibilities.</li>
         </ul>
       </li>
       <li>If the original 36 cone-flavor pairs are equally likely, then the 21 possibilities are not equally likely.
         <ul>
-          <li>Counting $(x,y) = (y, x)$ doubles likeliness, but $(x,x)$ pairs stay the same.</li>
+          <li>Counting $(x, y) = (y, x)$ doubles likeliness, but the likeliness of $(x, x)$ pairs stays does not change.</li>
         </ul>
       </li>
     </ul>
@@ -391,14 +374,13 @@ window.onload = wrap_img;
   <li>
 <em>Example</em>: A set of $n$ elements has $2^{n}$ subsets, including the empty set $\emptyset$ and the set itself.
     <ul>
-      <li>From the multiplication rule, we can choose to include or exclude each element of the set.</li>
-      <li>Multiplication rule: think of each number consideration as an experiment with 2 outcomes: include or exclude.</li>
-      <li>${1, 2, 3}$ has 8 subsets: $\emptyset, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}$
+      <li>From the multiplication rule, we can choose to include or exclude each element of the set. Think of each number consideration as an experiment with 2 outcomes: include or exclude.</li>
+      <li>A set of 3 elements ${1, 2, 3}$ has 8 subsets: $\emptyset, {1}, {2}, {3}, {1,2}, {1,3}, {2,3}, {1,2,3}$
         <ul>
           <li>Consider first element 1, then consider second element 2, and then consider last element 3.</li>
           <li>$\emptyset$ is (exclude, exclude, exclude).</li>
           <li>${3}$ is (exclude, exclude, include).</li>
-          <li>Order of consideration does not matter; could have considered element 3 first.</li>
+          <li>Order of consideration does not matter: could have considered element 3 first.</li>
         </ul>
       </li>
     </ul>
@@ -527,6 +509,7 @@ window.onload = wrap_img;
       <li>
 <em>Note</em>: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the <em>order</em> of the ranks as interchangeable, which undercounts by a factor of 2.
         <ul>
+          <li>E.g. $(7 \heartsuit, 7 \diamondsuit, 7 \clubsuit, 5 \diamondsuit, 5 \clubsuit) \neq (5 \heartsuit, 5 \diamondsuit, 5 \clubsuit, 7 \diamondsuit, 7 \clubsuit)$</li>
           <li>E.g. $( \underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}<em>{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}</em>{2 \text{-card}} ) \neq ( \underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}<em>{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}</em>{2 \text{-card}} )$</li>
         </ul>
       </li>
@@ -559,7 +542,7 @@ window.onload = wrap_img;
       <li>Event C
         <ul>
           <li>Similarly, we consider the complement of all possible ways to roll either zero, one, or two 6’s in 18 dice rolls. $P(C) = 1 - P(\text{zero } 6) - P(\text{one } 6) - P(\text{two } 6)$</li>
-          <li>Therefore, $P(C) = 1 - \frac{5^{18} + \binom{18}{1} 5^{17} + \binom{18}{2} 5^{16}}{6^{18}} \approx 0.62$</li>
+          <li>Therefore, $P(C) = 1 - \frac{5^{18} + \binom{18}{1} 5^{17} + \binom{18}{2} 5^{16}}{6^{18}} \approx 0.60$</li>
         </ul>
       </li>
       <li>The event with the highest probability is Event A.</li>
