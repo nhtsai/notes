@@ -100,7 +100,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      34 min read
+      37 min read
     
 </span></p>
 
@@ -740,18 +740,27 @@ window.onload = wrap_img;
 <em>Example</em>: Draw two cards, one at a time without replacement, randomly from a shuffled deck of cards. Let $A$ be the event that the first card is a Heart and $B$ be the event that the second card is red.
     <ul>
       <li>Since each of the 4 suits are equally likely, $P(A) = 13/52 = 1/4$.</li>
-      <li>Since for each of the 26 red cards that can be the second card, the first card can be any other card, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$. Chronological order not needed in multiplication rule.
+      <li>
+<em>Multiplication Rule</em>: The second card can be any of the 26 red cards, and for each of those, the first card can be any other of the 51 remaining cards. (Chronological order not needed in multiplication rule.) Therefore, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$.
         <ul>
-          <li>Another way is to see that $P(B) = 1/2$ by <em>symmetry</em>. Before the experiment, the second card is equally likely to be any card in the deck.</li>
+          <li>Another way is to see that $P(B) = 1/2$ by <em>symmetry</em>. Before the experiment and before we know anything about Event A, the second card is equally likely to be any card in the deck, where the 26 red cards are favorable.</li>
         </ul>
       </li>
-      <li>By the naive definition of probability and the multiplication rule: $P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
+      <li>By the naive definition of probability and the multiplication rule: $P(B \cap A) = P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
         <ul>
-          <li>There are 13 Heart cards and then there are 25 remaining red cards.</li>
+          <li>The first card has 13 favorable Heart cards and the second card has 25 remaining, favorable red cards.</li>
         </ul>
       </li>
-      <li>$P(A \vert B) = \frac{P(A \cap B)}{P(B)} = \frac{25/204}{1/2} = \frac{25}{102}$</li>
-      <li>$P(B \vert A) = \frac{P(B \cap A)}{P(A)} = \frac{25/204}{1/4} = \frac{25}{51}$</li>
+      <li>$P(A \vert B) = \frac{P(A \cap B)}{P(B)} = \frac{25/204}{1/2} = \frac{25}{102}$
+        <ul>
+          <li>The probability that the first card is a heart, given the second card is red. If we know the second card is red, we are interested in knowing if it is a diamond or a heart.</li>
+        </ul>
+      </li>
+      <li>$P(B \vert A) = \frac{P(B \cap A)}{P(A)} = \frac{25/204}{1/4} = \frac{25}{51}$
+        <ul>
+          <li>The probability that the second card is red, given the first card is a heart. If we know the first card is a heart, then we know there are 25 of the remaining 51 cards are red.</li>
+        </ul>
+      </li>
       <li>
 <em>Important</em>:
         <ol>
@@ -774,21 +783,38 @@ window.onload = wrap_img;
     </ul>
   </li>
   <li>
-    <p><em>Frequentist Interpretation</em>: Frequentists interpret probability as the relative frequency over many repeated trials. The conditional probability $P(A \vert B)$ can be thought of as the fraction of times that $A$ occurs, restricting attention to the trials where $B$ occurs.</p>
+<em>Frequentist Interpretation</em>: Frequentists interpret probability as the relative frequency over many repeated trials. The conditional probability $P(A \vert B)$ can be thought of as the fraction of times that $A$ occurs, restricting attention to the trials where $B$ occurs.
+    <ul>
+      <li>Of the trials that satisfy $B$, what fraction of them also satisfy $A$?</li>
+    </ul>
   </li>
   <li>
-<em>Example</em>: “Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?” “Mr. Smith has two children. At least one of them is a girl. What is the probability that both children are girls?
+<em>Example</em>: “Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?” and “Mr. Smith has two children. At least one of them is a girl. What is the probability that both children are girls?”
     <ul>
       <li>
 <em>Assumptions</em>
         <ul>
           <li>Gender is binary, boy or girl.</li>
-          <li>$P(\text{boy}) = P(\text{girl})$ for elder child and younger child.</li>
+          <li>$P(\text{boy}) = P(\text{girl})$ for older child and younger child.</li>
           <li>Genders of the two children are independent.</li>
         </ul>
       </li>
-      <li>Jones: $P(\text{both girls} \vert \text{elder is girl}) = \frac{P(\text{both girls, elder is girl})}{P(\text{elder is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$</li>
-      <li>Smith: $P(\text{both girls} \vert \text{at least one girl}) = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl})} = \frac{1/4}{3/4} = \frac{1}{3}$</li>
+      <li>Jones: $P(\text{both girls} \vert \text{older is girl}) = \frac{P(\text{both girls, older is girl})}{P(\text{older is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$
+        <ul>
+          <li>The probability that both children are girls, given the older child is a girl.</li>
+        </ul>
+      </li>
+      <li>Smith: $P(\text{both girls} \vert \text{at least one girl}) = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl})} = \frac{1/4}{3/4} = \frac{1}{3}$
+        <ul>
+          <li>The probability that both children are girls, given that at least one of them is a girl.</li>
+        </ul>
+      </li>
+      <li>Why is knowing the older child’s gender different from knowing at least one child’s gender?
+        <ul>
+          <li>If we know the older child is a girl, the probability of both girls depends on only if the younger child is a girl, or ${GB, GG}$. Conditioning on a specific child removes 2 of the 4 outcomes ${BG, BB}$ in the sample space.</li>
+          <li>If we know at least one child is a girl (non-specific), the probability of both girls depends on how many children are girls, or ${GB, BG, GG}$. Conditioning on at least one child being a girl knocks away only 1 of the 4 outcomes ${BB}$ in the sample space.</li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li>
@@ -805,18 +831,23 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>
-<em>Intuition</em>: Since you learned about one child, both children being girls would mean the one you don’t know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven’t met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.</li>
-      <li>Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
+<em>Intuition</em>: The chance of both girls just depends on the gender of the child you didn’t learn about. Since you learned about one child, both children being girls would mean the one you don’t know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven’t met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.</li>
+      <li>
+<em>Solution</em>
         <ul>
+          <li>Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.</li>
           <li>By assumption, $P(G_{1}) = P(G_{2}) = P(G_{3}) = 1/2$.</li>
           <li>By the naive definition of probability, $P(G_{1}) \cap P(G_{2}) = 1/4$.</li>
           <li>$P(G_{1} \cap G_{2} \vert G_{3}) = \frac{P(G_{1} \cap G_{2} \cap G_{3})}{P(G_{3})} = \frac{1/4}{1/2} = 1/2$
             <ul>
-              <li>If both elder and younger children are girls, the random child must be a girl: $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.</li>
+              <li>The probability that both children are girls, given the random child is a girl.</li>
+              <li>If both elder and younger children are girls, the random child must be a girl, so $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.</li>
             </ul>
           </li>
         </ul>
       </li>
+      <li>
+<em>Note</em>: The assumption of a <em>random sample</em> was needed to determine how the random child was selected. If there was some factor of selection bias, e.g. a law that forbids a boy from leaving the house if he has a sister, then “the random child is a girl” is equivalent to “at least one of the children is a girl”.</li>
     </ul>
   </li>
   <li>
@@ -832,11 +863,32 @@ window.onload = wrap_img;
           <li>Gender of the child is independent of the birth season.</li>
         </ul>
       </li>
-      <li>$P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
+      <li>
+<em>Solution</em>
         <ul>
-          <li>$P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (\frac{3}{4})^{2})$</li>
-          <li>$P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$</li>
-          <li>$P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (\frac{3}{4})^{2})}{1 - (\frac{7}{8})^{2}} = \frac{7/64}{15/64} = 7/15$</li>
+          <li>$P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$</li>
+          <li>$P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$
+            <ul>
+              <li>We take the complement, or the probability that there are no winter girls among the two children.</li>
+            </ul>
+          </li>
+          <li>$P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (3/4)^{2})$
+            <ul>
+              <li>We first notice that “at least one winter girl” is equivalent to “at least one winter child” if “both girls” is true.</li>
+              <li>From the assumptions that gender and season are independent, we can multiply the individual probabilities (Axiom 2) of gender (both girls) and season (at least one winter child).
+                <ul>
+                  <li>$P(\text{both girls}) = 1/4$</li>
+                  <li>$P(\text{at least one winter child}) = 1 - P(\text{no winter children}) = 1 - (3/4)^{2}$</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Therefore, $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (3/4)^{2})}{1 - (7/8)^{2}} = \frac{7/64}{15/64} = 7/15$</li>
+        </ul>
+      </li>
+      <li>How can conditioning on “at least one winter girl” be $7/15$ when conditioning on “at least one girl” is only $1/3$? Why does knowing the birth season increase the likelihood of “both girls”?
+        <ul>
+          <li>Information about birth season brings “at least one is a girl” closer to “a specific child is a girl”, e.g. conditioning on “older is a girl” is $1/2$.</li>
         </ul>
       </li>
     </ul>
