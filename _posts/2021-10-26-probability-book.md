@@ -252,6 +252,7 @@ permalink: /probability-book
     * *Frequentist View*: Probability represents a long-run frequency over a large number of repetitions of an experiment. E.g. If we say a coin has a probability of $1/2$ of Heads, the coin will land Heads 50% of the time if tossed over and over.
     * *Bayesian View*: Probability represents a degree of belief about the event in question, so probabilities can be assigned to hypotheses, such as "candidate A will win the election" or "the defendant is guilty", even if it isn't possible to repeat the same election or same crime over and over again.
     * *Frequentist* and *Bayesian* views are complementary.
+
 * **Properties of Probability**: For any events $A, B$:
     1. Complement: $P(A^{C}) = 1 - P(A)$
         * *Proof*: Since $A$ and $A^{C}$ are disjoint and their union makes up $S$, $P(S) = P(A \cup A^{C}) = P(A) + P(A^{C})$. Since $P(S) = 1$ by the first axiom, $P(A) + P(A^{C}) = 1$.
@@ -298,28 +299,36 @@ permalink: /probability-book
 * For any event $A$, $P(A \vert A) = \frac{P(A \cap A)}{P(A)} = 1$. If we observe event $A$ occurs, then the updated probability $P(A \vert A) = 1$.
 * *Example*: Draw two cards, one at a time without replacement, randomly from a shuffled deck of cards. Let $A$ be the event that the first card is a Heart and $B$ be the event that the second card is red.
     * Since each of the 4 suits are equally likely, $P(A) = 13/52 = 1/4$.
-    * Since for each of the 26 red cards that can be the second card, the first card can be any other card, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$. Chronological order not needed in multiplication rule.
-        * Another way is to see that $P(B) = 1/2$ by *symmetry*. Before the experiment, the second card is equally likely to be any card in the deck.
-    * By the naive definition of probability and the multiplication rule: $P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
-        * There are 13 Heart cards and then there are 25 remaining red cards.
+    * *Multiplication Rule*: The second card can be any of the 26 red cards, and for each of those, the first card can be any other of the 51 remaining cards. (Chronological order not needed in multiplication rule.) Therefore, $P(B) = (\frac{26}{52}) (\frac{51}{51}) = 1/2$.
+        * Another way is to see that $P(B) = 1/2$ by *symmetry*. Before the experiment and before we know anything about Event A, the second card is equally likely to be any card in the deck, where the 26 red cards are favorable.
+    * By the naive definition of probability and the multiplication rule: $P(B \cap A) = P(A \cap B) = (\frac{13}{52})(\frac{25}{51}) = \frac{25}{204}$
+        * The first card has 13 favorable Heart cards and the second card has 25 remaining, favorable red cards.
     * $P(A \vert B) = \frac{P(A \cap B)}{P(B)} = \frac{25/204}{1/2} = \frac{25}{102}$
+        * The probability that the first card is a heart, given the second card is red. If we know the second card is red, we are interested in knowing if it is a diamond or a heart.
     * $P(B \vert A) = \frac{P(B \cap A)}{P(A)} = \frac{25/204}{1/4} = \frac{25}{51}$
+        * The probability that the second card is red, given the first card is a heart. If we know the first card is a heart, then we know there are 25 of the remaining 51 cards are red.
     * *Important*:
         1. $P(A \vert B) \neq P(B \vert A)$. Confusing these terms is called the **prosecutor's fallacy**. If $B$ was the event the second card is a heart then $P(A \vert B) = P(B \vert A)$.
         1. $P(A \vert B), P(B \vert A)$ both make sense. The chronological order in which cards were chosen does not matter. We only consider what *information* observing one event provides about another event, not whether one event *causes* another, in conditional probabilities.
             * *Intuition*: Imagine drawing cards using left and right hands at the same time. Defining events $A,B$ based on the left and right card rather than first and second card would not change the structure of the problem in any important way.
         1. $P(B \vert A) = 25/51$ means: if a first card drawn is a heart, then the remaining cards consist of 25 red cards and 26 black cards that are equally likely to be drawn next.
+
 * *Intuition*: Consider a finite sample space, with the outcomes visualized as pebbles with total mass 1. Events $A,B$ are sets of pebbles. If we are given that event $B$ occurred, then we can remove all pebbles in $B^{C}$ and know $P(A \cap B)$ is the total mass of the pebbles remaining in $A$. We *renormalize* to make the mass of the remaining pebbles sum to 1. Therefore, $P(A \vert B) = P(A \cap B) / P(B)$.
     * The probability is updated when new evidence is observed. We remove outcomes that contradict the observed evidence and renormalize among the remaining outcomes to preserve their relative masses.
 * *Frequentist Interpretation*: Frequentists interpret probability as the relative frequency over many repeated trials. The conditional probability $P(A \vert B)$ can be thought of as the fraction of times that $A$ occurs, restricting attention to the trials where $B$ occurs.
-
-* *Example*: "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?" "Mr. Smith has two children. At least one of them is a girl. What is the probability that both children are girls?
+    * Of the trials that satisfy $B$, what fraction of them also satisfy $A$?
+* *Example*: "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?" and "Mr. Smith has two children. At least one of them is a girl. What is the probability that both children are girls?"
     * *Assumptions*
         * Gender is binary, boy or girl.
-        * $P(\text{boy}) = P(\text{girl})$ for elder child and younger child.
+        * $P(\text{boy}) = P(\text{girl})$ for older child and younger child.
         * Genders of the two children are independent.
-    * Jones: $P(\text{both girls} \vert \text{elder is girl}) = \frac{P(\text{both girls, elder is girl})}{P(\text{elder is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$
+    * Jones: $P(\text{both girls} \vert \text{older is girl}) = \frac{P(\text{both girls, older is girl})}{P(\text{older is girl})} = \frac{1/4}{1/2} = \frac{1}{2}$
+        * The probability that both children are girls, given the older child is a girl.
     * Smith: $P(\text{both girls} \vert \text{at least one girl}) = \frac{P(\text{both girls, at least one girl})}{P(\text{at least one girl})} = \frac{1/4}{3/4} = \frac{1}{3}$
+        * The probability that both children are girls, given that at least one of them is a girl.
+    * Why is knowing the older child's gender different from knowing at least one child's gender?
+        * If we know the older child is a girl, the probability of both girls depends on only if the younger child is a girl, or $\{GB, GG\}$. Conditioning on a specific child removes 2 of the 4 outcomes $\{BG, BB\}$ in the sample space.
+        * If we know at least one child is a girl (non-specific), the probability of both girls depends on how many children are girls, or $\{GB, BG, GG\}$. Conditioning on at least one child being a girl knocks away only 1 of the 4 outcomes $\{BB\}$ in the sample space.
 
 * *Example*: A family has two children, and you randomly learn one of the two is a girl. What is the conditional probability that both are girls?
     * *Assumptions*
@@ -328,12 +337,16 @@ permalink: /probability-book
         * Genders of the two children are independent.
         * You are equally likely to learn about either child.
         * The gender of the child does not affect if you learn about them.
-    * *Intuition*: Since you learned about one child, both children being girls would mean the one you don't know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven't met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.
-    * Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
+    * *Intuition*: The chance of both girls just depends on the gender of the child you didn't learn about. Since you learned about one child, both children being girls would mean the one you don't know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven't met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.
+    * *Solution*
+        * Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
         * By assumption, $P(G_{1}) = P(G_{2}) = P(G_{3}) = 1/2$.
         * By the naive definition of probability, $P(G_{1}) \cap P(G_{2}) = 1/4$.
         * $P(G_{1} \cap G_{2} \vert G_{3}) = \frac{P(G_{1} \cap G_{2} \cap G_{3})}{P(G_{3})} = \frac{1/4}{1/2} = 1/2$
-            * If both elder and younger children are girls, the random child must be a girl: $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.
+            * The probability that both children are girls, given the random child is a girl.
+            * If both elder and younger children are girls, the random child must be a girl, so $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.
+    * *Note*: The assumption of a *random sample* was needed to determine how the random child was selected. If there was some factor of selection bias, e.g. a law that forbids a boy from leaving the house if he has a sister, then "the random child is a girl" is equivalent to "at least one of the children is a girl".
+
 
 * *Example*: A family has two children. Given that at least one of the two is a girl who was born in the winter, find the probability that both children are girls.
     * *Assumptions*
@@ -342,10 +355,18 @@ permalink: /probability-book
         * Genders of the two children are independent.
         * The four seasons are equally likely.
         * Gender of the child is independent of the birth season.
-    * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
-        * $P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (\frac{3}{4})^{2})$
+    * *Solution*
+        * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
         * $P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$
-        * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (\frac{3}{4})^{2})}{1 - (\frac{7}{8})^{2}} = \frac{7/64}{15/64} = 7/15$
+            * We take the complement, or the probability that there are no winter girls among the two children.
+        * $P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (3/4)^{2})$
+            * We first notice that "at least one winter girl" is equivalent to "at least one winter child" if "both girls" is true.
+            * From the assumptions that gender and season are independent, we can multiply the individual probabilities (Axiom 2) of gender (both girls) and season (at least one winter child).
+                * $P(\text{both girls}) = 1/4$
+                * $P(\text{at least one winter child}) = 1 - P(\text{no winter children}) = 1 - (3/4)^{2}$
+        * Therefore, $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (3/4)^{2})}{1 - (7/8)^{2}} = \frac{7/64}{15/64} = 7/15$
+    * How can conditioning on "at least one winter girl" be $7/15$ when conditioning on "at least one girl" is only $1/3$? Why does knowing the birth season increase the likelihood of "both girls"?
+        * Information about birth season brings "at least one is a girl" closer to "a specific child is a girl", e.g. conditioning on "older is a girl" is $1/2$.
 
 
 ## References
