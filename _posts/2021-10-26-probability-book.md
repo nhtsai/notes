@@ -190,7 +190,6 @@ permalink: /probability-book
     * So the probability of a full house is $\frac{13 \binom{4}{3} \times 12 \binom{4}{2} }{ \binom{52}{5} } = \frac{3744}{2598960} \approx 0.00144$
     * *Note*: We cannot use $\binom{13}{2}$ to choose the ranks because that approach treats the *order* of the ranks as interchangeable, which undercounts by a factor of 2.
         * E.g. $(7 \heartsuit, 7 \diamondsuit, 7 \clubsuit, 5 \diamondsuit, 5 \clubsuit) \neq (5 \heartsuit, 5 \diamondsuit, 5 \clubsuit, 7 \diamondsuit, 7 \clubsuit)$
-        * E.g. $( \underbrace{7 \heartsuit, 7 \diamondsuit, 7 \clubsuit}_{3 \text{-card}}, \underbrace{5 \diamondsuit, 5 \clubsuit}_{2 \text{-card}} ) \neq ( \underbrace{5 \heartsuit, 5 \diamondsuit, 5 \clubsuit}_{3 \text{-card}}, \underbrace{7 \diamondsuit, 7 \clubsuit}_{2 \text{-card}} )$
 
 * *Example*: **Newton-Pepys Problem**
     * Which of the following events has the highest probability?
@@ -236,8 +235,8 @@ permalink: /probability-book
     * This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
 * *Example*: Proving $\frac{(2n)!}{2^{n} \cdot n!} = (2n - 1)(2n - 3) \dots (3)(1)$ describes the number of ways to break $2n$ people into $n$ partnerships.
     * *Story*: Take $2n$ people and label them with IDs $1 \dots 2n$. We can form pairs by taking one of $(2n)!$ orderings and grouping adjacent people, but this overcounts by a factor of $n! \cdot 2^{n}$.
-        * Order of pairs does not matter: $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}) = (\underbrace{3, 4}_{\text{pair 1}}, \underbrace{1, 2}_{\text{pair 2}})$
-        * Order within pairs does not matter: $(\underbrace{1, 2}_{\text{pair 1}}, \underbrace{3, 4}_{\text{pair 2}}), (\underbrace{2, 1}_{\text{pair 1}}, \underbrace{4, 3}_{\text{pair 2}})$
+        * Order of pairs does not matter: $(1, 2, 3, 4) = (3, 4, 1, 2)$
+        * Order within pairs does not matter: $(1, 2, 3, 4) = (2, 1, 4, 3)$
     * We can also consider the number of possible groups by noting there are $(2n-1)$ possible partners for person 1, $(2n - 3)$ possible partners for person 2, and so on.
 
 **Non-naive definition of probability**
@@ -355,18 +354,103 @@ permalink: /probability-book
         * Genders of the two children are independent.
         * The four seasons are equally likely.
         * Gender of the child is independent of the birth season.
-    * *Solution*
-        * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
-        * $P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$
-            * We take the complement, or the probability that there are no winter girls among the two children.
-        * $P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (3/4)^{2})$
-            * We first notice that "at least one winter girl" is equivalent to "at least one winter child" if "both girls" is true.
-            * From the assumptions that gender and season are independent, we can multiply the individual probabilities (Axiom 2) of gender (both girls) and season (at least one winter child).
-                * $P(\text{both girls}) = 1/4$
-                * $P(\text{at least one winter child}) = 1 - P(\text{no winter children}) = 1 - (3/4)^{2}$
-        * Therefore, $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (3/4)^{2})}{1 - (7/8)^{2}} = \frac{7/64}{15/64} = 7/15$
+    * $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{P(\text{both girls, at least one winter girl})}{P(\text{at least one winter girl})}$
+    * $P(\text{at least one winter girl}) = 1 - P(\text{no winter girls}) = 1 - (\frac{7}{8})^{2}$
+        * We take the complement, or the probability that there are no winter girls among the two children.
+    * $P(\text{both girls, at least one winter girl}) = P(\text{both girls, at least one winter child}) = (1/4)P(\text{at least one winter child}) = (1/4)(1 - P(\text{no winter child})) = (1/4)(1 - (3/4)^{2})$
+        * We first notice that "at least one winter girl" is equivalent to "at least one winter child" if "both girls" is true.
+        * From the assumptions that gender and season are independent, we can multiply the individual probabilities (Axiom 2) of gender (both girls) and season (at least one winter child).
+            * $P(\text{both girls}) = 1/4$
+            * $P(\text{at least one winter child}) = 1 - P(\text{no winter children}) = 1 - (3/4)^{2}$
+    * Therefore, $P(\text{both girls} \vert \text{at least one winter girl}) = \frac{(1/4)(1 - (3/4)^{2})}{1 - (7/8)^{2}} = \frac{7/64}{15/64} = 7/15$.
     * How can conditioning on "at least one winter girl" be $7/15$ when conditioning on "at least one girl" is only $1/3$? Why does knowing the birth season increase the likelihood of "both girls"?
         * Information about birth season brings "at least one is a girl" closer to "a specific child is a girl", e.g. conditioning on "older is a girl" is $1/2$.
+
+**Bayes' Rule and The Law of Total Probability**
+* **Probability of the Intersection of Two Events**: For any events $A, B$ with positive probabilities, $P(A \cap B) = P(B) P(A \vert B) = P(A) P(B \vert A)$.
+    * The probability of both events happening is the same as the probability of one event happening, given the other.
+    * *Proof*: Multiply $P(A \vert B) = \frac{P(A \cap B)}{P(B)}$ by $P(B)$ on both sides. Multiply $P(B \vert A) = \frac{P(B \cap A)}{P(A)}$ by $P(A)$ on both sides.
+* **Probability of the Intersection of N Events**: For any events $A_{1}, A_{2}, \dots, A_{n} \text{ with } P(A_{1}, A_{2}, \dots, A_{n}) > 0$, $P(A_{1}, A_{2}, \dots, A_{n}) = P(A_{1}) P(A_{2} \vert A_{1}) P(A_{3} \vert A_{1}, A_{2}) \dots P(A_{n} \vert A_{1}, A_{2}, \dots, A_{n-1})$.
+    * This generalized form of the probability of intersections is $n!$ theorems in one, since we can permute $A_{1}, A_{2}, \dots, A_{n}$ without affecting the left hand side. Some permutations may be easier to calculate than others.
+    * *Example*: $P(A_{1}, A_{2}, A_{3}) = P(A_{1}) P(A_{2} \vert A_{1}) P(A_{3} \vert A_{1}, A_{2}) = P(A_{2}) P(A_{3} \vert A_{2}) P(A_{1} \vert A_{2}, A_{3}) = \dots$.
+
+* **Bayes' Rule**: From the probability of the intersection of two events, we derive $P(A \vert B) = \frac{P(B \vert A) P(A)}{P(B)}$.
+    * Bayes' rule is often used when $P(B \vert A)$ is much easier to find directly than $P(A \vert B)$ or vice versa.
+    * Another way to define Bayes' rule is in terms of odds, rather than probability.
+* **Odds**: The odds of an event $A$ are $\text{odds}(A) = P(A) / P(A^{C})$.
+    * *Example*: If $P(A) = 2/3$, the odds in favor of $A$ are 2 to 1.
+    * To convert from odds back to probability, $P(A) = \text{odds}(A) / (1 + \text{odds}(A))$
+* **Odds form of Bayes' Rule**: For any events $A,B$ with positive probabilities, the odds of $A$ after conditioning on $B$ are $\frac{P(A \vert B)}{P(A^{C} \vert B)} = \frac{P(B \vert A)}{P(B \vert A^{C})} \frac{P(A)}{P(A^{C})}$.
+    * *Proof*: We divide $P(A \vert B) = \frac{P(B \vert A) P(A)}{P(B)}$ by $P(A^{C} \vert B) = \frac{P(B \vert A^{C}) P(A^{C})}{P(B)}$.
+    * The *posterior odds* $\frac{P(A \vert B)}{P(A^{C} \vert B)}$ are equal to the *prior odds* $\frac{P(A)}{P(A^{C})}$ times the *likelihood ratio* $\frac{P(B \vert A)}{P(B \vert A^{C})}$.
+
+* **Law of Total Probability**: Let $A_{1}, \dots, A_{n}$ be a *partition* of the sample space $S$ (i.e. the $A_{i}$ are disjoint events whose union is $S$), with $P(A_{i}) > 0$ for all $i$. Then $P(B) = \sum_{i=1}^{n} P(B \vert A_{i}) P(A_{i})$.
+    * *Proof*
+        * Since the $A_{i}$ form of a *partition* of $S$, we can decompose $B$ as $B = (B \cap A_{1}) \cup (B \cap A_{2}) \cup \dots \cup (B \cap A_{n})$.
+        * From the *second axiom*, we can add up these disjoint probabilities to get $P(B) = P(B \cap A_{1}) + P(B \cap A_{2}) + \dots + P(B \cap A_{n})$.
+        * Then we can apply the *probability of the intersection of two events* to each term to get $P(B) = P(B \vert A_{1}) P(A_{1}) + \dots + P(B \vert A_{n}) P(A_{n})$.
+    * The *law of total probability* relates conditional probability to unconditional probability. It tells us that to get the unconditional probability of $B$, we can divide the sample space into disjoint slices $A_{i}$, find the conditional probability of $B$ within each of the slices, then take the weighted sum of the conditional probabilities, where the weights are the probabilities $P(A_{i})$.
+        * Choosing a partition carefully is important in reducing a complicated problem into simpler pieces.
+
+* *Example*: Given a fair coin and a biased coin with $P(H) = 3/4$, you pick one of the coins at random and flip it three times. It lands on Heads all three times. Given this information, what is the probability that the coin you picked is the fair one?
+    * Let $A$ be the event that the chosen coin lands Heads three times and let $F$ be the event that we picked the fair coin. We're interested in $P(F \vert A)$, but it's easier to find $P(A \vert F) \text{ and } P(A \vert F^{C})$ since it helps to know which coin we have.
+    * We use Bayes' Rule and the Law of Total Probability.
+        * $P(F \vert A) = \frac{P(A \vert F) P(F)}{P(A)}$
+        * $P(F \vert A) = \frac{P(A \vert F) P(F)}{P(A \vert F) P(F) + P(A \vert F^{C}) P(F^{C})}$
+        * $P(F \vert A) = \frac{(1/2)^{3} (1/2)}{(1/2)^{3} (1/2) + (3/4)^{3} (1/2)} \approx 0.23$
+    * Before flipping the coin, choosing a coin at random was equally likely, $P(F) = P(F^{C}) = 1/2$. After observing three Heads, we see that it was more likely that we chose the biased coin over the fair coin, so $P(F \vert A) \approx 0.23$.
+    * *Note*: It is *not correct* to say "$P(A) = 1$ because we know $A$ happened." It is true that $P(A \vert A) = 1$, but $P(A)$ is the *prior* probability of $A$ and $P(F)$ is the *prior* probability of $F$, which are probabilities before observing the experiment. These should not be confused with *posterior* probabilities conditional on evidence $A$.
+
+* *Example*: A patient tests positive for a disease that affects 1% of the population. Let $D$ be the event that the patient has the disease and let $T$ be the event that the patient tests positive. If the test is 95% accurate, the **sensitivity** or **true positive rate** of the test is $P(T \vert D) = 0.95$, and the **specificity** or the **true negative rate** is $P(T^{C} \vert D^{C}) = 0.95$. Find the conditional probability the patient has the disease, given the evidence of the test result.
+    * We use Bayes' Rule and the Law of Total Probability.
+        * $P(D \vert T) = \frac{P(T \vert D) P(D)}{P(T)}$
+        * $P(D \vert T) = \frac{P(T \vert D) P(D)}{P(T \vert D)P(D) + P(T \vert D^{C})P(D^{C})}$
+        * $P(D \vert T) = \frac{(0.95)(0.01)}{(0.95)(0.01) + (0.05)(0.99)} \approx 0.16$
+    * There is a 16% chance the patient has the disease, given a positive test result, despite the high test accuracy. How is the *posterior* probability only 16%?
+    * *Intuition*: The evidence from the test and our *prior information* about the prevalence of the disease affect the *posterior* probability. Although the test is accurate, the disease is also very rare! The conditional probability $P(D \vert T)$ is a balance between the two factors, weighing the rarity of the disease against the rarity of a mistaken test result.
+    * *Intuition*: Consider a population of 10000 people, where 100 people (1%) have the disease and 9900 people don't. If we tested everybody in the population, we would expect that, of the 100 diseased people, 95 would test positive and 5 would test negative (false negatives). Out of the 9900 healthy individuals, we would expect 9405 (95%) to test negative and 495 (5%) to test positive (false positives). Of the people who test positive, 95 people are true positives, and 495 people are false positives. Most of the people who test positive don't actually have the disease, so that is why despite an accurate test, the *posterior* probability of having the disease given a positive test result is $95/(95 + 495) \approx 0.16$.
+
+* *Example*: The perpetrator of a crime is one of $n$ men. Initially, all $n$ men are equally likely to be the perpetrator. An eyewitness then reports that the crime was committed by a man with six fingers on his right hand.
+    * Let $p_{0}$ be the probability that an innocent man has six fingers on his right hand, and $p_{1}$ be the probability that the perpetrator has six fingers on his right hand, with $p_{0} < p_{1} < 1$ since witnesses aren't 100% reliable. Let $a = p_{0}/p_{1}$ and $b = (1 - p_{1})/(1 - p_{0})$.
+    * A possible suspect Gary is found with six fingers on his right hand. What is the probability that Gary is the perpetrator?
+        * Let $G$ be the event that Gary is guilty and $H$ be the event that the perpetrator has six fingers on his right hand.
+        * We use Bayes' Rule and the Law of Total Probability.
+            * $P(G \vert H) = \frac{P(H \vert G) P(G)}{P(H \vert G)P(G) + P(H \vert G^{C})P(G^{C})}$
+            * $P(G \vert H) = \frac{(p_{1})(\frac{1}{n})}{(p_{1})(\frac{1}{n}) + (p_{0})(1 - \frac{1}{n})} \times (\frac{(n / p_{1})}{(n / p_{1})})$
+            * $P(G \vert H) = \frac{1}{1 + a(n - 1)}$
+    * All $n$ men get their right hands checked, and Gary is the only one with six fingers on his right hand. What is the probability that Gary is the perpetrator?
+        * Let $N$ be the event that none of the other men have six fingers on their right hands.
+        * We use Bayes' Rule and the Law of Total Probability.
+            * $P(G \vert H, N) = \frac{P(H, N \vert G) P(G)}{P(H, N \vert G)P(G) + P(H, N \vert G^{C})P(G^{C})}$
+                * $P(H, N \vert G) = p_{1}(1 - p_{0})^{n-1}$ is the probability that the perpetrator has six fingers and none of the other men have six fingers, given Gary is guilty. This means 
+            * $P(G \vert H, N) = \frac{p_{1}(1 - p_{0})^{n-1}(\frac{1}{n})}{p_{1}(1 - p_{0})^{n-1}(\frac{1}{n}) + p_{0}(1 - p_{1})(1 - p_{0})^{n-2}(1 - \frac{1}{n})}$
+            * $P(G \vert H, N) = \frac{p_{1} (\frac{1}{n})}{p_{1} (\frac{1}{n}) + p_{0}(\frac{1 - p_{1}}{1 - p_{0}})(1 - \frac{1}{n})} \times (\frac{(n / p_{1})}{(n / p_{1})})$
+            * $P(G \vert H, N) = \frac{1}{1 + ab(n - 1)}$
+
+**Conditional Probabilities are Probabilities**
+* Conditional probabilities satisfy all the properties of probability. The only difference is we condition on an event and limit ourselves to a new universe where that event occurs.
+    * Conditional probabilities are between 0 and 1.
+    * $P(S \vert E) = 1, P(\emptyset \vert E) = 0$
+    * If $A_{1}, A_{2}, \dots$ are disjoint, then $P(\bigcup_{j=1}^{\infty} A_{j} \vert E) = \sum_{j=1}^{\infty} P(A_{j} \vert E)$
+    * $P(A^{C} \vert E) = 1 - P(A \vert E)$
+    * Inclusion-Exclusion: $P(A \cup B \vert E) = P(A \vert E) + P(B \vert E) - P(A \cap B \vert E)$
+* *Proof*: For an event $E,  P(E) > 0$, define $\tilde{P}(A) = P(A \vert E)$.
+    * $\tilde{P}(\emptyset) = P(\emptyset \vert E) = \frac{P(\emptyset \cap E)}{P(E)} = 0$
+    * $\tilde{P}(S) = P(S \vert E) = \frac{P(S \cap E)}{P(E)} = 1$
+    * If $A_{1}, A_{2}, \dots$ are disjoint events, then  
+    $\tilde{P}(A_{1} \cup A_{2} \cup \dots) = \frac{P((A_{1} \cap E) \cup (A_{2} \cap E) \cup \dots)}{P(E)} = \frac{\sum_{j = 1}^{\infty} P(A_{j} \cap E)}{P(E)} = \sum_{j = 1}^{\infty} \tilde{P}(A_{j})$
+* Conversely, all probabilities can be thought of as conditional probabilities, conditioning on some implicit background information.
+    * For the prior probability of rain today $P(R)$, we are naturally basing this probability on information about days or locations that had rain occur. Though people may come up with different prior probabilities, everyone can agree on how to update probabilities given new evidence.
+    * We can now think of all probabilities as $P(A) = P(A \vert \text{background knowledge})$
+* *Conditional probabilities are probabilities, and all probabilities are conditional.*
+
+**Independence of Events**
+
+**Coherency of Bayes' Rule**
+
+**Conditioning as a Problem-Solving Tool**
+
+**Pitfalls and Paradoxes**
 
 
 ## References
