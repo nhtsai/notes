@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Django | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Django" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes on Django." />
+<meta property="og:description" content="Notes on Django." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/django" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/django" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-21T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-11-21T00:00:00-06:00","url":"https://nhtsai.github.io/notes/django","@type":"BlogPosting","headline":"Django","dateModified":"2021-11-21T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/django"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on Django.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.css" integrity="sha512-SgbQw5g+dYpW7CUSasc2ontF/7/JIHORpkzukPxbO2JIcyGy7p2WtlkfBGHvekdhJawrdp+p1bEzBH+nU/cbEg==" crossorigin="anonymous" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.js" integrity="sha512-vhW78Uk043jhhQnaIpK3Io8CbTmcD3fcfZyhl7qz+Md1P78MI7Hlw39lEqdddt8nobv4sclKZU8CeVDzIfLUNA==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/contrib/auto-render.min.js" integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==" crossorigin="anonymous"></script>
+    <!-- MathJax -->
+    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- KaTeX Auto-render Function with custom delimiter rules -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Django</h1><p class="page-description">Notes on Django.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-11-21T00:00:00-06:00" itemprop="datePublished">
+        Nov 21, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#django">django</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#web-development">web-development</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#django">Django</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#models">Models</a></li>
+<li class="toc-entry toc-h2"><a href="#fields">Fields</a></li>
+<li class="toc-entry toc-h2"><a href="#relationships">Relationships</a></li>
+<li class="toc-entry toc-h2"><a href="#model-metadata">Model Metadata</a></li>
+<li class="toc-entry toc-h2"><a href="#model-attributes">Model Attributes</a></li>
+<li class="toc-entry toc-h2"><a href="#model-methods">Model Methods</a></li>
+<li class="toc-entry toc-h2"><a href="#model-inheritance">Model inheritance</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ul>
+</li>
+</ul><h1 id="django">
+<a class="anchor" href="#django" aria-hidden="true"><span class="octicon octicon-link"></span></a>Django</h1>
+
+<h2 id="models">
+<a class="anchor" href="#models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Models</h2>
+<p>A <strong>model</strong> is the single, definitive source of information, i.e. the essential fields and behaviors of data, that usually maps to a single database table. Each model is a subclass of <code class="language-plaintext highlighter-rouge">django.db.models.Model</code>, and each attribute represents a database field.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># myproject/myapp/models.py
+</span><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>To make changes to models:</p>
+<ol>
+  <li>Change models in <code class="language-plaintext highlighter-rouge">models.py</code>
+</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">manage.py makemigrations</code> to store changes as a <em>migration</em> file</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">manage.py migrate</code> to apply changes to the database</li>
+</ol>
+
+<p>Run <code class="language-plaintext highlighter-rouge">manage.py sqlmigrate myapp &lt;migration-name&gt;</code> to see the SQL command Django will apply.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- using PostgreSQL backend</span>
+<span class="c1">-- table name is derived automatically</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">myapp_person</span> <span class="p">(</span>
+    <span class="nv">"id"</span> <span class="nb">serial</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span> <span class="c1">-- added automatically</span>
+    <span class="nv">"first_name"</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">"last_name"</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>To use models, need to add the app to the project settings and run <code class="language-plaintext highlighter-rouge">manage.py migrate</code>.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># project/settings.py
+</span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'myapp'</span><span class="p">,</span> <span class="c1">#...
+</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="fields">
+<a class="anchor" href="#fields" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fields</h2>
+<p>The <strong>field</strong> of a model is required, maps to the columns of a database table, and are specified by class attributes of their corresponding <code class="language-plaintext highlighter-rouge">Model</code> class.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Musician</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">instrument</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Album</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">artist</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Musician</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">release_date</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">num_stars</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Each field should have their type specified by the appropriate <code class="language-plaintext highlighter-rouge">Field</code> class. The column type tells the database what kind of data to store, the default HTML widget when rendering form fields, and the minimum validation requirements for Django administration. Each field can also take field-specific arguments.</p>
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">null</code> boolean argument specifies if empty values are stored as <code class="language-plaintext highlighter-rouge">NULL</code> in the database.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">blank</code> boolean argument specifies if the field can be blank.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">choices</code> sequence of 2-tuples argument gives possible choices for a form widget. The first element is the value stored in the database, and the second element is displayed in the form widget, e.g. <code class="language-plaintext highlighter-rouge">('FR', 'Freshman')</code>. Use <code class="language-plaintext highlighter-rouge">&lt;model&gt;.get_&lt;field&gt;_display()</code> to access the choices of a model’s field.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">default</code> argument specifies the default value or callable object called when a new object is created.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">help_text</code> argument specifies extra help text on the form widget.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">primary_key</code> boolean argument specifies the read-only, primary key field of the model.
+    <ul>
+      <li>If not specified, an <code class="language-plaintext highlighter-rouge">id = models.BigAutoField(primary_key=True)</code> will be automatically added as a primary key.</li>
+    </ul>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">unique</code> boolean argument specifies if the field must be unique throughout the table.</li>
+  <li>Each Field also takes a verbose name as an optional, first argument. If not specified, the attribute name will be converted to the field’s attribute name, e.g. <code class="language-plaintext highlighter-rouge">first_name</code> becomes “first name”.
+    <ul>
+      <li>
+<code class="language-plaintext highlighter-rouge">ForeignKey</code>, <code class="language-plaintext highlighter-rouge">ManytoManyField</code>, and <code class="language-plaintext highlighter-rouge">OneToOneField</code> use <code class="language-plaintext highlighter-rouge">verbose_name</code> keyword argument.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">SHIRT_SIZES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">'S'</span><span class="p">,</span> <span class="s">'Small'</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">'M'</span><span class="p">,</span> <span class="s">'Medium'</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">'L'</span><span class="p">,</span> <span class="s">'Large'</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">shirt_size</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SHIRT_SIZES</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Nathan"</span><span class="p">,</span> <span class="n">shirt_size</span><span class="o">=</span><span class="s">"L"</span><span class="p">)</span>
+<span class="n">p</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+<span class="n">p</span><span class="p">.</span><span class="n">shirt_size</span> <span class="c1"># attribute: 'L'
+</span><span class="n">p</span><span class="p">.</span><span class="n">get_shirt_size_display</span><span class="p">()</span> <span class="c1"># choice: 'Large'
+</span></code></pre></div></div>
+
+<h2 id="relationships">
+<a class="anchor" href="#relationships" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relationships</h2>
+<p>A <strong>relationship</strong> specifies how models relate to each other, like how tables relate to each other in a relational database.</p>
+<ul>
+  <li>
+<strong>Many-to-One</strong>: Use <code class="language-plaintext highlighter-rouge">django.db.models.ForeignKey</code> to specify the “one” model to which the “many” model is related. E.g. Many Cars relate to one Manufacturer, so the Car model class includes <code class="language-plaintext highlighter-rouge">manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)</code>.</li>
+  <li>
+<strong>Many-to-Many</strong>: Use <code class="language-plaintext highlighter-rouge">django.db.models.ManyToManyField</code>to specify the “many” model to which “many” model is related. E.g. Many Pizzas relate to Many Toppings, so any one of the two models can include <code class="language-plaintext highlighter-rouge">models.ManyToManyField(...)</code>.</li>
+  <li>Intermediate models relating two other models with two foreign keys can be used to include edge attributes.
+    <ul>
+      <li>Use <code class="language-plaintext highlighter-rouge">add()</code>, <code class="language-plaintext highlighter-rouge">create()</code>, or <code class="language-plaintext highlighter-rouge">set()</code> to create relationships, with a dictionary of required fields as <code class="language-plaintext highlighter-rouge">through_defaults</code> argument.</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">remove()</code> to remove all matching <code class="language-plaintext highlighter-rouge">(model1, model2)</code> instances from the intermediate model.</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">clear()</code> to remove all many-to-many relationships.</li>
+    </ul>
+  </li>
+  <li>
+<strong>One-to-One</strong>: Use <code class="language-plaintext highlighter-rouge">django.db.models.OneToOneField</code> to specify “one” model to which the “one” model is related, often used on the primary key of an object when that object “extends” another object in some way. E.g. In a database of Places (names, addresses, phone numbers), use a one-to-one field with a Restaurant model to specify which places are restaurants, rather than repeat Place data in the Restaurant model.</li>
+</ul>
+
+<h2 id="model-metadata">
+<a class="anchor" href="#model-metadata" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Metadata</h2>
+<p>The <code class="language-plaintext highlighter-rouge">Meta</code> class gives a model optional metadata, or anything that’s not a field. E.g. ordering of fields, database table name, verbose singular and plural names, etc.</p>
+
+<h2 id="model-attributes">
+<a class="anchor" href="#model-attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Attributes</h2>
+<p>The most important attribute of a model is the <code class="language-plaintext highlighter-rouge">Manager</code>, which is named <code class="language-plaintext highlighter-rouge">objects</code> by default, and it is used for table-wide queries to retrieve instances from the database.</p>
+
+<h2 id="model-methods">
+<a class="anchor" href="#model-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Methods</h2>
+<p>Use custom methods to add row-level functionality to models. The <code class="language-plaintext highlighter-rouge">@property</code> decorator can be used for model properties.</p>
+
+<h2 id="model-inheritance">
+<a class="anchor" href="#model-inheritance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model inheritance</h2>
+<ul>
+  <li>Use <em>Abstract base classes</em> when needing a parent class to hold information of the child model.</li>
+  <li>Use <em>Multi-table inheritance</em> when subclassing an existing model and want each model to have its own database table.</li>
+  <li>Use <em>Proxy models</em> when modifying Python-level behavior of a model without changing the model’s fields in any way.</li>
+</ul>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+  </div><a class="u-url" href="/notes/django" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
