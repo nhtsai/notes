@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Building a Web Server | notes</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Building a Web Server" />
@@ -17,8 +17,10 @@
 <meta property="og:site_name" content="notes" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-09-13T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Building a Web Server" />
 <script type="application/ld+json">
-{"datePublished":"2021-09-13T00:00:00-05:00","url":"https://nhtsai.github.io/notes/web-server","@type":"BlogPosting","headline":"Building a Web Server","dateModified":"2021-09-13T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/web-server"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Learning how to build a basic webserver.","@context":"https://schema.org"}</script>
+{"headline":"Building a Web Server","dateModified":"2021-09-13T00:00:00-05:00","url":"https://nhtsai.github.io/notes/web-server","datePublished":"2021-09-13T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/web-server"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Learning how to build a basic webserver.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -116,7 +118,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h1"><a href="#web-servers">Web Servers</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
@@ -155,7 +157,7 @@ window.onload = wrap_img;
   <span class="n">server_socket</span><span class="p">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="p">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
   <span class="n">server_socket</span><span class="p">.</span><span class="n">bind</span><span class="p">((</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">))</span>
   <span class="n">server_socket</span><span class="p">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-  <span class="k">print</span><span class="p">(</span><span class="s">f'Serving HTTP on port </span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s"> ...'</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Serving HTTP on port </span><span class="si">{</span><span class="n">PORT</span><span class="si">}</span><span class="s"> ...'</span><span class="p">)</span>
 
   <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
       <span class="c1"># Wait for client connections
@@ -166,7 +168,7 @@ window.onload = wrap_img;
       <span class="k">print</span><span class="p">(</span><span class="n">request_data</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">))</span>
 
       <span class="c1"># Send HTTP response
-</span>      <span class="n">http_response</span> <span class="o">=</span> <span class="s">b"HTTP/1.1 200 OK</span><span class="se">\n\n</span><span class="s">Hello, World!"</span>
+</span>      <span class="n">http_response</span> <span class="o">=</span> <span class="sa">b</span><span class="s">"HTTP/1.1 200 OK</span><span class="se">\n\n</span><span class="s">Hello, World!"</span>
       <span class="n">client_connection</span><span class="p">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">http_response</span><span class="p">)</span>
       <span class="n">client_connection</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
 
@@ -261,6 +263,7 @@ window.onload = wrap_img;
 
   </div><a class="u-url" href="/notes/web-server" hidden></a>
 </article>
+
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/notes/"></data>

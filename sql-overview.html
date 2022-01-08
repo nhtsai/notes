@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>SQL Overview | notes</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="SQL Overview" />
@@ -17,8 +17,10 @@
 <meta property="og:site_name" content="notes" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-09-06T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SQL Overview" />
 <script type="application/ld+json">
-{"datePublished":"2021-09-06T00:00:00-05:00","url":"https://nhtsai.github.io/notes/sql-overview","@type":"BlogPosting","headline":"SQL Overview","dateModified":"2021-09-06T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/sql-overview"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on Structured Query Language.","@context":"https://schema.org"}</script>
+{"headline":"SQL Overview","dateModified":"2021-09-06T00:00:00-05:00","url":"https://nhtsai.github.io/notes/sql-overview","datePublished":"2021-09-06T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/sql-overview"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on Structured Query Language.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -119,7 +121,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h1"><a href="#sql-overview">SQL Overview</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#sql">SQL</a></li>
@@ -1767,7 +1769,7 @@ window.onload = wrap_img;
   <span class="c1">-- better to use window function</span>
   <span class="c1">-- PARTITION BY specifies how to group rows to form a window</span>
   <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-         <span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_salary</span>
+         <span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_salary</span>
   <span class="k">FROM</span> <span class="n">employees</span> <span class="n">E</span>
 </code></pre></div>    </div>
 
@@ -1798,9 +1800,9 @@ window.onload = wrap_img;
 
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="k">SELECT</span> <span class="n">team</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span>
-         <span class="n">ROW_NUMBER</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
-         <span class="n">RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
-         <span class="n">DENSE_RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span>
+         <span class="n">ROW_NUMBER</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
+         <span class="n">RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">),</span>
+         <span class="n">DENSE_RANK</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="n">OVER</span><span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span>
   <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
 
@@ -1880,7 +1882,7 @@ window.onload = wrap_img;
   <span class="k">SELECT</span> <span class="o">*</span>
   <span class="k">FROM</span> <span class="p">(</span>
       <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-             <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_num</span>
+             <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_num</span>
       <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
   <span class="p">)</span> <span class="n">sub</span>
   <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">salary_num</span> <span class="o">&lt;</span> <span class="mi">4</span>
@@ -1891,7 +1893,7 @@ window.onload = wrap_img;
   <span class="k">SELECT</span> <span class="o">*</span>
   <span class="k">FROM</span> <span class="p">(</span>
       <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-             <span class="n">RANK</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_rank</span>
+             <span class="n">RANK</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">salary</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">salary_rank</span>
       <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
   <span class="p">)</span> <span class="n">sub</span>
   <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">salary_rank</span> <span class="o">&lt;</span> <span class="mi">4</span>
@@ -1908,8 +1910,8 @@ window.onload = wrap_img;
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- get quartile and percentile of student scores for each class</span>
   <span class="k">SELECT</span> <span class="k">class</span><span class="p">,</span>
          <span class="n">score</span><span class="p">,</span>
-         <span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">quartile</span><span class="p">,</span>
-         <span class="n">NTILE</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">percentile</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">quartile</span><span class="p">,</span>
+         <span class="n">NTILE</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="k">class</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">percentile</span>
   <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
   </li>
@@ -1931,8 +1933,8 @@ window.onload = wrap_img;
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Example of lag and lead score, partitioned on team</span>
   <span class="k">SELECT</span> <span class="n">team</span><span class="p">,</span>
          <span class="n">score</span><span class="p">,</span>
-         <span class="n">LAG</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lag_score</span><span class="p">,</span>
-         <span class="n">LEAD</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lead_score</span>
+         <span class="n">LAG</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lag_score</span><span class="p">,</span>
+         <span class="n">LEAD</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">team</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">score</span><span class="p">)</span> <span class="k">AS</span> <span class="n">lead_score</span>
   <span class="k">FROM</span> <span class="k">table_name</span>
 </code></pre></div>    </div>
 
@@ -1994,9 +1996,9 @@ window.onload = wrap_img;
     <div class="language-sql highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code>  <span class="c1">-- Show if the salary of an employee is higher, lower, or equal to the previous employee.</span>
   <span class="k">SELECT</span> <span class="n">E</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-         <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">prev_emp_salary</span><span class="p">,</span>
-         <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&gt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">THEN</span> <span class="s1">'Higher'</span>
-         <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&lt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">THEN</span> <span class="s1">'Lower'</span>
+         <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">prev_emp_salary</span><span class="p">,</span>
+         <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&gt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">THEN</span> <span class="s1">'Higher'</span>
+         <span class="k">WHEN</span> <span class="n">E</span><span class="p">.</span><span class="n">salary</span> <span class="o">&lt;</span> <span class="n">LAG</span><span class="p">(</span><span class="n">salary</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">dept_name</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">THEN</span> <span class="s1">'Lower'</span>
          <span class="k">ELSE</span> <span class="s1">'Equal'</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">salary_range</span>
   <span class="k">FROM</span> <span class="n">employee</span> <span class="n">E</span>
 </code></pre></div>    </div>
@@ -2085,7 +2087,7 @@ window.onload = wrap_img;
   <span class="k">SELECT</span> <span class="n">sub</span><span class="p">.</span><span class="o">*</span>
   <span class="k">FROM</span> <span class="p">(</span>
       <span class="k">SELECT</span> <span class="k">location</span><span class="p">,</span>
-             <span class="n">duration</span> <span class="o">-</span> <span class="n">LAG</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="k">AS</span> <span class="n">difference</span>
+             <span class="n">duration</span> <span class="o">-</span> <span class="n">LAG</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="k">AS</span> <span class="n">difference</span>
       <span class="k">FROM</span> <span class="n">rides</span>
   <span class="p">)</span> <span class="n">sub</span>
   <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">difference</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
@@ -2103,7 +2105,7 @@ window.onload = wrap_img;
          <span class="n">NTILE</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="n">quartile</span><span class="p">,</span>
          <span class="n">NTILE</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="n">percentile</span>
   <span class="k">FROM</span> <span class="n">rides</span>
-  <span class="n">WINDOW</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="c1">-- window alias</span>
+  <span class="k">WINDOW</span> <span class="n">ntile_window</span> <span class="k">AS</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="k">location</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">duration</span><span class="p">)</span> <span class="c1">-- window alias</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="k">location</span><span class="p">,</span> <span class="n">duration</span>
 </code></pre></div>    </div>
   </li>
@@ -2488,6 +2490,7 @@ CREATE TABLE Users (
 
   </div><a class="u-url" href="/notes/sql-overview" hidden></a>
 </article>
+
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/notes/"></data>
