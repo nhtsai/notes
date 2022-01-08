@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Google Remote Procedure Calls | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Google Remote Procedure Calls" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes on gRPC." />
+<meta property="og:description" content="Notes on gRPC." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/grpc" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/grpc" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-07T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Google Remote Procedure Calls" />
+<script type="application/ld+json">
+{"headline":"Google Remote Procedure Calls","dateModified":"2022-01-07T00:00:00-06:00","url":"https://nhtsai.github.io/notes/grpc","datePublished":"2022-01-07T00:00:00-06:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/grpc"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on gRPC.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.css" integrity="sha512-SgbQw5g+dYpW7CUSasc2ontF/7/JIHORpkzukPxbO2JIcyGy7p2WtlkfBGHvekdhJawrdp+p1bEzBH+nU/cbEg==" crossorigin="anonymous" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.js" integrity="sha512-vhW78Uk043jhhQnaIpK3Io8CbTmcD3fcfZyhl7qz+Md1P78MI7Hlw39lEqdddt8nobv4sclKZU8CeVDzIfLUNA==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/contrib/auto-render.min.js" integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==" crossorigin="anonymous"></script>
+    <!-- MathJax -->
+    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- KaTeX Auto-render Function with custom delimiter rules -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Google Remote Procedure Calls</h1><p class="page-description">Notes on gRPC.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-07T00:00:00-06:00" itemprop="datePublished">
+        Jan 7, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#grpc">grpc</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#rpc">rpc</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#protobuf">protobuf</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="google-remote-call-procedure-calls-grpc-and-protocol-buffers">Google Remote Call Procedure Calls (gRPC) and Protocol Buffers</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p><strong>Google Remote Call Procedure Calls (gRPC)</strong> is a modern, open source <strong>remote procedure call (RPC)</strong> that enables client and server applications to communicate transparently, making it easier to build connected systems.</p>
+
+<p>Mainly, gRPC is used for:</p>
+<ul>
+  <li>low latency, highly scalable, distributed systems</li>
+  <li>mobile clients communicating with a cloud server</li>
+  <li>creating accurate, efficient, and language-independent protocols</li>
+  <li>layered design to enable extensions</li>
+</ul>
+
+<p>In gRPC, <strong>client</strong> applications can directly call methods on a <strong>server</strong> application on a different machine. To do this, gRPC defines a service and specifies methods (parameters and return types) that can be called remotely. The server implements the interface and runs a <em>gRPC server</em> to handle client calls. The client uses a <em>gRPC stub</em> to access the methods implemented on the gRPC server.</p>
+
+<p><strong>Protocol Buffers</strong> are used by gRPC to serialize structured data as <em>messages</em>. In a <code class="language-plaintext highlighter-rouge">.proto</code> file, each message is a small logical record of information, represented as a series of name-value pairs called <em>fields</em>. Each field in the message definition has a unique <em>field number</em> used to identify fields in the message binary format. The protocol buffer compiler <code class="language-plaintext highlighter-rouge">protoc</code> generates data access classes in preferred languages, providing accessors  (getters/setters) for each field and methods to serialize/parse the whole data structure bytewise.</p>
+
+<div class="language-protobuf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">message</span> <span class="nc">Person</span> <span class="p">{</span>
+    <span class="kt">string</span> <span class="na">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int32</span> <span class="na">age</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="na">is_learning</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For example, the protocol buffer compiler can compile the Person message into a C++ class called <code class="language-plaintext highlighter-rouge">Person</code>, which can then be used in an application to populate, serialize, and retrieve <code class="language-plaintext highlighter-rouge">Person</code> protocol buffer messages.</p>
+
+<h2 id="services-and-service-methods">Services and Service Methods</h2>
+<p>The main idea of gRPC is to define a service and the methods (parameters and return types) that can be called remotely. gRPC uses Protocol Buffers as the <em>Interface Definition Language (IDL)</em> to describe the service interface and structure of the payload messages.</p>
+
+<div class="language-protobuf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// example gRPC service HelloService</span>
+<span class="kd">service</span> <span class="n">HelloService</span> <span class="p">{</span>
+  <span class="c1">// example service method SayHello</span>
+  <span class="k">rpc</span> <span class="n">SayHello</span> <span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloResponse</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// message as a method parameter</span>
+<span class="kd">message</span> <span class="nc">HelloRequest</span> <span class="p">{</span>
+  <span class="kt">string</span> <span class="na">greeting</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// message as a method return value</span>
+<span class="kd">message</span> <span class="nc">HelloResponse</span> <span class="p">{</span>
+  <span class="kt">string</span> <span class="na">reply</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>There are four kinds of service methods in gRPC:</p>
+<ol>
+  <li><em>Unary RPC</em>: Client sends a single request to the server and gets a single response back.</li>
+  <li><em>Server Streaming RPC</em>: Client sends a request to the server and gets a read stream to read a sequence of messages, until there are no messages. gRPC guarantees message ordering within an individual RPC call.</li>
+  <li><em>Client Streaming RPC</em>: Client writes a sequence of messages to send to the server, using a provided write stream. The server returns a response after reading the client messages. gRPC guarantees message ordering within an individual RPC call.</li>
+  <li><em>Bidirectional Streaming RPC</em>: Both client and server send a sequence of messages using read-write streams. The two streams operate independently, so client and servers can read/write messages in any order, e.g. write one then read one, or write all then read all. gRPC guarantees message ordering within an individual RPC call.</li>
+</ol>
+
+<div class="language-protobuf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Unary (takes message, returns message)</span>
+<span class="k">rpc</span> <span class="n">SayHello</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="n">return</span> <span class="p">(</span><span class="n">HelloResponse</span><span class="p">);</span>
+
+<span class="c1">// Server Streaming (takes message, returns read stream)</span>
+<span class="k">rpc</span> <span class="n">LotsOfReplies</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">stream</span> <span class="n">HelloResponse</span><span class="p">);</span>
+
+<span class="c1">// Client Streaming (takes write stream, returns message)</span>
+<span class="k">rpc</span> <span class="n">LotsOfGreetings</span><span class="p">(</span><span class="n">stream</span> <span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">HelloResponse</span><span class="p">);</span>
+
+<span class="c1">// Bidirectional Streaming (takes write stream, returns read stream)</span>
+<span class="k">rpc</span> <span class="n">BidiHello</span><span class="p">(</span><span class="n">stream</span> <span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">stream</span> <span class="n">HelloResponse</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The protocol buffer compiler generates client-side and server-side code from services defined in a <code class="language-plaintext highlighter-rouge">.proto</code> file.</p>
+<ul>
+  <li>Server-side: The server implements methods declared by the service and runs a gRPC server to handle client calls. gRPC decodes incoming requests, executes service methods, and encodes serivce responses.</li>
+  <li>Client-side: The client uses a local object called the stub (or client) that implements the same methods as the service. The client can just call those methods on the local object, with method parameters wrapped in the appropriate protocol buffer message type. gRPC sends the client requests to the server and returns the server’s protocol buffer responses.</li>
+</ul>
+
+<p><strong>Synchronous</strong> RPC calls block until the response arrives from the server, similar to the abstraction of a procedure call. Networks are inherently <strong>asynchronous</strong>.</p>
+
+<p><strong>Metadata</strong> is information about a particular RPC call as a list of key-value pairs, where keys are strings and values are strings or binary data. Metadata allows the client to provide information associated with the call (e.g. authentication details) to the server and vice versa.</p>
+
+<p>A <strong>gRPC channel</strong> is used to create a client stub’s connection to a gRPC server on a specified host and port. A channel has state (<code class="language-plaintext highlighter-rouge">connected</code>, <code class="language-plaintext highlighter-rouge">idle</code>), and the client can specify channel arguments to modify gRPC’s default behavior (e.g. toggling message compression).</p>
+
+<h2 id="rpc-life-cycles">RPC Life Cycles</h2>
+
+<p><strong>Unary RPC</strong></p>
+<ol>
+  <li>When the client calls the stub method, the server is notified that the RPC has been invoked with the client’s metadata, the method name, and specified deadline.</li>
+  <li>The server can then either send back its own initial metadata immediately or after receiving the client’s request message.</li>
+  <li>Once the server receives the client’s request message, it creates and populates a response. If successful, the response is returned to the client together with a status code, optional status message, and optional trailing metadata.</li>
+  <li>If the response status is OK, then the client gets the response, completing the method call on the client side.</li>
+</ol>
+
+<p><strong>Server Streaming RPC</strong></p>
+<ol>
+  <li>When the client calls the stub method, the server is notified that the RPC has been invoked with the client’s metadata, the method name, and specified deadline.</li>
+  <li>The server can then either send back its own initial metadata immediately or after receiving the client’s request message.</li>
+  <li>Once the server receives the client’s request message, it creates and populates a stream of messages in response to a client’s request. If successful, the server sends all messages to the client together with a status code, optional status message, and optional trailing metadata, completing the processing on the server side.</li>
+  <li>If the response status is OK, then the client gets the response, completing the method call on the client side.</li>
+</ol>
+
+<p><strong>Client Streaming RPC</strong></p>
+<ol>
+  <li>When the client calls the stub method, the server is notified that the RPC has been invoked with the client’s metadata, the method name, and specified deadline.</li>
+  <li>The server can then either send back its own initial metadata immediately or after receiving the client’s stream of messages.</li>
+  <li>Once the server receives all the client’s messages, it creates and populates a response. If successful, the response is returned to the client together with a status code, optional status message, and optional trailing metadata.</li>
+  <li>If the response status is OK, then the client gets the response, completing the method call on the client side.</li>
+</ol>
+
+<p><strong>Bidirectional Streaming RPC</strong></p>
+<ol>
+  <li>When the client calls the stub method, the server is notified that the RPC has been invoked with the client’s metadata, the method name, and specified deadline.</li>
+  <li>The server can then either send back its own initial metadata immediately or after the client starts streaming messages.</li>
+  <li>Since the two streams are independent, the server can stream messages after the all of the client’s messages are received, or the server and client can alternate sending messages and send requests based on responses.</li>
+</ol>
+
+<p>Clients use <strong>deadlines</strong> to specify maximum time spent waiting for an RPC to complete before terminating with <code class="language-plaintext highlighter-rouge">DEADLINE_EXCEEDED</code> error. The server can query to see if a particular RPC has timed out, or how much time is left to complete the RPC.</p>
+
+<p>Both the client and server make independent and local determinations of the success of the RPC and their conclusions may not match. For example, the server can determine that the RPC has finished successfully and all responses were sent, but the client may determine the RPC has failed because the responses arrived after the specified deadline. The server may also complete the RPC before the client has finished sending all requests.</p>
+
+<p>The RPC can be cancelled at any time by either the client or server, however <em>changes made before cancellation are not rolled back</em>.</p>
+
+<h2 id="references">References</h2>
+<ul>
+  <li><a href="https://grpc.io/docs/">gRCP Documentation</a></li>
+</ul>
+
+  </div><a class="u-url" href="/notes/grpc" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
