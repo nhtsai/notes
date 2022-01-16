@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Metaflow | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Metaflow" />
+<meta name="author" content="Nathan Tsai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Notes on Netflix’s Metaflow." />
+<meta property="og:description" content="Notes on Netflix’s Metaflow." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/metaflow" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/metaflow" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-13T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Metaflow" />
+<script type="application/ld+json">
+{"url":"https://nhtsai.github.io/notes/metaflow","@type":"BlogPosting","headline":"Metaflow","dateModified":"2022-01-13T00:00:00-06:00","datePublished":"2022-01-13T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/metaflow"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on Netflix’s Metaflow.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.css" integrity="sha512-SgbQw5g+dYpW7CUSasc2ontF/7/JIHORpkzukPxbO2JIcyGy7p2WtlkfBGHvekdhJawrdp+p1bEzBH+nU/cbEg==" crossorigin="anonymous" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.js" integrity="sha512-vhW78Uk043jhhQnaIpK3Io8CbTmcD3fcfZyhl7qz+Md1P78MI7Hlw39lEqdddt8nobv4sclKZU8CeVDzIfLUNA==" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/contrib/auto-render.min.js" integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==" crossorigin="anonymous"></script>
+    <!-- MathJax -->
+    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- KaTeX Auto-render Function with custom delimiter rules -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About Me</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Metaflow</h1><p class="page-description">Notes on Netflix's Metaflow.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-13T00:00:00-06:00" itemprop="datePublished">
+        Jan 13, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#data-science">data-science</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#devops">devops</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#metaflow">Metaflow</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#structure">Structure</a></li>
+<li class="toc-entry toc-h2"><a href="#transitions">Transitions</a></li>
+</ul>
+</li>
+</ul><h1 id="metaflow">
+<a class="anchor" href="#metaflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Metaflow</h1>
+<p>Metaflow is a library developed at Netflix to help data scientists excecute data science projects, from prototype to production.
+Metaflow helps data science projects achieve:</p>
+<ol>
+  <li>
+<strong>Scalability</strong>: execution across multiple nodes on larger systems</li>
+  <li>
+<strong>Criticality</strong>: results produced correctly in a timely manner</li>
+  <li>
+<strong>Complexity</strong>: multiple project components and contributors</li>
+</ol>
+
+<p>The typical data science project starts by accessing data from a <strong>data warehouse</strong> (folder, database, data lake). Modelling code is then executed in a <strong>compute environment</strong> (laptop, large-scale container management system) with a <strong>job scheduler</strong> to orchestrate multiple units of work.</p>
+
+<p>But how should code be <strong>architected</strong> (object hierarchy, python modules, packages)? How should be code, input data, or models be <strong>versioned</strong>? Once deployed to production, how are <strong>model operations</strong> maintained. How to run code reliably in production, monitor its performance, or deploy new versions of code to run in parallel with previous versions? How to <strong>develop features and models</strong> using data science libraries?</p>
+
+<p>Metaflow takes care of the dev-ops and infrastructure stack considerations, so data scientists can focus on writing models and business logic without much new to learn.</p>
+
+<h2 id="structure">
+<a class="anchor" href="#structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Structure</h2>
+<p>Metaflow uses the <a href="https://en.wikipedia.org/wiki/Dataflow_programming">dataflow paradigm</a> to model programs a directed graphs of operations, called <strong>flows</strong>, which are well suited for data processing pipelines in data science and machine learning workflows. Every flow contains <strong>steps</strong>, which use operations as nodes and transitions to the next step as edges. Each flow must contain a <code class="language-plaintext highlighter-rouge">start</code> and <code class="language-plaintext highlighter-rouge">end</code> step.</p>
+
+<h2 id="transitions">
+<a class="anchor" href="#transitions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transitions</h2>
+<p>The <strong>linear</strong> transition moves from one step to another step. A <strong>data artifact</strong> is an instance variable that is available to all steps after creation. In the example linear flow, the <code class="language-plaintext highlighter-rouge">my_var</code> data artifact is created in the <code class="language-plaintext highlighter-rouge">start</code> step and used in subsequent steps.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="k">class</span> <span class="nc">LinearFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates the linear flow transition."""</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Create data artifact my_var at start."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">my_var</span> <span class="o">=</span> <span class="s">'hello world'</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Data artifact my_var is propagated to step a."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'the data artifact is: %s'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">my_var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Data artifact my_var is propagated to end."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'the data artifact is still: %s'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">my_var</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">LinearFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The <strong>branch</strong> transition expresses any number of parallel steps <em>statically</em>, which can be executed over multiple CPU cores or cloud instances. Every branch must be joined using a join step with additional <code class="language-plaintext highlighter-rouge">inputs</code> parameter.</p>
+
+<p>In the example branch flow, the <code class="language-plaintext highlighter-rouge">start</code> step points to steps <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code>, creating separate branches. The branches <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> are joined together in the <code class="language-plaintext highlighter-rouge">join</code> step. Reference the specific step in the branch to disambiguate branches in the join step.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="k">class</span> <span class="nc">BranchFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates the branch flow transition."""</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start branches into steps a and b."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step a defines data artifact x."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step b defines another data artifact x to a different value."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="s">"""Join disambiguates x using branch names: a.x and b.x"""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'a is %s'</span> <span class="o">%</span> <span class="n">inputs</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'b is %s'</span> <span class="o">%</span> <span class="n">inputs</span><span class="p">.</span><span class="n">b</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'total is %d'</span> <span class="o">%</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">input</span><span class="p">.</span><span class="n">x</span> <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""End step."""</span>
+        <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">BranchFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>The <strong>foreach</strong> transition can branch based on data <em>dynamically</em>. Instead of creating many parallel branches with named step methods, foreach executes many parallel copies of steps inside the loop. The <code class="language-plaintext highlighter-rouge">foreach</code> argument in <code class="language-plaintext highlighter-rouge">self.next()</code> takes in a name of a list stored in an instance variable. The foreach loop creates separate, parallel tasks to process each item in a step, which are then joined and accessed using <code class="language-plaintext highlighter-rouge">inputs</code></p>
+
+<p>In the foreach example, the <code class="language-plaintext highlighter-rouge">start</code> step uses a foreach loop to create parallel branches for each title in <code class="language-plaintext highlighter-rouge">titles</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="k">class</span> <span class="nc">ForeachFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates the foreach flow transition."""</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start creates a step for each title in titles list."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Stranger Things'</span><span class="p">,</span>
+                    <span class="s">'House of Cards'</span><span class="p">,</span>
+                    <span class="s">'Narcos'</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="n">foreach</span><span class="o">=</span><span class="s">'titles'</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step a processes each title."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">'%s processed'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="nb">input</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="s">"""Join aggregates all processed titles for each step into a results list."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="nb">input</span><span class="p">.</span><span class="n">title</span> <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""End prints out each processed title in results list."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">results</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">ForeachFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Steps are indivisible units of execution that fail or succeed as a whole, and all instance variable are persisted so previous successful steps do not need to be re-executed. Steps are also checkpoints, where data artifacts present when the step finished can be inspected, but not data manipulated within a step. Since checkpointing adds some overhead, steps should not be too granular and take less than an hour to run.</p>
+
+<p><strong>Parameters</strong> for flows can be defined by assigning a <code class="language-plaintext highlighter-rouge">Parameter</code> object to a class variable in the flow. Parameters are accessible in all steps and specified like command-line options. Parameters are typed based on their default value or by setting the <code class="language-plaintext highlighter-rouge">type</code> argument.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="k">class</span> <span class="nc">ParameterFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates the use of parameters in a flow."""</span>
+
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s">'Learning rate'</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start prints out the parameter alpha defined as a class variable."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'alpha is %f'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">alpha</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Parameter alpha is propagated to end."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'alpha is still %f'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">alpha</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">ParameterFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python parameter_flow.py run <span class="nt">--alpha</span> 0.6
+</code></pre></div></div>
+
+<p>In addition to scalar values, <code class="language-plaintext highlighter-rouge">Parameter</code> uses JSON to represent more complex values.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">JSONType</span>
+
+<span class="k">class</span> <span class="nc">JSONParameterFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates the use of complex parameters using JSON."""</span>
+
+    <span class="n">gdp</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s">'gdp'</span><span class="p">,</span>
+                    <span class="n">help</span><span class="o">=</span><span class="s">'Country-GDP Mapping'</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="n">JSONType</span><span class="p">,</span>
+                    <span class="n">default</span><span class="o">=</span><span class="s">'{"US": 1939}'</span><span class="p">)</span>
+
+    <span class="n">country</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s">'country'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'Choose a country'</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="s">'US'</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start uses flow parameters, or their default values."""</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'The GDP of %s is $%dB'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">country</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">gdp</span><span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">country</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""End step."""</span>
+        <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">JSONParameterFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python parameter_flow.py run <span class="nt">--gdp</span> <span class="s1">'{"US": 1}'</span>
+</code></pre></div></div>
+
+<p>For linear steps, data artifacts created in previous steps can be accessed using instance variables. The value of each artifact at a linear step can be easily determined by taking the value at the end of the previous step.</p>
+
+<p>For join steps, the value of data artifacts can be ambiguous if the same data artifacts are set to different values on incoming branches.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">metaflow</span> <span class="kn">import</span> <span class="n">FlowSpec</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="k">class</span> <span class="nc">MergeArtifactsFlow</span><span class="p">(</span><span class="n">FlowSpec</span><span class="p">):</span>
+    <span class="s">"""Demonstrates using merge_artifacts to specify disambiguous values."""</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Start defines a data artifact pass_down and branches to steps a and b."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pass_down</span> <span class="o">=</span> <span class="s">'a'</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step a defines data artifacts: common, x, y, from_a."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">common</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">from_a</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step b defines data artifacts: common, x, y."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">common</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="s">"""In the join step, x is manually specified, merge_artifacts disambiguates:
+        common, from_a, pass_down (excludes y).
+        """</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">merge_artifacts</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'x is %s'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'pass_down is %s'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">pass_down</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'common is %d'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">common</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'from_a is %d'</span> <span class="o">%</span> <span class="bp">self</span><span class="p">.</span><span class="n">from_a</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">c</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step c branches to steps d and e."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">d</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step d defines data artifact conflicting."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conflicting</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join2</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">e</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Step e defines another data artifact conflicting to a different value."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conflicting</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">join2</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">join2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="s">"""In the join step, merge_artifacts only disambiguates pass_down and common."""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">merge_artifacts</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s">'pass_down'</span><span class="p">,</span> <span class="s">'common'</span><span class="p">])</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Only pass_down and common exist here'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">end</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="n">step</span>
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""End step."""</span>
+        <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">MergeArtifactsFlow</span><span class="p">()</span>
+</code></pre></div></div>
+
+  </div><a class="u-url" href="/notes/metaflow" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
