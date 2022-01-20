@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      8 min read
     
 </span></p>
 
@@ -125,6 +125,11 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <h1 id="google-remote-call-procedure-calls-grpc-and-protocol-buffers">Google Remote Call Procedure Calls (gRPC) and Protocol Buffers</h1>
+
+<h2 id="client-server-communication">Client-Server Communication</h2>
+<p>Client-server communication protocols are used to establish connections and send messages between two parties: client and server. In early protocols, like <strong>Simple Object Access Protocol (SOAP)</strong>, both the client and the server must have a library to understand the same protocol and agree on the XML message schema in order to communicate with each other. In 2000, Roy Fielding introduced the <strong>Representational State Transfer Protocol (REST)</strong>, which allowed stateless applications and the use of JSON requests without having to think about the schema. <strong>GraphQL</strong> allows clients to define the structure of the response message returned from the server. However, these protocols did not support bidirectional or server-client communication types, so new protocols, like <strong>Server-Side Eventing (SSE)</strong> and <strong>WebSockets</strong>, were created. Other services and databases, like Redis, define their own protocls over <strong>raw TCP</strong>.</p>
+
+<p>The issue with these communication protocols is the need for a client library for the language of choice, e.g. SOAP Library, HTTP Client Library. These libraries are hard to maintain, i.e. HTTP/1.1, HTTP/2, new features, security, etc.</p>
 
 <h2 id="introduction">Introduction</h2>
 <p><strong>Google Remote Call Procedure Calls (gRPC)</strong> is a modern, open source <strong>remote procedure call (RPC)</strong> that enables client and server applications to communicate transparently, making it easier to build connected systems.</p>
@@ -244,7 +249,8 @@ window.onload = wrap_img;
 
 <h2 id="references">References</h2>
 <ul>
-  <li><a href="https://grpc.io/docs/">gRCP Documentation</a></li>
+  <li><a href="https://grpc.io/docs/">gRPC Documentation</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Yw4rkaTc0f8">gRPC Crash Course</a></li>
 </ul>
 
   </div><a class="u-url" href="/notes/grpc" hidden></a>
