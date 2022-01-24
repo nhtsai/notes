@@ -299,7 +299,7 @@ permalink: /atomic-habits
     * The key is to start with *repetition, not perfection*.
 * **Habit formation** is the process by which a behavior becomes progressively more automatic through repetition.
     * **Long-term Potentiation** refers to the strengthening of connections between neurons in the brain based on recent patterns of activity.
-    * **Hebb's Law** is "Neurons that fire together wire together."
+    * **Hebb's Law** says, "Neurons that fire together wire together."
 * Repetition is a form of change. To build a habit, you need to practice it.
     * Repeating a habit leads to physical changes in the brain, different adaptations for different kinds of tasks.
     * Active practice and iteration is more effective than passive learning and theorizing.
@@ -316,5 +316,10 @@ permalink: /atomic-habits
 * Habits are obstacles to desired outcomes.
     * If good habits can be made more convenient, then they are more likely performed.
     * The idea is to make it as easy as possible in the moment to do things that payoff in the long run.
-* One way to reduce friction is **environment design**, making cues more obvious and optimizing for convenient actions.
-    * **Addition by subtraction**, or **lean production**, is the strategy of relentlessly eliminating points of friction that waste time or energy and optimizing to achieve more with less effort.
+* **Environment design** makes cues more obvious and optimizing for convenient actions.
+* **Addition by subtraction**, or **lean production**, is the strategy of relentlessly eliminating points of friction that waste time or energy and optimizing to achieve more with less effort.
+    * Most habit-forming products and services reduce the friction of common, daily activities.
+    * The idea is to find ways to reduce the friction associated with good habits and increase the friction associated with bad ones.
+* **Priming the environment** makes future, habit-forming actions immediate and easy.
+    * Preparing the environment can make good habits easier to accomplish and bad habits more difficult to continue.
+    * By using the environment to encourage good habits and reduce the temptation and ease of bad habits, the actions that matter the most are also the actions that are easiest to do.
