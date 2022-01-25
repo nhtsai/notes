@@ -323,3 +323,14 @@ permalink: /atomic-habits
 * **Priming the environment** makes future, habit-forming actions immediate and easy.
     * Preparing the environment can make good habits easier to accomplish and bad habits more difficult to continue.
     * By using the environment to encourage good habits and reduce the temptation and ease of bad habits, the actions that matter the most are also the actions that are easiest to do.
+
+
+## 13. How to Stop Procrastinating by Using the Two-Minute Rule
+
+* Simple actions over a consistent period of time can lead to repeatable and easy to do habits.
+* A **decisive moment** is a little choice that delivers an outsized impact.
+    * Decisive moments are forks in the road that determine the options available to your future self.
+    * Often the first choice is what ultimately defines later possible actions, and habitual choices determine the path of each day.
+* The **Two-Minute Rule** states, "When you start a new habit, it should take less than two minutes to do."
+    * By making habits as easy as possible to start using a **gateway habit**, difficult habits become easier to tackle.
+    
