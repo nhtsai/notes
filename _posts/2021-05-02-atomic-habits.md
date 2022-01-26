@@ -333,4 +333,7 @@ permalink: /atomic-habits
     * Often the first choice is what ultimately defines later possible actions, and habitual choices determine the path of each day.
 * The **Two-Minute Rule** states, "When you start a new habit, it should take less than two minutes to do."
     * By making habits as easy as possible to start using a **gateway habit**, difficult habits become easier to tackle.
-    
+* Staying below the point where a habit feels like work is a strategy that helps reinforce a desired identity.
+* **Habit shaping** refers to creating habits by ritualizing the beginning of the process and mastering behaviors before moving to the next step.
+    * The habit is eventually created while keeping the focus on the first two minutes of the behavior.
+* The habit needs to be build at a foundational, two-minute level (standardize) before it can grow and lead to larger goals (optimize).
