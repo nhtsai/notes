@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      8 min read
+      9 min read
     
 </span></p>
 
@@ -189,7 +189,7 @@ window.onload = wrap_img;
   <li>explicit graph-based regularization:</li>
 </ul>
 
-<p>For example, using graph Laplacian regularization:</p>
+<p>For example, loss function using graph Laplacian regularization:</p>
 
 <p>$\mathcal{L} = \mathcal{L}<em>0 + \lambda \mathcal{L}</em>{\text{reg}}$</p>
 
@@ -197,35 +197,37 @@ window.onload = wrap_img;
 
 <ul>
   <li>$\mathcal{L}_0$ : supervised loss with respect to labeled part of graph</li>
-  <li>$\mathcal{L}_{\text{reg}}$ : graph Laplacian regularization term</li>
-  <li>$f(\dots)$ : a neural network-like differentiable function</li>
   <li>$\lambda$ : regularization weight</li>
-  <li>$X$ : matrix of node feature vectors $X_{i}$</li>
-  <li>$\Delta = D - A$ : un-normalized <a href="https://en.wikipedia.org/wiki/Laplacian_matrix">graph Laplacian</a> of an undirected graph $G=(V, E)$ , with $N$ nodes $v_{i} \in V$ , edges $(v_{i}, v_{j}) \in E$
+  <li>$\mathcal{L}_{\text{reg}}$ : graph Laplacian regularization term
     <ul>
-      <li>$A \in \Reals^{N \times N}$ : adjacency matrix (binary or weighted)
+      <li>Sum of all weighted (or binary) sum of squared errors of pairwise node embeddings</li>
+      <li>$\lVert \dots \rVert ^{2}$ : squared Euclidean norm, similar to sum squared error</li>
+      <li>$f(\dots)$ : a neural network-like differentiable function, output is $N \times 1$</li>
+      <li>$X_{i}$ : feature vector of node $i$</li>
+      <li>$\Delta = D - A$ : un-normalized <a href="https://en.wikipedia.org/wiki/Laplacian_matrix">graph Laplacian</a> of an undirected graph $G=(V, E)$ , with $N$ nodes $v_{i} \in V$ , edges $(v_{i}, v_{j}) \in E$
         <ul>
-          <li>1 if connected, 0 otherwise.</li>
-          <li>Symmetric since graph is undirected, i.e. both sides of diagonal are same</li>
+          <li>$A \in \Reals^{N \times N}$ : adjacency matrix (binary or weighted)
+            <ul>
+              <li>Binary: 1 if connected, 0 otherwise</li>
+              <li>Symmetric: since graph is undirected, both sides of diagonal are same</li>
+            </ul>
+          </li>
+          <li>$D_{ii} = \sum_{j} A_{ij}$ : degree matrix
+            <ul>
+              <li>The diagonal is the number of edges for that nodes</li>
+            </ul>
+          </li>
+          <li>Basically, $\Delta$ has positive diagonal of each node’s number of edges and -1’s for each neighbor</li>
         </ul>
       </li>
-      <li>$D_{ii} = \sum_{j} A_{ij}$ : degree matrix
-        <ul>
-          <li>The diagonal is the number of edges for that nodes</li>
-        </ul>
-      </li>
-      <li>Basically, positive diagonal of each node’s number of edges and -1’s for each neighbor</li>
-    </ul>
-  </li>
-  <li>Assumes that connected nodes in the graph share the same label
-    <ul>
-      <li>This may restrict modeling capacity because edges could contain more information than node similarity</li>
     </ul>
   </li>
 </ul>
 
-<p>The authors want to encode the graph structure in a neural network model $f(X, A)$ .
-For all nodes with labels, train on a supervised target $\mathcal{L}<em>{0}$ and avoid graph regularization $\mathcal{L}</em>{\text{reg}}$ in the loss function.</p>
+<p>The loss function assumes that connected nodes in the graph share the same label. This may restrict modeling capacity because edges could contain more information other than node similarity.</p>
+
+<p>The authors encode the graph structure in a neural network model $f(X, A)$ .
+For all nodes with labels, the model is trained on a supervised target $\mathcal{L}<em>{0}$ to avoid graph regularization $\mathcal{L}</em>{\text{reg}}$ in the loss function.</p>
 
 <p>By conditioning $f(\dots)$ on adjacency matrix $A$ , the model can distribute gradient information from supervised loss $\mathcal{L}_0$ to learn representations of nodes both with and without labels. Because the model knows each node’s neighbors, the labeled nodes can help inform the unlabeled nodes.</p>
 
