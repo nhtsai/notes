@@ -27,23 +27,27 @@
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
     <!-- KaTeX -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.css" integrity="sha512-SgbQw5g+dYpW7CUSasc2ontF/7/JIHORpkzukPxbO2JIcyGy7p2WtlkfBGHvekdhJawrdp+p1bEzBH+nU/cbEg==" crossorigin="anonymous" />
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/katex.min.js" integrity="sha512-vhW78Uk043jhhQnaIpK3Io8CbTmcD3fcfZyhl7qz+Md1P78MI7Hlw39lEqdddt8nobv4sclKZU8CeVDzIfLUNA==" crossorigin="anonymous"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.20/contrib/auto-render.min.js" integrity="sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <!-- KaTeX Auto-render Function with custom delimiter rules 
+         see: https://katex.org/docs/autorender.html
+    -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement( document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "[%", right: "%]", display: true},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]}
+                );
+            });
+        </script>
     <!-- MathJax -->
     <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <!-- KaTeX Auto-render Function with custom delimiter rules -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement( document.body, {
-        delimiters: [
-            {left: "$$", right: "$$", display: true},
-            {left: "[%", right: "%]", display: true},
-            {left: "$", right: "$", display: false}
-        ]}
-        );
-    });
-    </script>
 
 
 <script>
