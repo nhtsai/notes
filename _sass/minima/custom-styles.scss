@@ -10,6 +10,35 @@
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
 // @import "minima/fastpages-dracula-highlight";
 
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+@import url('https://fonts.googleapis.com/css?family=Sunflower:500');
+
+// Add your styles below
+// make non-headings slightly lighter
+.post-content p, .post-content li {   
+   //font-family: "Nanum Gothic";
+   font-size: 15px;
+   color: #515151;
+   font-weight: 400;
+}
+
+.post img {
+   display: block;
+   border:1px solid #021a40;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+// # font 
+h1, h2, h3, h4, h5, h6{
+   font-family:"Sunflower", normal; 
+}
+
+// inline code size (minima/fastpages-dracula-highlight.css)
+p code{
+  font-size: 13px;
+}
+
 table {
     max-width: 80%;
     font-size: 16px;
