@@ -2,7 +2,6 @@
 layout: post
 title: "Database System Concepts"
 description: "Book notes on database system concepts."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

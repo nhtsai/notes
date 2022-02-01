@@ -2,7 +2,6 @@
 layout: post
 title: "Introduction to Probability Exercises"
 description: "Solutions to Exercises in Introduction to Probability."
-author: "Nathan Tsai"
 toc: true
 comments: false
 # image: 

@@ -2,7 +2,6 @@
 layout: post
 title: "Introduction to Apache Cassandra"
 description: "Course notes from DataStax Academy DS101."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

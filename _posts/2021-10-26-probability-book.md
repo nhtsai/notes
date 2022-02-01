@@ -2,7 +2,6 @@
 layout: post
 title: "Introduction to Probability"
 description: "Book notes on probability."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

@@ -2,7 +2,6 @@
 layout: post
 title: "System Design Overview"
 description: "Notes on System Design."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

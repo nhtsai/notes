@@ -2,7 +2,6 @@
 layout: post
 title: "Azure Fundamentals"
 description: "Course notes on ExamPro's AZ-900 certification course."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

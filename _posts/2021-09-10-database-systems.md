@@ -2,7 +2,6 @@
 layout: post
 title: "Introduction to Database Systems"
 description: "Course notes from CMU 15-445, Fall 2019."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

@@ -2,7 +2,6 @@
 layout: post
 title: "Linear Algebra"
 description: "Course notes from MIT 18.06SC, Fall 2011."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

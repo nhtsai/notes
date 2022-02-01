@@ -2,7 +2,6 @@
 layout: post
 title: "Building a Web Server"
 description: "Learning how to build a basic webserver."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

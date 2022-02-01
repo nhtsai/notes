@@ -2,10 +2,9 @@
 layout: post
 title: "Coding Patterns"
 description: "Notes on Coding Interview Patterns."
-author: "Nathan Tsai"
 toc: true
 comments: false
-hide: false
+hide: true
 search_exclude: false
 show_tags: true
 categories: [coding]

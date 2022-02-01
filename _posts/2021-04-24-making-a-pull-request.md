@@ -2,10 +2,9 @@
 layout: post
 title: "Making a Pull Request"
 description: "How to make a pull request through Github CLI."
-author: "Nathan Tsai"
 toc: false
 comments: false
-hide: false
+hide: true
 search_exclude: false
 show_tags: true
 categories: [git]

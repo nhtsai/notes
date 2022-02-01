@@ -2,7 +2,6 @@
 layout: post
 title: An Example Markdown Post
 description: A minimal example of using markdown with fastpages.
-author: Nathan Tsai
 toc: true
 comments: false
 hide: true

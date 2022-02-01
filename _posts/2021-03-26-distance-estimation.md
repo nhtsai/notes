@@ -2,7 +2,6 @@
 layout: post
 title: "Learning Object-Specific Distance From a Monocular Image"
 description: "Notes on distance estimation model by Zhu et al."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

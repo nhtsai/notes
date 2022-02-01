@@ -2,7 +2,6 @@
 layout: post
 title: "Introduction to Probability"
 description: "Course notes from Harvard STAT 110, Fall 2011."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false

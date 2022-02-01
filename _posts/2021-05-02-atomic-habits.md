@@ -2,7 +2,6 @@
 layout: post
 title: "Atomic Habits"
 description: "Book notes on building habits."
-author: "Nathan Tsai"
 toc: true
 comments: false
 hide: false
