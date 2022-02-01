@@ -1,7 +1,7 @@
 ---
 layout: page
-title: About Me
+title: About
 permalink: /about/
 ---
 
-I am a university graduate interested in data science and machine learning. Currently looking for internship and job opportunities.
+I am a student interested in data science and machine learning, currently machine learning devops and graph deep learning. Always looking for opportunities to learn more.
