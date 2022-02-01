@@ -1,5 +1,12 @@
 _drafts/
 .vscode/
+
+# Build artifacts
+Gemfile.lock
+_posts/2020-02-20-test.md
+images/copied_from_nb/my_icons/fastai_logo.png
+settings.ini
+
 *.swp
 ~*
 *~
@@ -10,6 +17,7 @@ _site
 *.xml
 vendor
 _notebooks/.ipynb_checkpoints
+
 # Local Netlify folder
 .netlify
 .tweet-cache
