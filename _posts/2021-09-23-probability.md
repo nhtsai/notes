@@ -12,8 +12,6 @@ categories: [course-notes, mathematics, probability, statistics]
 permalink: /harvard-stat110
 ---
 
-# Harvard STAT 110: Introduction to Probability, Fall 2011
-
 ## Course Resources
 * Professor Joe Blitzstein
 * [Course Lectures](https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo)
@@ -50,7 +48,7 @@ permalink: /harvard-stat110
 <br />
 
 * **Multiplication Rule**
-    * If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes
+    * If we have an experiment with $n\_{1}$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n\_{2}$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n\_{r}$ possible outcomes for the $r\text{th}$ experiment, then there are $n\_{1} * n\_{2} * \ldots * n\_{r}$ overall possible outcomes
     * The total number of possible outcomes of a series of experiments is the *product of each experiment's outcomes*
 
     * *Example*: 3 flavors of ice cream and 2 types of cones
@@ -95,7 +93,7 @@ permalink: /harvard-stat110
     | **Without Replacement** | $nPk = \frac{n!}{(n-k)!}$ | $\binom{n}{k} = \frac{n!}{(n-k)!k!}$ |
 
     * *Sample Method*: With replacement, order matters
-        * $n_1 \times n_2 \times \ldots \times n_k = n^k$
+        * $n\_{1} \times n\_{2} \times \ldots \times n\_{k} = n^k$
         * Have $k$ experiments, each with $n$ outcomes and order matters, so $\{1, 2\} \neq \{2, 1\}$
 
     * *Sample Method*: Without replacement, order matters
@@ -160,7 +158,7 @@ permalink: /harvard-stat110
         * Approach 1: choose the president, then choose k-1 of n-1 people to form the rest of the group (left side)
         * Approach 2: choose $k$ of $n$ people, then select $1$ of the $k$ people to be the president (right side)
         * Both approaches count the same thing in different ways
-    * *Example*: $\binom{m+n}{k}=\sum_{j=0}^{k}\binom{m}{j}\binom{n}{k-j}$ (Vandermonde's Identity)
+    * *Example*: $\binom{m+n}{k}=\sum\_{j=0}^{k}\binom{m}{j}\binom{n}{k-j}$ (Vandermonde's Identity)
         * Imagine a group of $m$ people and a group of $n$ people, and we want to select $k$ people total from both groups
         * One way is we choose $j$ from group $m$ and $k-j$ from group $n$
         * How many ways are there to choose $j$ from group $m$ and $k-j$ from group $n$?
@@ -179,13 +177,13 @@ permalink: /harvard-stat110
             * $P(\emptyset)=0, P(S)=1$
                 * Probability of empty set is 0 and probability of full set is 1
                 * What does it mean for the empty set to occur?
-                    * If we get an outcome $S_0$ , if $S_0 \in A$, then we say A occurred, else $A$ did not occur
-                    * If the empty set occurred, then $S_0 \in \emptyset$ , but nothing is in the empty set, so it cannot occur.
+                    * If we get an outcome $S\_{0}$ , if $S\_{0} \in A$, then we say A occurred, else $A$ did not occur
+                    * If the empty set occurred, then $S\_{0} \in \emptyset$ , but nothing is in the empty set, so it cannot occur.
                     * We want impossible events to be impossible $P(\emptyset) = 0$
                 * Why is an outcome in S a certainty?
-                    * $S_0$ must be in $S$ because $S$ represents the universe of all outcomes
-            * $P(\cup_{n=1}^{\infty} A_n) = \sum_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
-                * Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_1,A_2,\ldots$ are disjoint/non-overlapping
+                    * $S\_{0}$ must be in $S$ because $S$ represents the universe of all outcomes
+            * $P(\cup\_{n=1}^{\infty} A\_{n}) = \sum\_{n=1}^{\infty}P(A\_{n}), \text{ if } A\_{1}, A\_{2}, \ldots \text{ are disjoint/non-overlapping}$
+                * Probability of the countably infinitely many union equals the sum of the probabilities if the events $A\_{1}, A\_{2}, \ldots$ are disjoint/non-overlapping
     * Everything in probability basically derives from this definition with the two **Axioms of Probability**
 
 
@@ -227,8 +225,8 @@ permalink: /harvard-stat110
     1. $P(\emptyset) = 0, P(S) = 1$
         * Probability of empty set is 0 (impossible)
         * Probability of full sample space is 1 (certain)
-    1. $P(\cup_{n=1}^{\infty} A_{n}) = \sum_{n=1}^{\infty} P(A_{n})$
-        * If $A_1, A2, \ldots \text{ are disjoint events}$ 
+    1. $P(\cup\_{n=1}^{\infty} A\_{n}) = \sum\_{n=1}^{\infty} P(A\_{n})$
+        * If $A\_{1}, A\_{2}, \ldots \text{ are disjoint events}$ 
         * Probability of the union (infinite or finite) equals the sum of probabilities of all events if events are disjoint.
         * Think of probabilities as disjoint sets, union of sets is same as adding the sets up
     * Assume $0 \leq P(A) \leq 1$ , probability is between 0 and 1
@@ -278,7 +276,7 @@ permalink: /harvard-stat110
         * $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
         * Add all 3 events, subtract the intersections of pairs, then add the intersection of all
     * *Case*: Inclusion-Exclusion for N events
-        * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = \sum^{N}_{j=1} P(A_j) - \sum^{N}_{i \lt j} P(A_i \cap A_j) + \sum^{N}_{i \lt j \lt k} P(A_i \cap A_j \cap A_k) - \ldots + (-1)^{N+1} \times P(A_1 \cap A_2 \cap \ldots \cap A_N)$
+        * $P(A\_{1} \cup A\_{2} \cup \ldots \cup A\_{N}) = \sum^{N}\_{j=1} P(A\_{j}) - \sum^{N}\_{i \lt j} P(A\_{i} \cap A\_{j}) + \sum^{N}\_{i \lt j \lt k} P(A\_{i} \cap A\_{j} \cap A\_{k}) - \ldots + (-1)^{N+1} \times P(A\_{1} \cap A\_{2} \cap \ldots \cap A\_{N})$
 
 <br />
 
@@ -289,26 +287,26 @@ permalink: /harvard-stat110
         * Flip over the cards while counting from 1 to N
         * If the count *matches* the flipped card's number, then win
     * What's the probability that one card has the same number as its position in the deck?
-    * Let $A_j$ be the event "jth card matches"
-    * $P(\geq 1 \text{ match}) = P(A_1 \cup A_2 \cup \ldots \cup A_N)$
-    * $P(A_j) = \frac{1}{N}$
+    * Let $A\_{j}$ be the event "jth card matches"
+    * $P(\geq 1 \text{ match}) = P(A\_{1} \cup A\_{2} \cup \ldots \cup A\_{N})$
+    * $P(A\_{j}) = \frac{1}{N}$
         * Probability that card's number matches position is 1 over N since all positions are equally likely for the card labeled j
         * Naive definition uses $\frac{(N-1)!}{N!} = \frac{1}{N}$
             * $N!$ possible permutations of deck of cards
             * $(N-1)!$ possible permutations of the deck of cards, fixing card labeled j is at jth position
-    * $P(A_1 \cap A_2) = \frac{(N-2)!}{N!} = \frac{1}{N(N-1)}$
+    * $P(A\_{1} \cap A\_{2}) = \frac{(N-2)!}{N!} = \frac{1}{N(N-1)}$
         * $N!$ possible permutations of deck of cards
         * $(N-2)!$ possible permutations of the deck of cards, fixing card labeled i at ith position and card labeled j at jth position
-    * $P(A_1 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+    * $P(A\_{1} \cap \ldots \cap A\_{K}) = \frac{(N-K)!}{N!}$
         * $N!$ possible permutations of deck of cards
         * $(N-K)!$ possible permutations of the deck of cards, fixing $K$ cards at their corresponding positions
     * *Technique*: Apply Inclusion-Exclusion
-        * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$
+        * $P(A\_{1} \cup A\_{2} \cup \ldots \cup A\_{N}) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$
         * Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add ..., subtract ...
         * Everything cancels!
-        * $P(A_1 \cup A_2 \cup \ldots \cup A_N) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$
+        * $P(A\_{1} \cup A\_{2} \cup \ldots \cup A\_{N}) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$
         * This is the Taylor series for $e^x$ .
-        * $P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$
+        * $P(A\_{1} \cup A\_{2} \cup \ldots \cup A\_{N}) \approx 1 - \frac{1}{e}$
 
 
 ## 4. Conditional Probability I
@@ -318,18 +316,18 @@ permalink: /harvard-stat110
         * Deck of N cards, labeled from 1 to N
         * Random shuffle and flip through deck
         * Win if a card's label matches its position
-    * *Case*: $A_j$ , the jth card in the deck is labeled j
-        * $P(A_j) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck
-    * *Case* $P(\cup_{j=1}^{N} A_j)$ , the probability of a match on any card j
+    * *Case*: $A\_{j}$ , the jth card in the deck is labeled j
+        * $P(A\_{j}) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck
+    * *Case* $P(\cup\_{j=1}^{N} A\_{j})$ , the probability of a match on any card j
         * To apply inclusion-exclusion we need:
-            * For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+            * For any $K$ cards, $P(A\_{1} \cap A\_{2} \cap \ldots \cap A\_{K}) = \frac{(N-K)!}{N!}$
                 * If K cards match their positions, then we fix those cards in place
                 * The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained
-            * There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$
+            * There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap\_{j=1}^{K} A\_{j})$ for any $K$
             * These terms are all the same by **symmetry**.
-            * Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
+            * Therefore, $P(\text{match}) = P(\cup\_{j=1}^{N} A\_{j}) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
                 * $\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings
-        * $P(\text{no match}) = P(\cap_{j=1}^{N} A^{C}_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
+        * $P(\text{no match}) = P(\cap\_{j=1}^{N} A^{C}\_{J}) = 1 - (1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}) \approx \frac{1}{e}$
             * Complement of union is the intersection of those complements
             * The factorials in denominators should remind you of Taylor series of $e^x$
     * If there were an infinite amount of cards, what is $P(\text{no match})$ ?
@@ -374,7 +372,7 @@ permalink: /harvard-stat110
             * Probability of exactly one 6: one dice is 6, the other 11 are not 6, and that one 6 dice can be any of the 12 total dice
     * Probability of Event C
         * Take complement: 1 minus sum of probabilities of exactly zero to two 6's
-        * $P(C) = 1 - \sum_{2}^{K=0} \binom{18}{K} \times (\frac{1}{6})^{K}(\frac{5}{6})^{18-K} \approx 0.597$
+        * $P(C) = 1 - \sum\_{2}^{K=0} \binom{18}{K} \times (\frac{1}{6})^{K}(\frac{5}{6})^{18-K} \approx 0.597$
             * Choose position where the K dice will be 6
             * Then set each K dice as 6
             * Then the remaining dice can be anything not 6
@@ -414,7 +412,7 @@ permalink: /harvard-stat110
         * $P(A \cap B) = P(B) \times P(A \mid B) = P(B \cap A) = P(A) \times P(B \mid A)$
         * If A and B are *independent*, then $P(A \mid B) = P(A), P(B \mid A) = P(B)$
     * Theorem 2
-        * $P(A_1, \ldots, A_N) = P(A_1) \times P(A_2 \mid A_1) \times P(A_3 \mid A_2, A_1) \times \ldots \times P(A_N \mid A_1, \ldots, A_{N-1})$
+        * $P(A\_{1}, \ldots, A\_{N}) = P(A\_{1}) \times P(A\_{2} \mid A\_{1}) \times P(A\_{3} \mid A\_{2}, A\_{1}) \times \ldots \times P(A\_{N} \mid A\_{1}, \ldots, A\_{N-1})$
         * This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times
     * Theorem 3: **Bayes' Rule**
         * We want $P(A \mid B)$ to relate to $P(B \mid A)$
@@ -434,9 +432,9 @@ permalink: /harvard-stat110
 <br />
 
 * **Law of Total Probability**
-    * Let $A_1, \ldots, A_N$ be disjoint partitions of universe S
+    * Let $A\_{1}, \ldots, A\_{N}$ be disjoint partitions of universe S
     * Consider a sample space B within universe S
-    * $P(B) = P(B \cap A_1)*P(A_1) + \ldots + P(B \cap A_N)*P(A_N)$
+    * $P(B) = P(B \cap A\_{1})*P(A\_{1}) + \ldots + P(B \cap A\_{N})*P(A\_{N})$
 
 <br />
 
@@ -541,11 +539,11 @@ permalink: /harvard-stat110
         * This means $1/3$ of the time your initial guess is correct, and the other $2/3$ of the time you should switch
     * *Intuition*: Law of Total Probability
         * What do we wish we knew beforehand? In this case, we wish we know which door has the car. Now we condition on that.
-        * Let $S$ = succeed (assuming we always switch) and $D_{j}$ = Door j has the car where $j \in {1, 2, 3}$
-        * From the law of Total Probabilities, $P(S) = P(S \vert D_{1}) \frac{1}{3} + P(S \vert D_{2}) \frac{1}{3} + P(S \vert D_{3}) \frac{1}{3}$
-            * In the first case: we pick Door 1, car is behind Door 1, Monty opens either Door 2 or Door 3, and we switch our choice, so $P(S \vert D_{1}) = 0$
-            * In the second case: we pick Door 1, car is behind Door 2, Monty must open Door 3, and we switch our choice, so $P(S \vert D_{2}) = 1$
-            * In the third case: we pick Door 1, car is behind Door 3, Monty must open Door 2, and we switch our choice, so $P(S \vert D_{3}) = 1$
+        * Let $S$ = succeed (assuming we always switch) and $D\_{j}$ = Door j has the car where $j \in {1, 2, 3}$
+        * From the law of Total Probabilities, $P(S) = P(S \vert D\_{1}) \frac{1}{3} + P(S \vert D\_{2}) \frac{1}{3} + P(S \vert D\_{3}) \frac{1}{3}$
+            * In the first case: we pick Door 1, car is behind Door 1, Monty opens either Door 2 or Door 3, and we switch our choice, so $P(S \vert D\_{1}) = 0$
+            * In the second case: we pick Door 1, car is behind Door 2, Monty must open Door 3, and we switch our choice, so $P(S \vert D\_{2}) = 1$
+            * In the third case: we pick Door 1, car is behind Door 3, Monty must open Door 2, and we switch our choice, so $P(S \vert D\_{3}) = 1$
         * Therefore, $P(S) = 0 + 1 (\frac{1}{3}) + 1 (\frac{1}{3}) = \frac{2}{3}$
         * By symmetry, we also know that $P(S \vert \text{ Monty opens Door 2}) = \frac{2}{3}$ 
     * *Intuition*: Consider if there were 1,000,000 doors and Monty opens 999,9988 doors. In this case it is clear you should switch since your initial guess is most likely incorrect.
