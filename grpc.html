@@ -8,10 +8,9 @@
 <title>Google Remote Procedure Calls | notes</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Google Remote Procedure Calls" />
-<meta name="author" content="Nathan Tsai" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Notes on gRPC." />
-<meta property="og:description" content="Notes on gRPC." />
+<meta name="description" content="Notes on gRPC and Protocol Buffers." />
+<meta property="og:description" content="Notes on gRPC and Protocol Buffers." />
 <link rel="canonical" href="https://nhtsai.github.io/notes/grpc" />
 <meta property="og:url" content="https://nhtsai.github.io/notes/grpc" />
 <meta property="og:site_name" content="notes" />
@@ -20,7 +19,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Google Remote Procedure Calls" />
 <script type="application/ld+json">
-{"url":"https://nhtsai.github.io/notes/grpc","@type":"BlogPosting","headline":"Google Remote Procedure Calls","dateModified":"2022-01-07T00:00:00-06:00","datePublished":"2022-01-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/grpc"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Notes on gRPC.","@context":"https://schema.org"}</script>
+{"url":"https://nhtsai.github.io/notes/grpc","@type":"BlogPosting","headline":"Google Remote Procedure Calls","dateModified":"2022-01-07T00:00:00-06:00","datePublished":"2022-01-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/grpc"},"description":"Notes on gRPC and Protocol Buffers.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -97,11 +96,9 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Google Remote Procedure Calls</h1><p class="page-description">Notes on gRPC.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-07T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Google Remote Procedure Calls</h1><p class="page-description">Notes on gRPC and Protocol Buffers.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-01-07T00:00:00-06:00" itemprop="datePublished">
         Jan 7, 2022
-      </time>• 
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+      </time>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -127,9 +124,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h1 id="google-remote-call-procedure-calls-grpc-and-protocol-buffers">Google Remote Call Procedure Calls (gRPC) and Protocol Buffers</h1>
-
-<h2 id="client-server-communication">Client-Server Communication</h2>
+    <h2 id="client-server-communication">Client-Server Communication</h2>
 <p>Client-server communication protocols are used to establish connections and send messages between two parties: client and server. In early protocols, like <strong>Simple Object Access Protocol (SOAP)</strong>, both the client and the server must have a library to understand the same protocol and agree on the XML message schema in order to communicate with each other. In 2000, Roy Fielding introduced the <strong>Representational State Transfer Protocol (REST)</strong>, which allowed stateless applications and the use of JSON requests without having to think about the schema. <strong>GraphQL</strong> allows clients to define the structure of the response message returned from the server. However, these protocols did not support bidirectional or server-client communication types, so new protocols, like <strong>Server-Side Eventing (SSE)</strong> and <strong>WebSockets</strong>, were created. Other services and databases, like Redis, define their own protocls over <strong>raw TCP</strong>.</p>
 
 <p>The issue with these communication protocols is the need for a client library for the language of choice, e.g. SOAP Library, HTTP Client Library. These libraries are hard to maintain, i.e. HTTP/1.1, HTTP/2, new features, security, etc.</p>

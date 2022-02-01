@@ -8,7 +8,6 @@
 <title>Introduction to Probability | notes</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Introduction to Probability" />
-<meta name="author" content="Nathan Tsai" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Course notes from Harvard STAT 110, Fall 2011." />
 <meta property="og:description" content="Course notes from Harvard STAT 110, Fall 2011." />
@@ -20,7 +19,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Introduction to Probability" />
 <script type="application/ld+json">
-{"url":"https://nhtsai.github.io/notes/harvard-stat110","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-09-23T00:00:00-05:00","datePublished":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/harvard-stat110"},"author":{"@type":"Person","name":"Nathan Tsai"},"description":"Course notes from Harvard STAT 110, Fall 2011.","@context":"https://schema.org"}</script>
+{"url":"https://nhtsai.github.io/notes/harvard-stat110","@type":"BlogPosting","headline":"Introduction to Probability","dateModified":"2021-09-23T00:00:00-05:00","datePublished":"2021-09-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/harvard-stat110"},"description":"Course notes from Harvard STAT 110, Fall 2011.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -99,9 +98,7 @@ window.onload = wrap_img;
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Introduction to Probability</h1><p class="page-description">Course notes from Harvard STAT 110, Fall 2011.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-23T00:00:00-05:00" itemprop="datePublished">
         Sep 23, 2021
-      </time>• 
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">Nathan Tsai</span></span>
+      </time>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -131,8 +128,6 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
-<li class="toc-entry toc-h1"><a href="#harvard-stat-110-introduction-to-probability-fall-2011">Harvard STAT 110: Introduction to Probability, Fall 2011</a>
-<ul>
 <li class="toc-entry toc-h2"><a href="#course-resources">Course Resources</a></li>
 <li class="toc-entry toc-h2"><a href="#1-probability-counting">1. Probability, Counting</a></li>
 <li class="toc-entry toc-h2"><a href="#2-story-proofs-axioms-of-probability">2. Story Proofs, Axioms of Probability</a></li>
@@ -169,12 +164,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#33-markov-chains-iii">33. Markov Chains III</a></li>
 <li class="toc-entry toc-h2"><a href="#34-a-look-ahead">34. A Look Ahead</a></li>
 <li class="toc-entry toc-h2"><a href="#references">References</a></li>
-</ul>
-</li>
-</ul><h1 id="harvard-stat-110-introduction-to-probability-fall-2011">
-<a class="anchor" href="#harvard-stat-110-introduction-to-probability-fall-2011" aria-hidden="true"><span class="octicon octicon-link"></span></a>Harvard STAT 110: Introduction to Probability, Fall 2011</h1>
-
-<h2 id="course-resources">
+</ul><h2 id="course-resources">
 <a class="anchor" href="#course-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Course Resources</h2>
 <ul>
   <li>Professor Joe Blitzstein</li>
@@ -243,7 +233,7 @@ window.onload = wrap_img;
   <li>
 <strong>Multiplication Rule</strong>
     <ul>
-      <li>If we have an experiment with $n_1$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_2$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_r$ possible outcomes for the $r\text{th}$ experiment, then there are $n_1 * n_2 * \ldots * n_r$ overall possible outcomes</li>
+      <li>If we have an experiment with $n_{1}$ possible outcomes, and for each outcome of $1\text{st}$ experiment, there are $n_{2}$ possible outcomes for the $2\text{nd}$ experiment, $\ldots$, and for each outcome of $(r-1)\text{th}$ experiment, there are $n_{r}$ possible outcomes for the $r\text{th}$ experiment, then there are $n_{1} * n_{2} * \ldots * n_{r}$ overall possible outcomes</li>
       <li>
         <p>The total number of possible outcomes of a series of experiments is the <em>product of each experiment’s outcomes</em></p>
       </li>
@@ -348,7 +338,7 @@ window.onload = wrap_img;
       <li>
 <em>Sample Method</em>: With replacement, order matters
         <ul>
-          <li>$n_1 \times n_2 \times \ldots \times n_k = n^k$</li>
+          <li>$n_{1} \times n_{2} \times \ldots \times n_{k} = n^k$</li>
           <li>Have $k$ experiments, each with $n$ outcomes and order matters, so ${1, 2} \neq {2, 1}$</li>
         </ul>
       </li>
@@ -512,21 +502,21 @@ window.onload = wrap_img;
                   <li>Probability of empty set is 0 and probability of full set is 1</li>
                   <li>What does it mean for the empty set to occur?
                     <ul>
-                      <li>If we get an outcome $S_0$ , if $S_0 \in A$, then we say A occurred, else $A$ did not occur</li>
-                      <li>If the empty set occurred, then $S_0 \in \emptyset$ , but nothing is in the empty set, so it cannot occur.</li>
+                      <li>If we get an outcome $S_{0}$ , if $S_{0} \in A$, then we say A occurred, else $A$ did not occur</li>
+                      <li>If the empty set occurred, then $S_{0} \in \emptyset$ , but nothing is in the empty set, so it cannot occur.</li>
                       <li>We want impossible events to be impossible $P(\emptyset) = 0$</li>
                     </ul>
                   </li>
                   <li>Why is an outcome in S a certainty?
                     <ul>
-                      <li>$S_0$ must be in $S$ because $S$ represents the universe of all outcomes</li>
+                      <li>$S_{0}$ must be in $S$ because $S$ represents the universe of all outcomes</li>
                     </ul>
                   </li>
                 </ul>
               </li>
-              <li>$P(\cup_{n=1}^{\infty} A_n) = \sum_{n=1}^{\infty}P(A_n), \text{ if } A_1,A_2,\ldots \text{ are disjoint/non-overlapping}$
+              <li>$P(\cup_{n=1}^{\infty} A_{n}) = \sum_{n=1}^{\infty}P(A_{n}), \text{ if } A_{1}, A_{2}, \ldots \text{ are disjoint/non-overlapping}$
                 <ul>
-                  <li>Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_1,A_2,\ldots$ are disjoint/non-overlapping</li>
+                  <li>Probability of the countably infinitely many union equals the sum of the probabilities if the events $A_{1}, A_{2}, \ldots$ are disjoint/non-overlapping</li>
                 </ul>
               </li>
             </ul>
@@ -617,7 +607,7 @@ window.onload = wrap_img;
       </li>
       <li>$P(\cup_{n=1}^{\infty} A_{n}) = \sum_{n=1}^{\infty} P(A_{n})$
         <ul>
-          <li>If $A_1, A2, \ldots \text{ are disjoint events}$</li>
+          <li>If $A_{1}, A_{2}, \ldots \text{ are disjoint events}$</li>
           <li>Probability of the union (infinite or finite) equals the sum of probabilities of all events if events are disjoint.</li>
           <li>Think of probabilities as disjoint sets, union of sets is same as adding the sets up
         * Assume $0 \leq P(A) \leq 1$ , probability is between 0 and 1
@@ -725,7 +715,7 @@ window.onload = wrap_img;
       <li>
 <em>Case</em>: Inclusion-Exclusion for N events
         <ul>
-          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = \sum^{N}<em>{j=1} P(A_j) - \sum^{N}</em>{i \lt j} P(A_i \cap A_j) + \sum^{N}_{i \lt j \lt k} P(A_i \cap A_j \cap A_k) - \ldots + (-1)^{N+1} \times P(A_1 \cap A_2 \cap \ldots \cap A_N)$</li>
+          <li>$P(A_{1} \cup A_{2} \cup \ldots \cup A_{N}) = \sum^{N}_{j=1} P(A_{j}) - \sum^{N}_{i \lt j} P(A_{i} \cap A_{j}) + \sum^{N}_{i \lt j \lt k} P(A_{i} \cap A_{j} \cap A_{k}) - \ldots + (-1)^{N+1} \times P(A_{1} \cap A_{2} \cap \ldots \cap A_{N})$</li>
         </ul>
       </li>
     </ul>
@@ -747,9 +737,9 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>What’s the probability that one card has the same number as its position in the deck?</li>
-      <li>Let $A_j$ be the event “jth card matches”</li>
-      <li>$P(\geq 1 \text{ match}) = P(A_1 \cup A_2 \cup \ldots \cup A_N)$</li>
-      <li>$P(A_j) = \frac{1}{N}$
+      <li>Let $A_{j}$ be the event “jth card matches”</li>
+      <li>$P(\geq 1 \text{ match}) = P(A_{1} \cup A_{2} \cup \ldots \cup A_{N})$</li>
+      <li>$P(A_{j}) = \frac{1}{N}$
         <ul>
           <li>Probability that card’s number matches position is 1 over N since all positions are equally likely for the card labeled j</li>
           <li>Naive definition uses $\frac{(N-1)!}{N!} = \frac{1}{N}$
@@ -760,13 +750,13 @@ window.onload = wrap_img;
           </li>
         </ul>
       </li>
-      <li>$P(A_1 \cap A_2) = \frac{(N-2)!}{N!} = \frac{1}{N(N-1)}$
+      <li>$P(A_{1} \cap A_{2}) = \frac{(N-2)!}{N!} = \frac{1}{N(N-1)}$
         <ul>
           <li>$N!$ possible permutations of deck of cards</li>
           <li>$(N-2)!$ possible permutations of the deck of cards, fixing card labeled i at ith position and card labeled j at jth position</li>
         </ul>
       </li>
-      <li>$P(A_1 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+      <li>$P(A_{1} \cap \ldots \cap A_{K}) = \frac{(N-K)!}{N!}$
         <ul>
           <li>$N!$ possible permutations of deck of cards</li>
           <li>$(N-K)!$ possible permutations of the deck of cards, fixing $K$ cards at their corresponding positions</li>
@@ -775,12 +765,12 @@ window.onload = wrap_img;
       <li>
 <em>Technique</em>: Apply Inclusion-Exclusion
         <ul>
-          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$</li>
+          <li>$P(A_{1} \cup A_{2} \cup \ldots \cup A_{N}) = N (\frac{1}{N}) - (\frac{N(N-1)}{2!})(\frac{1}{N(N-1)}) + (\frac{N(N-1)(N-2)}{3!})(\frac{1}{N(N-1)(N-2)}) - \ldots$</li>
           <li>Include $N$ 1-matches, subtract $\binom{N}{2}$ 2-matches, add …, subtract …</li>
           <li>Everything cancels!</li>
-          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$</li>
+          <li>$P(A_{1} \cup A_{2} \cup \ldots \cup A_{N}) = \frac{1}{1} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + \frac{1}{5!} - \ldots + (-1)^{N+1} \times (\frac{1}{N!})$</li>
           <li>This is the Taylor series for $e^x$ .</li>
-          <li>$P(A_1 \cup A_2 \cup \ldots \cup A_N) \approx 1 - \frac{1}{e}$</li>
+          <li>$P(A_{1} \cup A_{2} \cup \ldots \cup A_{N}) \approx 1 - \frac{1}{e}$</li>
         </ul>
       </li>
     </ul>
@@ -802,25 +792,25 @@ window.onload = wrap_img;
         </ul>
       </li>
       <li>
-<em>Case</em>: $A_j$ , the jth card in the deck is labeled j
+<em>Case</em>: $A_{j}$ , the jth card in the deck is labeled j
         <ul>
-          <li>$P(A_j) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck</li>
+          <li>$P(A_{j}) = \frac{1}{N}$ : for the jth card, there are N possible positions in the deck</li>
         </ul>
       </li>
       <li>
-<em>Case</em> $P(\cup_{j=1}^{N} A_j)$ , the probability of a match on any card j
+<em>Case</em> $P(\cup_{j=1}^{N} A_{j})$ , the probability of a match on any card j
         <ul>
           <li>To apply inclusion-exclusion we need:
             <ul>
-              <li>For any $K$ cards, $P(A_1 \cap A_2 \cap \ldots \cap A_K) = \frac{(N-K)!}{N!}$
+              <li>For any $K$ cards, $P(A_{1} \cap A_{2} \cap \ldots \cap A_{K}) = \frac{(N-K)!}{N!}$
                 <ul>
                   <li>If K cards match their positions, then we fix those cards in place</li>
                   <li>The rest of the $N-K$ cards can be in any order, but the $K$ cards are constrained</li>
                 </ul>
               </li>
-              <li>There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_j)$ for any $K$</li>
+              <li>There are $\binom{N}{K} = \frac{N!}{(N-K)!K!}$ such terms like this because the inclusion-exclusion does $P(\cap_{j=1}^{K} A_{j})$ for any $K$</li>
               <li>These terms are all the same by <strong>symmetry</strong>.</li>
-              <li>Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_j) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
+              <li>Therefore, $P(\text{match}) = P(\cup_{j=1}^{N} A_{j}) = 1 - \frac{1}{2!} + \frac{1}{3!} - \ldots (-1)^{N+1} \times \frac{1}{N!}$
                 <ul>
                   <li>$\frac{1}{N!}$ is the case where the cards are perfectly ordered from 1 to N, all cards match, which is 1 of $N!$ possible orderings</li>
                 </ul>
@@ -1015,7 +1005,7 @@ window.onload = wrap_img;
       </li>
       <li>Theorem 2
         <ul>
-          <li>$P(A_1, \ldots, A_N) = P(A_1) \times P(A_2 \mid A_1) \times P(A_3 \mid A_2, A_1) \times \ldots \times P(A_N \mid A_1, \ldots, A_{N-1})$</li>
+          <li>$P(A_{1}, \ldots, A_{N}) = P(A_{1}) \times P(A_{2} \mid A_{1}) \times P(A_{3} \mid A_{2}, A_{1}) \times \ldots \times P(A_{N} \mid A_{1}, \ldots, A_{N-1})$</li>
           <li>This is basically $N!$ theorems, repeatedly applying Theorem 1 multiple times</li>
         </ul>
       </li>
@@ -1054,9 +1044,9 @@ window.onload = wrap_img;
   <li>
 <strong>Law of Total Probability</strong>
     <ul>
-      <li>Let $A_1, \ldots, A_N$ be disjoint partitions of universe S</li>
+      <li>Let $A_{1}, \ldots, A_{N}$ be disjoint partitions of universe S</li>
       <li>Consider a sample space B within universe S</li>
-      <li>$P(B) = P(B \cap A_1)<em>P(A_1) + \ldots + P(B \cap A_N)</em>P(A_N)$</li>
+      <li>$P(B) = P(B \cap A_{1})<em>P(A_{1}) + \ldots + P(B \cap A_{N})</em>P(A_{N})$</li>
     </ul>
   </li>
 </ul>
