@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: false
-categories: [course-notes, mathematics, linear-algebra]
+categories: [course-notes, mathematics]
 permalink: /mit-18-06sc
 ---
 

@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [cloud, azure]
+categories: [course-notes, cloud]
 permalink: /azure-fundamentals
 ---
 

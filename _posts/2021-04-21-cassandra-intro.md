@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [course-notes, cassandra, database-systems]
+categories: [course-notes, database-systems]
 permalink: /datastax-ds101
 ---
 

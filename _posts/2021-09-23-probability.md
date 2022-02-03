@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [course-notes, mathematics, probability, statistics]
+categories: [course-notes, mathematics]
 permalink: /harvard-stat110
 ---
 

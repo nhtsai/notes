@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [system-design]
+categories: [database-systems, distributed-systems]
 permalink: /system-design-overview
 ---
 

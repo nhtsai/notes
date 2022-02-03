@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [book-notes, mathematics, probability, statistics]
+categories: [book-notes, mathematics]
 permalink: /probability-book
 ---
 

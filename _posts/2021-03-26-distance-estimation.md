@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [research-paper, machine-learning, computer-vision]
+categories: [research-notes, machine-learning, computer-vision]
 permalink: /distance-estimation
 ---
 

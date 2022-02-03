@@ -7,7 +7,7 @@ comments: false
 hide: false
 search_exclude: false
 show_tags: true
-categories: [web-server]
+categories: [web-development]
 permalink: /web-server
 ---
 

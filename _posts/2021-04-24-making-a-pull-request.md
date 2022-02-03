@@ -7,7 +7,7 @@ comments: false
 hide: true
 search_exclude: false
 show_tags: true
-categories: [git]
+categories: [dev-ops]
 permalink: /making-a-pull-request
 ---
 
