@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.7.1 -->
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Introduction to Database Systems | notes</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Introduction to Database Systems" />
@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Introduction to Database Systems" />
 <script type="application/ld+json">
-{"url":"https://nhtsai.github.io/notes/cmu-15-445","@type":"BlogPosting","headline":"Introduction to Database Systems","dateModified":"2021-09-10T00:00:00-05:00","datePublished":"2021-09-10T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/cmu-15-445"},"description":"Course notes from CMU 15-445, Fall 2019.","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-09-10T00:00:00-05:00","datePublished":"2021-09-10T00:00:00-05:00","description":"Course notes from CMU 15-445, Fall 2019.","headline":"Introduction to Database Systems","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/cmu-15-445"},"url":"https://nhtsai.github.io/notes/cmu-15-445"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -1744,7 +1744,7 @@ window.onload = wrap_img;
     </ul>
 
     <div class="language-cpp highlighter-rouge">
-<div class="highlight"><pre class="highlight"><code>  <span class="cp">#include &lt;stdio.h&gt;
+<div class="highlight"><pre class="highlight"><code>  <span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span>  <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
       <span class="kt">float</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
       <span class="kt">float</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
