@@ -140,7 +140,7 @@ permalink: /atomic-habits
     * The rating is depending on your situation and your goals. "Good" refers to habits that have net positive outcomes and reinforce your desired identity.
 * The goal is to observe your thoughts and actions without any judgements to notice any nonconscious habits.
     * Then you can point it out and say out loud the action and its outcome.
-* Behavior change starts with awareness, recognition of habits, and acknoledgement of the cues that trigger them
+* Behavior change starts with awareness, recognition of habits, and acknowledgement of the cues that trigger them
 
 
 ## 5. The Best Way to Start a New Habit
@@ -248,7 +248,7 @@ permalink: /atomic-habits
 ## 9. The Role of Family and Friends in Shaping Your Habits
 
 * Laszlo Polgar showed how deliberate practice and good habits can overcome innate talent.
-* The culture you live in determins which behaviors are attractive to you.
+* The culture you live in determines which behaviors are attractive to you.
     * Humans desire to belong, so earliest habits are imitated and heavily influenced by surrounding culture and family.
 * Humans mainly imitate *the close*, *the many*, and *the powerful*.
 1. The Close (Friends & Family)  

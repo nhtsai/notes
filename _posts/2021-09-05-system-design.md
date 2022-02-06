@@ -160,7 +160,7 @@ permalink: /system-design-overview
 
 ### Transactions
 * An extended form of consistency across multiple operations.
-* E.g. transfering money from account A to account B
+* E.g. transferring money from account A to account B
     * Operation 1: subtract from A
     * Operation 2: add to B
     * What if something happens in between operations?

@@ -37,16 +37,16 @@ permalink: /probability-book
     * $(A \cup B)^C = A^C \cap B^C$ : it is not the case that at least one of $A, B$ occur is the same as $A$ does not occur and $B$ does not occur
     * $(A \cap B)^C = A^C \cup B^C$ : it is not the case that both $A,B$ occur is the same as at least one $A$ or $B$ does not occur
 * *Example*: A coin is flipped 10 times.
-    * A possible outcome is $HHHTHHTTHT$. The sample space is all possible strings of length 10 of $H$ and $T$. Let $H=1, T=0$, so the sample space is the set of all sequences in $(s_{1}, \dots, s_{10}), s_{j} \in {0, 1}$
-    * Let $A_{1}$ be the event that the first flip is Heads.  
-    $A_{1} = {(1, s_{2}, \dots, s_{10}) : s_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$.
+    * A possible outcome is $HHHTHHTTHT$. The sample space is all possible strings of length 10 of $H$ and $T$. Let $H=1, T=0$, so the sample space is the set of all sequences in $(s\_{1}, \dots, s\_{10}), s\_{j} \in {0, 1}$
+    * Let $A\_{1}$ be the event that the first flip is Heads.  
+    $A\_{1} = {(1, s\_{2}, \dots, s\_{10}) : s\_{j} \in {0, 1} \text{ for } 2 \leq j \leq 10}$.
     * Let $B$ be the event that at least one flip was Heads.  
-    $B = \bigcup_{j=1}^{10} A_{j}$  
-    Where $A_{j}$ is the event that the *j*-th flip is Heads for $j = 1, 2, \dots, 10$.
+    $B = \bigcup\_{j=1}^{10} A\_{j}$  
+    Where $A\_{j}$ is the event that the *j*-th flip is Heads for $j = 1, 2, \dots, 10$.
     * Let $C$ be the event that all flips were Heads.  
-    $C = \bigcap_{j=1}^{10} A_{j}$
+    $C = \bigcap\_{j=1}^{10} A\_{j}$
     * Let $D$ be the event there were at least two consecutive Heads.  
-    $D = \bigcup_{j=1}^{9} (A_{j} \cap A_{j+1})$
+    $D = \bigcup\_{j=1}^{9} (A\_{j} \cap A\_{j+1})$
 
 * *Example*: Picking a card from a standard deck of 52 cards.
     1. Let $A$ be the event the card is an ace.
@@ -68,31 +68,31 @@ permalink: /probability-book
 | sample space                                  | $S$ |
 | $s$ is a possible outcome                     | $s \in S$ |
 | $A$ is an event                               | $A \subseteq S $ |
-| $A$ occurred                                  | $s_{\text{actual}} \in A$ |
-| something must happen                         | $s_{\text{actual}} \in S$ |
+| $A$ occurred                                  | $s\_{\text{actual}} \in A$ |
+| something must happen                         | $s\_{\text{actual}} \in S$ |
 | **New events from old events**                | |
 | $A$ or $B$ (inclusive)                        | $A \cup B$ |
 | $A$ and $B$                                   | $A \cap B$ |
 | not $A$                                       | $A^{C}$ |
 | $A$ or $B$ (exclusive)                        | $(A \cap B^{C}) \cup (A^{C} \cap B)$ |
-| at least one of $A_{1}, \dots , A_{n}$        | $A_{1} \cup \dots \cup A_{n}$ |
-| all of $A_{1}, \dots , A_{n}$                 | $A_{1} \cap \dots \cap A_{n}$ |
+| at least one of $A\_{1}, \dots , A\_{n}$        | $A\_{1} \cup \dots \cup A\_{n}$ |
+| all of $A\_{1}, \dots , A\_{n}$                 | $A\_{1} \cap \dots \cap A\_{n}$ |
 | **Relationships between events**              | |
 | $A$ implies $B$                               | $A \subseteq B$ |
 | $A$ and $B$ are mutually exclusive            | $A \cap B = \emptyset$ |
-| $A_{1}, \dots , A_{n}$ are a partition of $S$ | $A_{1} \cup \dots \cup A_{n} = S, A_{i} \cap A_{j} = \emptyset \text{ for } i \neq j$ |
+| $A\_{1}, \dots , A\_{n}$ are a partition of $S$ | $A\_{1} \cup \dots \cup A\_{n} = S, A\_{i} \cap A\_{j} = \emptyset \text{ for } i \neq j$ |
 
 **Naive definition of probability**
 * The naive probability of an event is the count the number of ways the event could happen divided by total number of possible outcomes for the experiment
     * The naive definition requires $S$ to be finite with equally likely outcomes.
 * Let $A$ be an event for an experiment with finite sample space $S$. The **naive probability** of event $A$ is:
 
-    $P_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$
+    $P\_{\text{naive}}(A) = \frac{\lvert A \rvert}{\lvert S \rvert} = \frac{\text{number of outcomes favorable to } A}{\text{total number of outcomes in } S}$
 
 * In terms of Pebble World, probability of $A$ is the fraction of all pebbles that are in $A$.
 * Similarly, the probability of the complement of event $A$ is made of the remaining events:
 
-    $P_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P_{\text{naive}(A)}$
+    $P\_{\text{naive}}(A^{C}) = \frac{\lvert A^{C} \rvert}{\lvert S \rvert} = \frac{\lvert S \rvert - \lvert A \rvert}{\lvert S \rvert} = 1 - \frac{\lvert A \rvert}{\lvert S \rvert} = 1 - P\_{\text{naive}(A)}$
 * Can be applied in certain situations:
     * There is *symmetry* in the problem that makes outcomes equally likely. E.g. fair coin or deck of cards.
     * The outcomes are equally likely *by design*. E.g. conducting a survey of $n$ people in a population of $N$ people using a simple random sample to select people.
@@ -102,7 +102,7 @@ permalink: /probability-book
 * Calculating probability often involves counting outcomes in event $A$ and outcomes in sample space $S$, but sets are often extremely large to count, so counting methods are used.
 
 * **Multiplication Rule**: If an Experiment A has $a$ possible outcomes, and for each of those outcomes Experiment B has $b$ possible outcomes, then the compound experiment as $ab$ possible outcomes.
-    * Each of the $a$ outcomes can lead to $b$ outcomes, so there are $b_{1} + \dots + b_{a} = ab$ possibilities.
+    * Each of the $a$ outcomes can lead to $b$ outcomes, so there are $b\_{1} + \dots + b\_{a} = ab$ possibilities.
     * There's no requirement Experiment A has to be performed before Experiment B, so no chronological order.
 * *Example*: Suppose 10 runners in a race, no ties and all 10 will complete the race. How many possibilities are there for first, second, and third place winners?
     * Any of the 10 runners can be in the first place, 9 remaining runners can be in second place, and 8 remaining runners can be in third place. So there are $10 \times 9 \times 8 = 720$ possibilities.
@@ -113,7 +113,7 @@ permalink: /probability-book
     * There are $2 \times 3 = 3 \times 2 = 6$ possibilities.
     * Order of choice doesn't matter, can either choose cone then flavor, or flavor then cone.
     * Which flavors each cone could have doesn't matter, only the *number of flavor choices* for each cone matters. If the waffle cones could only have 2 flavors, multiplication rule does not apply and there are $3 + 2 = 5$ possibilities.
-    * If you bought 2 ice creams in a single day $(x_{\text{cone}}, y_{\text{flavor}})$, there would be $6 \times 6 = 36$ possible combinations.
+    * If you bought 2 ice creams in a single day $(x\_{\text{cone}}, y\_{\text{flavor}})$, there would be $6 \times 6 = 36$ possible combinations.
     * If you didn't want to distinguish between combinations $(x,y) = (y,x)$ , then we have  $15 \text{ of } (x, y), x \neq y$ possibilities and $6 \text{ of } (x, x)$ possibilities, for a total of 21 possibilities.
         * Cannot just divide $36 / 2 = 18$ ! Since $(x,x)$ pairs are already only listed once each, must do $((6 \times 5) / 2) + 6 = 21$ possibilities.
     * If the original 36 cone-flavor pairs are equally likely, then the 21 possibilities are not equally likely.
@@ -129,7 +129,7 @@ permalink: /probability-book
 * **Sampling with Replacement**: Consider $n$ objects and making $k$ choices from them, one at a time *with replacement*, then there are $n^{k}$ possible outcomes, where order matters $(x,y) \neq (y,x)$.
 * *Example*: Jar with $n$ balls, labeled from 1 to $n$.
     * Choosing a ball is an experiment with $n$ outcomes, and there are $k$ experiments.
-    * Therefore, multiplication rule says there are $n_{1} \times n_{k} = n^{k}$ possibilities.
+    * Therefore, multiplication rule says there are $n\_{1} \times n\_{k} = n^{k}$ possibilities.
 
 * **Sampling without Replacement**: Consider $n$ objects and making $k$ choices from them, one at a time *without replacement*, then there are $n(n-1) \dots (n-k+1)$ possible outcomes, where order matters, for $1 \leq k \leq n$.
     * There are 0 possibilities, where order matters, for $k > n$. You cannot choose more than the amount available.
@@ -179,8 +179,8 @@ permalink: /probability-book
     * We can choose positions for 3 S's, 3 T's, 2 I's, 1 A, and 1 C is determined. So there are $\binom{10}{3}\binom{7}{3}\binom{4}{2}\binom{2}{1} = 50400$ permutations.
     * We can also start with $10!$ permutations and account for overcounting of a factor of $3!3!2!$ for the 3 S's, 3 T's, and 2 I's because the repeated letters can be permuted among themselves in any way. So there are $\frac{10!}{3!3!2!} = 50400$ permutations.
 
-* **Binomial Theorem**: For any nonnegative integer $n$, $(x + y)^{n} = \sum_{k=0}^{n} \binom{n}{k} x^{k} y^{n-k}$
-* *Proof*: We decompose the term $(x+y)^{n} = \underbrace{(x + y) (x + y) \dots (x + y)}_{n \text{ factors}}$
+* **Binomial Theorem**: For any nonnegative integer $n$, $(x + y)^{n} = \sum\_{k=0}^{n} \binom{n}{k} x^{k} y^{n-k}$
+* *Proof*: We decompose the term $(x+y)^{n} = \underbrace{(x + y) (x + y) \dots (x + y)}\_{n \text{ factors}}$
     * The terms of $(x + y)^{n}$ are obtained by picking either the $x$ or the $y$ from each factor $(x + y)$. This is similar to $(a + b)(c + d) = ab + ac + bc + bd$, where each product term is created from only one term of each factor.
     * There are $\binom{n}{k}$ ways to choose exactly $k$ of the $x \text{'s}$ to make the term $x^{k} y^{n-k}$.
 * *Example*: A 5-card hand is dealt from a standard, well-shuffled 52-card deck. What is the probability of a full house (3 cards of some rank, 2 cards of another rank)?
@@ -215,7 +215,7 @@ permalink: /probability-book
         * We use $\bullet$ to represent a particle and $\vert$ to represent a wall.
         * Consider putting $k=7$ particles in $n=4$ boxes, such as $\vert \bullet \vert \bullet \bullet \vert \bullet \bullet \bullet \vert \bullet \vert$
         * A sequence must start and end with a wall, and it must have exactly $n - 1$ walls and $k$ particles in between. There are $(n - 1) + k$ slots between 2 outer walls to place $n - 1$ inner walls and $k$ particles, so the number of possible placements is $\binom{n + k - 1}{k}$.
-    * We can consider another isomorphic problem: How many solutions $(x_{1}, \dots, x_{n})$ to the equation $x_{1} + x_{2} + \dots + x_{n} = k$, where $x_{i}$ are nonnegative integers. We can think of $x_{i}$ as the number of particles in the $i \text{th}$ box.
+    * We can consider another isomorphic problem: How many solutions $(x\_{1}, \dots, x\_{n})$ to the equation $x\_{1} + x\_{2} + \dots + x\_{n} = k$, where $x\_{i}$ are nonnegative integers. We can think of $x\_{i}$ as the number of particles in the $i \text{th}$ box.
     * *Note*: Bose-Einstein result cannot be used in naive definition of probability in most cases.
         * E.g. Survey by sampling $k$ people from population of size $n$ one at a time, with replacement and equal probabilities. The $n^{k}$ *ordered* samples are equally likely (naive definition applies), but the $\binom{n + k - 1}{k}$ *unordered* samples are *not* equally likely (naive definition does not apply).
         * E.g. How many *unordered* birthday lists are possible for $k$ people and $n=365$ days in a year? For $k=3$, we want to count lists, where $(a, b, c) = (c, b, a)$ and so on, but we cannot simply adjust for overcounting like $\frac{n^{k}}{3!}$ for the permutations because there are $3!$ permutations for $(a, b, c)$ but only $3$ permutations for $(a, a, c)$. The *ordered* birthday lists are equally likely (naive definition applies), but the *unordered* birthday lists are not equally likely (naive definition does not apply) as the number of permutations is not equal across all lists.
@@ -229,9 +229,9 @@ permalink: /probability-book
 * *Example*: For any positive integers $n, k$ with $k \leq n$, $n \binom{n - 1}{k - 1} = k \binom{n}{k}$.
     * *Story*: Consider choosing a team of $k$ people, with one being the team captain, from $n$ total people. We could first choose the team captain and then choose the remaining $k-1$ team members for $n \binom{n-1}{k-1}$ possibilities.
     * We could also first choose the team of $k$ members and then choose who is the team captain, for $\binom{n}{k} k$ possibilities.
-* *Example*: **Vandermonde's Identity** states $\binom{m + n}{k} = \sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$
+* *Example*: **Vandermonde's Identity** states $\binom{m + n}{k} = \sum\_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$
     * *Story*: Consider an organization of $m$ juniors and $n$ seniors and choosing a committee of $k$ members, for $\binom{m + n}{k}$ possible committee formations.
-    * This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
+    * This is equal to all of ways to form committees where there are $j$ juniors and the remaining $k-j$ members are seniors, for $\sum\_{j=0}^{k} \binom{m}{j} \binom{n}{k-j}$ possibilities.
 * *Example*: Proving $\frac{(2n)!}{2^{n} \cdot n!} = (2n - 1)(2n - 3) \dots (3)(1)$ describes the number of ways to break $2n$ people into $n$ partnerships.
     * *Story*: Take $2n$ people and label them with IDs $1 \dots 2n$. We can form pairs by taking one of $(2n)!$ orderings and grouping adjacent people, but this overcounts by a factor of $n! \cdot 2^{n}$.
         * Order of pairs does not matter: $(1, 2, 3, 4) = (3, 4, 1, 2)$
@@ -242,9 +242,9 @@ permalink: /probability-book
 * **General Definition of Probability**: A *probability space* consists of a sample space $S$ and a *probability function* $P$ which takes an event $A \subseteq S$ as input and returns $P(A)$, a real number between $0$ and $1$, as output. The function $P$ must satisfy the following axioms:
     1. $P(\emptyset) = 0, P(S) = 1$
         * Probability of a non-existent event is 0; probability of an event in S is 1 (certain).
-    1. If $A_{1}, A_{2}, \dots $ are *disjoint* events, then $P(\bigcup_{j=1}^{\infty} A_{j}) = \sum_{j=1}^{\infty} P(A_{j})$
+    1. If $A\_{1}, A\_{2}, \dots $ are *disjoint* events, then $P(\bigcup\_{j=1}^{\infty} A\_{j}) = \sum\_{j=1}^{\infty} P(A\_{j})$
         * The probability of the union of disjoint events is equal to the sum of the individual probabilities.
-        * *Disjoint* events are *mutually exclusive* such that $A_{i} \cap A_{j} = \emptyset$ for $i \neq j$.
+        * *Disjoint* events are *mutually exclusive* such that $A\_{i} \cap A\_{j} = \emptyset$ for $i \neq j$.
 * In Pebble World, general probability is like mass; mass of empty pile is 0 and total mass of all pebble is 1. Given non-overlapping piles of pebbles, we can get combined mass by adding individual masses, and we can have a countably infinite number of pebbles as long as the total mass is 1.
 * Any function $P$ that maps events to the interval $[0, 1]$ that satisfies the two axioms is a *valid probability function*, but the axioms don't state how the probability should be *interpreted*.
     * *Frequentist View*: Probability represents a long-run frequency over a large number of repetitions of an experiment. E.g. If we say a coin has a probability of $1/2$ of Heads, the coin will land Heads 50% of the time if tossed over and over.
@@ -260,22 +260,22 @@ permalink: /probability-book
     1. Inclusion-Exclusion: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
         * *Proof*: The probability of a union of two events is the sum of separate probabilities minus any overlap. $P(A \cup B) = P(A) + P(B \cap A^{C}) = P(A) + P(B \cap A^C)$ by the second axiom, since $A$ and $B \cap A^{C}$ are disjoint events. Since $A \cap B$ and $B \cap A^{C}$ are disjoint and $P(A \cap B) + P(B \cap A^{C}) = P(B)$ by the second axiom, then $P(B \cap A^{C}) = P(B) - P(A \cap B)$. Plugging this in, we get $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
-* **Inclusion-Exclusion**: For any events $A_{1}, \dots, A_{n}$, $P(\bigcup_{i=1}^{n} A_{i}) = \sum_{i} P(A_{i}) - \sum_{i < j} P(A_{i} \cap A_{j}) + \sum_{i < j < k} P(A_{i} \cap A_{j} \cap A_{k}) - \dots + (-1)^{n + 1} P(A_{1} \cap \dots \cap A_{n})$
+* **Inclusion-Exclusion**: For any events $A\_{1}, \dots, A\_{n}$, $P(\bigcup\_{i=1}^{n} A\_{i}) = \sum\_{i} P(A\_{i}) - \sum\_{i < j} P(A\_{i} \cap A\_{j}) + \sum\_{i < j < k} P(A\_{i} \cap A\_{j} \cap A\_{k}) - \dots + (-1)^{n + 1} P(A\_{1} \cap \dots \cap A\_{n})$
     * The probability of the union of events is equal to the sum of the individual probabilities minus any overlapping and add back any non-overlapping that was overly removed.
 
 * *Example*: **de Montmort's Matching Problem**
     * Consider a well-shuffled deck of $n$ cards, labeled $1 \dots n$. You flip over cards one by one while saying numbers $1 \dots n$. If the number you say is the same number as the card, you win. What is the probability of winning?
-    * Let $A_{i}$ be the event that the $i \text{th}$ card in the deck has the number $i$ written on it. We want to find the probability of the union $P(A_{1} \cup \dots \cup A_{n})$, which is the win condition. A ordering with no matching card numbers to positions is called a *derangement*.
-    * We know $P(A_{i}) = \frac{1}{n}$.
-        * *Naive Probability*: The probability of a card number matching its position is $P(A_{i}) = \frac{(n-1)!}{n!} = \frac{1}{n}$, or the number of orderings where the card matches its position $(n-1)!$ divided by all possible orderings $n!$.
-        * *Symmetry*: Alternatively, the card with number $i$ is equally likely to be in any of the $n$ positions in the deck, so the probability of a card number matching its position is $P(A_{i}) = \frac{1}{n}$.
-    * Similarly, $P(A_{i} \cap A_{j}) = \frac{(n - 2)!}{n!} = \frac{1}{n(n - 1)}$.
+    * Let $A\_{i}$ be the event that the $i \text{th}$ card in the deck has the number $i$ written on it. We want to find the probability of the union $P(A\_{1} \cup \dots \cup A\_{n})$, which is the win condition. A ordering with no matching card numbers to positions is called a *derangement*.
+    * We know $P(A\_{i}) = \frac{1}{n}$.
+        * *Naive Probability*: The probability of a card number matching its position is $P(A\_{i}) = \frac{(n-1)!}{n!} = \frac{1}{n}$, or the number of orderings where the card matches its position $(n-1)!$ divided by all possible orderings $n!$.
+        * *Symmetry*: Alternatively, the card with number $i$ is equally likely to be in any of the $n$ positions in the deck, so the probability of a card number matching its position is $P(A\_{i}) = \frac{1}{n}$.
+    * Similarly, $P(A\_{i} \cap A\_{j}) = \frac{(n - 2)!}{n!} = \frac{1}{n(n - 1)}$.
         * Since we fix the cards with numbers $i,j$ to be in the $i \text{th}, j \text{th}$ spots in deck, there are $(n-2)!$ permutations out of $n!$ total permutations.
-    * Similarly, $P(A_{i} \cap A_{j} \cap A_{k}) = \frac{1}{n(n - 1)(n - 2)}$, and so on.
+    * Similarly, $P(A\_{i} \cap A\_{j} \cap A\_{k}) = \frac{1}{n(n - 1)(n - 2)}$, and so on.
     * *Inclusion-Exclusion*: There are $\binom{n}{i}$ terms involving $i$ events, representing the number of ways to intersect $i$ events, i.e. $n$ terms for 1-event, $\binom{n}{2}$ terms for 2-events, etc.
-        * By *symmetry*, all $\binom{n}{i}$ terms are equal, e.g. $P(A_{i}) = 1/n \text{, for all }i$.
-        * Therefore, $P(\bigcup_{i=1}^{n} A_{i}) = \frac{n}{n} - \frac{\binom{n}{2}}{n(n - 1)} + \frac{\binom{n}{3}}{n(n - 1)(n - 2)} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
-        * Simplify, $P(\bigcup_{i=1}^{n} A_{i}) = 1 - \frac{1}{2!} + \frac{1}{3!} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
+        * By *symmetry*, all $\binom{n}{i}$ terms are equal, e.g. $P(A\_{i}) = 1/n \text{, for all }i$.
+        * Therefore, $P(\bigcup\_{i=1}^{n} A\_{i}) = \frac{n}{n} - \frac{\binom{n}{2}}{n(n - 1)} + \frac{\binom{n}{3}}{n(n - 1)(n - 2)} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
+        * Simplify, $P(\bigcup\_{i=1}^{n} A\_{i}) = 1 - \frac{1}{2!} + \frac{1}{3!} - \dots + (-1)^{n+1} \cdot \frac{1}{n!}$
     * Similar to the Taylor series for $e^{-1} = 1 - \frac{1}{1!} + \frac{1}{2!} - \frac{1}{3!} + \dots$, we see that the probability of winning approaches $1 - 1/e \approx 0.63$ as $n$ gets larger.
     * Rather than approaching 0 or 1, the probability of winning is determined by the competing forces of increasing possible locations for matching $(n)$ and the decreasing probability of any particular match $(1/n)$.
 * Inclusion-Exclusion is a general formula for *probability of a union of events* that is most helpful when there is *symmetry* among events (which helps us add up all terms and simplify easily). In general, consider inclusion-exclusion as a *last resort if no symmetry*.
@@ -286,7 +286,7 @@ permalink: /probability-book
 **The Importance of Thinking Conditionally**
 * All probabilities are conditional. There is always background knowledge/assumptions built into every probability. Conditional probability addresses the question: how should we update our beliefs in light of the evidence we observe?
 * *Example*: Let $R$ be the event that it will rain that day. Let $P(R)$ be the assessment of the probability of rain *before* looking outside. After looking outside and seeing ominous clouds, our probability of rain should increase, as in $P(R \vert C)$ ("probability of R given C") where $C$ is the event of there being ominous clouds. We are *conditioning on* $C$ when we go from $P(R) \rightarrow P(R \vert C)$.
-    * If we get more information about the weather, we can keep updating our probabilities. If we observe events $B_{1}, \dots, B_{n}$ occurred, we can write a new conditional probability of rain $P(R \vert B_{1}, \dots, B_{n})$. If it does start raining, our conditional probability becomes 1.
+    * If we get more information about the weather, we can keep updating our probabilities. If we observe events $B\_{1}, \dots, B\_{n}$ occurred, we can write a new conditional probability of rain $P(R \vert B\_{1}, \dots, B\_{n})$. If it does start raining, our conditional probability becomes 1.
 * We can use **conditioning** to solve complex problems by decomposing it into simpler conditional probability problems. The **first-step analysis** strategy can help find recursive solutions to problems where the experiment has multiple stages.
 * *Conditioning is the soul of statistics.*
 
@@ -337,12 +337,12 @@ permalink: /probability-book
         * The gender of the child does not affect if you learn about them.
     * *Intuition*: The chance of both girls just depends on the gender of the child you didn't learn about. Since you learned about one child, both children being girls would mean the one you don't know is a girl, which has nothing to do with the fact the child you learned about is a girl. Because you haven't met the other child, the chance they are either boy or girl is $P(\text{other child is girl}) = 1/2$.
     * *Solution*
-        * Let $G_{1}, G_{2}, G_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
-        * By assumption, $P(G_{1}) = P(G_{2}) = P(G_{3}) = 1/2$.
-        * By the naive definition of probability, $P(G_{1}) \cap P(G_{2}) = 1/4$.
-        * $P(G_{1} \cap G_{2} \vert G_{3}) = \frac{P(G_{1} \cap G_{2} \cap G_{3})}{P(G_{3})} = \frac{1/4}{1/2} = 1/2$
+        * Let $G\_{1}, G\_{2}, G\_{3}$ be the events that the elder, younger, and random child is a girl, respectively.
+        * By assumption, $P(G\_{1}) = P(G\_{2}) = P(G\_{3}) = 1/2$.
+        * By the naive definition of probability, $P(G\_{1}) \cap P(G\_{2}) = 1/4$.
+        * $P(G\_{1} \cap G\_{2} \vert G\_{3}) = \frac{P(G\_{1} \cap G\_{2} \cap G\_{3})}{P(G\_{3})} = \frac{1/4}{1/2} = 1/2$
             * The probability that both children are girls, given the random child is a girl.
-            * If both elder and younger children are girls, the random child must be a girl, so $G_{1} \cap G_{2} \cap G_{3} = G_{1} \cap G_{2}$.
+            * If both elder and younger children are girls, the random child must be a girl, so $G\_{1} \cap G\_{2} \cap G\_{3} = G\_{1} \cap G\_{2}$.
     * *Note*: The assumption of a *random sample* was needed to determine how the random child was selected. If there was some factor of selection bias, e.g. a law that forbids a boy from leaving the house if he has a sister, then "the random child is a girl" is equivalent to "at least one of the children is a girl".
 
 
@@ -369,9 +369,9 @@ permalink: /probability-book
 * **Probability of the Intersection of Two Events**: For any events $A, B$ with positive probabilities, $P(A \cap B) = P(B) P(A \vert B) = P(A) P(B \vert A)$.
     * The probability of both events happening is the same as the probability of one event happening, given the other.
     * *Proof*: Multiply $P(A \vert B) = \frac{P(A \cap B)}{P(B)}$ by $P(B)$ on both sides. Multiply $P(B \vert A) = \frac{P(B \cap A)}{P(A)}$ by $P(A)$ on both sides.
-* **Probability of the Intersection of N Events**: For any events $A_{1}, A_{2}, \dots, A_{n} \text{ with } P(A_{1}, A_{2}, \dots, A_{n}) > 0$, $P(A_{1}, A_{2}, \dots, A_{n}) = P(A_{1}) P(A_{2} \vert A_{1}) P(A_{3} \vert A_{1}, A_{2}) \dots P(A_{n} \vert A_{1}, A_{2}, \dots, A_{n-1})$.
-    * This generalized form of the probability of intersections is $n!$ theorems in one, since we can permute $A_{1}, A_{2}, \dots, A_{n}$ without affecting the left hand side. Some permutations may be easier to calculate than others.
-    * *Example*: $P(A_{1}, A_{2}, A_{3}) = P(A_{1}) P(A_{2} \vert A_{1}) P(A_{3} \vert A_{1}, A_{2}) = P(A_{2}) P(A_{3} \vert A_{2}) P(A_{1} \vert A_{2}, A_{3}) = \dots$.
+* **Probability of the Intersection of N Events**: For any events $A\_{1}, A\_{2}, \dots, A\_{n} \text{ with } P(A\_{1}, A\_{2}, \dots, A\_{n}) > 0$, $P(A\_{1}, A\_{2}, \dots, A\_{n}) = P(A\_{1}) P(A\_{2} \vert A\_{1}) P(A\_{3} \vert A\_{1}, A\_{2}) \dots P(A\_{n} \vert A\_{1}, A\_{2}, \dots, A\_{n-1})$.
+    * This generalized form of the probability of intersections is $n!$ theorems in one, since we can permute $A\_{1}, A\_{2}, \dots, A\_{n}$ without affecting the left hand side. Some permutations may be easier to calculate than others.
+    * *Example*: $P(A\_{1}, A\_{2}, A\_{3}) = P(A\_{1}) P(A\_{2} \vert A\_{1}) P(A\_{3} \vert A\_{1}, A\_{2}) = P(A\_{2}) P(A\_{3} \vert A\_{2}) P(A\_{1} \vert A\_{2}, A\_{3}) = \dots$.
 
 * **Bayes' Rule**: From the probability of the intersection of two events, we derive $P(A \vert B) = \frac{P(B \vert A) P(A)}{P(B)}$.
     * Bayes' rule is often used when $P(B \vert A)$ is much easier to find directly than $P(A \vert B)$ or vice versa.
@@ -383,12 +383,12 @@ permalink: /probability-book
     * *Proof*: We divide $P(A \vert B) = \frac{P(B \vert A) P(A)}{P(B)}$ by $P(A^{C} \vert B) = \frac{P(B \vert A^{C}) P(A^{C})}{P(B)}$.
     * The *posterior odds* $\frac{P(A \vert B)}{P(A^{C} \vert B)}$ are equal to the *prior odds* $\frac{P(A)}{P(A^{C})}$ times the *likelihood ratio* $\frac{P(B \vert A)}{P(B \vert A^{C})}$.
 
-* **Law of Total Probability**: Let $A_{1}, \dots, A_{n}$ be a *partition* of the sample space $S$ (i.e. the $A_{i}$ are disjoint events whose union is $S$), with $P(A_{i}) > 0$ for all $i$. Then $P(B) = \sum_{i=1}^{n} P(B \vert A_{i}) P(A_{i})$.
+* **Law of Total Probability**: Let $A\_{1}, \dots, A\_{n}$ be a *partition* of the sample space $S$ (i.e. the $A\_{i}$ are disjoint events whose union is $S$), with $P(A\_{i}) > 0$ for all $i$. Then $P(B) = \sum\_{i=1}^{n} P(B \vert A\_{i}) P(A\_{i})$.
     * *Proof*
-        * Since the $A_{i}$ form of a *partition* of $S$, we can decompose $B$ as $B = (B \cap A_{1}) \cup (B \cap A_{2}) \cup \dots \cup (B \cap A_{n})$.
-        * From the *second axiom*, we can add up these disjoint probabilities to get $P(B) = P(B \cap A_{1}) + P(B \cap A_{2}) + \dots + P(B \cap A_{n})$.
-        * Then we can apply the *probability of the intersection of two events* to each term to get $P(B) = P(B \vert A_{1}) P(A_{1}) + \dots + P(B \vert A_{n}) P(A_{n})$.
-    * The *law of total probability* relates conditional probability to unconditional probability. It tells us that to get the unconditional probability of $B$, we can divide the sample space into disjoint slices $A_{i}$, find the conditional probability of $B$ within each of the slices, then take the weighted sum of the conditional probabilities, where the weights are the probabilities $P(A_{i})$.
+        * Since the $A\_{i}$ form of a *partition* of $S$, we can decompose $B$ as $B = (B \cap A\_{1}) \cup (B \cap A\_{2}) \cup \dots \cup (B \cap A\_{n})$.
+        * From the *second axiom*, we can add up these disjoint probabilities to get $P(B) = P(B \cap A\_{1}) + P(B \cap A\_{2}) + \dots + P(B \cap A\_{n})$.
+        * Then we can apply the *probability of the intersection of two events* to each term to get $P(B) = P(B \vert A\_{1}) P(A\_{1}) + \dots + P(B \vert A\_{n}) P(A\_{n})$.
+    * The *law of total probability* relates conditional probability to unconditional probability. It tells us that to get the unconditional probability of $B$, we can divide the sample space into disjoint slices $A\_{i}$, find the conditional probability of $B$ within each of the slices, then take the weighted sum of the conditional probabilities, where the weights are the probabilities $P(A\_{i})$.
         * Choosing a partition carefully is important in reducing a complicated problem into simpler pieces.
 
 * *Example*: Given a fair coin and a biased coin with $P(H) = 3/4$, you pick one of the coins at random and flip it three times. It lands on Heads all three times. Given this information, what is the probability that the coin you picked is the fair one?
@@ -410,34 +410,34 @@ permalink: /probability-book
     * *Intuition*: Consider a population of 10000 people, where 100 people (1%) have the disease and 9900 people don't. If we tested everybody in the population, we would expect that, of the 100 diseased people, 95 would test positive and 5 would test negative (false negatives). Out of the 9900 healthy individuals, we would expect 9405 (95%) to test negative and 495 (5%) to test positive (false positives). Of the people who test positive, 95 people are true positives, and 495 people are false positives. Most of the people who test positive don't actually have the disease, so that is why despite an accurate test, the *posterior* probability of having the disease given a positive test result is $95/(95 + 495) \approx 0.16$.
 
 * *Example*: The perpetrator of a crime is one of $n$ men. Initially, all $n$ men are equally likely to be the perpetrator. An eyewitness then reports that the crime was committed by a man with six fingers on his right hand.
-    * Let $p_{0}$ be the probability that an innocent man has six fingers on his right hand, and $p_{1}$ be the probability that the perpetrator has six fingers on his right hand, with $p_{0} < p_{1} < 1$ since witnesses aren't 100% reliable. Let $a = p_{0}/p_{1}$ and $b = (1 - p_{1})/(1 - p_{0})$.
+    * Let $p\_{0}$ be the probability that an innocent man has six fingers on his right hand, and $p\_{1}$ be the probability that the perpetrator has six fingers on his right hand, with $p\_{0} < p\_{1} < 1$ since witnesses aren't 100% reliable. Let $a = p\_{0}/p\_{1}$ and $b = (1 - p\_{1})/(1 - p\_{0})$.
     * A possible suspect Gary is found with six fingers on his right hand. What is the probability that Gary is the perpetrator?
         * Let $G$ be the event that Gary is guilty and $H$ be the event that the perpetrator has six fingers on his right hand.
         * We use Bayes' Rule and the Law of Total Probability.
             * $P(G \vert H) = \frac{P(H \vert G) P(G)}{P(H \vert G)P(G) + P(H \vert G^{C})P(G^{C})}$
-            * $P(G \vert H) = \frac{(p_{1})(\frac{1}{n})}{(p_{1})(\frac{1}{n}) + (p_{0})(1 - \frac{1}{n})} \times (\frac{(n / p_{1})}{(n / p_{1})})$
+            * $P(G \vert H) = \frac{(p\_{1})(\frac{1}{n})}{(p\_{1})(\frac{1}{n}) + (p\_{0})(1 - \frac{1}{n})} \times (\frac{(n / p\_{1})}{(n / p\_{1})})$
             * $P(G \vert H) = \frac{1}{1 + a(n - 1)}$
     * All $n$ men get their right hands checked, and Gary is the only one with six fingers on his right hand. What is the probability that Gary is the perpetrator?
         * Let $N$ be the event that none of the other men have six fingers on their right hands.
         * We use Bayes' Rule and the Law of Total Probability.
             * $P(G \vert H, N) = \frac{P(H, N \vert G) P(G)}{P(H, N \vert G)P(G) + P(H, N \vert G^{C})P(G^{C})}$
-                * $P(H, N \vert G) = p_{1}(1 - p_{0})^{n-1}$ is the probability that the perpetrator has six fingers and none of the other men have six fingers, given Gary is guilty. This means 
-            * $P(G \vert H, N) = \frac{p_{1}(1 - p_{0})^{n-1}(\frac{1}{n})}{p_{1}(1 - p_{0})^{n-1}(\frac{1}{n}) + p_{0}(1 - p_{1})(1 - p_{0})^{n-2}(1 - \frac{1}{n})}$
-            * $P(G \vert H, N) = \frac{p_{1} (\frac{1}{n})}{p_{1} (\frac{1}{n}) + p_{0}(\frac{1 - p_{1}}{1 - p_{0}})(1 - \frac{1}{n})} \times (\frac{(n / p_{1})}{(n / p_{1})})$
+                * $P(H, N \vert G) = p\_{1}(1 - p\_{0})^{n-1}$ is the probability that the perpetrator has six fingers and none of the other men have six fingers, given Gary is guilty. This means 
+            * $P(G \vert H, N) = \frac{p\_{1}(1 - p\_{0})^{n-1}(\frac{1}{n})}{p\_{1}(1 - p\_{0})^{n-1}(\frac{1}{n}) + p\_{0}(1 - p\_{1})(1 - p\_{0})^{n-2}(1 - \frac{1}{n})}$
+            * $P(G \vert H, N) = \frac{p\_{1} (\frac{1}{n})}{p\_{1} (\frac{1}{n}) + p\_{0}(\frac{1 - p\_{1}}{1 - p\_{0}})(1 - \frac{1}{n})} \times (\frac{(n / p\_{1})}{(n / p\_{1})})$
             * $P(G \vert H, N) = \frac{1}{1 + ab(n - 1)}$
 
 **Conditional Probabilities are Probabilities**
 * Conditional probabilities satisfy all the properties of probability. The only difference is we condition on an event and limit ourselves to a new universe where that event occurs.
     * Conditional probabilities are between 0 and 1.
     * $P(S \vert E) = 1, P(\emptyset \vert E) = 0$
-    * If $A_{1}, A_{2}, \dots$ are disjoint, then $P(\bigcup_{j=1}^{\infty} A_{j} \vert E) = \sum_{j=1}^{\infty} P(A_{j} \vert E)$
+    * If $A\_{1}, A\_{2}, \dots$ are disjoint, then $P(\bigcup\_{j=1}^{\infty} A\_{j} \vert E) = \sum\_{j=1}^{\infty} P(A\_{j} \vert E)$
     * $P(A^{C} \vert E) = 1 - P(A \vert E)$
     * Inclusion-Exclusion: $P(A \cup B \vert E) = P(A \vert E) + P(B \vert E) - P(A \cap B \vert E)$
 * *Proof*: For an event $E,  P(E) > 0$, define $\tilde{P}(A) = P(A \vert E)$.
     * $\tilde{P}(\emptyset) = P(\emptyset \vert E) = \frac{P(\emptyset \cap E)}{P(E)} = 0$
     * $\tilde{P}(S) = P(S \vert E) = \frac{P(S \cap E)}{P(E)} = 1$
-    * If $A_{1}, A_{2}, \dots$ are disjoint events, then  
-    $\tilde{P}(A_{1} \cup A_{2} \cup \dots) = \frac{P((A_{1} \cap E) \cup (A_{2} \cap E) \cup \dots)}{P(E)} = \frac{\sum_{j = 1}^{\infty} P(A_{j} \cap E)}{P(E)} = \sum_{j = 1}^{\infty} \tilde{P}(A_{j})$
+    * If $A\_{1}, A\_{2}, \dots$ are disjoint events, then  
+    $\tilde{P}(A\_{1} \cup A\_{2} \cup \dots) = \frac{P((A\_{1} \cap E) \cup (A\_{2} \cap E) \cup \dots)}{P(E)} = \frac{\sum\_{j = 1}^{\infty} P(A\_{j} \cap E)}{P(E)} = \sum\_{j = 1}^{\infty} \tilde{P}(A\_{j})$
 * Conversely, all probabilities can be thought of as conditional probabilities, conditioning on some implicit background information.
     * For the prior probability of rain today $P(R)$, we are naturally basing this probability on information about days or locations that had rain occur. Though people may come up with different prior probabilities, everyone can agree on how to update probabilities given new evidence.
     * We can now think of all probabilities as $P(A) = P(A \vert \text{background knowledge})$
