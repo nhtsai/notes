@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Introduction to Probability"
+title: "Introduction to Probability by Blitzstein and Hwang"
 description: "Book notes on probability."
 toc: true
 comments: false
@@ -10,9 +10,6 @@ show_tags: true
 categories: [book-notes, mathematics]
 permalink: /probability-book
 ---
-
-# Introduction to Probability by Blitzstein & Hwang
-* [Online Book](www.probabilitybook.net)
 
 ## 1. Probability and Counting
 
@@ -453,4 +450,4 @@ permalink: /probability-book
 
 
 ## References
-[^1]: Footnote
+* [Online Book](www.probabilitybook.net)
