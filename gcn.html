@@ -125,7 +125,6 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
-<li class="toc-entry toc-h2"><a href="#abstract">Abstract</a></li>
 <li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
 <li class="toc-entry toc-h2"><a href="#fast-approximate-convolutions-on-graphs">Fast Approximate Convolutions on Graphs</a>
 <ul>
@@ -153,11 +152,7 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h2"><a href="#conclusion">Conclusion</a></li>
 <li class="toc-entry toc-h2"><a href="#references">References</a></li>
-</ul><h2 id="abstract">
-<a class="anchor" href="#abstract" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstract</h2>
-<p>TODO</p>
-
-<h2 id="introduction">
+</ul><h2 id="introduction">
 <a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>How do we classify nodes in a graph, where labels are only available for a small subset of nodes? Think of a citation network where some documents have labels, but most do not. This problem can be seen as “graph-based semi-supervised learning, where label information is smoothed over the graph via some form explicit graph-based regularization term in the loss function.”</p>
@@ -187,7 +182,7 @@ window.onload = wrap_img;
 
 <p>The loss function assumes that connected nodes in the graph share the same label. This may restrict modeling capacity because edges could contain more information other than node similarity.</p>
 
-<p>The authors encode the graph structure in a neural network model $f(X, A)$. For all nodes with labels, the model is trained on a supervised target $\mathcal{L}_{0}$ to avoid graph regularization $\mathcal{L}_{\text{reg}}$ in the loss function. By conditioning $f(\sdot)$ on adjacency matrix $A$, the model can distribute gradient information from supervised loss $\mathit{L}_{0}$ to <strong>learn representations of nodes both with and without labels</strong>. Because the model knows each node’s neighbors, the labeled nodes can help inform the unlabeled nodes.</p>
+<p>The authors encode the graph structure in a neural network model $f(X, A)$. For all nodes with labels, the model is trained on a supervised target $\mathcal{L}_{0}$ to avoid graph regularization $\mathcal{L}_{\text{reg}}$ in the loss function. By conditioning $f(\sdot)$ on adjacency matrix $A$, the model can distribute gradient information from supervised loss $\mathcal{L}_{0}$ to <strong>learn representations of nodes both with and without labels</strong>. Because the model knows each node’s neighbors, the labeled nodes can help inform the unlabeled nodes.</p>
 
 <p><strong>Main Contributions</strong></p>
 <ol>
@@ -294,7 +289,7 @@ g_{\theta'} \star x &amp;\approx \theta'_{0}x - \theta'_{1}(D^{-\frac{1}{2}} A D
 <h2 id="semi-supervised-node-classification">
 <a class="anchor" href="#semi-supervised-node-classification" aria-hidden="true"><span class="octicon octicon-link"></span></a>Semi-Supervised Node Classification</h2>
 
-<p>With the simple and flexible model $f(X,A)$ for efficient information propagation on graphs, we can approach the problem of semi-supervised node classification. Becase we condition our model on both the data $X$ and the adjacency matrix $A$ of the underlying graph structure, we can relax certain assumptions typically made in graph-based semi-supervised learning (past techniques didn’t use the adjacency matrix as input?). This method is especially powerful when the adjacency matrix $A$ contains information not present in the data $X$, e.g. citation links between documents in a citation network or relations in a knowledge graph.</p>
+<p>With the simple and flexible model $f(X,A)$ for efficient information propagation on graphs, we can approach the problem of semi-supervised node classification. Because we condition our model on both the data $X$ and the adjacency matrix $A$ of the underlying graph structure, we can relax certain assumptions typically made in graph-based semi-supervised learning (past techniques didn’t use the adjacency matrix as input?). This method is especially powerful when the adjacency matrix $A$ contains information not present in the data $X$, e.g. citation links between documents in a citation network or relations in a knowledge graph.</p>
 
 <h3 id="example-cora-dataset">
 <a class="anchor" href="#example-cora-dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Cora Dataset</h3>
