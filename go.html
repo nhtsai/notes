@@ -102,7 +102,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      5 min read
     
 </span></p>
 
@@ -120,6 +120,7 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h2"><a href="#packages-variables-functions">Packages, Variables, Functions</a></li>
+<li class="toc-entry toc-h2"><a href="#flow-control">Flow Control</a></li>
 <li class="toc-entry toc-h2"><a href="#references">References</a></li>
 </ul><h2 id="packages-variables-functions">
 <a class="anchor" href="#packages-variables-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Packages, Variables, Functions</h2>
@@ -214,6 +215,96 @@ window.onload = wrap_img;
 	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">needInt</span><span class="p">(</span><span class="n">Small</span><span class="p">))</span>
 	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">needFloat</span><span class="p">(</span><span class="n">Small</span><span class="p">))</span>
 	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">needFloat</span><span class="p">(</span><span class="n">Big</span><span class="p">))</span>	
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="flow-control">
+<a class="anchor" href="#flow-control" aria-hidden="true"><span class="octicon octicon-link"></span></a>Flow Control</h2>
+
+<p>Go only has one looping construct, the <code class="language-plaintext highlighter-rouge">for</code> loop, which contains the <em>init statement</em>, <em>condition expression</em>, and <em>post statement</em>, separated by semicolons. The three components do not need to be surrounded by parentheses, but the loop body needs to be surrounded by braces. The init statement open uses a short variable declaration, with variables only visible in the scope of the <code class="language-plaintext highlighter-rouge">for</code> loop.</p>
+
+<p>The init and post statements are optional, which becomes a <code class="language-plaintext highlighter-rouge">for</code> loop with the functionality of a <code class="language-plaintext highlighter-rouge">while</code> loop. Additionally, a loop without the condition expression becomes an <em>infinite loop</em>.</p>
+
+<p>Similarly, the <code class="language-plaintext highlighter-rouge">if</code> statement can start with an <em>init statement</em> executed before the <em>condition expression</em>. Values declared in the <code class="language-plaintext highlighter-rouge">if</code> statement are also available in the <code class="language-plaintext highlighter-rouge">else</code> body.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">switch</code> statement runs from top to bottom, stopping at the first case whose value is equal to the condition expression, skipping all the other cases that follow. The cases don’t need to be constants, and the values don’t need to be integers. A <code class="language-plaintext highlighter-rouge">switch</code> without a condition is the same as <code class="language-plaintext highlighter-rouge">switch true</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">defer</code> statement defers the execution of a function until the surrounding function returns. The deferred call’s arguments are evaluated immediately, but the function call is not executed until the surrounding function returns. Deferred function calls are <em>pushed onto a stack</em>. When the (outer) function returns, its (inner) deferred calls are executed in LIFO order.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"math"</span>
+<span class="p">)</span>
+
+<span class="c">// defer increment</span>
+<span class="k">var</span> <span class="n">s</span> <span class="kt">int</span> <span class="o">=</span> <span class="m">0</span>
+<span class="k">func</span> <span class="n">add</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="n">s</span><span class="o">++</span>
+	<span class="k">return</span> <span class="n">s</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c">// sum [0, 10), for</span>
+	<span class="n">sum</span> <span class="o">:=</span> <span class="m">0</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="o">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span>
+	<span class="p">}</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span>
+
+	<span class="c">// sum [0, 10), while</span>
+	<span class="n">sum2</span> <span class="o">:=</span> <span class="m">1</span>
+	<span class="k">for</span> <span class="n">sum2</span> <span class="o">&lt;</span> <span class="m">10</span> <span class="p">{</span>
+		<span class="n">sum2</span> <span class="o">+=</span> <span class="n">sum2</span>
+	<span class="p">}</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">sum2</span><span class="p">)</span>
+
+	<span class="c">// infinite loop</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"infinite!"</span><span class="p">)</span>
+		<span class="k">break</span>
+	<span class="p">}</span>
+
+	<span class="n">lim</span> <span class="o">:=</span> <span class="m">10</span>
+	<span class="k">if</span> <span class="n">v</span> <span class="o">:=</span> <span class="n">math</span><span class="o">.</span><span class="n">Pow</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">lim</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lim</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c">// switch</span>
+	<span class="k">switch</span> <span class="n">age</span> <span class="o">:=</span> <span class="m">23</span><span class="p">;</span> <span class="n">age</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="m">19</span><span class="o">:</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"freshman"</span><span class="p">)</span>
+		<span class="k">case</span> <span class="m">20</span><span class="o">:</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"sophomore"</span><span class="p">)</span>
+		<span class="k">case</span> <span class="m">21</span><span class="o">:</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"junior"</span><span class="p">)</span>
+		<span class="k">case</span> <span class="m">22</span><span class="o">:</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"senior"</span><span class="p">)</span>
+		<span class="k">default</span><span class="o">:</span>
+			<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"old"</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c">// switch true</span>
+	<span class="n">t</span> <span class="o">:=</span> <span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span>
+	<span class="k">switch</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="n">t</span><span class="o">.</span><span class="n">Hour</span><span class="p">()</span> <span class="o">&lt;</span> <span class="m">12</span><span class="o">:</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Good morning!"</span><span class="p">)</span>
+	<span class="k">case</span> <span class="n">t</span><span class="o">.</span><span class="n">Hour</span><span class="p">()</span> <span class="o">&lt;</span> <span class="m">17</span><span class="o">:</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Good afternoon."</span><span class="p">)</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Good evening."</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c">// defer prints 2 then 1</span>
+	<span class="c">// defer argument add() evaluated -&gt; increments s, returns 1</span>
+	<span class="k">defer</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">add</span><span class="p">())</span> <span class="c">// 1</span>
+	<span class="c">// add() increments s, returns 2</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">add</span><span class="p">())</span>		 <span class="c">// 2</span>
+	<span class="c">// main returns -&gt; defer is executed</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
