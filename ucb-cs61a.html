@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="none, noindex, nofollow, noarchive, noimageindex, nosnippet" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CS 61A: Structure and Interpretation of Computer Programs | notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="CS 61A: Structure and Interpretation of Computer Programs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Course notes from UCB CS 61A, Fall 2021." />
+<meta property="og:description" content="Course notes from UCB CS 61A, Fall 2021." />
+<link rel="canonical" href="https://nhtsai.github.io/notes/ucb-cs61a" />
+<meta property="og:url" content="https://nhtsai.github.io/notes/ucb-cs61a" />
+<meta property="og:site_name" content="notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-08T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="CS 61A: Structure and Interpretation of Computer Programs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-08T00:00:00-05:00","datePublished":"2022-04-08T00:00:00-05:00","description":"Course notes from UCB CS 61A, Fall 2021.","headline":"CS 61A: Structure and Interpretation of Computer Programs","mainEntityOfPage":{"@type":"WebPage","@id":"https://nhtsai.github.io/notes/ucb-cs61a"},"url":"https://nhtsai.github.io/notes/ucb-cs61a"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/notes/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://nhtsai.github.io/notes/feed.xml" title="notes" /><link rel="shortcut icon" type="image/x-icon" href="/notes/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css" integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <!-- KaTeX Auto-render Function with custom delimiter rules 
+         see: https://katex.org/docs/autorender.html
+    -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]}
+            );
+        });
+    </script>
+    <!-- MathJax -->
+    <!-- <script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-chtml.min.js" integrity="sha512-93xLZnNMlYI6xaQPf/cSdXoBZ23DThX7VehiGJJXB76HTTalQKPC5CIHuFX8dlQ5yzt6baBQRJ4sDXhzpojRJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/notes/">notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/notes/about/">About</a><a class="page-link" href="/notes/search/">Search</a><a class="page-link" href="/notes/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">CS 61A: Structure and Interpretation of Computer Programs</h1><p class="page-description">Course notes from UCB CS 61A, Fall 2021.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-08T00:00:00-05:00" itemprop="datePublished">
+        Apr 8, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/notes/categories/#course-notes">course-notes</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/notes/categories/#computer-science">computer-science</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#course-resources">Course Resources</a></li>
+<li class="toc-entry toc-h2"><a href="#1-functions">1. Functions</a></li>
+</ul><h2 id="course-resources">
+<a class="anchor" href="#course-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Course Resources</h2>
+<ul>
+  <li>Professor John DeNero</li>
+  <li><a href="https://www.youtube.com/c/JohnDeNero/playlists">Course Lectures</a></li>
+  <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa21/">Course Website</a></li>
+  <li><a href="https://inst.eecs.berkeley.edu/~cs61a/fa21/articles/about/">Course Syllabus</a></li>
+  <li>Course Textbook: <a href="https://composingprograms.com/">Composing Programs</a>
+</li>
+  <li>Course focuses on a general introduction to programming concepts.</li>
+  <li>Topics: Functions, Recursion, Abstraction, Iterators, Generators, Object-Oriented Programming, Scheme, Interpreters, Regular Expressions, Backus-Naur Form, SQL</li>
+</ul>
+
+<h2 id="1-functions">
+<a class="anchor" href="#1-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Functions</h2>
+
+<ul>
+  <li>An <strong>expression</strong> describes a computation and evaluates to a value, with function call notation $f(x)$ being the most general form.
+    <ul>
+      <li>Primitive expressions: number, name, or string</li>
+      <li>Call expressions: operator and operands</li>
+    </ul>
+  </li>
+  <li>A <strong>call expression</strong> consists of an operator and operands, which are also expressions.
+    <ul>
+      <li>The evaluation procedure for a call expression is applied repeatedly by the programming language.
+        <ol>
+          <li>Evaluate the operator, and then evaluate the operand subexpressions.</li>
+          <li>
+<strong>Apply</strong> the <strong>function</strong> that is the value of the operator subexpression to the <strong>arguments</strong> that are the values of the operand subexpression.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+<strong>Names</strong> are set to expressions through <strong>assignment</strong>, e.g. <code class="language-plaintext highlighter-rouge">radius = 10</code>.
+    <ul>
+      <li>Note that assignment statements are evaluated once, e.g. <code class="language-plaintext highlighter-rouge">area = pi * radius ** 2</code> will not update when <code class="language-plaintext highlighter-rouge">radius</code> is changed at a later point.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Functions</strong> can be defined using the <code class="language-plaintext highlighter-rouge">def</code> keyword, e.g.
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+  <span class="k">def</span> <span class="nf">sum_squares</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">square</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>Note that the return values for functions is re-evaluated every time the function is called.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Environment diagrams</strong> visualize the interpreter’s process, using code and frames.
+    <ul>
+      <li>Code shows statements and expressions, and arrows are used to indicate evaluation order.</li>
+      <li>Frames show the values bound to each name, which cannot be repeated within a frame.</li>
+    </ul>
+  </li>
+  <li>
+<strong>Assignment statements</strong> change the bindings between names and values within a frame.
+    <ul>
+      <li>The execution rule for assignment statements describes how names are bound to values.
+        <ol>
+          <li>Evaluate all expression to the right of <code class="language-plaintext highlighter-rouge">=</code>, from left to right.</li>
+          <li>Bind all names to the left of <code class="language-plaintext highlighter-rouge">=</code> to the resulting values, in the current frame.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Similar to the abstraction of how assignment statements bind names to values, <strong>function definitions</strong> bind names to expressions.
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="err">&lt;</span><span class="nf">name</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">formal</span> <span class="n">parameters</span><span class="o">&gt;</span><span class="p">):</span>
+          <span class="k">return</span> <span class="o">&lt;</span><span class="k">return</span> <span class="n">expression</span><span class="o">&gt;</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>The function signature indicates how many arguments a function takes.</li>
+      <li>The functino body defines the computational process expressed by a function.</li>
+      <li>Execution procedure for <code class="language-plaintext highlighter-rouge">def</code> statements:
+        <ol>
+          <li>Create a function with signature <code class="language-plaintext highlighter-rouge">&lt;name&gt;(&lt;formal parameters&gt;)</code>.</li>
+          <li>Set the body of that function ot be everything indented after the first line, without execution.</li>
+          <li>Bind <code class="language-plaintext highlighter-rouge">&lt;name&gt;</code> to that function in the current frame.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>The execution order of calling/applying user-defined functions.
+    <ol>
+      <li>Add a local frame, forming a <em>new environment</em>. The function frame tells the interpreter how to set up the frame.</li>
+      <li>Bind the function’s formal parameters to its arguments in that frame.</li>
+      <li>Execute the body of the function in that new environment.</li>
+      <li>The local frame is discarded after the function returns.</li>
+    </ol>
+  </li>
+  <li>Every expression is evaluated in the context of an environment, either a global frame or a local frame, followed by the global frame.
+    <ul>
+      <li>An environment is a sequence of frames, a series of names bound to values.</li>
+      <li>A name evaluates to the value bound to that name in the earliest frame of the current environment in which that name is found, i.e. from local to global frames.</li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/notes/ucb-cs61a" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/notes/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/notes/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/notes/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Notes and thoughts from a lifelong student.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/nhtsai" target="_blank" title="nhtsai"><svg class="svg-icon grey"><use xlink:href="/notes/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
